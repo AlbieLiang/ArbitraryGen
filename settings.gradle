@@ -1,0 +1,5 @@
+include ':arbitrarygen-main', ':arbitrarygen-extension-sdk', ':arbitrarygen-sdk'
+
+include ':arbitrarygen-plugin'
+
+include ':arbitrarygen-demo'

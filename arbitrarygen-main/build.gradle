@@ -1,0 +1,63 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven'
+
+// For maven config
+version = '1.0.0'
+group = 'osc.innovator.tools.arbitrarygen'
+archivesBaseName = 'ArbitraryGen'
+
+// For jar config
+mainClassName = 'osc.innovator.arbitrarygen.ArbitraryGenEntrance'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(":arbitrarygen-sdk")
+}
+jar {
+    from files(sourceSets.main.output.classesDir)
+    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+    manifest {
+        attributes 'Main-Class': mainClassName
+//        attributes('Main-Class': mainClassName, 'Class-Path': "${configurations.compile.collect { it.name }.join(' ')}")
+//        attributes('Main-Class': mainClassName, 'Class-Path': "com.springsource.nu.xom-1.2.5.jar commons-beanutils-1.8.3.jar commons-collections-3.2.1.jar commons-lang-2.6.jar commons-logging.jar ezmorph-1.0.6.jar json-lib-2.4-jdk15.jar")
+//        println "${configurations.compile.collect { it.name }.join(' ')}"
+    }
+    baseName = 'ArbitraryGen'
+//    version = '0.1.0'
+}
+
+//打包
+task packRunnbaleJar(type: Jar) {
+    from files(sourceSets.main.output.classesDir)
+    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    baseName = 'ArbitraryGen'
+//    version = '0.1.0'
+}
+//设置编码
+//tasks.withType(Compile) {
+//    options.encoding = "UTF-8"
+//}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        // 如果你公司或者自己搭了nexus私服，那么可以将插件deploy到上面去
+        //        repository(url: "http://10.XXX.XXX.XXX:8080/nexus/content/repositories/releases/") {
+        //            authentication(userName: "admin", password: "admin")
+        //        }
+        // 如果没有私服的话，发布到本地也是ok的
+        repository(url: 'file:./libs-output/release')
+    }
+}
+
+task uploadJar(type: Copy) {
+    from("build/libs")
+    into("../ArbitraryGen/")
+    include("ArbitraryGen-${version}.jar")
+    rename("ArbitraryGen-${version}.jar", "ArbitraryGen.jar")
+}
+
+uploadJar.dependsOn(packRunnbaleJar)
