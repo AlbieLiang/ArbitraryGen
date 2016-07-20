@@ -20,6 +20,8 @@ import osc.innovator.arbitrarygen.extension.ICustomizeParser;
 import osc.innovator.arbitrarygen.extension.IDirector;
 import osc.innovator.arbitrarygen.extension.ITemplateWrapper;
 import osc.innovator.arbitrarygen.extension.ITypeDefineWrapper;
+import osc.innovator.arbitrarygen.impl.DefaultRawTemplateParser;
+import osc.innovator.arbitrarygen.impl.DefaultTemplateConvertor;
 import osc.innovator.arbitrarygen.impl.DefaultTemplateDirector;
 import osc.innovator.arbitrarygen.impl.DefaultTypeDefineWrapper;
 import osc.innovator.arbitrarygen.rule.RuleParser;
@@ -77,7 +79,9 @@ public class ArbitraryGenEntrance {
 		IGenCodeEngine engine = new DefaultGenCodeEngine();
 		// Add default template director, it contains raw template parser and
 		// code template analyzer
-		engine.addDirector(new DefaultTemplateDirector());
+		// TODO: 16/7/20 albieliang
+//		engine.addDirector(new DefaultTemplateDirector());
+		engine.addConvertor(new DefaultTemplateConvertor());
 		// Add a detail type template director
 		// gen.addDirector(new EventTemplateDirector());
 		ConfigInfo configInfo = null;
@@ -108,7 +112,11 @@ public class ArbitraryGenEntrance {
 			// Extract the format suffix of source template file arg
 			String formatChain = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT);
 			if (!Util.isNullOrNil(formatChain)) {
-				engine.addAllSuffixs(Util.extractStrList(formatChain, ExternalArgsParser.ARGS_LIST_SEPARATOR));
+				List<String> suffixList = Util.extractStrList(formatChain, ExternalArgsParser.ARGS_LIST_SEPARATOR);
+				engine.addAllSuffixs(suffixList);
+				DefaultRawTemplateParser parser = new DefaultRawTemplateParser();
+				parser.addSuffixList(suffixList);
+				engine.addParser(parser);
 			}
 
 			// Extract ArbitraryEnable flag

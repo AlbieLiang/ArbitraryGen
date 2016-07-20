@@ -1,6 +1,7 @@
 package osc.innovator.arbitrarygen.impl;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 import osc.innovator.arbitrarygen.extension.ICustomizeParser;
@@ -17,6 +18,12 @@ public class DefaultRawTemplateParser implements ICustomizeParser {
 
 	private static final String TAG = "CodeGen.DefaultRawTemplateParser";
 
+	private List<String> mSuffixList;
+
+	public DefaultRawTemplateParser() {
+		mSuffixList = new LinkedList<>();
+	}
+
 	@Override
 	public List<RawTemplate> parse(File file) {
 		if (file == null || !file.exists() || !file.isFile()) {
@@ -28,6 +35,13 @@ public class DefaultRawTemplateParser implements ICustomizeParser {
 
 	@Override
 	public boolean canParse(String suffix) {
-		return "xml".equalsIgnoreCase(suffix);
+		return mSuffixList.contains(suffix);
+	}
+
+	public void addSuffixList(List<String> suffixList) {
+		if (suffixList == null || suffixList.isEmpty()) {
+			return;
+		}
+		mSuffixList.addAll(suffixList);
 	}
 }

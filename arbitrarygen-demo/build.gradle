@@ -41,7 +41,7 @@ arbitraryGen {
     outputDir "$buildDir/generated/source/autogen"
 
     general {
-        format "event"
+        format "event,xml" // User XML format parser.
         extParsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.director.ExternalTemplateDirector", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.ExternalTemplateWrapper"]
     }
 

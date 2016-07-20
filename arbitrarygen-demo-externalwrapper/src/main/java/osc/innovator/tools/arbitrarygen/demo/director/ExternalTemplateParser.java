@@ -14,7 +14,7 @@ public class ExternalTemplateParser  implements ICustomizeParser {
 
 	@Override
 	public boolean canParse(String suffix) {
-		return "ext".equalsIgnoreCase(suffix) || "event".equalsIgnoreCase(suffix);
+		return "ext".equalsIgnoreCase(suffix);
 	}
 
 	@Override
