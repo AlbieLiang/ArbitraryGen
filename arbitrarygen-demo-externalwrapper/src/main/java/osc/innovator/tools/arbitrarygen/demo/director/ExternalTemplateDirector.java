@@ -4,7 +4,11 @@ import osc.innovator.arbitrarygen.extension.ICustomizeConvertor;
 import osc.innovator.arbitrarygen.extension.ICustomizeParser;
 import osc.innovator.arbitrarygen.extension.IDirector;
 
-
+/**
+ *
+ * @author albieliang
+ *
+ */
 public class ExternalTemplateDirector implements IDirector {
 
 	@Override

@@ -67,6 +67,10 @@ class ArbitraryGenTask extends DefaultTask {
              arg(value: "parser:../ArbitraryGen/wrapper.jar,com.external.wrapper.EventTemplateWrapper")
              arg(value: "parser:../ArbitraryGen/wrapper.jar,com.external.wrapper.ExternalTemplateWrapper")
              */
+            for (String parser : generalArgs.extParsers) {
+                arg(value: "parser:${parser}")
+                println("add external parser : ${parser}")
+            }
             // For script template engine
             arg(value: "core-libs:${libsDir.absolutePath}/core-libs")
             arg(value: "template-libs:${libsDir.absolutePath}/template-libs")

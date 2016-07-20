@@ -77,7 +77,7 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 					Log.w(TAG, "the template do not exist with tag : %s", tagName);
 					continue;
 				}
-				Log.i(TAG, "start gen code, tagName : %s, template : %s.", tagName, template);
+				Log.i(TAG, "start gen code, tagName : %s.", tagName);
 				if (tagObj instanceof JSONArray) {
 					JSONArray arr = (JSONArray) tagObj;
 					for (int j = 0, len = arr.size(); j < len; j++) {
@@ -140,13 +140,13 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 		if (!destFolder.exists()) {
 			destFolder.mkdirs();
 		}
-		Log.v(TAG, "genCode, jsonStr : %s", jsonStr);
-		Log.v(TAG, "genCode, script : %s", script);
+//		Log.v(TAG, "genCode, jsonStr : %s", jsonStr);
+//		Log.v(TAG, "genCode, script : %s", script);
 		Log.v(TAG, "genCode, dest : %s", destPath);
 		Log.v(TAG, "genCode, path : %s", path);
 		String outStr = unescape((String) engine.eval(script));
 //		String outStr = format(unescape((String) engine.eval(script)));
-		Log.v(TAG, "genCode, outStr : %s", outStr);
+//		Log.v(TAG, "genCode, outStr : %s", outStr);
 		
 //		Log.v(TAG, "\n\n\n\n\nTransfer result : \n\n\n\n\n\n" + unescape((String) engine.eval(transfer + utils + "\ntransfer(\"" + escape(template) + "\"," + jsonStr + ");")));
 		FileOperation.write(path, "" + outStr);
@@ -162,8 +162,8 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 		if (!destFolder.exists()) {
 			destFolder.mkdirs();
 		}
-		Log.d(TAG, "jsonStr : %s\n", jsonStr);
-		Log.d(TAG, "script : %s\n", script);
+//		Log.d(TAG, "jsonStr : %s\n", jsonStr);
+//		Log.d(TAG, "script : %s\n", script);
 		Log.d(TAG, "dest : %s\n", dest);
 		Log.d(TAG, "path : %s\n", path);
 		FileOperation.write(path, format(unescape((String) engine.eval(script))));

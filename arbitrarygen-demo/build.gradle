@@ -41,13 +41,15 @@ arbitraryGen {
     outputDir "$buildDir/generated/source/autogen"
 
     general {
-        format "xml,event,db"
+        format "event"
+        extParsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.director.ExternalTemplateDirector", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.ExternalTemplateWrapper"]
     }
 
     logger {
         debug true
         logToFile true
         printArgs true
+        printTag true
         path "$buildDir/outputs/log/ag.log"
     }
 }

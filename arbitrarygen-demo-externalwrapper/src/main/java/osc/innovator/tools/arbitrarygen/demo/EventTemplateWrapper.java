@@ -20,8 +20,7 @@ import osc.innovator.arbitrarygen.utils.Util;
 /**
  * 
  * @author AlbieLiang
- * @since 1.0
- * 
+ *
  */
 public class EventTemplateWrapper implements ITemplateWrapper {
 

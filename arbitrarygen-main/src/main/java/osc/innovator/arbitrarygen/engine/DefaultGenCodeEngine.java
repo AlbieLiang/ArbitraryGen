@@ -20,8 +20,7 @@ import osc.innovator.arbitrarygen.utils.Util;
 /**
  * 
  * @author AlbieLiang
- * @since 1.0
- * 
+ *
  */
 public class DefaultGenCodeEngine extends BaseGenCodeEngine {
 
@@ -34,6 +33,12 @@ public class DefaultGenCodeEngine extends BaseGenCodeEngine {
 		if (list == null || list.isEmpty()) {
 			Log.i(TAG, "scan finished, file list is empty.");
 			return;
+		}
+		for (String suffix : engine.getSupportSuffixs()) {
+			Log.v(TAG, "support suffix : %s", suffix);
+		}
+		for (SourceFileInfo info : list) {
+			Log.v(TAG, "scan file : %s", info);
 		}
 		mSourceFileInfos.addAll(list);
 	}
