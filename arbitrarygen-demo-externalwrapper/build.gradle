@@ -5,26 +5,27 @@ version = '0.1.0'
 mainClassName = ''
 
 jar {
-    baseName = 'arbitrarygen-extension-sdk'
+    baseName = 'arbitrarygen-demo-wrapper'
     version = '0.1.0'
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(":arbitrarygen-sdk")
 }
-
 
 //打包
 task packLibJar(type: Jar) {
     from files(sourceSets.main.output.classesDir)
-    baseName = 'arbitrarygen-extension-sdk'
+    baseName = 'arbitrarygen-demo-wrapper'
     version = '0.1.0'
 }
 
 task uploadJar(type: Copy) {
     from("build/libs")
     into("../ArbitraryGen/")
-    include("arbitrarygen-extension-sdk-${version}.jar")
+    include("arbitrarygen-demo-wrapper-${version}.jar")
+    rename("arbitrarygen-demo-wrapper-${version}.jar", "arbitrarygen-demo-wrapper.jar")
 }
 
 packLibJar.dependsOn(classes)

@@ -60,4 +60,5 @@ task uploadJar(type: Copy) {
     rename("ArbitraryGen-${version}.jar", "ArbitraryGen.jar")
 }
 
+packRunnbaleJar.dependsOn(classes)
 uploadJar.dependsOn(packRunnbaleJar)

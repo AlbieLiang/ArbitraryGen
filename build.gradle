@@ -8,6 +8,7 @@ buildscript {
             // url 'http://10.XXX.XXX.XXX:8080/nexus/content/repositories/releases/'
             // 没有的话，就本地引入
             url 'file://Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-plugin/plugin-output/release'
+//            url 'https://github.com/AlbieLiang/ArbitraryGen/tree/master/arbitrarygen-plugin/plugin-output/release/'
         }
     }
 
@@ -29,6 +30,7 @@ allprojects {
             // url 'http://10.XXX.XXX.XXX:8080/nexus/content/repositories/releases/'
             // 没有的话，就本地引入
             url 'file://Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-plugin/plugin-output/release'
+//            url 'https://github.com/AlbieLiang/ArbitraryGen/tree/master/arbitrarygen-plugin/plugin-output/release/'
         }
     }
 }
