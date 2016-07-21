@@ -33,6 +33,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'de.greenrobot:greendao:2.1.0'
 }
 
 arbitraryGen {
@@ -41,8 +42,12 @@ arbitraryGen {
     outputDir "$buildDir/generated/source/autogen"
 
     general {
-        format "event,xml" // User XML format parser.
-        extParsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.director.ExternalTemplateDirector", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.ExternalTemplateWrapper"]
+        format "event,db" // User XML format parser.
+        rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
+        extParsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.director.ExternalTemplateDirector", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.ExternalTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.greendao.GreenDaoDirector"]
+//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.director.ExternalTemplateDirector"
+//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.EventTemplateWrapper"
+//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.ExternalTemplateWrapper"
     }
 
     logger {

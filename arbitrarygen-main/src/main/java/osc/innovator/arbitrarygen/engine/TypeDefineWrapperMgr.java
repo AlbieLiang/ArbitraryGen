@@ -16,13 +16,13 @@ import osc.innovator.arbitrarygen.extension.ITypeDefineWrapper;
 public class TypeDefineWrapperMgr {
 
 	private List<ITypeDefineWrapper> mWrappers;
-	private static TypeDefineWrapperMgr mgr;
+	private static TypeDefineWrapperMgr sMgr;
 
 	public static TypeDefineWrapperMgr getMgr() {
-		if (mgr == null) {
-			mgr = new TypeDefineWrapperMgr();
+		if (sMgr == null) {
+			sMgr = new TypeDefineWrapperMgr();
 		}
-		return mgr;
+		return sMgr;
 	}
 
 	public TypeDefineWrapperMgr() {

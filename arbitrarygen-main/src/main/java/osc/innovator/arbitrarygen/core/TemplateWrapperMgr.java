@@ -28,19 +28,19 @@ public class TemplateWrapperMgr {
 		mWrappers = new LinkedList<ITemplateWrapper>();
 	}
 
-	public void doWrap(RawTemplate template) {
+	public void doWrap(ContextInfo contextInfo, RawTemplate template) {
 		for (int i = 0; i < mWrappers.size(); i++) {
 			ITemplateWrapper p = mWrappers.get(i);
-			if (p.doWrap(template)) {
+			if (p.doWrap(contextInfo, template)) {
 				return;
 			}
 		}
 	}
 
-	public void doWrap(TypeDefineCodeBlock template) {
+	public void doWrap(ContextInfo contextInfo, TypeDefineCodeBlock template) {
 		for (int i = 0; i < mWrappers.size(); i++) {
 			ITemplateWrapper p = mWrappers.get(i);
-			if (p.doWrap(template)) {
+			if (p.doWrap(contextInfo, template)) {
 				return;
 			}
 		}

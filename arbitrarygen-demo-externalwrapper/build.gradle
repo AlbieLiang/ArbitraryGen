@@ -11,22 +11,26 @@ jar {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(":arbitrarygen-sdk")
+    compile project(':arbitrarygen-sdk')
+    compile files('libs/json-lib-2.4-jdk15.jar')
+    compile files('libs/greendao-generator-2.1.0.jar')
 }
 
 //打包
-task packLibJar(type: Jar) {
+task packLibJar(type: Jar, dependsOn: classes) {
     from files(sourceSets.main.output.classesDir)
+    from fileTree(dir: 'libs', include: ["freemarker-2.3.23.jar", "greendao-generator-2.1.0.jar"]).files.collect { zipTree(it) }
+//    {
+//        include "freemarker-2.3.23.jar"
+//        include "greendao-generator-2.1.0.jar"
+//    }.files.collect { zipTree(it) }
     baseName = 'arbitrarygen-demo-wrapper'
     version = '0.1.0'
 }
 
-task uploadJar(type: Copy) {
+task uploadJar(type: Copy, dependsOn: packLibJar) {
     from("build/libs")
     into("../ArbitraryGen/")
     include("arbitrarygen-demo-wrapper-${version}.jar")
     rename("arbitrarygen-demo-wrapper-${version}.jar", "arbitrarygen-demo-wrapper.jar")
 }
-
-packLibJar.dependsOn(classes)
-uploadJar.dependsOn(packLibJar)

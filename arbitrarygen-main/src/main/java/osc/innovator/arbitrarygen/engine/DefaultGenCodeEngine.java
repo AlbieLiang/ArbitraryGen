@@ -6,6 +6,7 @@ import java.util.List;
 import osc.innovator.arbitrarygen.base.JavaFileObject;
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
 import osc.innovator.arbitrarygen.core.BaseGenCodeEngine;
+import osc.innovator.arbitrarygen.core.ContextInfo;
 import osc.innovator.arbitrarygen.core.GenCodeTaskInfo;
 import osc.innovator.arbitrarygen.core.IGenCodeEngine;
 import osc.innovator.arbitrarygen.core.SourceFileInfo;
@@ -29,12 +30,12 @@ public class DefaultGenCodeEngine extends BaseGenCodeEngine {
 	@Override
 	public synchronized void doScanFiles(IGenCodeEngine engine) {
 		// Auto pick the template file info;
-		List<SourceFileInfo> list = FileOperation.scan(mConfigInfo.getSrcPath(), engine.getSupportSuffixs());
+		List<SourceFileInfo> list = FileOperation.scan(mConfigInfo.getSrcPath(), engine.getSupportSuffixList());
 		if (list == null || list.isEmpty()) {
 			Log.i(TAG, "scan finished, file list is empty.");
 			return;
 		}
-		for (String suffix : engine.getSupportSuffixs()) {
+		for (String suffix : engine.getSupportSuffixList()) {
 			Log.v(TAG, "support suffix : %s", suffix);
 		}
 		for (SourceFileInfo info : list) {
@@ -73,41 +74,45 @@ public class DefaultGenCodeEngine extends BaseGenCodeEngine {
 					continue;
 				}
 				long startMsec = System.currentTimeMillis();
-				mWrapperMgr.doWrap(t);
+				ContextInfo contextInfo = new ContextInfo(template.getAttributes());
+
+				mWrapperMgr.doWrap(contextInfo, t);
 				long endMsec = System.currentTimeMillis();
-				Log.v(TAG, ">>>>>>doWrap(RawTemplate template) cost " + (endMsec - startMsec) + " msec.");
-				TypeDefineCodeBlock ct = convertor.convert(t);
-				ct.Token = t.Token;
-				mWrapperMgr.doWrap(ct);
-				long msec = System.currentTimeMillis();
-				Log.v(TAG, ">>>>>>doWrap(TypeDefineCodeBlock template) cost " + (msec - endMsec) + " msec.");
-				if (ct != null) {
-					GenCodeTaskInfo info = new GenCodeTaskInfo();
-					// Need check
-					info.FileName = ct.getName().getName();
-					JavaFileObject javaFileObject = new JavaFileObject();
-					javaFileObject.addTypeDefineCodeBlock(ct);
-					info.javaFileObject = javaFileObject;
-					// package
-					if (Util.isNullOrNil(javaFileObject.getPackage())) {
-						String pkg = t.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_PACKAGE);
-						if (Util.isNullOrNil(pkg)) {
-							pkg = template.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_PACKAGE);
-						}
-						javaFileObject.setPackage(pkg);
-						info.RootDir = mConfigInfo.getDestPath() + Util.getPackageDir(javaFileObject);
-					}
-					// import
-					String importStr = t.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_IMPORT);
-					if (!Util.isNullOrNil(importStr)) {
-						javaFileObject.addImports(Util.extractStrList(importStr, ","));
-					}
-					importStr = template.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_IMPORT);
-					if (!Util.isNullOrNil(importStr)) {
-						javaFileObject.addImports(Util.extractStrList(importStr, ","));
-					}
-					mTasks.add(info);
+				Log.v(TAG, ">>>>>>doWrap(RawTemplate template : %s) cost %d msec.", t.getName(), (endMsec - startMsec));
+				TypeDefineCodeBlock ct = convertor.convert(contextInfo, t);
+				if (ct == null) {
+					continue;
 				}
+				ct.Token = t.Token;
+				mWrapperMgr.doWrap(contextInfo, ct);
+				long msec = System.currentTimeMillis();
+				Log.v(TAG, ">>>>>>doWrap(TypeDefineCodeBlock template : %s) cost %d msec.", t.getName(), (msec - endMsec));
+
+				GenCodeTaskInfo info = new GenCodeTaskInfo();
+				// Need check
+				info.FileName = ct.getName().getName();
+				JavaFileObject javaFileObject = new JavaFileObject();
+				javaFileObject.addTypeDefineCodeBlock(ct);
+				info.javaFileObject = javaFileObject;
+				// package
+				if (Util.isNullOrNil(javaFileObject.getPackage())) {
+					String pkg = t.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_PACKAGE);
+					if (Util.isNullOrNil(pkg)) {
+						pkg = template.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_PACKAGE);
+					}
+					javaFileObject.setPackage(pkg);
+					info.RootDir = mConfigInfo.getDestPath() + Util.getPackageDir(javaFileObject);
+				}
+				// import
+				String importStr = t.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_IMPORT);
+				if (!Util.isNullOrNil(importStr)) {
+					javaFileObject.addImports(Util.extractStrList(importStr, ","));
+				}
+				importStr = template.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_IMPORT);
+				if (!Util.isNullOrNil(importStr)) {
+					javaFileObject.addImports(Util.extractStrList(importStr, ","));
+				}
+				mTasks.add(info);
 			}
 		}
 	}

@@ -22,7 +22,6 @@ import osc.innovator.arbitrarygen.extension.ITemplateWrapper;
 import osc.innovator.arbitrarygen.extension.ITypeDefineWrapper;
 import osc.innovator.arbitrarygen.impl.DefaultRawTemplateParser;
 import osc.innovator.arbitrarygen.impl.DefaultTemplateConvertor;
-import osc.innovator.arbitrarygen.impl.DefaultTemplateDirector;
 import osc.innovator.arbitrarygen.impl.DefaultTypeDefineWrapper;
 import osc.innovator.arbitrarygen.rule.RuleParser;
 import osc.innovator.arbitrarygen.template.GenVigorDBTask;
@@ -30,6 +29,7 @@ import osc.innovator.arbitrarygen.template.JsTemplateProcessor;
 import osc.innovator.arbitrarygen.template.TemplateConfig;
 import osc.innovator.arbitrarygen.template.base.ITemplateProcessor;
 import osc.innovator.arbitrarygen.template.hybrids.GenHybridsTask;
+import osc.innovator.arbitrarygen.tools.DefaultUncaughtExceptionHandler;
 import osc.innovator.arbitrarygen.utils.Log;
 import osc.innovator.arbitrarygen.utils.Util;
 
@@ -55,6 +55,10 @@ public class ArbitraryGenEntrance {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// Crash handler
+		Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler());
+
+		//
 		Map<String, String> argsKvPair = ExternalArgsParser.extractArgs(args);
 		String enableArg = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE);
 		boolean enable = Util.isNullOrNil(enableArg) ? true : Boolean.parseBoolean(enableArg);
@@ -113,7 +117,7 @@ public class ArbitraryGenEntrance {
 			String formatChain = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT);
 			if (!Util.isNullOrNil(formatChain)) {
 				List<String> suffixList = Util.extractStrList(formatChain, ExternalArgsParser.ARGS_LIST_SEPARATOR);
-				engine.addAllSuffixs(suffixList);
+				engine.addAllSuffixList(suffixList);
 				DefaultRawTemplateParser parser = new DefaultRawTemplateParser();
 				parser.addSuffixList(suffixList);
 				engine.addParser(parser);

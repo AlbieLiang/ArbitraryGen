@@ -29,6 +29,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="arbitrarygen-sdk" exported="" />
     <orderEntry type="module" module-name="arbitrarygen-extension-sdk" exported="" />
+    <orderEntry type="library" exported="" name="freemarker-2.3.23" level="project" />
+    <orderEntry type="library" exported="" name="greendao-generator-2.1.0" level="project" />
+    <orderEntry type="library" exported="" name="json-lib-2.4-jdk15" level="project" />
     <orderEntry type="library" exported="" name="arbitrarygen-demo-externalwrapper.arbitrarygen-demo-wrapper-0.1.0" level="project" />
   </component>
 </module>

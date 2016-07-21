@@ -37,9 +37,9 @@ public interface IGenCodeEngine {
 
 	ICustomizeParser getFirstMatchParser(String suffix);
 
-	List<String> getSupportSuffixs();
+	List<String> getSupportSuffixList();
 
-	void addAllSuffixs(List<String> suffixs);
+	void addAllSuffixList(List<String> suffixList);
 
 	ICustomizeConvertor getFirstMatchConvertor(RawTemplate rawTemplate);
 }

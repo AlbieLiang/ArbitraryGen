@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tables
+    package="com.albie.test.db"
+    targetDir="./build/generated/source/autogen"
+    version="1"
+    super="Object" >
+
+	<!--
+		* acceptable type for fields:
+		*
+		* boolean <==> INT(0/1) <br />
+		* int/Integer <==> INT <br/>
+		* long/Long <==> LONG <br/>
+		* short/Short <==> SHORT <br/>
+		* float/Float <==> FLOAT <br/>
+		* double/Double <==> DOUBLE <br/>
+		* String <==> TEXT <br/>
+		* byte[] <==> BLOB <br/>
+		* protobuf / referto <==> BLOB<br/>
+	-->
+
+	<!-- The rowId of this table will be use as primaryKey. -->
+
+	<table name="DownloadTaskInfo">
+		<field name="id" type="long" autoInc="true" primaryKey="true" comment="primaryKey of the table"/>
+		<field name="title" type="String"/>
+		<field name="summary" type="String"/>
+		<field name="size" type="int"/>
+		<field name="url" type="String" index="Index_DownloadTask_Url"/>
+		<field name="offset" type="int"/>
+		<field name="buildTime" type="long"/>
+		<field name="path" type="String"/>
+		<field name="md5" type="String"/>
+	</table>
+
+	<table name="TestUpgrade">
+		<field name="id" type="long" comment="primaryKey of the table"/>
+		<field name="title" type="String"/>
+		<field name="name" type="String"/>
+		<field name="path" type="String"/>
+	</table>
+
+</tables>

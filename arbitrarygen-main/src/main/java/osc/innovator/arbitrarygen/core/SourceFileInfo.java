@@ -8,6 +8,7 @@ import java.io.File;
  *
  */
 public class SourceFileInfo {
+
 	public String suffix;
 	public File file;
 

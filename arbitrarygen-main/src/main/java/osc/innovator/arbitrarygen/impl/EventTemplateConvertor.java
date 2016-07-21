@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
+import osc.innovator.arbitrarygen.core.ContextInfo;
 import osc.innovator.arbitrarygen.core.TemplateConstants;
 import osc.innovator.arbitrarygen.extension.ICustomizeConvertor;
 import osc.innovator.arbitrarygen.template.RawTemplate;
@@ -23,7 +24,7 @@ public class EventTemplateConvertor implements ICustomizeConvertor {
 	}
 
 	@Override
-	public TypeDefineCodeBlock convert(RawTemplate rawTemplate) {
+	public TypeDefineCodeBlock convert(ContextInfo contextInfo, RawTemplate rawTemplate) {
 		if (rawTemplate == null) {
 			return null;
 		}
@@ -44,7 +45,7 @@ public class EventTemplateConvertor implements ICustomizeConvertor {
 	}
 
 	@Override
-	public List<String> getSupportSuffixs() {
+	public List<String> getSupportSuffixList() {
 		List<String> supportSuffixs = new LinkedList<String>();
 		supportSuffixs.add("event");
 		return supportSuffixs;

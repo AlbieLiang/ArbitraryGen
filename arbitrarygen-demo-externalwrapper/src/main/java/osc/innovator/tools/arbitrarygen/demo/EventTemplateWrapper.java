@@ -7,6 +7,7 @@ import osc.innovator.arbitrarygen.block.ConstructorMethodCodeBlock;
 import osc.innovator.arbitrarygen.block.FieldCodeBlock;
 import osc.innovator.arbitrarygen.block.MethodCodeBlock;
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
+import osc.innovator.arbitrarygen.core.ContextInfo;
 import osc.innovator.arbitrarygen.core.KeyWords;
 import osc.innovator.arbitrarygen.core.TemplateConstants;
 import osc.innovator.arbitrarygen.extension.ITemplateWrapper;
@@ -34,7 +35,7 @@ public class EventTemplateWrapper implements ITemplateWrapper {
 	}
 
 	@Override
-	public boolean doWrap(RawTemplate template) {
+	public boolean doWrap(ContextInfo contextInfo, RawTemplate template) {
 		if (template != null && TAG_NAME.equalsIgnoreCase(template.getName())) {
 			TemplateAttributeHelper.setAttribute(template, TemplateConstants.TEMPLATE_KEYWORDS_PARENT, "IEvent");
 			String name = template.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_NAME);
@@ -55,7 +56,7 @@ public class EventTemplateWrapper implements ITemplateWrapper {
 	}
 
 	@Override
-	public boolean doWrap(TypeDefineCodeBlock template) {
+	public boolean doWrap(ContextInfo contextInfo, TypeDefineCodeBlock template) {
 		if (template != null && template.Token == session.Token) {//
 			for (int i = 0; i < template.countOfTypeDefCodeBlocks(); i++) {
 				TypeDefineCodeBlock ct = template.getTypeDefCodeBlock(i);

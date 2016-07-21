@@ -3,6 +3,7 @@ package osc.innovator.tools.arbitrarygen.demo;
 import java.util.Map;
 
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
+import osc.innovator.arbitrarygen.core.ContextInfo;
 import osc.innovator.arbitrarygen.core.TemplateConstants;
 import osc.innovator.arbitrarygen.extension.ITemplateWrapper;
 import osc.innovator.arbitrarygen.template.RawTemplate;
@@ -18,7 +19,7 @@ public class ExternalTemplateWrapper implements ITemplateWrapper {
 	private static final String TAG_NAME = "Wrapper";
 
 	@Override
-	public boolean doWrap(RawTemplate template) {
+	public boolean doWrap(ContextInfo contextInfo, RawTemplate template) {
 		if (template != null && TAG_NAME.equalsIgnoreCase(template.getName())) {
 			Map<String, String> attrs = template.getAttributes();
 			String name = attrs.get(TemplateConstants.TEMPLATE_KEYWORDS_NAME);
@@ -38,7 +39,7 @@ public class ExternalTemplateWrapper implements ITemplateWrapper {
 	}
 
 	@Override
-	public boolean doWrap(TypeDefineCodeBlock template) {
+	public boolean doWrap(ContextInfo contextInfo, TypeDefineCodeBlock template) {
 		return false;
 	}
 

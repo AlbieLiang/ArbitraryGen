@@ -1,4 +1,4 @@
-package osc.innovator.tools.arbitrarygen.demo.director;
+package osc.innovator.tools.arbitrarygen.demo.greendao;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,17 +10,20 @@ import osc.innovator.arbitrarygen.core.TemplateConstants;
 import osc.innovator.arbitrarygen.extension.ICustomizeConvertor;
 import osc.innovator.arbitrarygen.template.RawTemplate;
 import osc.innovator.arbitrarygen.utils.AnalyzerHelper;
+import osc.innovator.arbitrarygen.utils.Log;
 
 /**
  * 
  * @author albieliang
  * 
  */
-public class ExternalTemplateAnalyzer implements ICustomizeConvertor {
+public class GreenDaoAnalyzer implements ICustomizeConvertor {
 
-	private static final String TAG_NAME = "Ext";
+	private static final String TAG = "GreenDao.GreenDaoAnalyzer";
 
-	public ExternalTemplateAnalyzer() {
+	private static final String TAG_NAME = "table";
+
+	public GreenDaoAnalyzer() {
 	}
 
 	@Override
@@ -28,15 +31,9 @@ public class ExternalTemplateAnalyzer implements ICustomizeConvertor {
 		if (rawTemplate == null) {
 			return null;
 		}
-		doAttachDefaultValues(rawTemplate);
-		return AnalyzerHelper.createTypeDefineCodeBlock(rawTemplate);
-	}
-
-	private void doAttachDefaultValues(RawTemplate rawTemplate) {
-		Map<String, String> attrs = rawTemplate.getAttributes();
-		String name = attrs.get(TemplateConstants.TEMPLATE_KEYWORDS_NAME);
-		attrs.put(TemplateConstants.TEMPLATE_KEYWORDS_NAME, name + TAG_NAME);
-		attrs.put(TemplateConstants.TEMPLATE_KEYWORDS_PARENT, "Object");
+		DatabaseGenerator.doGen(contextInfo, rawTemplate);
+		Log.d(TAG, "do generate green dao code.");
+		return null;
 	}
 
 	@Override
@@ -46,8 +43,8 @@ public class ExternalTemplateAnalyzer implements ICustomizeConvertor {
 
 	@Override
 	public List<String> getSupportSuffixList() {
-		List<String> supportSuffixs = new LinkedList<String>();
-		supportSuffixs.add("ext");
-		return supportSuffixs;
+		List<String> supportSuffixList = new LinkedList<String>();
+		supportSuffixList.add("db");
+		return supportSuffixList;
 	}
 }
