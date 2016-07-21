@@ -24,23 +24,19 @@ jar {
 //        println "${configurations.compile.collect { it.name }.join(' ')}"
     }
     baseName = 'ArbitraryGen'
-//    version = '0.1.0'
+    version = this.version
 }
 
 //打包
-task packRunnbaleJar(type: Jar) {
+task packRunnbaleJar(type: Jar, dependsOn: classes) {
     from files(sourceSets.main.output.classesDir)
     from configurations.runtime.asFileTree.files.collect { zipTree(it) }
     manifest {
         attributes 'Main-Class': mainClassName
     }
     baseName = 'ArbitraryGen'
-//    version = '0.1.0'
+    version = this.version
 }
-//设置编码
-//tasks.withType(Compile) {
-//    options.encoding = "UTF-8"
-//}
 
 uploadArchives {
     repositories.mavenDeployer {
@@ -53,12 +49,9 @@ uploadArchives {
     }
 }
 
-task uploadJar(type: Copy) {
+task uploadJar(type: Copy, dependsOn: packRunnbaleJar) {
     from("build/libs")
     into("../ArbitraryGen/")
     include("ArbitraryGen-${version}.jar")
     rename("ArbitraryGen-${version}.jar", "ArbitraryGen.jar")
 }
-
-packRunnbaleJar.dependsOn(classes)
-uploadJar.dependsOn(packRunnbaleJar)
