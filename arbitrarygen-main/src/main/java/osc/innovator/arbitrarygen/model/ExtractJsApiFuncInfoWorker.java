@@ -1,6 +1,5 @@
 package osc.innovator.arbitrarygen.model;
 
-import java.io.File;
 import java.util.Map;
 
 import osc.innovator.arbitrarygen.base.JavaFileObject;
@@ -12,9 +11,6 @@ import osc.innovator.arbitrarygen.core.ConfigInfo;
 import osc.innovator.arbitrarygen.core.GenCodeTaskInfo;
 import osc.innovator.arbitrarygen.core.Word;
 import osc.innovator.arbitrarygen.extension.IAGTaskWorker;
-import osc.innovator.arbitrarygen.model.ArbitraryGenTaskInfo;
-import osc.innovator.arbitrarygen.model.KeyValuePair;
-import osc.innovator.arbitrarygen.model.TypeName;
 import osc.innovator.arbitrarygen.statement.AnnotationStatement;
 import osc.innovator.arbitrarygen.statement.NormalStatement;
 import osc.innovator.arbitrarygen.utils.FileOperation;
@@ -32,7 +28,7 @@ public class ExtractJsApiFuncInfoWorker implements IAGTaskWorker {
 	private static final String ANNOTATION_NAME = "JsApiFuncMark";
 	
 	@Override
-	public boolean doTask(ArbitraryGenTaskInfo task, JavaFileObject fileObject, Map<String, ArbitraryGenTaskInfo> srcGenTasks,
+	public boolean doTask(ConfigInfo configInfo, ArbitraryGenTaskInfo task, JavaFileObject fileObject, Map<String, ArbitraryGenTaskInfo> srcGenTasks,
 			Map<String, ArbitraryGenTaskInfo> targetTasks) {
 		if (fileObject.getCountOfTypeDefCodeBlock() == 0) {
 			Log.i(TAG, "JavaFileObject type def count is 0.");
@@ -83,12 +79,9 @@ public class ExtractJsApiFuncInfoWorker implements IAGTaskWorker {
 		fo.addTypeDefineCodeBlock(cb);
 		
 		//
-		ConfigInfo cf = new ConfigInfo();
-		// TODO albieliang, changed
-		cf.setDestPath(new File("src").getAbsolutePath());
 		GenCodeTaskInfo taskInfo = new GenCodeTaskInfo();
 		taskInfo.FileName = fo.getFileName();
-		taskInfo.RootDir = cf.getDestPath() + Util.getPackageDir(fo);
+		taskInfo.RootDir = configInfo.getDestPath() + Util.getPackageDir(fo);
 		taskInfo.javaFileObject = fo;
 		
 		// GenCode

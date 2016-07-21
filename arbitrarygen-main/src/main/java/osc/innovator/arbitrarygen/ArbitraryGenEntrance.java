@@ -83,7 +83,7 @@ public class ArbitraryGenEntrance {
 //		engine.addDirector(new DefaultTemplateDirector());
 		engine.addConvertor(new DefaultTemplateConvertor());
 		// Add a detail type template director
-		// gen.addDirector(new EventTemplateDirector());
+		// engine.addDirector(new EventTemplateDirector());
 		ConfigInfo configInfo = null;
 		boolean arbitraryEnable = false;
 		if (argsKvPair != null) {

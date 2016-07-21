@@ -5,6 +5,7 @@ import java.util.List;
 
 import osc.innovator.arbitrarygen.base.JavaFileObject;
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
+import osc.innovator.arbitrarygen.core.ConfigInfo;
 import osc.innovator.arbitrarygen.extension.ITypeDefineWrapper;
 
 /**
@@ -28,20 +29,20 @@ public class TypeDefineWrapperMgr {
 		mWrappers = new LinkedList<ITypeDefineWrapper>();
 	}
 
-	public void doWrap(JavaFileObject fileObject) {
+	public void doWrap(ConfigInfo configInfo, JavaFileObject fileObject) {
 		for (int i = 0; i < mWrappers.size(); i++) {
 			ITypeDefineWrapper p = mWrappers.get(i);
 			// TODO
-			if (p.doWrap(fileObject)) {
+			if (p.doWrap(configInfo, fileObject)) {
 //				return;
 			}
 		}
 	}
 
-	public void doWrap(TypeDefineCodeBlock codeblock) {
+	public void doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeblock) {
 		for (int i = 0; i < mWrappers.size(); i++) {
 			ITypeDefineWrapper p = mWrappers.get(i);
-			if (p.doWrap(codeblock)) {
+			if (p.doWrap(configInfo, codeblock)) {
 				return;
 			}
 		}

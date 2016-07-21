@@ -3,6 +3,7 @@ package osc.innovator.arbitrarygen.extension;
 import java.util.Map;
 
 import osc.innovator.arbitrarygen.base.JavaFileObject;
+import osc.innovator.arbitrarygen.core.ConfigInfo;
 import osc.innovator.arbitrarygen.model.ArbitraryGenTaskInfo;
 
 
@@ -13,5 +14,5 @@ import osc.innovator.arbitrarygen.model.ArbitraryGenTaskInfo;
  */
 public interface IAGTaskWorker {
 
-	boolean doTask(ArbitraryGenTaskInfo task, JavaFileObject fileObject, Map<String, ArbitraryGenTaskInfo> srcGenTasks, Map<String, ArbitraryGenTaskInfo> targetTasks);
+	boolean doTask(ConfigInfo configInfo, ArbitraryGenTaskInfo task, JavaFileObject fileObject, Map<String, ArbitraryGenTaskInfo> srcGenTasks, Map<String, ArbitraryGenTaskInfo> targetTasks);
 }

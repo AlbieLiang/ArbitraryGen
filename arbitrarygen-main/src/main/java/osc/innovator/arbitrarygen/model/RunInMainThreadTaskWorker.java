@@ -2,6 +2,7 @@ package osc.innovator.arbitrarygen.model;
 
 import java.util.Map;
 
+import osc.innovator.arbitrarygen.core.ConfigInfo;
 import osc.innovator.arbitrarygen.extension.model.Command;
 import osc.innovator.arbitrarygen.base.BaseDefineCodeBlock;
 import osc.innovator.arbitrarygen.base.JavaFileObject;
@@ -24,7 +25,7 @@ public class RunInMainThreadTaskWorker extends BaseAGTaskWorker {
 	}
 
 	@Override
-	public boolean doTask(ArbitraryGenTaskInfo task, JavaFileObject fileObject, Map<String, ArbitraryGenTaskInfo> srcGenTasks, Map<String, ArbitraryGenTaskInfo> targetTasks) {
+	public boolean doTask(ConfigInfo configInfo, ArbitraryGenTaskInfo task, JavaFileObject fileObject, Map<String, ArbitraryGenTaskInfo> srcGenTasks, Map<String, ArbitraryGenTaskInfo> targetTasks) {
 		AnnotationStatement stm = task.getMatchAnnotations().get(Constants.NEED_TO_HANDLE_RUN_IN_MAIN_THREAD_ANNOTATION);
 		if (stm == null) {
 			return false;
