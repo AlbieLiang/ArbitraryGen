@@ -31,9 +31,9 @@ public class GreenDaoAnalyzer implements ICustomizeConvertor {
 		if (rawTemplate == null) {
 			return null;
 		}
-		DatabaseGenerator.doGen(contextInfo, rawTemplate);
+		TypeDefineCodeBlock typeDefineCodeBlock = DatabaseGenerator.doGen(contextInfo, rawTemplate);
 		Log.d(TAG, "do generate green dao code.");
-		return null;
+		return typeDefineCodeBlock;
 	}
 
 	@Override

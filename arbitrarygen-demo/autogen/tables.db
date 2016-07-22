@@ -3,7 +3,7 @@
     package="com.albie.test.db"
     targetDir="./build/generated/source/autogen"
     version="1"
-    super="Object" >
+    super="" >
 
 	<!--
 		* acceptable type for fields:

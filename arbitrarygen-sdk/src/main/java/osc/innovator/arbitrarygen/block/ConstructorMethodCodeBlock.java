@@ -11,11 +11,10 @@ public class ConstructorMethodCodeBlock extends DefaultMethodCodeBlock {
 
 	public ConstructorMethodCodeBlock(TypeDefineCodeBlock template,
 			DefaultKeyValuePair... args) {
-		this(template.getName().getName(), "", args);
+		this(template.getName().getName(), args);
 	}
 
-	public ConstructorMethodCodeBlock(String name, String returnType,
-			DefaultKeyValuePair... args) {
+	public ConstructorMethodCodeBlock(String name, DefaultKeyValuePair... args) {
 		super(name, "", args);
 	}
 }
