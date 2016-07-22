@@ -4,8 +4,8 @@ apply plugin: 'maven'
 
 // For maven config
 version = '1.0.0'
-group = 'osc.innovator.tools.arbitrarygen'
-archivesBaseName = 'ArbitraryGen'
+group = 'osc.innovator.tools'
+archivesBaseName = 'arbitrarygen'
 
 // For jar config
 mainClassName = 'osc.innovator.arbitrarygen.ArbitraryGenEntrance'
@@ -24,23 +24,19 @@ jar {
 //        println "${configurations.compile.collect { it.name }.join(' ')}"
     }
     baseName = 'ArbitraryGen'
-//    version = '0.1.0'
+    version = this.version
 }
 
 //打包
-task packRunnbaleJar(type: Jar) {
+task packRunnbaleJar(type: Jar, dependsOn: classes) {
     from files(sourceSets.main.output.classesDir)
     from configurations.runtime.asFileTree.files.collect { zipTree(it) }
     manifest {
         attributes 'Main-Class': mainClassName
     }
     baseName = 'ArbitraryGen'
-//    version = '0.1.0'
+    version = this.version
 }
-//设置编码
-//tasks.withType(Compile) {
-//    options.encoding = "UTF-8"
-//}
 
 uploadArchives {
     repositories.mavenDeployer {
@@ -49,15 +45,13 @@ uploadArchives {
         //            authentication(userName: "admin", password: "admin")
         //        }
         // 如果没有私服的话，发布到本地也是ok的
-        repository(url: 'file:./libs-output/release')
+        repository(url: "file:../repositories/release")
     }
 }
 
-task uploadJar(type: Copy) {
+task uploadJar(type: Copy, dependsOn: packRunnbaleJar) {
     from("build/libs")
     into("../ArbitraryGen/")
     include("ArbitraryGen-${version}.jar")
     rename("ArbitraryGen-${version}.jar", "ArbitraryGen.jar")
 }
-
-uploadJar.dependsOn(packRunnbaleJar)

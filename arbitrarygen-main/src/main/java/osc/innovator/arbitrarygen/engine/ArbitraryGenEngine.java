@@ -56,7 +56,7 @@ public class ArbitraryGenEngine extends BaseGenCodeEngine {
 			SourceFileInfo info = mSourceFileInfos.get(i);
 			JavaFileLexer lexer = new JavaFileLexer(info.file);
 			JavaFileObject javaFileObject = lexer.start();
-			mTypeDefWrapper.doWrap(javaFileObject);
+			mTypeDefWrapper.doWrap(mConfigInfo, javaFileObject);
 			
 			GenCodeTaskInfo taskInfo = new GenCodeTaskInfo();
 			taskInfo.FileName = javaFileObject.getFileName();

@@ -10,6 +10,7 @@ import java.util.Set;
 import osc.innovator.arbitrarygen.base.JavaFileObject;
 import osc.innovator.arbitrarygen.block.MethodCodeBlock;
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
+import osc.innovator.arbitrarygen.core.ConfigInfo;
 import osc.innovator.arbitrarygen.extension.IAGTaskWorker;
 import osc.innovator.arbitrarygen.extension.ITypeDefineWrapper;
 import osc.innovator.arbitrarygen.model.ArbitraryGenTaskInfo;
@@ -45,7 +46,7 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 	}
 	
 	@Override
-	public boolean doWrap(JavaFileObject fileObject) {
+	public boolean doWrap(ConfigInfo configInfo, JavaFileObject fileObject) {
 		if (fileObject != null) {
 			Log.d(TAG, "doWrap, fileName : " + fileObject.getFileName());
 			List<TypeDefineCodeBlock> typeDefineCodeBlocks = new LinkedList<TypeDefineCodeBlock>();
@@ -120,10 +121,9 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 				Log.d(TAG, "srcGenTasks size : " + srcGenTasks.size() + ", targetTasks size : " + targetTasks.size());
 				if (srcGenTasks.size() > 0) {
 					hasTask = true;
-					
 					for (ArbitraryGenTaskInfo task : srcGenTasks.values()) {
 						for (IAGTaskWorker worker : mWorkers) {
-							worker.doTask(task, fileObject, srcGenTasks, targetTasks);
+							worker.doTask(configInfo, task, fileObject, srcGenTasks, targetTasks);
 						}
 					}
 				}
@@ -134,7 +134,7 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 	}
 
 	@Override
-	public boolean doWrap(TypeDefineCodeBlock codeblock) {
+	public boolean doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeblock) {
 		if (codeblock != null) {
 			return true;
 		}

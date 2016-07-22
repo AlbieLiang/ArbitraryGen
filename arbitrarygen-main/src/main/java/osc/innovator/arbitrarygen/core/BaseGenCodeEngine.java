@@ -120,12 +120,12 @@ public abstract class BaseGenCodeEngine implements IGenCodeEngine {
 	}
 
 	@Override
-	public void addAllSuffixs(List<String> suffixs) {
-		mDirectorMgr.addAllSuffixs(suffixs);
+	public void addAllSuffixList(List<String> suffixList) {
+		mDirectorMgr.addAllSuffixs(suffixList);
 	}
 	
 	@Override
-	public final List<String> getSupportSuffixs() {
+	public final List<String> getSupportSuffixList() {
 		return mDirectorMgr.getSupportSuffixs();
 	}
 }

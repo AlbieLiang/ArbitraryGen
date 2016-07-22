@@ -2,11 +2,11 @@ package osc.innovator.arbitrarygen.extension;
 
 public interface IDirector {
 
-	public String getFileSuffix();
+	String getFileSuffix();
 
-	public boolean useCustomizeParser();
+	boolean useCustomizeParser();
 
-	public ICustomizeParser getCustomizeParser();
+	ICustomizeParser getCustomizeParser();
 
-	public ICustomizeConvertor getCustomizeAnalyzer();
+	ICustomizeConvertor getCustomizeAnalyzer();
 }

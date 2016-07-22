@@ -44,7 +44,7 @@ public class TemplateDirectorMgr {
 		ICustomizeConvertor a = director.getCustomizeAnalyzer();
 		ICustomizeParser p = director.getCustomizeParser();
 		List<String> ss = null;
-		if ((a == null || (ss = a.getSupportSuffixs()) == null || ss.size() == 0) && p == null) {
+		if ((a == null || (ss = a.getSupportSuffixList()) == null || ss.size() == 0) && p == null) {
 			return;
 		}
 		this.mDirectors.add(0, director);

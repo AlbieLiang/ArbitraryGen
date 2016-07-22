@@ -31,6 +31,6 @@ uploadArchives {
         //            authentication(userName: "admin", password: "admin")
         //        }
         // 如果没有私服的话，发布到本地也是ok的
-        repository(url: 'file:./plugin-output/release')
+        repository(url: "file:../repositories/release")
     }
 }

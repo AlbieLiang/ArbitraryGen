@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Events package="com.albie.test">
 
-    <event name="XmlFirst" >
+    <xml name="XmlFirst" >
 
         <field name="name" type="String" default="null" genSetter="true" genGetter="true"/>
-    </event>
+    </xml>
 
     <xml name="XmlSecond"  final="true" parent="Object">
 
@@ -22,24 +22,6 @@
             <result>name</result>
         </method>
     </xml>
-    <event name="XmlThird">
-        <Data static="true" final="true">
-            <field name="errCode" type="int"/>
-        	<field name="errType" type="int" default="0"/>
-        </Data>
-    </event>
-    <event name="XmlFourth">
-        <Data>
-            <field name="errCode" type="int"/>
-        	<field name="errType" type="int" default="0"/>
-        </Data>
-        <CallBack>
-            <field name="trigger" type="String"/>
-        </CallBack>
-        <Result>
-            <field name="result" type="String"/>
-        </Result>
-    </event>
     <Wrapper name="External">
         <field name="wrapper" type="float"/>
     </Wrapper>

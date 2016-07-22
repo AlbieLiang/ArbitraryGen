@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
+import osc.innovator.arbitrarygen.core.ContextInfo;
 import osc.innovator.arbitrarygen.extension.ICustomizeConvertor;
 import osc.innovator.arbitrarygen.template.RawTemplate;
 import osc.innovator.arbitrarygen.utils.AnalyzerHelper;
@@ -19,7 +20,7 @@ public class DefaultTemplateConvertor implements ICustomizeConvertor {
 	}
 
 	@Override
-	public TypeDefineCodeBlock convert(RawTemplate rawTemplate) {
+	public TypeDefineCodeBlock convert(ContextInfo contextInfo, RawTemplate rawTemplate) {
 		if (rawTemplate == null) {
 			return null;
 		}
@@ -32,7 +33,7 @@ public class DefaultTemplateConvertor implements ICustomizeConvertor {
 	}
 
 	@Override
-	public List<String> getSupportSuffixs() {
+	public List<String> getSupportSuffixList() {
 		List<String> supportSuffixs = new LinkedList<String>();
 		supportSuffixs.add("xml");
 		return supportSuffixs;

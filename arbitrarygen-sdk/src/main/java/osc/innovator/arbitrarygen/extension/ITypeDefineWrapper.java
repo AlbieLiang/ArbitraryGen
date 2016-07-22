@@ -2,6 +2,7 @@ package osc.innovator.arbitrarygen.extension;
 
 import osc.innovator.arbitrarygen.base.JavaFileObject;
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
+import osc.innovator.arbitrarygen.core.ConfigInfo;
 
 /**
  * 
@@ -12,12 +13,13 @@ public interface ITypeDefineWrapper {
 
 	/**
 	 * To wrap the {@link JavaFileObject}
-	 * 
+	 *
+	 * @param configInfo
 	 * @param fileObject
 	 * @return true to interrupt the wrap action that means do not need to wrap
 	 *         any more, otherwise false
 	 */
-	boolean doWrap(JavaFileObject fileObject);
+	boolean doWrap(ConfigInfo configInfo, JavaFileObject fileObject);
 
 	/**
 	 * To wrap the {@link TypeDefineCodeBlock}
@@ -26,7 +28,7 @@ public interface ITypeDefineWrapper {
 	 * @return true to interrupt the wrap action that means do not need to wrap
 	 *         any more, otherwise false
 	 */
-	boolean doWrap(TypeDefineCodeBlock codeblock);
+	boolean doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeblock);
 	
 	/**
 	 * Add a {@link IAGTaskWorker} to the worker set.
