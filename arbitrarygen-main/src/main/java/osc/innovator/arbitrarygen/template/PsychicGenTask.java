@@ -1,38 +1,42 @@
-package osc.innovator.arbitrarygen.template.hybrids;
+package osc.innovator.arbitrarygen.template;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
-import java.util.StringJoiner;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import osc.innovator.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
-import osc.innovator.arbitrarygen.template.DelayReadFileTask;
-import osc.innovator.arbitrarygen.template.TemplateConfig;
-import osc.innovator.arbitrarygen.template.TemplateManager;
-import osc.innovator.arbitrarygen.template.base.BaseGenCodeWorker;
+import osc.innovator.arbitrarygen.template.base.BasePsychicWorker;
 import osc.innovator.arbitrarygen.utils.FileOperation;
 import osc.innovator.arbitrarygen.utils.Log;
 import osc.innovator.arbitrarygen.utils.Util;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  * 
  * @author AlbieLiang
  *
  */
-public class GenHybridsTask extends BaseGenCodeWorker {
+public class PsychicGenTask extends BasePsychicWorker {
 
-	private static final String TAG = "CodeGen.GenHybridsTask";
-	
-	public static final String LINEFEED_CODE = "\\x0a";
-	public static final String CARRIAGE_RETURN_CODE = "\\x0d";
-	
-	public GenHybridsTask(TemplateConfig cfg) {
+	private static final String TAG = "CodeGen.GenVigorDBTask";
+
+	private List<String> mSupportSuffixList;
+
+	public PsychicGenTask(TemplateConfig cfg) {
 		super(cfg);
+		mSupportSuffixList = new LinkedList<>();
+	}
+
+	public PsychicGenTask(TemplateConfig cfg, List<String> supportSuffixList) {
+		this(cfg);
+		addSupportSuffixList(supportSuffixList);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -40,28 +44,20 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 	public String genCode(ScriptEngine engine, JSONObject jsonObj, TaskInfo info) {
 		String pkg = jsonObj.optString("@package", "");
 		String delegate = jsonObj.optString("@delegate", "");
-		String delegateDest = jsonObj.optString("@delegateDest", "");
-		String delegateSuffix = jsonObj.optString("@delegateSuffix", "");
 		String rawTags = jsonObj.optString("@tag", "");
-
-		if (Util.isNullOrNil(delegateSuffix)) {
-			delegateSuffix = "java";
-		}
+		String rootTag = null;
 
 		JSONObject delegateJson = new JSONObject();
 		delegateJson.put("@package", pkg);
 		delegateJson.put("@name", delegate);
-		delegateJson.put("@suffix", delegateSuffix);
 
 		String[] tags = null;
 
-		Log.d(TAG, "tags : %s", rawTags);
 		if (!Util.isNullOrNil(rawTags)) {
 			tags = rawTags.split(",");
 		} else {
 			Set<String> list = new HashSet<>();
 			for (String key : (Set<String>) jsonObj.keySet()) {
-				Log.d(TAG, "key : %s", key);
 				if (key != null && !key.startsWith("@")) {
 					list.add(key);
 				}
@@ -114,22 +110,22 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 				delegateJson.put("@" + getValidateTag(tagName) + "s", list);
 			}
 		}
-		if (!Util.isNullOrNil(delegate)) {
-			String template = FileOperation.read(delegateDest + "/" + delegate + "." + delegateSuffix);
-			String path = info.coreLibs + "/Hybrids-TransferTools.js";
+		while (!Util.isNullOrNil(delegate)) {
+			String template = TemplateManager.getImpl().get(rootTag);
+			if (Util.isNullOrNil(template)) {
+				Log.w(TAG, "the template do not exist with tag : %s", rootTag);
+				break;
+			}
+			String path = info.coreLibs + "/TransferTools.js";
 			String transferTools = TemplateManager.getImpl().get(path, new DelayReadFileTask(path));
 			try {
-				genCodeAndPrint(engine, template, transferTools, "", delegateDest, delegateJson);
+				genCode(engine, template, transferTools, "", info.destPath, delegateJson);
 			} catch (ScriptException e) {
 				Log.e(TAG, "gen code error : %s", e);
 			}
+			break;
 		}
 		return null;
-	}
-
-	@Override
-	public String getSupportSuffix() {
-		return "hybrids-define";
 	}
 
 	private String getValidateTag(String tag) {
@@ -138,30 +134,7 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 		}
 		return tag.replaceAll("-", "_");
 	}
-	
-	private void genCodeAndPrint(ScriptEngine engine, String template,
-			String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
-		String jsonStr = obj.toString().replace("@", "_");
-		String script = transfer + utils + "\nparseTemplate(\"" + escape(template) + "\"," + jsonStr + ");";
-//		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
-		String path = destPath + "/" + obj.getString("@name") + "." + obj.getString("@suffix");
 
-		File destFolder = new File(destPath);
-		if (!destFolder.exists()) {
-			destFolder.mkdirs();
-		}
-//		Log.v(TAG, "genCode, jsonStr : %s", jsonStr);
-//		Log.v(TAG, "genCode, script : %s", script);
-		Log.v(TAG, "genCode, dest : %s", destPath);
-		Log.v(TAG, "genCode, path : %s", path);
-		String outStr = unescape((String) engine.eval(script));
-//		String outStr = format(unescape((String) engine.eval(script)));
-//		Log.v(TAG, "genCode, outStr : %s", outStr);
-		
-//		Log.v(TAG, "\n\n\n\n\nTransfer result : \n\n\n\n\n\n" + unescape((String) engine.eval(transfer + utils + "\ntransfer(\"" + escape(template) + "\"," + jsonStr + ");")));
-		FileOperation.write(path, "" + outStr);
-	}
-	
 	private void genCode(ScriptEngine engine, String template, String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
 		String jsonStr = obj.toString().replace("@", "_");
 		String script = transfer + utils + "\nparseTemplate(\"" + escape(template) + "\"," + jsonStr + ");";
@@ -174,42 +147,31 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 		}
 //		Log.d(TAG, "jsonStr : %s\n", jsonStr);
 //		Log.d(TAG, "script : %s\n", script);
-		Log.d(TAG, "dest : %s\n", dest);
-		Log.d(TAG, "path : %s\n", path);
+//		Log.d(TAG, "dest : %s\n", dest);
+//		Log.d(TAG, "path : %s\n", path);
 		FileOperation.write(path, format(unescape((String) engine.eval(script))));
 	}
 
 	public static String escape(String str) {
-//		return str.replaceAll("(\r\n)+", "\\x0a").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\x29");
-		return str.replaceAll("\r", CARRIAGE_RETURN_CODE)
-				.replaceAll("\n", LINEFEED_CODE)
-				.replaceAll("\"", "\\\\\"")
-				.replaceAll("\'", "\\x29");
+		return str.replaceAll("[\r\n]+", "\\x0a").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\x29");
 	}
 	
 	public static String unescape(String str) {
-		if (str == null || str.length() == 0) {
-			return str;
-		}
-//		return str.replaceAll("(x0a[ ]*)+", "\r\n").replace("x29", "'");
-		return str.replaceAll("x0d", "\r").replaceAll("x0a", "\n").replace("x29", "'");
+		return str.replaceAll("(x0a[ ]*)+", "\r\n").replace("x29", "'");
 	}
 
 	public static String format(String str) {
-		if (str == null || str.length() == 0) {
-			return str;
-		}
 		String indent = "";
 		String vary = "    ";
 		StringBuilder sb = new StringBuilder();
 		String[] sps = str.split("\r\n");
 		
-		for (int i = 0, len = sps.length; i < len; i++) {
+		for (int i=0, len=sps.length; i<len; i++) {
 			String sp = sps[i].trim();
 			if (sp.startsWith("}}")) {
 				indent = indent.replaceFirst(vary, "");
 				indent = indent.replaceFirst(vary, "");
-			} else if (sp.startsWith("}")) {
+			}else if (sp.startsWith("}")) {
 				indent = indent.replaceFirst(vary, "");
 			}
 			sb.append(indent);
@@ -220,5 +182,14 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 			sb.append("\r\n");
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public List<String> getSupportSuffixList() {
+		return mSupportSuffixList;
+	}
+
+	public void addSupportSuffixList(List<String> suffixList) {
+		mSupportSuffixList.addAll(suffixList);
 	}
 }

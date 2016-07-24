@@ -27,7 +27,7 @@ public class ScriptTemplateGenCodeEngine extends BaseGenCodeEngine {
 	
 	@Override
 	public void doScanFiles(IGenCodeEngine engine) {
-		mSourceFileInfos.addAll(FileOperation.scan(mConfigInfo.getSrcPath(), mTemplateProcessor.getSupportSuffixs()));
+		mSourceFileInfos.addAll(FileOperation.scan(mConfigInfo.getSrcPath(), mTemplateProcessor.getSupportSuffixList()));
 	}
 
 	@Override

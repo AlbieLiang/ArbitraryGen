@@ -3,8 +3,7 @@
 	package="com.flyfox.player.autogen.table"
 	delegateDest="src/main/java/com/flyfox/player/autogen/table"
 	delegate="VDBInfoDelegate"
-	delegateSuffix="java"
-	tag="hybrid-table">
+	delegateSuffix="java">
 	
 	<!--
 		* 根节点属性：

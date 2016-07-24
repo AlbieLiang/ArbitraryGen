@@ -25,6 +25,8 @@ class ArbitraryGenTask extends DefaultTask {
 
     def LoggerArgs loggerArgs;
 
+    def ScriptEngineArgs scriptEngineArgs;
+
     @TaskAction
     void exec() {
         if (!inputDir.exists()) {
@@ -74,6 +76,7 @@ class ArbitraryGenTask extends DefaultTask {
             // For script template engine
             arg(value: "core-libs:${libsDir.absolutePath}/core-libs")
             arg(value: "template-libs:${libsDir.absolutePath}/template-libs")
+            arg(value: "script-engine-format:${scriptEngineArgs.format}")
         }
     }
 

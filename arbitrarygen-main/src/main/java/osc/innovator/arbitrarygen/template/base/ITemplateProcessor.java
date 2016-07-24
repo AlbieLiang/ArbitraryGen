@@ -15,7 +15,9 @@ public interface ITemplateProcessor {
 	
 	void process(String src, String destPath);
 	
-	void addTaskWorkder(IGenCodeWorker worker);
+	void addTaskWorker(IGenCodeWorker worker);
 	
-	List<String> getSupportSuffixs();
+	void addTaskWorker(IAGPsychicWorker worker);
+
+	List<String> getSupportSuffixList();
 }

@@ -25,6 +25,7 @@ import osc.innovator.arbitrarygen.impl.DefaultTemplateConvertor;
 import osc.innovator.arbitrarygen.impl.DefaultTypeDefineWrapper;
 import osc.innovator.arbitrarygen.rule.RuleParser;
 import osc.innovator.arbitrarygen.template.GenVigorDBTask;
+import osc.innovator.arbitrarygen.template.PsychicGenTask;
 import osc.innovator.arbitrarygen.template.JsTemplateProcessor;
 import osc.innovator.arbitrarygen.template.TemplateConfig;
 import osc.innovator.arbitrarygen.template.base.ITemplateProcessor;
@@ -192,14 +193,21 @@ public class ArbitraryGenEntrance {
 			// For script template engine
 			String coreLibs = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_CORE_LIBS);
 			String templateLibs = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS);
+			List<String> suffixList = Util.extractStrList(argsKvPair.get(
+					ArgsConstants.EXTERNAL_ARGS_KEY_SCRIPT_ENGINE_FORMAT), ExternalArgsParser.ARGS_LIST_SEPARATOR);
+
 			if (!Util.isNullOrNil(coreLibs) && !Util.isNullOrNil(templateLibs)) {
 				ScriptTemplateGenCodeEngine scriptTemplateEngine = new ScriptTemplateGenCodeEngine();
 				TemplateConfig cfg = new TemplateConfig(coreLibs, templateLibs);
 				scriptTemplateEngine.setConfigInfo(configInfo);
 				scriptTemplateEngine.setTemplateConfig(cfg);
+
 				ITemplateProcessor processor = new JsTemplateProcessor();
-				processor.addTaskWorkder(new GenVigorDBTask(cfg));
-				processor.addTaskWorkder(new GenHybridsTask(cfg));
+
+				processor.addTaskWorker(new GenVigorDBTask(cfg));
+				processor.addTaskWorker(new GenHybridsTask(cfg));
+				processor.addTaskWorker(new PsychicGenTask(cfg, suffixList));
+
 				scriptTemplateEngine.setTemplateProcessor(processor);
 				scriptTemplateEngine.start();
 			}

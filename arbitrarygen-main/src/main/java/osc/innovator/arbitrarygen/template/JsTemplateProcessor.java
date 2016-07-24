@@ -1,13 +1,16 @@
 package osc.innovator.arbitrarygen.template;
 
 import java.io.File;
+import java.util.List;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import osc.innovator.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
 import osc.innovator.arbitrarygen.template.base.BaseTemplateProcessor;
+import osc.innovator.arbitrarygen.template.base.IAGPsychicWorker;
 import osc.innovator.arbitrarygen.template.base.IGenCodeWorker;
+import osc.innovator.arbitrarygen.template.base.IPsychicGenerator;
 import osc.innovator.arbitrarygen.utils.FileOperation;
 import osc.innovator.arbitrarygen.utils.Log;
 import osc.innovator.arbitrarygen.utils.Util;
@@ -63,10 +66,25 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 		info.templateLibs = mTemplateCfg.getTemplateLibs();
 		info.templateSuffix = Util.nullAsNil(Util.getSuffix(src));
 		
-		for (IGenCodeWorker worker : mWorkers) {
-			if (info.templateSuffix.equalsIgnoreCase(worker.getSupportSuffix())) {
-				worker.genCode(mScriptEngine, json, info);
+		for (IPsychicGenerator worker : mWorkers) {
+			if (worker instanceof IGenCodeWorker) {
+				if (info.templateSuffix.equalsIgnoreCase(((IGenCodeWorker) worker).getSupportSuffix())) {
+					worker.genCode(mScriptEngine, json, info);
+					continue;
+				}
 			}
+			if (worker instanceof IAGPsychicWorker) {
+				if (isSupportSuffix((IAGPsychicWorker) worker, info.templateSuffix)) {
+					worker.genCode(mScriptEngine, json, info);
+					continue;
+				}
+			}
+			// Add more case here
 		}
+	}
+
+	private static boolean isSupportSuffix(IAGPsychicWorker worker, String suffix) {
+		List<String> list = worker.getSupportSuffixList();
+		return list != null && list.contains(suffix);
 	}
 }

@@ -1,6 +1,7 @@
 package osc.innovator.gradle.plugin;
 
 class ArbitraryGenPluginExtension {
+
     String libsDir;
     String inputDir;
     String outputDir;

@@ -15,6 +15,8 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_SRC = "src";
 	String EXTERNAL_ARGS_KEY_FORMAT = "format";
 	String EXTERNAL_ARGS_KEY_PARSER = "parser";
+	String EXTERNAL_ARGS_KEY_SCRIPT_ENGINE_FORMAT = "script-engine-format";
+
 	String EXTERNAL_ARGS_KEY_PRINT_ARGS = "print-args";
 	String EXTERNAL_ARGS_KEY_LOG_DEBUG = "log-debug";
 	String EXTERNAL_ARGS_KEY_LOG_LEVEL = "log-level";
@@ -22,8 +24,10 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_LOG_PRINT_LEVEL = "log-printlevel";
 	String EXTERNAL_ARGS_KEY_LOG_TO_FILE = "log-to-file";
 	String EXTERNAL_ARGS_KEY_LOG_FILE = "log-file";
+
 	String EXTERNAL_ARGS_KEY_ARBITRARY_ENABLE = "arbitrary-enable";
 	String EXTERNAL_ARGS_KEY_ARBITRARY_RULE = "arbitrary-rule";
+
 	String EXTERNAL_ARGS_KEY_CORE_LIBS = "core-libs";
 	String EXTERNAL_ARGS_KEY_TEMPLATE_LIBS = "template-libs";
 	String EXTERNAL_ARGS_KEY_PRINT_SEPARATOR = "print-separator";

@@ -10,22 +10,28 @@ import java.util.List;
  */
 public abstract class BaseTemplateProcessor implements ITemplateProcessor {
 
-	protected List<IGenCodeWorker> mWorkers;
-	protected List<String> mSupportSuffixs;
+	protected List<IPsychicGenerator> mWorkers;
+	protected List<String> mSupportSuffixList;
 	
 	public BaseTemplateProcessor() {
-		mWorkers = new LinkedList<IGenCodeWorker>();
-		mSupportSuffixs = new LinkedList<String>();
+		mWorkers = new LinkedList<>();
+		mSupportSuffixList = new LinkedList<>();
 	}
 	
 	@Override
-	public void addTaskWorkder(IGenCodeWorker worker) {
+	public void addTaskWorker(IGenCodeWorker worker) {
 		mWorkers.add(worker);
-		mSupportSuffixs.add(worker.getSupportSuffix());
+		mSupportSuffixList.add(worker.getSupportSuffix());
 	}
 
 	@Override
-	public List<String> getSupportSuffixs() {
-		return mSupportSuffixs;
+	public void addTaskWorker(IAGPsychicWorker worker) {
+		mWorkers.add(worker);
+		mSupportSuffixList.addAll(worker.getSupportSuffixList());
+	}
+
+	@Override
+	public List<String> getSupportSuffixList() {
+		return mSupportSuffixList;
 	}
 }
