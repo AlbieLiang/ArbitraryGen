@@ -55,7 +55,7 @@ arbitraryGen {
         logToFile true
         printArgs true
         printTag true
-        path "$buildDir/outputs/log/ag.log"
+        path "$buildDir/outputs/logs/ag.log"
     }
 
     scriptEngine {

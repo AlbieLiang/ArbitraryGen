@@ -1,6 +1,7 @@
 package osc.innovator.arbitrarygen;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -213,15 +214,15 @@ public class ArbitraryGenEntrance {
 			}
 		}
 		if (configInfo != null) {
-//		Runtime runtime = Runtime.getRuntime();
-//		String command = String.format("protoc --java_out=%s %s", "./" + argsKvPair.get("dest"), argsKvPair.get("src") + "/entity.proto");
-//		String command = String.format("protoc --java_out=%s %s", configInfo.getDestDir(), configInfo.getSrcDir() + "/entity.proto");
-//		Log.i(TAG, command);
-//			try {
-//				runtime.exec(command, null, new File(System.getProperty("user.dir")));
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+			Runtime runtime = Runtime.getRuntime();
+	//		String command = String.format("protoc --java_out=%s %s", "./" + argsKvPair.get("dest"), argsKvPair.get("src") + "/entity.proto");
+			String command = String.format("protoc --java_out=%s %s", configInfo.getDestPath(), configInfo.getSrcPath() + "/entity.proto");
+			Log.i(TAG, command);
+			try {
+				runtime.exec(command);
+			} catch (IOException e) {
+				Log.e(TAG, "exec protoc error : %s", e);
+			}
 		}
 		if (enablePrintSeparator) {
 			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");

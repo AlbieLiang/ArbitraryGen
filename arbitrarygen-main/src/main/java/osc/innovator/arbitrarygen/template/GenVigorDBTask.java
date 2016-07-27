@@ -113,12 +113,12 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 		StringBuilder sb = new StringBuilder();
 		String[] sps = str.split("\r\n");
 		
-		for (int i=0, len=sps.length; i<len; i++) {
+		for (int i = 0, len = sps.length; i < len; i++) {
 			String sp = sps[i].trim();
 			if (sp.startsWith("}}")) {
 				indent = indent.replaceFirst(vary, "");
 				indent = indent.replaceFirst(vary, "");
-			}else if (sp.startsWith("}")) {
+			} else if (sp.startsWith("}")) {
 				indent = indent.replaceFirst(vary, "");
 			}
 			sb.append(indent);

@@ -45,7 +45,7 @@ public class PsychicGenTask extends BasePsychicWorker {
 		String pkg = jsonObj.optString("@package", "");
 		String delegate = jsonObj.optString("@delegate", "");
 		String rawTags = jsonObj.optString("@tag", "");
-		String rootTag = null;
+		String rootTag = jsonObj.optString("@delegateTag", null);
 
 		JSONObject delegateJson = new JSONObject();
 		delegateJson.put("@package", pkg);
@@ -166,12 +166,12 @@ public class PsychicGenTask extends BasePsychicWorker {
 		StringBuilder sb = new StringBuilder();
 		String[] sps = str.split("\r\n");
 		
-		for (int i=0, len=sps.length; i<len; i++) {
+		for (int i = 0, len = sps.length; i < len; i++) {
 			String sp = sps[i].trim();
 			if (sp.startsWith("}}")) {
 				indent = indent.replaceFirst(vary, "");
 				indent = indent.replaceFirst(vary, "");
-			}else if (sp.startsWith("}")) {
+			} else if (sp.startsWith("}")) {
 				indent = indent.replaceFirst(vary, "");
 			}
 			sb.append(indent);
