@@ -3,10 +3,6 @@ package osc.innovator.arbitrarygen.core;
 import java.util.LinkedList;
 import java.util.List;
 
-import osc.innovator.arbitrarygen.extension.ICustomizeConvertor;
-import osc.innovator.arbitrarygen.extension.ICustomizeParser;
-import osc.innovator.arbitrarygen.extension.IDirector;
-
 /**
  * 
  * @author AlbieLiang
@@ -14,67 +10,37 @@ import osc.innovator.arbitrarygen.extension.IDirector;
  */
 public class TemplateDirectorMgr {
 
-	private static TemplateDirectorMgr mgr;
+	private static TemplateDirectorMgr sMgr;
 
-	private List<IDirector> mDirectors;
-	private List<String> mSuffixs;
+	private List<String> mSuffixList;
 	private TemplateParserMgr mParserMgr;
 	private TemplateConvertorMgr mConvertorMgr;
 
 	public static TemplateDirectorMgr getMgr() {
-		if (mgr == null) {
-			mgr = new TemplateDirectorMgr();
+		if (sMgr == null) {
+			sMgr = new TemplateDirectorMgr();
 		}
-		return mgr;
+		return sMgr;
 	}
 
 	public TemplateDirectorMgr() {
-		mDirectors = new LinkedList<IDirector>();
-		mSuffixs = new LinkedList<String>();
+		mSuffixList = new LinkedList<>();
 	}
 
-	public List<IDirector> getDirectors() {
-		return mDirectors;
-	}
-
-	public void addDirector(IDirector director) {
-		if (director == null) {
+	public void addAllSuffixList(List<String> suffixList) {
+		if (suffixList == null || suffixList.size() == 0) {
 			return;
 		}
-		ICustomizeConvertor a = director.getCustomizeAnalyzer();
-		ICustomizeParser p = director.getCustomizeParser();
-		List<String> ss = null;
-		if ((a == null || (ss = a.getSupportSuffixList()) == null || ss.size() == 0) && p == null) {
-			return;
-		}
-		this.mDirectors.add(0, director);
-		addAllSuffixs(ss);
-		if (mParserMgr != null) {
-			mParserMgr.addParser(p);
-		}
-		if (mConvertorMgr != null) {
-			mConvertorMgr.addConvertor(a);
-		}
-	}
-
-	public void removeDirector(IDirector director) {
-		mDirectors.remove(director);
-	}
-
-	public void addAllSuffixs(List<String> suffixs) {
-		if (suffixs == null || suffixs.size() == 0) {
-			return;
-		}
-		for (int i = 0; i < suffixs.size(); i++) {
-			String s = suffixs.get(i);
-			if (!mSuffixs.contains(s)) {
-				mSuffixs.add(s);
+		for (int i = 0; i < suffixList.size(); i++) {
+			String s = suffixList.get(i);
+			if (!mSuffixList.contains(s)) {
+				mSuffixList.add(s);
 			}
 		}
 	}
 
-	public List<String> getSupportSuffixs() {
-		return mSuffixs;
+	public List<String> getSupportSuffixList() {
+		return mSuffixList;
 	}
 
 	public TemplateParserMgr getParserMgr() {

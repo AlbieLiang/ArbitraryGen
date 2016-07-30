@@ -42,12 +42,12 @@ arbitraryGen {
     outputDir "$buildDir/generated/source/autogen"
 
     general {
-        format "event,db" // User XML format parser.
+        format "db" // Use XML format parser.
         rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
-        extParsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.director.ExternalTemplateDirector", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.ExternalTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.greendao.GreenDaoDirector"]
-//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.director.ExternalTemplateDirector"
-//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.EventTemplateWrapper"
-//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.ExternalTemplateWrapper"
+        extParsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.ExternalTemplateConvertor", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.ExternalTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"]
+//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateConvertor"
+//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.EventTemplateWrapper"
+//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateWrapper"
     }
 
     logger {
@@ -59,6 +59,6 @@ arbitraryGen {
     }
 
     scriptEngine {
-//        format "e"
+        format "e"
     }
 }

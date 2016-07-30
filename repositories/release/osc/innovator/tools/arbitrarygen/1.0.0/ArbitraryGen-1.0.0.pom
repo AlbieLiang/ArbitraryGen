@@ -9,7 +9,7 @@
     <dependency>
       <groupId>ArbitraryGen</groupId>
       <artifactId>arbitrarygen-sdk</artifactId>
-      <version>unspecified</version>
+      <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

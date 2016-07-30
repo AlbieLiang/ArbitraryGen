@@ -18,7 +18,6 @@ import osc.innovator.arbitrarygen.engine.DefaultGenCodeEngine;
 import osc.innovator.arbitrarygen.engine.ScriptTemplateGenCodeEngine;
 import osc.innovator.arbitrarygen.extension.ICustomizeConvertor;
 import osc.innovator.arbitrarygen.extension.ICustomizeParser;
-import osc.innovator.arbitrarygen.extension.IDirector;
 import osc.innovator.arbitrarygen.extension.ITemplateWrapper;
 import osc.innovator.arbitrarygen.extension.ITypeDefineWrapper;
 import osc.innovator.arbitrarygen.impl.DefaultRawTemplateParser;
@@ -152,9 +151,7 @@ public class ArbitraryGenEntrance {
 					try {
 						Class<?> clazz = loader.loadClass(needToLoadClass.get(i));
 						Object o = clazz.newInstance();
-						if (o instanceof IDirector) {
-							engine.addDirector((IDirector) o);
-						} else if (o instanceof ICustomizeParser) {
+						if (o instanceof ICustomizeParser) {
 							engine.addParser((ICustomizeParser) o);
 						} else if (o instanceof ICustomizeConvertor) {
 							engine.addConvertor((ICustomizeConvertor) o);

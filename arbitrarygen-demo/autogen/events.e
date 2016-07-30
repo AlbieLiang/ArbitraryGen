@@ -18,15 +18,20 @@
     </event>
 
     <event name="XmlThirdEvent">
-        <data static="true" final="true">
+        <data>
             <field name="errCode" type="int"/>
         	<field name="errType" type="int" default="0"/>
         </data>
     </event>
     <event name="XmlFourthEvent">
         <data>
-            <field name="errCode" type="int"/>
-        	<field name="errType" type="int" default="0"/>
+            <field name="errCode" type="int">
+                <constant name="ERR_CODE_NORMAL" value="0"/>
+            </field>
+        	<field name="errType" type="int" default="0">
+                <constant name="ERR_TYPE_NORMAL" value="0"/>
+                <constant name="ERR_TYPE_NET" value="1"/>
+            </field>
         </data>
         <CallBack>
             <field name="trigger" type="String"/>

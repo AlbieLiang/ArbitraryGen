@@ -43,11 +43,4 @@ public class EventTemplateConvertor implements ICustomizeConvertor {
 	public boolean canConvert(RawTemplate template) {
 		return template != null && TAG_NAME.equals(template.getName());
 	}
-
-	@Override
-	public List<String> getSupportSuffixList() {
-		List<String> supportSuffixs = new LinkedList<String>();
-		supportSuffixs.add("event");
-		return supportSuffixs;
-	}
 }

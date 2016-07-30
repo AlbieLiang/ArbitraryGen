@@ -13,23 +13,23 @@ import osc.innovator.arbitrarygen.template.RawTemplate;
  */
 public class TemplateConvertorMgr {
 
-	private List<ICustomizeConvertor> mConvertors;
-	private static TemplateConvertorMgr mgr;
+	private List<ICustomizeConvertor> mConvertorList;
+	private static TemplateConvertorMgr sMgr;
 
 	public static TemplateConvertorMgr getMgr() {
-		if (mgr == null) {
-			mgr = new TemplateConvertorMgr();
+		if (sMgr == null) {
+			sMgr = new TemplateConvertorMgr();
 		}
-		return mgr;
+		return sMgr;
 	}
 
 	public TemplateConvertorMgr() {
-		mConvertors = new LinkedList<ICustomizeConvertor>();
+		mConvertorList = new LinkedList<ICustomizeConvertor>();
 	}
 
 	public ICustomizeConvertor getFirstMatchConvertor(RawTemplate rawTemplate) {
-		for (int i = 0; i < mConvertors.size(); i++) {
-			ICustomizeConvertor a = mConvertors.get(i);
+		for (int i = 0; i < mConvertorList.size(); i++) {
+			ICustomizeConvertor a = mConvertorList.get(i);
 			if (a.canConvert(rawTemplate)) {
 				return a;
 			}
@@ -37,17 +37,17 @@ public class TemplateConvertorMgr {
 		return null;
 	}
 
-	public List<ICustomizeConvertor> getConvertors() {
-		return mConvertors;
+	public List<ICustomizeConvertor> getConvertorList() {
+		return mConvertorList;
 	}
 
-	public void addConvertor(ICustomizeConvertor analyzer) {
-		if (analyzer != null) {
-			this.mConvertors.add(0, analyzer);
+	public void addConvertor(ICustomizeConvertor convertor) {
+		if (convertor != null) {
+			this.mConvertorList.add(0, convertor);
 		}
 	}
 
-	public void removeConvertor(ICustomizeConvertor analyzer) {
-		mConvertors.remove(analyzer);
+	public void removeConvertor(ICustomizeConvertor convertor) {
+		mConvertorList.remove(convertor);
 	}
 }

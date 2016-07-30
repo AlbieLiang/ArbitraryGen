@@ -1,7 +1,5 @@
-package osc.innovator.tools.arbitrarygen.demo.director;
+package osc.innovator.tools.arbitrarygen.demo;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
@@ -16,11 +14,11 @@ import osc.innovator.arbitrarygen.utils.AnalyzerHelper;
  * @author albieliang
  * 
  */
-public class ExternalTemplateAnalyzer implements ICustomizeConvertor {
+public class ExternalTemplateConvertor implements ICustomizeConvertor {
 
 	private static final String TAG_NAME = "Ext";
 
-	public ExternalTemplateAnalyzer() {
+	public ExternalTemplateConvertor() {
 	}
 
 	@Override
@@ -42,12 +40,5 @@ public class ExternalTemplateAnalyzer implements ICustomizeConvertor {
 	@Override
 	public boolean canConvert(RawTemplate template) {
 		return template != null && TAG_NAME.equalsIgnoreCase(template.getName());
-	}
-
-	@Override
-	public List<String> getSupportSuffixList() {
-		List<String> supportSuffixs = new LinkedList<String>();
-		supportSuffixs.add("ext");
-		return supportSuffixs;
 	}
 }

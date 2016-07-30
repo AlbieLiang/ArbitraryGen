@@ -10,7 +10,5 @@ public interface ICustomizeConvertor {
 
 	TypeDefineCodeBlock convert(ContextInfo contextInfo, RawTemplate template);
 
-	List<String> getSupportSuffixList();
-
 	boolean canConvert(RawTemplate template);
 }

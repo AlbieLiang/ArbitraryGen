@@ -1,12 +1,12 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-version = '0.1.0'
+version = '1.0.0'
 mainClassName = ''
 
 jar {
     baseName = 'arbitrarygen-demo-wrapper'
-    version = '0.1.0'
+    version = this.version
 }
 
 dependencies {
@@ -25,7 +25,7 @@ task packLibJar(type: Jar, dependsOn: classes) {
 //        include "greendao-generator-2.1.0.jar"
 //    }.files.collect { zipTree(it) }
     baseName = 'arbitrarygen-demo-wrapper'
-    version = '0.1.0'
+    version = this.version
 }
 
 task uploadJar(type: Copy, dependsOn: packLibJar) {

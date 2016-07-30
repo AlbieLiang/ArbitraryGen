@@ -4,7 +4,6 @@ import java.util.List;
 
 import osc.innovator.arbitrarygen.extension.ICustomizeConvertor;
 import osc.innovator.arbitrarygen.extension.ICustomizeParser;
-import osc.innovator.arbitrarygen.extension.IDirector;
 import osc.innovator.arbitrarygen.extension.ITemplateWrapper;
 import osc.innovator.arbitrarygen.template.RawTemplate;
 
@@ -18,8 +17,6 @@ public interface IGenCodeEngine {
 	void start();
 
 	void setConfigInfo(ConfigInfo configInfo);
-
-	void addDirector(IDirector director);
 
 	void addParser(ICustomizeParser parser);
 

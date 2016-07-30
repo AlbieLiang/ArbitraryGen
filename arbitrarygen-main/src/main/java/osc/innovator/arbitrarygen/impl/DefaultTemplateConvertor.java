@@ -1,8 +1,5 @@
 package osc.innovator.arbitrarygen.impl;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import osc.innovator.arbitrarygen.block.TypeDefineCodeBlock;
 import osc.innovator.arbitrarygen.core.ContextInfo;
 import osc.innovator.arbitrarygen.extension.ICustomizeConvertor;
@@ -30,12 +27,5 @@ public class DefaultTemplateConvertor implements ICustomizeConvertor {
 	@Override
 	public boolean canConvert(RawTemplate template) {
 		return template != null;
-	}
-
-	@Override
-	public List<String> getSupportSuffixList() {
-		List<String> supportSuffixs = new LinkedList<String>();
-		supportSuffixs.add("xml");
-		return supportSuffixs;
 	}
 }

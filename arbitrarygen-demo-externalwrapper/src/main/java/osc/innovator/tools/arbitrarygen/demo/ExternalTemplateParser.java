@@ -1,4 +1,4 @@
-package osc.innovator.tools.arbitrarygen.demo.director;
+package osc.innovator.tools.arbitrarygen.demo;
 
 import java.io.File;
 import java.util.List;

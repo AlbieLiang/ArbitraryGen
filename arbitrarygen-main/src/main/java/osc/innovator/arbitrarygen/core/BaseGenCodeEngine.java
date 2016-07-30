@@ -7,7 +7,6 @@ import osc.innovator.arbitrarygen.base.JavaFileObject;
 import osc.innovator.arbitrarygen.extension.ICustomizeConvertor;
 import osc.innovator.arbitrarygen.extension.ICustomizeGenerator;
 import osc.innovator.arbitrarygen.extension.ICustomizeParser;
-import osc.innovator.arbitrarygen.extension.IDirector;
 import osc.innovator.arbitrarygen.extension.ITemplateWrapper;
 import osc.innovator.arbitrarygen.template.RawTemplate;
 import osc.innovator.arbitrarygen.utils.FileOperation;
@@ -94,11 +93,6 @@ public abstract class BaseGenCodeEngine implements IGenCodeEngine {
 	}
 
 	@Override
-	public void addDirector(IDirector director) {
-		mDirectorMgr.addDirector(director);
-	}
-
-	@Override
 	public void addParser(ICustomizeParser parser) {
 		TemplateParserMgr mgr = mDirectorMgr.getParserMgr();
 		if (mgr != null) {
@@ -121,11 +115,11 @@ public abstract class BaseGenCodeEngine implements IGenCodeEngine {
 
 	@Override
 	public void addAllSuffixList(List<String> suffixList) {
-		mDirectorMgr.addAllSuffixs(suffixList);
+		mDirectorMgr.addAllSuffixList(suffixList);
 	}
 	
 	@Override
 	public final List<String> getSupportSuffixList() {
-		return mDirectorMgr.getSupportSuffixs();
+		return mDirectorMgr.getSupportSuffixList();
 	}
 }
