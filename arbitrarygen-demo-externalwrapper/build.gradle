@@ -3,15 +3,16 @@ apply plugin: 'application'
 
 version = '1.0.0'
 mainClassName = ''
+archivesBaseName = 'arbitrarygen-demo-wrapper'
 
 jar {
-    baseName = 'arbitrarygen-demo-wrapper'
+    baseName = archivesBaseName
     version = this.version
 }
 
 dependencies {
+    compile 'cc.suitalk.tools:arbitrarygen-sdk:1.0.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':arbitrarygen-sdk')
     compile files('libs/json-lib-2.4-jdk15.jar')
     compile files('libs/greendao-generator-2.1.0.jar')
 }
@@ -24,13 +25,13 @@ task packLibJar(type: Jar, dependsOn: classes) {
 //        include "freemarker-2.3.23.jar"
 //        include "greendao-generator-2.1.0.jar"
 //    }.files.collect { zipTree(it) }
-    baseName = 'arbitrarygen-demo-wrapper'
+    baseName = archivesBaseName
     version = this.version
 }
 
 task uploadJar(type: Copy, dependsOn: packLibJar) {
     from("build/libs")
     into("../ArbitraryGen/")
-    include("arbitrarygen-demo-wrapper-${version}.jar")
-    rename("arbitrarygen-demo-wrapper-${version}.jar", "arbitrarygen-demo-wrapper.jar")
+    include("${archivesBaseName}-${version}.jar")
+    rename("${archivesBaseName}-${version}.jar", "${archivesBaseName}.jar")
 }

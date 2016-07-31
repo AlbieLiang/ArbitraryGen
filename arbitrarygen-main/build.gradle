@@ -8,7 +8,7 @@ group = 'osc.innovator.tools'
 archivesBaseName = 'arbitrarygen'
 
 // For jar config
-mainClassName = 'osc.innovator.arbitrarygen.ArbitraryGenEntrance'
+mainClassName = 'cc.suitalk.arbitrarygen.ArbitraryGenEntrance'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
