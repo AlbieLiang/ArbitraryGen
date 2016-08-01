@@ -63,12 +63,7 @@ class ArbitraryGenTask extends DefaultTask {
             arg(value: "log-printtag:${loggerArgs.printTag}")
             arg(value: "log-printlevel:${loggerArgs.printLevel}")
 
-            // ../tools-repository/AutoGen/
-            /**
-             arg(value: "parser:../ArbitraryGen/ext.jar,com.external.director.ExternalTemplateDirector")
-             arg(value: "parser:../ArbitraryGen/wrapper.jar,com.external.wrapper.EventTemplateWrapper")
-             arg(value: "parser:../ArbitraryGen/wrapper.jar,com.external.wrapper.ExternalTemplateWrapper")
-             */
+            // add parsers
             for (String parser : generalArgs.extParsers) {
                 arg(value: "parser:${parser}")
                 println("add external parser : ${parser}")

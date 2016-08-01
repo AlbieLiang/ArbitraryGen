@@ -10,7 +10,7 @@ class GeneralArgs {
 
     public GeneralArgs() {
         enable = true;
-        format = "xml"
+        format = ""
         rule = "";
         extParsers = new String[0];
     }
