@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<vigor-define package="com.flyfox.player.autogen.table">
+<vigor-define package="cc.suitalk.player.autogen.table">
 	
 	<!-- 
 		* acceptable type for fields:

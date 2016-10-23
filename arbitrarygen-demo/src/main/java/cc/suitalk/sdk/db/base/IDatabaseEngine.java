@@ -1,4 +1,4 @@
-package com.flyfox.sdk.db.base;
+package cc.suitalk.sdk.db.base;
 
 /**
  * Created by albieliang on 16/7/17.

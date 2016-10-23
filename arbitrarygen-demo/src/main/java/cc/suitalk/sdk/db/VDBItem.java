@@ -1,4 +1,4 @@
-package com.flyfox.sdk.db;
+package cc.suitalk.sdk.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;

@@ -1,9 +1,9 @@
-package com.flyfox.player.autogen.table;
+package cc.suitalk.player.autogen.table;
 
 import android.util.Log;
 
-import com.flyfox.sdk.db.base.IDatabaseEngine;
-import com.flyfox.sdk.db.base.IDatabaseInfoDelegate;
+import cc.suitalk.sdk.db.base.IDatabaseEngine;
+import cc.suitalk.sdk.db.base.IDatabaseInfoDelegate;
 
 /*@@@#SCRIPT-BEGIN#
 <%if (_dbItems && _dbItems.length > 0) {%>

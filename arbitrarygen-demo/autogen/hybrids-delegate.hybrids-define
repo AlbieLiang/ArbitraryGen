@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <hybrids-define
-	package="com.flyfox.player.autogen.table"
+	package="cc.suitalk.player.autogen.table"
 	delegateDest="src/main/java/com/flyfox/player/autogen/table"
 	delegate="VDBInfoDelegate"
 	delegateSuffix="java"

@@ -28,12 +28,12 @@
 ## 三、脚本示例
 
 示例：
-    package com.flyfox.player.autogen.table;
+    package cc.suitalk.player.autogen.table;
 
     import android.util.Log;
 
-    import com.flyfox.sdk.db.base.IDatabaseEngine;
-    import com.flyfox.sdk.db.base.IDatabaseInfoDelegate;
+    import cc.suitalk.sdk.db.base.IDatabaseEngine;
+    import cc.suitalk.sdk.db.base.IDatabaseInfoDelegate;
 
     /*@@@#SCRIPT-BEGIN#
     <%if (_dbItems && _dbItems.length > 0) {%>
@@ -87,9 +87,9 @@
 示例如下：
     <?xml version="1.0" encoding="UTF-8"?>
     <hybrids-define
-    	package="com.flyfox.player.autogen.table"
+    	package="cc.suitalk.player.autogen.table"
     	delegateDest="src/com/flyfox/player/autogen/table"
-    	delegatePkg="com.flyfox.player.autogen.table"
+    	delegatePkg="cc.suitalk.player.autogen.table"
     	delegate="VDBInfoDelegate"
     	delegateSuffix="java"
     	tag="table">
@@ -168,12 +168,12 @@
 ### 2、代码模板
 
 模板程序就是普通的java文件，脚本被嵌入到源码中的/*@@@#SCRIPT-BEGIN# 和 #SCRIPT-END#@@@*/ 之中，则每个脚本区生成的代码将append到脚本区域后面，处于//@@@#AUTO-GEN-BEGIN# 和 //@@@#AUTO-GEN-END# 注释之间。示例如下：
-    package com.flyfox.player.autogen.table;
+    package cc.suitalk.player.autogen.table;
 
     import android.util.Log;
 
-    import com.flyfox.sdk.db.base.IDatabaseEngine;
-    import com.flyfox.sdk.db.base.IDatabaseInfoDelegate;
+    import cc.suitalk.sdk.db.base.IDatabaseEngine;
+    import cc.suitalk.sdk.db.base.IDatabaseInfoDelegate;
 
     /*@@@#SCRIPT-BEGIN#
     <%if (_tables && _tables.length > 0) {%>
@@ -185,11 +185,11 @@
 
 
 
-    import com.flyfox.player.autogen.table.DBItem_1;
-    import com.flyfox.player.autogen.table.DBItem_2;
-    import com.flyfox.player.autogen.table.DBItem_3;
-    import com.flyfox.player.autogen.table.DBItem_4;
-    import com.flyfox.player.autogen.table.DBItem_5;
+    import cc.suitalk.player.autogen.table.DBItem_1;
+    import cc.suitalk.player.autogen.table.DBItem_2;
+    import cc.suitalk.player.autogen.table.DBItem_3;
+    import cc.suitalk.player.autogen.table.DBItem_4;
+    import cc.suitalk.player.autogen.table.DBItem_5;
 
 
     //@@@#AUTO-GEN-END#

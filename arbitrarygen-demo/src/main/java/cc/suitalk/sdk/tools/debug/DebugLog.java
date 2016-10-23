@@ -1,4 +1,4 @@
-package com.flyfox.sdk.tools.debug;
+package cc.suitalk.sdk.tools.debug;
 
 /**
  * Created by albieliang on 16/7/17.

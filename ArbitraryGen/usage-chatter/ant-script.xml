@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    name="ArbitraryGenTask"
+    default="gen" >
+
+    <target name="gen" >
+
+        <java
+            fork="true"
+            jar="../ArbitraryGen/ArbitraryGen.jar" >
+
+            <arg value="enable:true" />
+            <!-- ':' is a separator -->
+            <arg value="dest:gen" />
+            <!-- Dest Folder , "dest" is a prefix. -->
+
+            <arg value="src:autogen" />
+            <!-- source template Folder, "src" is a prefix-->
+
+            <arg value="format:xml,event,db" />
+            <!-- parser template source file format -->
+            <arg value="print-args:false" />
+            
+            <arg value="log-debug:false" />
+            <!-- level: v-1, d-2, i-3, w-4, e-5, a-6 -->
+            <!-- ../tools-repository/AutoGen/
+            <arg value="log-level:1" />
+            <arg value="log-printtag:true" />
+            <arg value="log-printlevel:false" />
+			
+            <arg value="parser:../ArbitraryGen/ext.jar,com.external.director.ExternalTemplateDirector" />
+            <arg value="parser:../ArbitraryGen/wrapper.jar,com.external.wrapper.EventTemplateWrapper" />
+            <arg value="parser:../ArbitraryGen/wrapper.jar,com.external.wrapper.ExternalTemplateWrapper" />
+             -->
+            <!-- 
+            <arg value="arbitrary-enable:false" />
+            <arg value="arbitrary-rule:./autogen/parse-project.rule" />
+             -->
+            <!-- For script template engine -->
+            <arg value="template-libs:../ArbitraryGen/template-libs" />
+            <!--  -->
+        </java>
+    </target>
+
+</project>

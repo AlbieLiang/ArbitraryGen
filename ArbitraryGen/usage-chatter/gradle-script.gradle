@@ -1,0 +1,33 @@
+apply plugin: 'arbitrarygen'
+
+dependencies {
+    compile 'cc.suitalk.tools:arbitrarygen-extension-sdk:1.0.0'
+    // Add more
+}
+
+arbitraryGen {
+    libsDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen"
+    inputDir "${project.projectDir.absolutePath}/autogen"
+    outputDir "$buildDir/generated/source/autogen"
+
+    general {
+        format "db" // Use XML format parser.
+        rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
+        extParsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConvertor", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"]
+//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateConvertor"
+//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.EventTemplateWrapper"
+//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateWrapper"
+    }
+
+    logger {
+        debug true
+        logToFile true
+        printArgs true
+        printTag true
+        path "$buildDir/outputs/logs/ag.log"
+    }
+
+    scriptEngine {
+//        format "e"
+    }
+}

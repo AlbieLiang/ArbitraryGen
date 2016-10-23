@@ -1,6 +1,6 @@
-package com.flyfox.sdk.db;
+package cc.suitalk.sdk.db;
 
-import com.flyfox.sdk.db.base.IDatabaseInfo;
+import cc.suitalk.sdk.db.base.IDatabaseInfo;
 
 import java.util.Map;
 
