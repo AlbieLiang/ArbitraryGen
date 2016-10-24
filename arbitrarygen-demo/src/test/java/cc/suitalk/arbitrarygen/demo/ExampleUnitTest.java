@@ -1,4 +1,4 @@
-package osc.innovator.arbitrarygen.demo;
+package cc.suitalk.arbitrarygen.demo;
 
 import org.junit.Test;
 

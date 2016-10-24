@@ -1,4 +1,4 @@
-package com.albie.test.sdk;
+package cc.suitalk.test.event;
 
 /**
  * 

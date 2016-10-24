@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Events
-    package="com.albie.test.e"
+    package="cc.suitalk.test.e"
     delegateTag="events"
     tag="event">
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Events package="com.albie.test">
+<Events package="cc.suitalk.test">
 
     <xml name="XmlFirst" >
 

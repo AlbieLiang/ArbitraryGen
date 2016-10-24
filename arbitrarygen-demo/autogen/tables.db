@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tables
-    package="com.albie.test.db"
+    package="cc.suitalk.test.db"
     targetDir="./build/generated/source/autogen"
     version="1"
     super="" >

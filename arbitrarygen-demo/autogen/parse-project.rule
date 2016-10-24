@@ -14,14 +14,14 @@
 #                            # the tag @Project
 # @Src src                   # The source folder(directory) name of the project, it can be repeated.
 # @Src-format java           # The format of the source file. Default format is java.
-# @Src-dir com.albieliang.generator.core                        # Define a source directory for parse. It just parse the source file of this directory.
-# @Src-dir-recursion com.albieliang.generator.core              # Define a source directory for parse, the child directory of the
+# @Src-dir cc.suitalk.generator.core                        # Define a source directory for parse. It just parse the source file of this directory.
+# @Src-dir-recursion cc.suitalk.generator.core              # Define a source directory for parse, the child directory of the
 #                                                               # source directory may work as a source directory.
-# @Src-file com.albieliang.generator.core.CodeGeneratorEntrance # Define a source file for parse
+# @Src-file cc.suitalk.generator.core.CodeGeneratorEntrance # Define a source file for parse
 #
-# com.albieliang.generator.core.*                     # A simple rule just like @Src-dir
-# com.albieliang.generator.core.*.*                   # A simple rule parts match @Src-dir-recursion
-# com.albieliang.generator.core.CodeGeneratorEntrance # A simple rule just like @Src-file
+# cc.suitalk.generator.core.*                     # A simple rule just like @Src-dir
+# cc.suitalk.generator.core.*.*                   # A simple rule parts match @Src-dir-recursion
+# cc.suitalk.generator.core.CodeGeneratorEntrance # A simple rule just like @Src-file
 # 
 # 
 # 

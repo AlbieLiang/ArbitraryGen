@@ -1,4 +1,4 @@
-package osc.innovator.arbitrarygen.demo;
+package cc.suitalk.arbitrarygen.demo;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

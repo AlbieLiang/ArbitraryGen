@@ -1,6 +1,4 @@
-package com.albie.test.sdk;
-
-import com.albie.test.sdk.annotation.MagicTest;
+package cc.suitalk.test.event;
 
 /**
  * 
