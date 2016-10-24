@@ -88,7 +88,7 @@
     <?xml version="1.0" encoding="UTF-8"?>
     <hybrids-define
     	package="cc.suitalk.player.autogen.table"
-    	delegateDest="src/com/flyfox/player/autogen/table"
+    	delegateDest="src/main/java/cc/suitalk/player/autogen/table"
     	delegatePkg="cc.suitalk.player.autogen.table"
     	delegate="VDBInfoDelegate"
     	delegateSuffix="java"
