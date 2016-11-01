@@ -12,6 +12,8 @@ import cc.suitalk.arbitrarygen.core.base.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor.ErrorCode;
 import cc.suitalk.arbitrarygen.engine.DefaultAGEngine;
+import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
+import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
 
 /**
@@ -110,5 +112,7 @@ public class ArbitraryGenCore {
         addProcessor(new ScannerAGProcessor());
         // Add more extension Engine by arguments
         addProcessor(new DefaultAGEngine());
+        addProcessor(new ScriptTemplateAGEngine());
+        addProcessor(new JavaCodeAGEngine());
     }
 }
