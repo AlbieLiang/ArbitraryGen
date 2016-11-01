@@ -15,6 +15,9 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_SRC = "src";
 	String EXTERNAL_ARGS_KEY_FORMAT = "format";
 	String EXTERNAL_ARGS_KEY_PARSER = "parser";
+	String EXTERNAL_ARGS_KEY_EXTENSION = "extension";
+	String EXTERNAL_ARGS_KEY_JAR = "jar";
+	String EXTERNAL_ARGS_KEY_CLASS = "class";
 	String EXTERNAL_ARGS_KEY_SCRIPT_ENGINE_FORMAT = "script-engine-format";
 
 	String EXTERNAL_ARGS_KEY_PRINT_ARGS = "print-args";

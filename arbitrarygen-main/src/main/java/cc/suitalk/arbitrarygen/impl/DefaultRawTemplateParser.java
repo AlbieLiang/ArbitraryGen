@@ -16,7 +16,7 @@ import cc.suitalk.arbitrarygen.utils.XmlUtils;
  */
 public class DefaultRawTemplateParser implements ICustomizeParser {
 
-	private static final String TAG = "CodeGen.DefaultRawTemplateParser";
+	private static final String TAG = "AG.DefaultRawTemplateParser";
 
 	private List<String> mSuffixList;
 
@@ -35,13 +35,22 @@ public class DefaultRawTemplateParser implements ICustomizeParser {
 
 	@Override
 	public boolean canParse(String suffix) {
-		return mSuffixList.contains(suffix);
+		return suffix!= null && mSuffixList.contains(suffix.toLowerCase());
 	}
 
 	public void addSuffixList(List<String> suffixList) {
 		if (suffixList == null || suffixList.isEmpty()) {
 			return;
 		}
-		mSuffixList.addAll(suffixList);
+		for (String suffix : suffixList) {
+			addSuffix(suffix);
+		}
+	}
+
+	public void addSuffix(String suffix) {
+		if (suffix == null || suffix.length() == 0) {
+			return;
+		}
+		mSuffixList.add(suffix.toLowerCase());
 	}
 }

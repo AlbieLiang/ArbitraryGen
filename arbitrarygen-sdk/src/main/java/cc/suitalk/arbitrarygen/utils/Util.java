@@ -42,7 +42,7 @@ public class Util {
 	private final static String TAG = "CodeGen.Util";
 	
 	public static final boolean isNullOrNil(String str) {
-		return str == null || str.equals("");
+		return str == null || str.length() == 0;
 	}
 
 	public static final String nullAsNil(String str) {

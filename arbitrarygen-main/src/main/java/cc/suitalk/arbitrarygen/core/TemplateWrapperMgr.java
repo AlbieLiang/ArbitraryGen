@@ -25,7 +25,7 @@ public class TemplateWrapperMgr {
 	}
 
 	public TemplateWrapperMgr() {
-		mWrappers = new LinkedList<ITemplateWrapper>();
+		mWrappers = new LinkedList<>();
 	}
 
 	public void doWrap(ContextInfo contextInfo, RawTemplate template) {
