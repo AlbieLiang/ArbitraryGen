@@ -1,11 +1,15 @@
-package cc.suitalk.gradle.plugin;
+package cc.suitalk.gradle.plugin
+
+import groovy.json.JsonBuilder
+//import org.gradle.internal.impldep.com.amazonaws.util.json.JSONObject
+//import org.gradle.internal.impldep.com.google.gson.JsonObject;
 
 /**
  *
  * @Author AlbieLiang
  *
  */
-public class LoggerArgs {
+public class LoggerArgs implements Serializable {
 
     boolean debug;
     boolean printArgs;
@@ -28,4 +32,41 @@ public class LoggerArgs {
         level = 1;
         path = null;
     }
+
+    public String getName() {
+        return "logger"
+    }
+//
+//    public JsonObject toJson() {
+//        JsonObject json = new JsonObject();
+//        json.addProperty("debug", debug);
+//        json.addProperty("printArgs", printArgs);
+//        json.addProperty("logToFile", logToFile);
+//        json.addProperty("printSeparator", printSeparator);
+//        json.addProperty("printTag", printTag);
+//        json.addProperty("printLevel", printLevel);
+//        json.addProperty("path", path);
+//        return json;
+//    }
+//
+//    public JsonBuilder toJsonBuilder() {
+//        JsonBuilder builder = new JsonBuilder();
+////        builder {
+////            debug: debug
+////            printArgs: printArgs
+////            logToFile: logToFile
+////            printSeparator: printSeparator
+////            printTag: printTag
+////            printLevel: printLevel
+////            path: path
+////        }
+//        builder.debug debug
+//        builder.printArgs printArgs
+//        builder.logToFile logToFile
+//        builder.printSeparator printSeparator
+//        builder.printTag printTag
+//        builder.printLevel printLevel
+//        builder.path path
+//        return builder;
+//    }
 }

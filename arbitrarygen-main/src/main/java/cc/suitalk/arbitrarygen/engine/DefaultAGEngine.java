@@ -23,13 +23,14 @@ import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
- * Created by albieliang on 16/10/28.
+ * Created by AlbieLiang on 16/10/28.
  */
 public class DefaultAGEngine implements ArbitraryGenEngine {
 
     private static final String TAG = "AG.DefaultAGEngine";
 
     private SourceFileParserManager mParserMgr;
+    private volatile boolean mInitialized;
 
     public DefaultAGEngine() {
         mParserMgr = new SourceFileParserManager();
@@ -42,17 +43,24 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
 
     @Override
     public void initialize(ArbitraryGenCore core, JSONObject args) {
-        JSONArray parserArray = args.getJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_PARSER);
+        if (args == null) {
+            return;
+        }
+        boolean enable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE);
+        if (!enable) {
+            return;
+        }
+        JSONArray parserArray = args.optJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_PARSER);
         if (parserArray != null && !parserArray.isEmpty()) {
             List<String> needToLoadClass = new LinkedList<>();
             JarClassLoaderWrapper loader = core.getJarClassLoader();
             for (int i = 0; i < parserArray.size(); i++) {
-                JSONObject parser = parserArray.getJSONObject(i);
+                JSONObject parser = parserArray.optJSONObject(i);
                 if (parser == null) {
                     continue;
                 }
-                String jar = parser.getString(ArgsConstants.EXTERNAL_ARGS_KEY_JAR);
-                String clazz = parser.getString(ArgsConstants.EXTERNAL_ARGS_KEY_CLASS);
+                String jar = parser.optString(ArgsConstants.EXTERNAL_ARGS_KEY_JAR);
+                String clazz = parser.optString(ArgsConstants.EXTERNAL_ARGS_KEY_CLASS);
                 if (Util.isNullOrNil(jar) || Util.isNullOrNil(clazz)) {
                     continue;
                 }
@@ -82,11 +90,11 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
                 }
             }
         }
-        JSONArray suffixList = args.getJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT);
+        JSONArray suffixList = args.optJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT);
         List<String> list = new LinkedList<>();
         if (suffixList != null) {
             for (int i = 0; i < suffixList.size(); i++) {
-                String suffix = suffixList.getString(i);
+                String suffix = suffixList.optString(i);
                 if (Util.isNullOrNil(suffix)) {
                     continue;
                 }
@@ -98,6 +106,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
         parser.addSuffixList(list);
         mParserMgr.addParser(parser);
         mParserMgr.addParser(new ScriptTemplateParser());
+        mInitialized = true;
     }
 
     @Override
@@ -107,6 +116,10 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
 
     @Override
     public JSONObject exec(ArbitraryGenCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+        if (!mInitialized) {
+            return null;
+        }
+        Log.v(TAG, "execute, args(%s)", args);
         JSONObject argsJSONObject = new JSONObject();
         argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
         argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
@@ -121,7 +134,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
             return null;
         }
         for (String key : keySet) {
-            JSONArray array = jsonObject.getJSONArray(key);
+            JSONArray array = jsonObject.optJSONArray(key);
             if (array == null || array.isEmpty()) {
                 continue;
             }
@@ -130,7 +143,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
                 continue;
             }
             for (int i = 0; i < array.size(); i++) {
-                String path = array.getString(i);
+                String path = array.optString(i);
                 if (Util.isNullOrNil(path)) {
                     continue;
                 }

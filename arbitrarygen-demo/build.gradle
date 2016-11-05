@@ -47,9 +47,27 @@ arbitraryGen {
     outputDir "$buildDir/generated/source/autogen"
 
     general {
-        format "db" // Use XML format parser.
-        rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
-        extParsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConvertor", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"]
+        format = ["xml","db"] // Use XML format parser.
+//        parsers []
+//        extension = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConvertor", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"]
+        extension = [
+                {
+                    jar "../ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+                    tClass "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConvertor"
+                },
+                {
+                    jar "../ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+                    tClass "cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper"
+                },
+                {
+                    jar "../ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+                    tClass "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper"
+                },
+                {
+                    jar "../ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+                    tClass "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"
+                }
+        ]
 //        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateConvertor"
 //        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.EventTemplateWrapper"
 //        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateWrapper"
@@ -64,6 +82,11 @@ arbitraryGen {
     }
 
     scriptEngine {
-//        format "e"
+        enable true
+        format "e"
+    }
+
+    javaCodeEngine {
+        rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
     }
 }

@@ -20,16 +20,16 @@ public class FileOperation {
 
 	private static final String TAG = "CodeGen.FileOperation";
 
-	public static final List<SourceFileInfo> scan(String path, List<String> suffixs) {
-		if (Util.isNullOrNil(path) || suffixs == null || suffixs.size() == 0) {
-			Log.d(TAG, "path : " + path + ", suffixs is null = " + (suffixs == null));
+	public static final List<SourceFileInfo> scan(String path, List<String> suffixList) {
+		if (Util.isNullOrNil(path) || suffixList == null || suffixList.size() == 0) {
+			Log.d(TAG, "path : %s, suffixList is null = %s", path, (suffixList == null));
 			return null;
 		}
-		return scan(new File(path), suffixs);
+		return scan(new File(path), suffixList);
 	}
 
-	private static final List<SourceFileInfo> scan(File file, List<String> suffixs) {
-		if (file == null || !file.exists() || suffixs == null || suffixs.size() == 0) {
+	private static final List<SourceFileInfo> scan(File file, List<String> suffixList) {
+		if (file == null || !file.exists() || suffixList == null || suffixList.size() == 0) {
 			Log.d(TAG, "file : " + file + ", exists = " + (file != null ? file.exists() : false));
 			return null;
 		}
@@ -40,11 +40,11 @@ public class FileOperation {
 				return null;
 			}
 			for (int i = 0; i < files.length; i++) {
-				results.addAll(scan(files[i], suffixs));
+				results.addAll(scan(files[i], suffixList));
 			}
 		} else {
 			String suffix = Util.getSuffix(file.getName());
-			if (!Util.isNullOrNil(suffix) && suffixs.contains(suffix)) {
+			if (!Util.isNullOrNil(suffix) && suffixList.contains(suffix)) {
 				results.add(new SourceFileInfo(suffix, file));
 			}
 		}

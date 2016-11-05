@@ -110,7 +110,10 @@ public class DefaultParser implements SourceFileParser<JSONObject> {
 
     @Override
     public JSONObject parse(File file) {
-        String suffix = "";
+        String suffix = Util.getSuffix(file.getName());
+        if (Util.isNullOrNil(suffix)) {
+            return null;
+        }
         ICustomizeParser parser = mParserMgr.getFirstMatchParser(suffix);
         if (parser == null || !parser.canParse(suffix)) {
             return null;

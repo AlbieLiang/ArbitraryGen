@@ -12,6 +12,7 @@ import cc.suitalk.arbitrarygen.core.SourceFileInfo;
 import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
+import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
  * Created by albieliang on 16/10/27.
@@ -47,13 +48,19 @@ public class ScannerAGProcessor implements ArbitraryGenProcessor {
     @Override
     public JSONObject exec(ArbitraryGenCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String srcDir = args.getString(KEY_SRC_DIR);
-        JSONArray jsonArray = args.getJSONArray(KEY_SUFFIX_LIST);
-        int scanMode = args.getInt(KEY_SCAN_MODE);
+        JSONArray suffixJsonArray = args.optJSONArray(KEY_SUFFIX_LIST);
+        int scanMode = args.optInt(KEY_SCAN_MODE);
 
+        Log.v(TAG, "execute args(%s)", args);
         List<String> suffixList = new LinkedList<>();
-        if (jsonArray != null) {
-            for (int i = 0; i < jsonArray.size(); i++) {
-                suffixList.add(jsonArray.getString(i));
+        if (suffixJsonArray != null) {
+            for (int i = 0; i < suffixJsonArray.size(); i++) {
+                String suffix = suffixJsonArray.optString(i);
+                Log.v(TAG, "add support scan file suffix(%s)", suffix);
+                if (Util.isNullOrNil(suffix)) {
+                    continue;
+                }
+                suffixList.add(suffix);
             }
         }
         List<SourceFileInfo> list = FileOperation.scan(srcDir, suffixList);
@@ -63,23 +70,26 @@ public class ScannerAGProcessor implements ArbitraryGenProcessor {
             switch (scanMode) {
                 case SCAN_MODE_CLASSIFY:
                     for (SourceFileInfo fileInfo : list) {
-                        JSONArray array = resultJson.getJSONArray(fileInfo.suffix);
+                        JSONArray array = resultJson.optJSONArray(fileInfo.suffix);
+                        Log.v(TAG, "scan result file(%s)", fileInfo.file.getAbsolutePath());
                         if (array == null) {
                             array = new JSONArray();
-                            resultJson.put(fileInfo.suffix, array);
                         }
                         array.add(fileInfo.file.getAbsolutePath());
+                        resultJson.put(fileInfo.suffix, array);
                     }
                     break;
                 case SCAN_MODE_NORMAL:
                     JSONArray array = new JSONArray();
                     for (SourceFileInfo fileInfo : list) {
+                        Log.v(TAG, "scan result file(%s)", fileInfo.file.getAbsolutePath());
                         array.add(fileInfo.file.getAbsolutePath());
                     }
                     resultJson.put(KEY_RESULT_FILE_PATH, array);
                     break;
             }
         }
+        Log.v(TAG, "scan result(%s)", resultJson);
         return resultJson;
     }
 

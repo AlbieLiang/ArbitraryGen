@@ -3,36 +3,30 @@ package cc.suitalk.gradle.plugin
 import groovy.json.JsonBuilder
 //import org.gradle.internal.impldep.com.google.gson.JsonObject
 
-class ScriptEngineArgs implements Serializable {
+class JavaCodeEngineArgs implements Serializable {
 
     boolean enable;
-    String[] format;
     String src;
     String dest;
-    String coreLibs;
-    String templateLibs;
+    String rule;
 
-    public ScriptEngineArgs() {
-        enable = true;
-        format = new String[0];
+    public JavaCodeEngineArgs() {
+        enable = false;
         src = "";
         dest = "";
-        coreLibs = "";
-        templateLibs = "";
+        rule = "";
     }
 
     public String getName() {
-        return "scriptEngine"
+        return "javaCodeEngine"
     }
 //
 //    public JsonObject toJson() {
 //        JsonObject json = new JsonObject();
 //        json.addProperty("enable", enable);
-//        json.addProperty("format", format);
 //        json.addProperty("src", src);
 //        json.addProperty("dest", dest);
-//        json.addProperty("coreLibs", coreLibs);
-//        json.addProperty("templateLibs", templateLibs);
+//        json.addProperty("rule", rule);
 //        return json;
 //    }
 //
@@ -40,20 +34,14 @@ class ScriptEngineArgs implements Serializable {
 //        JsonBuilder builder = new JsonBuilder();
 ////        builder {
 ////            enable: enable
-////            format: format
 ////            src: src
 ////            dest: dest
-////            coreLibs: coreLibs
-////            templateLibs: templateLibs
+////            rule: rule
 ////        }
-//
 //        builder.enable enable
-//        builder.format format
 //        builder.src src
 //        builder.dest dest
-//        builder.coreLibs coreLibs
-//        builder.templateLibs templateLibs
-//
+//        builder.rule rule
 //        return builder;
 //    }
 }

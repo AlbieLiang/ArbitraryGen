@@ -15,22 +15,26 @@ import cc.suitalk.arbitrarygen.engine.DefaultAGEngine;
 import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
+import cc.suitalk.arbitrarygen.utils.Log;
 
 /**
- * Created by albieliang on 16/10/27.
+ * Created by AlbieLiang on 16/10/27.
  */
 public class ArbitraryGenCore {
 
+    private static final String TAG = "AG.ArbitraryGenCore";
+
     private Map<String, ArbitraryGenProcessor> mProcessors;
-    private List<ArbitraryGenEngine> mEngines;
+    private Map<String, ArbitraryGenEngine> mEngines;
     private volatile boolean mInitialized;
+    private volatile boolean mStarted;
     private JSONObject mArgs;
 
     private JarClassLoaderWrapper mJarClassLoader;
 
     public ArbitraryGenCore() {
         mProcessors = new ConcurrentHashMap<>();
-        mEngines = new LinkedList<>();
+        mEngines = new ConcurrentHashMap<>();
         mJarClassLoader = new JarClassLoaderWrapper();
     }
 
@@ -38,20 +42,33 @@ public class ArbitraryGenCore {
         if (jsonObject == null) {
             throw new NullPointerException("jsonObject can't be null.");
         }
+        if (mInitialized) {
+            Log.i(TAG, "the core has been initialized.");
+            return;
+        }
         mArgs = jsonObject;
         prepare(jsonObject);
-        for (ArbitraryGenProcessor engine : mProcessors.values()) {
-            engine.initialize(this, mArgs.optJSONObject(engine.getName()));
-        }
-        List<ArbitraryGenEngine> engines = new LinkedList<>(mEngines);
-        for (ArbitraryGenEngine engine : engines) {
-            execProcess(engine, mArgs.optJSONObject(engine.getName()));
+        for (ArbitraryGenProcessor processor : mProcessors.values()) {
+            processor.initialize(this, mArgs.optJSONObject(processor.getName()));
         }
         mInitialized = true;
     }
 
+    public void start() {
+        if (mStarted) {
+            Log.i(TAG, "the core has been started.");
+            return;
+        }
+        List<ArbitraryGenEngine> engines = new LinkedList<>(mEngines.values());
+        for (ArbitraryGenEngine engine : engines) {
+            execProcess(engine, mArgs.optJSONObject(engine.getName()));
+        }
+        mStarted = true;
+    }
+
     public void addProcessor(ArbitraryGenProcessor processor) {
         if (processor == null) {
+            Log.w(TAG, "the processor is null.");
             return;
         }
         if (mInitialized) {
@@ -60,8 +77,8 @@ public class ArbitraryGenCore {
         mProcessors.put(processor.getName(), processor);
         // For auto execute engine
         if (processor instanceof ArbitraryGenEngine) {
-            mEngines.add((ArbitraryGenEngine) processor);
-            if (mInitialized) {
+            mEngines.put(processor.getName(), (ArbitraryGenEngine) processor);
+            if (mStarted) {
                 execProcess(processor, mArgs.optJSONObject(processor.getName()));
             }
         }
@@ -94,11 +111,12 @@ public class ArbitraryGenCore {
         String[] dependencies = processor.getDependencies();
         Map<String, ArbitraryGenProcessor> engines = new HashMap<>();
         for (int i = 0; i < dependencies.length; i++) {
-            ArbitraryGenProcessor e = mProcessors.get(dependencies[i]);
-            if (e == null) {
+            ArbitraryGenProcessor p = mProcessors.get(dependencies[i]);
+            if (p == null) {
                 processor.onError(ErrorCode.MISSING_DEPENDENCIES, String.format("Missing dependencies engine '%s", dependencies[i]));
+                return null;
             }
-            engines.put(dependencies[i], e);
+            engines.put(dependencies[i], p);
         }
         return processor.exec(this, engines, args);
     }

@@ -28,13 +28,13 @@ import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
- * Created by albieliang on 16/11/2.
+ * Created by AlbieLiang on 16/11/2.
  */
 public class JavaCodeAGEngine implements ArbitraryGenEngine {
 
     private static final String TAG = "AG.JavaCodeAGEngine";
 
-    private volatile boolean arbitraryEnable;
+    private volatile boolean mEnable;
 
     private List<Rule> mRules;
     private TypeDefineWrapperMgr mTypeDefWrapper;
@@ -46,12 +46,15 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
 
     @Override
     public void initialize(ArbitraryGenCore core, JSONObject args) {
+        if (args == null) {
+            return;
+        }
         mRules = new LinkedList<>();
         mTypeDefWrapper = new TypeDefineWrapperMgr();
         // Extract ArbitraryEnable flag
-        arbitraryEnable = args.getBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ARBITRARY_ENABLE);
-        if (arbitraryEnable) {
-            String ruleArg = args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_ARBITRARY_RULE);
+        mEnable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE);
+        if (mEnable) {
+            String ruleArg = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_RULE);
             if (!Util.isNullOrNil(ruleArg)) {
                 // Java file
                 RuleParser parser = new RuleParser();
@@ -71,18 +74,18 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
 
     @Override
     public JSONObject exec(ArbitraryGenCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
-        if (!arbitraryEnable) {
+        if (!mEnable) {
             return null;
         }
 
         ConfigInfo configInfo = new ConfigInfo();
         // Extract the destination path arg
-        String dest = args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
+        String dest = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
         if (!Util.isNullOrNil(dest)) {
             configInfo.setDestPath(dest);
         }
         // Extract the source template path arg
-        String src = args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC);
+        String src = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC);
         if (!Util.isNullOrNil(src)) {
             configInfo.setSrcPath(src);
         }

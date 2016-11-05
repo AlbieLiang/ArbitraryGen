@@ -48,54 +48,54 @@ public class Log {
 	}
 	
 	public static final void v(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_V, "v", tag, format(format, args));
+		printLog(LOG_LEVEL_V, "v", tag, format(format, args));
 	}
 	
 	public static final void v(String tag, String msg) {
-		printlog(LOG_LEVEL_V, "v", tag, msg);
+		printLog(LOG_LEVEL_V, "v", tag, msg);
 	}
 
 	public static final void d(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_D, "d", tag, format(format, args));
+		printLog(LOG_LEVEL_D, "d", tag, format(format, args));
 	}
 	
 	public static final void d(String tag, String msg) {
-		printlog(LOG_LEVEL_D, "d", tag, msg);
+		printLog(LOG_LEVEL_D, "d", tag, msg);
 	}
 	
 	public static final void i(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_I, "i", tag, format(format, args));
+		printLog(LOG_LEVEL_I, "i", tag, format(format, args));
 	}
 
 	public static final void i(String tag, String msg) {
-		printlog(LOG_LEVEL_I, "i", tag, msg);
+		printLog(LOG_LEVEL_I, "i", tag, msg);
 	}
 
 	public static final void w(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_W, "w", tag, format(format, args));
+		printLog(LOG_LEVEL_W, "w", tag, format(format, args));
 	}
 	
 	public static final void w(String tag, String msg) {
-		printlog(LOG_LEVEL_W, "w", tag, msg);
+		printLog(LOG_LEVEL_W, "w", tag, msg);
 	}
 
 	public static final void e(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_E, "e", tag, format(format, args));
+		printLog(LOG_LEVEL_E, "e", tag, format(format, args));
 	}
 	
 	public static final void e(String tag, String msg) {
-		printlog(LOG_LEVEL_E, "e", tag, msg);
+		printLog(LOG_LEVEL_E, "e", tag, msg);
 	}
 	
 	public static final void a(String tag, String msg) {
-		printlog(LOG_LEVEL_A, "a", tag, msg);
+		printLog(LOG_LEVEL_A, "a", tag, msg);
 	}
 	
 	public static final void a(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_A, "a", tag, format(format, args));
+		printLog(LOG_LEVEL_A, "a", tag, format(format, args));
 	}
 
-	private static final void printlog(int level, String levelStr, String tag, String msg) {
+	private static final void printLog(int level, String levelStr, String tag, String msg) {
 		if (Debuger.debug || level >= Log.level) {
 			System.out.println(getMsg(levelStr, tag, msg));
 		}

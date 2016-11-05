@@ -1,17 +1,72 @@
-package cc.suitalk.gradle.plugin;
+package cc.suitalk.gradle.plugin
 
-class GeneralArgs {
+import groovy.json.JsonBuilder
+//import org.gradle.internal.impldep.com.google.gson.JsonArray
+//import org.gradle.internal.impldep.com.google.gson.JsonObject
+//import org.gradle.internal.impldep.com.google.gson.JsonPrimitive;
+
+class GeneralArgs implements Serializable {
 
     boolean enable;
-    String format;
-    String rule;
+    String[] format;
+    String src;
+    String dest;
 
-    String[] extParsers;
+    String[] parser;
+    Closure[] extension;
 
     public GeneralArgs() {
         enable = true;
-        format = ""
-        rule = "";
-        extParsers = new String[0];
+        format = new String[0];
+        src = "";
+        dest = "";
+        parser = new String[0];
+        extension = new String[0];
     }
+
+    public String getName() {
+        return "general"
+    }
+//
+//    public JsonObject toJson() {
+//        JsonObject json = new JsonObject();
+//        json.addProperty("enable", enable);
+//        json.addProperty("format", format);
+//        json.addProperty("src", src);
+//        json.addProperty("dest", dest);
+//        json.addProperty("rule", rule);
+//        JsonArray jsonArray = new JsonArray();
+//        for (int i = 0; i < parser.length; i++) {
+//            jsonArray.add(new JsonPrimitive(parser[i]));
+//        }
+//        json.addProperty("parser", jsonArray);
+//
+//        JsonArray extensionArray = new JsonArray();
+//        for (int i = 0; i < extension.length; i++) {
+//            extensionArray.add(new JsonPrimitive(extension[i]));
+//        }
+//        json.addProperty("extension", extensionArray);
+//        return json;
+//    }
+//
+//    public JsonBuilder toJsonBuilder() {
+//        JsonBuilder builder = new JsonBuilder();
+////        builder {
+////            enable: enable
+////            format: format
+////            src: src
+////            dest: dest
+////            rule: rule
+////            parser: parser
+////            extension: extension
+////        }
+//        builder.enable enable
+//        builder.format format
+//        builder.src src
+//        builder.dest dest
+//        builder.rule rule
+//        builder.parser parser
+//        builder.extension extension
+//        return builder;
+//    }
 }

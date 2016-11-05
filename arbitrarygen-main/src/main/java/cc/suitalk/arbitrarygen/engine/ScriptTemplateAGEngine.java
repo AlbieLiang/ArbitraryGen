@@ -24,7 +24,7 @@ import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
- * Created by albieliang on 16/11/2.
+ * Created by AlbieLiang on 16/11/2.
  */
 public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
 
@@ -40,14 +40,21 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
 
     @Override
     public void initialize(ArbitraryGenCore core, JSONObject args) {
+        if (args == null) {
+            return;
+        }
         // For script template engine
-        String coreLibs = args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_CORE_LIBS);
-        String templateLibs = args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS);
-        JSONArray suffixList = args.getJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT);
+        boolean enable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE);
+        if (!enable) {
+            return;
+        }
+        String coreLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_CORE_LIBS);
+        String templateLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS);
+        JSONArray suffixList = args.optJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT);
         List<String> list = new LinkedList<>();
         if (suffixList != null) {
             for (int i = 0; i < suffixList.size(); i++) {
-                String suffix = suffixList.getString(i);
+                String suffix = suffixList.optString(i);
                 if (Util.isNullOrNil(suffix)) {
                     continue;
                 }
@@ -60,7 +67,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
 
             mTemplateProcessor.addTaskWorker(new GenVigorDBTask(mTemplateConfig));
             mTemplateProcessor.addTaskWorker(new GenHybridsTask(mTemplateConfig));
-            mTemplateProcessor.addTaskWorker(new PsychicGenTask(mTemplateConfig, suffixList));
+            mTemplateProcessor.addTaskWorker(new PsychicGenTask(mTemplateConfig, list));
         }
     }
 
@@ -74,10 +81,11 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         if (mTemplateProcessor == null) {
             return null;
         }
+        Log.v(TAG, "execute, args(%s)", args);
         JSONObject argsJSONObject = new JSONObject();
         argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
-        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
-        argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, args.getJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT));
+        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
+        argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, args.optJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT));
 
         JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);
         if (jsonObject == null) {
@@ -87,16 +95,16 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         if (keySet == null || keySet.isEmpty()) {
             return null;
         }
-        final String destPath = args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
+        final String destPath = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
         final ITemplateProcessor tp = mTemplateProcessor;
         tp.prepare(mTemplateConfig);
         for (String key : keySet) {
-            JSONArray array = jsonObject.getJSONArray(key);
+            JSONArray array = jsonObject.optJSONArray(key);
             if (array == null || array.isEmpty()) {
                 continue;
             }
             for (int i = 0; i < array.size(); i++) {
-                String path = array.getString(i);
+                String path = array.optString(i);
                 if (Util.isNullOrNil(path)) {
                     continue;
                 }

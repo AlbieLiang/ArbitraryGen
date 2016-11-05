@@ -1,9 +1,9 @@
 package <%=_package%>;
 
-import osc.innovator.event.rx.RxEvent;
+import cc.suitalk.event.rx.RxEvent;
 
 public final class <%=_name%> extends RxEvent {
-	public final static String ID = "AutoGenEvent.<%=_name%>";
+	public final static String ID = "AGEvent.<%=_name%>";
 	
 	<% for (var i = 0; this.data && i< data.length; i++) { var field = data[i];%>
 		<% if (field.constant) { %>
