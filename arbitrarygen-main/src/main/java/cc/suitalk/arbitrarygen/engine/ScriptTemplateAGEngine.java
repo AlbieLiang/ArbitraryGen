@@ -81,11 +81,17 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         if (mTemplateProcessor == null) {
             return null;
         }
+        final ITemplateProcessor tp = mTemplateProcessor;
+        JSONArray formatArray = new JSONArray();
+        List<String> suffixList = tp.getSupportSuffixList();
+        for (String suffix : suffixList) {
+            formatArray.add(suffix);
+        }
         Log.v(TAG, "execute, args(%s)", args);
         JSONObject argsJSONObject = new JSONObject();
         argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
         argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
-        argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, args.optJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT));
+        argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, formatArray);
 
         JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);
         if (jsonObject == null) {
@@ -96,7 +102,6 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
             return null;
         }
         final String destPath = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
-        final ITemplateProcessor tp = mTemplateProcessor;
         tp.prepare(mTemplateConfig);
         for (String key : keySet) {
             JSONArray array = jsonObject.optJSONArray(key);
