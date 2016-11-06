@@ -75,12 +75,17 @@ arbitraryGen {
         format "e"
     }
 
+    // external engine argument
     engine {
-        // engine example
-        external {
+        // external jar and class of customize engine
+        extension {
             jar "../ArbitraryGen/arbitrarygen-demo-wrapper.jar"
             tClass "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor",
                     "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"
+        }
+        // example engine
+        testEngine {
+            enable false
             map {
                 test 1
             }

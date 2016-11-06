@@ -1,7 +1,10 @@
 package cc.suitalk.arbitrarygen.core;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +19,7 @@ import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
 import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
+import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -90,6 +94,10 @@ public class ArbitraryGenCore {
         return mProcessors.remove(name);
     }
 
+    public ArbitraryGenProcessor getProcessor(String name) {
+        return mProcessors.get(name);
+    }
+
     /**
      *
      * @param processors
@@ -135,6 +143,66 @@ public class ArbitraryGenCore {
         addProcessor(new DefaultAGEngine());
         addProcessor(new ScriptTemplateAGEngine());
         addProcessor(new JavaCodeAGEngine());
+
+        // load external engine jar
+        JSONObject engineJson = jsonObject.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_ENGINE);
+        if (engineJson != null) {
+            JSONObject extensionJson = engineJson.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);
+            if (extensionJson != null) {
+                addExternalProcessor(engineJson, extensionJson);
+            }
+        }
+    }
+
+    private void addExternalProcessor(JSONObject argsJson, JSONObject extensionJson) {
+        JSONArray jarArray = JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true);
+        JarClassLoaderWrapper loader = getJarClassLoader();
+        if (jarArray != null && !jarArray.isEmpty()) {
+            for (int i = 0; i < jarArray.size(); i++) {
+                String jar = jarArray.optString(i);
+                if (Util.isNullOrNil(jar)) {
+                    continue;
+                }
+                File file = new File(jar);
+                if (!loader.contains(file) && loader.addJar(file)) {
+                    Log.i(TAG, "Loaded Jar(%) into ClassLoader.", jar);
+                }
+            }
+        }
+        JSONArray classArray = JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true);
+        if (classArray != null && !classArray.isEmpty()) {
+            for (int i = 0; i < classArray.size(); i++) {
+                String tClass = classArray.optString(i);
+                if (Util.isNullOrNil(tClass)) {
+                    continue;
+                }
+                try {
+                    Class<?> clazz = loader.loadClass(tClass);
+                    Object o = clazz.newInstance();
+                    if (o instanceof ArbitraryGenProcessor) {
+                        ArbitraryGenProcessor processor = (ArbitraryGenProcessor) o;
+                        String name = processor.getName();
+                        if (getProcessor(name) != null) {
+                            Log.i(TAG, "add external AGProcessor fail, duplicate processor name(%s).", name);
+                            continue;
+                        }
+                        JSONObject args = argsJson.optJSONObject(name);
+                        if (args != null) {
+                            mArgs.put(name, args);
+                        }
+                        addProcessor(processor);
+                    }
+                } catch (MalformedURLException e) {
+                    Log.e(TAG, "load class error : %s", e);
+                } catch (ClassNotFoundException e) {
+                    Log.e(TAG, "load class error : %s", e);
+                } catch (InstantiationException e) {
+                    Log.e(TAG, "load class error : %s", e);
+                } catch (IllegalAccessException e) {
+                    Log.e(TAG, "load class error : %s", e);
+                }
+            }
+        }
     }
 
     private JSONObject getAGProcessorArgs(JSONObject args, String name) {

@@ -17,6 +17,7 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_FORMAT = "format";
 	String EXTERNAL_ARGS_KEY_PARSER = "parser";
 	String EXTERNAL_ARGS_KEY_EXTENSION = "extension";
+	String EXTERNAL_ARGS_KEY_ENGINE = "engine";
 	String EXTERNAL_ARGS_KEY_JAR = "jar";
 	String EXTERNAL_ARGS_KEY_CLASS = "tClass";
 	String EXTERNAL_ARGS_KEY_ARG_JSON = "argJson";
