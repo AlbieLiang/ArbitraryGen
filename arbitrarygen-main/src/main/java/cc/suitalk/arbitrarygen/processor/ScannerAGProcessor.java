@@ -15,7 +15,7 @@ import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
- * Created by albieliang on 16/10/27.
+ * Created by AlbieLiang on 16/10/27.
  */
 public class ScannerAGProcessor implements ArbitraryGenProcessor {
 

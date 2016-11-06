@@ -12,9 +12,7 @@ import groovy.json.JsonBuilder
 public class LoggerArgs implements Serializable {
 
     boolean debug;
-    boolean printArgs;
     boolean logToFile;
-    boolean printSeparator;
     boolean printTag;
     boolean printLevel;
     String path;
@@ -24,9 +22,7 @@ public class LoggerArgs implements Serializable {
 
     public LoggerArgs() {
         debug = false;
-        printArgs = false;
         logToFile = true;
-        printSeparator = false;
         printTag = false;
         printLevel = false;
         level = 1;

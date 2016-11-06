@@ -20,15 +20,11 @@ class ArbitraryGenPlugin implements Plugin<Project> {
     JavaCodeEngineArgs javaCodeEngineExtension;
 
     ArbitraryGenTask arbitraryGenTask;
+    Closure argsClosureExtension;
 
     @Override
     void apply(Project project) {
         this.project = project
-//        ExtraPropertiesExtension properties = project.extensions.getExtraProperties();
-//        def json = JsonOutput.toJson(properties);
-//        println('properties : ' + json);
-//        println('properties : ' + JsonOutput.toJson(project.extensions));
-
         this.extension = project.extensions.create("arbitraryGen", ArbitraryGenPluginExtension)
         this.loggerExtension = this.extension.extensions.create("logger", LoggerArgs)
         this.argsExtension = this.extension.extensions.create("general", GeneralArgs)
@@ -58,6 +54,7 @@ class ArbitraryGenPlugin implements Plugin<Project> {
             arbitraryGenTask.generalArgs = this.argsExtension
             arbitraryGenTask.scriptEngineArgs = this.scriptEngineExtension
             arbitraryGenTask.javaCodeEngineArgs = this.javaCodeEngineExtension
+            arbitraryGenTask.extension = this.extension
 
             if (arbitraryGenTask.inputDir == null || !arbitraryGenTask.inputDir.exists()) {
                 println("project: ${this.project} do not exists arbitrarygen dir.")

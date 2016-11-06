@@ -20,6 +20,7 @@ import cc.suitalk.arbitrarygen.template.PsychicGenTask;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
 import cc.suitalk.arbitrarygen.template.base.ITemplateProcessor;
 import cc.suitalk.arbitrarygen.template.hybrids.GenHybridsTask;
+import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -48,9 +49,11 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         if (!enable) {
             return;
         }
-        String coreLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_CORE_LIBS);
-        String templateLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS);
-        JSONArray suffixList = args.optJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT);
+        String libsDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR);
+        String coreLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_CORE_LIBS, libsDir + "/core-libs");
+        String templateLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS, libsDir + "/template-libs");
+
+        JSONArray suffixList = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT, true);
         List<String> list = new LinkedList<>();
         if (suffixList != null) {
             for (int i = 0; i < suffixList.size(); i++) {

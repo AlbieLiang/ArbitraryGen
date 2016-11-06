@@ -8,6 +8,13 @@ class ArbitraryGenPluginExtension {
 
     boolean enable;
 
+    Closure logger
+    Closure general
+    Closure scriptEngine
+    Closure javaCodeEngine
+    Closure engine
+
     public ArbitraryGenPluginExtension() {
+        enable = true
     }
 }

@@ -165,7 +165,6 @@ public class Log {
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append("[tid:").append(Thread.currentThread().getId()).append("]");
-		sb.append("[msec:").append(msec).append("]");
 		sb.append("[time:").append(Util.getDateFormat("Z yyyy-MM-dd HH:mm:ss.SSS", msec)).append("]");
 		sb.append(log);
 		sb.append("\n");

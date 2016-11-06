@@ -5,7 +5,6 @@ import net.sf.json.JSONObject;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.util.LinkedList;
 import java.util.List;
 
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
@@ -28,11 +27,12 @@ import cc.suitalk.arbitrarygen.extension.ITemplateWrapper;
 import cc.suitalk.arbitrarygen.impl.DefaultRawTemplateParser;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
+import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
- * Created by albieliang on 16/11/02.
+ * Created by AlbieLiang on 16/11/02.
  */
 public class DefaultParser implements SourceFileParser<JSONObject> {
 
@@ -52,30 +52,31 @@ public class DefaultParser implements SourceFileParser<JSONObject> {
         mWrapperMgr = new TemplateWrapperMgr();
 
         // load extension jar
-        JSONArray parserArray = args.getJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);
-        if (parserArray != null && !parserArray.isEmpty()) {
-            List<String> needToLoadClass = new LinkedList<>();
+        JSONObject extensionJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);
+        if (extensionJson != null) {
+            JSONArray jarArray = JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true);
             JarClassLoaderWrapper loader = core.getJarClassLoader();
-            for (int i = 0; i < parserArray.size(); i++) {
-                JSONObject parser = parserArray.getJSONObject(i);
-                if (parser == null) {
-                    continue;
-                }
-                String jar = parser.getString(ArgsConstants.EXTERNAL_ARGS_KEY_JAR);
-                String clazz = parser.getString(ArgsConstants.EXTERNAL_ARGS_KEY_CLASS);
-                if (Util.isNullOrNil(jar) || Util.isNullOrNil(clazz)) {
-                    continue;
-                }
-                File file = new File(jar);
-                if (loader.contains(file) || loader.addJar(file)) {
-                    needToLoadClass.add(clazz);
+            if (jarArray != null && !jarArray.isEmpty()) {
+                for (int i = 0; i < jarArray.size(); i++) {
+                    String jar = jarArray.optString(i);
+                    if (Util.isNullOrNil(jar)) {
+                        continue;
+                    }
+                    File file = new File(jar);
+                    if (!loader.contains(file) && loader.addJar(file)) {
+                        Log.i(TAG, "Loaded Jar(%) into ClassLoader.", jar);
+                    }
                 }
             }
-
-            if (needToLoadClass.size() > 0) {
-                for (int i = 0; i < needToLoadClass.size(); i++) {
+            JSONArray classArray = JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true);
+            if (classArray != null && !classArray.isEmpty()) {
+                for (int i = 0; i < classArray.size(); i++) {
+                    String tClass = classArray.optString(i);
+                    if (Util.isNullOrNil(tClass)) {
+                        continue;
+                    }
                     try {
-                        Class<?> clazz = loader.loadClass(needToLoadClass.get(i));
+                        Class<?> clazz = loader.loadClass(tClass);
                         Object o = clazz.newInstance();
                         if (o instanceof ICustomizeParser) {
                             mParserMgr.addParser((ICustomizeParser) o);
@@ -85,13 +86,13 @@ public class DefaultParser implements SourceFileParser<JSONObject> {
                             mWrapperMgr.addWrapper((ITemplateWrapper) o);
                         }
                     } catch (MalformedURLException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "load class error : %s", e);
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "load class error : %s", e);
                     } catch (InstantiationException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "load class error : %s", e);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "load class error : %s", e);
                     }
                 }
             }

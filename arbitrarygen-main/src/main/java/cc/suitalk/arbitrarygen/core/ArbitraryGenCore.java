@@ -14,8 +14,10 @@ import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor.ErrorCode;
 import cc.suitalk.arbitrarygen.engine.DefaultAGEngine;
 import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
+import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
 import cc.suitalk.arbitrarygen.utils.Log;
+import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
  * Created by AlbieLiang on 16/10/27.
@@ -49,7 +51,7 @@ public class ArbitraryGenCore {
         mArgs = jsonObject;
         prepare(jsonObject);
         for (ArbitraryGenProcessor processor : mProcessors.values()) {
-            processor.initialize(this, mArgs.optJSONObject(processor.getName()));
+            processor.initialize(this, getAGProcessorArgs(mArgs, processor.getName()));
         }
         mInitialized = true;
     }
@@ -72,7 +74,7 @@ public class ArbitraryGenCore {
             return;
         }
         if (mInitialized) {
-            processor.initialize(this, mArgs.optJSONObject(processor.getName()));
+            processor.initialize(this, getAGProcessorArgs(mArgs, processor.getName()));
         }
         mProcessors.put(processor.getName(), processor);
         // For auto execute engine
@@ -127,10 +129,41 @@ public class ArbitraryGenCore {
 
     private void prepare(JSONObject jsonObject) {
         // Resolve hardcode Engine
+        addProcessor(new LoggerAGProcessor());
         addProcessor(new ScannerAGProcessor());
         // Add more extension Engine by arguments
         addProcessor(new DefaultAGEngine());
         addProcessor(new ScriptTemplateAGEngine());
         addProcessor(new JavaCodeAGEngine());
+    }
+
+    private JSONObject getAGProcessorArgs(JSONObject args, String name) {
+        if (args == null || Util.isNullOrNil(name)) {
+            return null;
+        }
+        JSONObject jsonObject = args.optJSONObject(name);
+        if (jsonObject != null) {
+            int count = 0;
+            String src = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC);
+            String dest = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
+            String libsDir = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR);
+            if (Util.isNullOrNil(src)) {
+                jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_SRC, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
+                count++;
+            }
+            if (Util.isNullOrNil(dest)) {
+                jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_DEST, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST));
+                count++;
+            }
+            if (Util.isNullOrNil(libsDir)) {
+                jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR));
+                count++;
+            }
+            if (count > 0) {
+                args.put(name, jsonObject);
+            }
+        }
+        Log.v(TAG, "AGProcessor(%s) args : %s", name, jsonObject);
+        return jsonObject;
     }
 }

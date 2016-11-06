@@ -19,6 +19,7 @@ import cc.suitalk.arbitrarygen.core.base.SourceFileParser;
 import cc.suitalk.arbitrarygen.parser.DefaultParser;
 import cc.suitalk.arbitrarygen.parser.ScriptTemplateParser;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
+import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -50,47 +51,50 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
         if (!enable) {
             return;
         }
-        JSONArray parserArray = args.optJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_PARSER);
-        if (parserArray != null && !parserArray.isEmpty()) {
-            List<String> needToLoadClass = new LinkedList<>();
+
+        // load parser jar
+        JSONObject parserJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_PARSER);
+        if (parserJson != null) {
+            JSONArray jarArray = JSONArgsUtils.getJSONArray(parserJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true);
             JarClassLoaderWrapper loader = core.getJarClassLoader();
-            for (int i = 0; i < parserArray.size(); i++) {
-                JSONObject parser = parserArray.optJSONObject(i);
-                if (parser == null) {
-                    continue;
-                }
-                String jar = parser.optString(ArgsConstants.EXTERNAL_ARGS_KEY_JAR);
-                String clazz = parser.optString(ArgsConstants.EXTERNAL_ARGS_KEY_CLASS);
-                if (Util.isNullOrNil(jar) || Util.isNullOrNil(clazz)) {
-                    continue;
-                }
-                File file = new File(jar);
-                if (loader.contains(file) || loader.addJar(file)) {
-                    needToLoadClass.add(clazz);
+            if (jarArray != null && !jarArray.isEmpty()) {
+                for (int i = 0; i < jarArray.size(); i++) {
+                    String jar = jarArray.optString(i);
+                    if (Util.isNullOrNil(jar)) {
+                        continue;
+                    }
+                    File file = new File(jar);
+                    if (!loader.contains(file) && loader.addJar(file)) {
+                        Log.i(TAG, "Loaded Jar(%) into ClassLoader.", jar);
+                    }
                 }
             }
-
-            if (needToLoadClass.size() > 0) {
-                for (int i = 0; i < needToLoadClass.size(); i++) {
+            JSONArray classArray = JSONArgsUtils.getJSONArray(parserJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true);
+            if (classArray != null && !classArray.isEmpty()) {
+                for (int i = 0; i < classArray.size(); i++) {
+                    String tClass = classArray.optString(i);
+                    if (Util.isNullOrNil(tClass)) {
+                        continue;
+                    }
                     try {
-                        Class<?> clazz = loader.loadClass(needToLoadClass.get(i));
+                        Class<?> clazz = loader.loadClass(tClass);
                         Object o = clazz.newInstance();
                         if (o instanceof SourceFileParser) {
                             mParserMgr.addParser((SourceFileParser) o);
                         }
                     } catch (MalformedURLException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "load class error : %s", e);
                     } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "load class error : %s", e);
                     } catch (InstantiationException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "load class error : %s", e);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "load class error : %s", e);
                     }
                 }
             }
         }
-        JSONArray suffixList = args.optJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT);
+        JSONArray suffixList = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT, true);
         List<String> list = new LinkedList<>();
         if (suffixList != null) {
             for (int i = 0; i < suffixList.size(); i++) {
@@ -123,7 +127,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
         JSONObject argsJSONObject = new JSONObject();
         argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
         argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
-        argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, args.getJSONArray(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT));
+        argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT, true));
 
         JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);
         if (jsonObject == null) {

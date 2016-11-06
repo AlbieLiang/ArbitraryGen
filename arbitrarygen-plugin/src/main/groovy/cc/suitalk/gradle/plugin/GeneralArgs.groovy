@@ -12,7 +12,7 @@ class GeneralArgs implements Serializable {
     String src;
     String dest;
 
-    String[] parser;
+    Closure[] parser;
     Closure[] extension;
 
     public GeneralArgs() {
@@ -20,8 +20,8 @@ class GeneralArgs implements Serializable {
         format = new String[0];
         src = "";
         dest = "";
-        parser = new String[0];
-        extension = new String[0];
+        parser = new Closure[0];
+        extension = new Closure[0];
     }
 
     public String getName() {
