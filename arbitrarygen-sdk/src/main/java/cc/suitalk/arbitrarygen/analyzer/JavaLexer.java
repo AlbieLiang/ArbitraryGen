@@ -31,7 +31,7 @@ import cc.suitalk.arbitrarygen.utils.Log;
  */
 public class JavaLexer implements ILexer {
 
-	private static final String TAG = "CodeGen.JavaLexer";
+	private static final String TAG = "AG.JavaLexer";
 	private char mCurChar;
 	private BaseWordReader mNumberReader;
 	private BaseWordReader mStringReader;

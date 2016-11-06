@@ -39,7 +39,7 @@ import cc.suitalk.arbitrarygen.statement.parser.NormalStatementParser;
  */
 public class Util {
 
-	private final static String TAG = "CodeGen.Util";
+	private final static String TAG = "AG.Util";
 	
 	public static final boolean isNullOrNil(String str) {
 		return str == null || str.length() == 0;

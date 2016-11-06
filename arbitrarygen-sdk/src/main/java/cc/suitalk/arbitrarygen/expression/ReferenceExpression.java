@@ -15,7 +15,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class ReferenceExpression extends Expression {
 
-	private static final String TAG = "CodeGen.ReferenceExpression";
+	private static final String TAG = "AG.ReferenceExpression";
 	private List<Word> mWords;
 
 	public ReferenceExpression() {

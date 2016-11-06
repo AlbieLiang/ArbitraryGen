@@ -14,7 +14,7 @@ import cc.suitalk.arbitrarygen.utils.Log;
  */
 public class TemplateConfig {
 	
-	private static final String TAG = "CodeGen.TemplateConfig";
+	private static final String TAG = "AG.TemplateConfig";
 	
 	private String coreLibs;
 	private String templateLibs;

@@ -29,7 +29,7 @@ import cc.suitalk.arbitrarygen.utils.XmlUtils;
  */
 public class AutoGenFindViewHelper {
 
-	private static final String TAG = "CodeGen.AutoGenFindViewHelper";
+	private static final String TAG = "AG.AutoGenFindViewHelper";
 	public static final String ASSETS_FILE_DIR = "assets";
 	public static final String RES_FILE_DIR = "res";
 	public static final String LAYOUT_FILE_DIR = "layout";

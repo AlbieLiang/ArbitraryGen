@@ -5,7 +5,6 @@ import java.io.File;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
 import cc.suitalk.arbitrarygen.template.base.BaseGenCodeWorker;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -19,7 +18,7 @@ import net.sf.json.JSONObject;
  */
 public class GenVigorDBTask extends BaseGenCodeWorker {
 
-	private static final String TAG = "CodeGen.GenVigorDBTask";
+	private static final String TAG = "AG.GenVigorDBTask";
 	
 	private String mVigorDBItemTmpl;
 	private String mVigorDBInfoDelegateTmpl;

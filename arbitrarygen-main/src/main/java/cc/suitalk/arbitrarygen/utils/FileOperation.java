@@ -18,7 +18,7 @@ import cc.suitalk.arbitrarygen.core.SourceFileInfo;
  */
 public class FileOperation {
 
-	private static final String TAG = "CodeGen.FileOperation";
+	private static final String TAG = "AG.FileOperation";
 
 	public static final List<SourceFileInfo> scan(String path, List<String> suffixList) {
 		if (Util.isNullOrNil(path) || suffixList == null || suffixList.size() == 0) {

@@ -32,7 +32,7 @@ import cc.suitalk.arbitrarygen.utils.SignatureCreator;
  */
 public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 
-	private static final String TAG = "CodeGen.DefaultTypeDefineWrapper";
+	private static final String TAG = "AG.DefaultTypeDefineWrapper";
 
 	private Set<IAGTaskWorker> mWorkers;
 	

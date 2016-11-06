@@ -35,7 +35,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class TypeDefineStatementParser extends BaseStatementParser {
 
-	private static final String TAG = "CodeGen.TypeDefineStatementParser";
+	private static final String TAG = "AG.TypeDefineStatementParser";
 	
 	private Map<String, String> mModifierKeywords = new HashMap<String, String>();
 	

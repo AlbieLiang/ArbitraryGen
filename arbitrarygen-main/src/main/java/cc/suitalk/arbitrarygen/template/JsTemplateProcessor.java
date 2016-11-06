@@ -6,7 +6,6 @@ import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import cc.suitalk.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
 import cc.suitalk.arbitrarygen.template.base.BaseTemplateProcessor;
 import cc.suitalk.arbitrarygen.template.base.IAGPsychicWorker;
 import cc.suitalk.arbitrarygen.template.base.IGenCodeWorker;
@@ -24,7 +23,7 @@ import net.sf.json.xml.XMLSerializer;
  */
 public class JsTemplateProcessor extends BaseTemplateProcessor {
 
-	private static final String TAG = "CodeGen.JsTemplateProcessor";
+	private static final String TAG = "AG.JsTemplateProcessor";
 	
 	private ScriptEngine mScriptEngine;
 	private String mTransferTools;

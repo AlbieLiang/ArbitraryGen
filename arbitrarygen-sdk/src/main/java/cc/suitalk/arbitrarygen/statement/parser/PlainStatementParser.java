@@ -19,7 +19,7 @@ import cc.suitalk.arbitrarygen.statement.PlainStatement;
  */
 public class PlainStatementParser extends BaseStatementParser {
 
-	private static final String TAG = "CodeGen.PlainStatementParser";
+	private static final String TAG = "AG.PlainStatementParser";
 
 	public PlainStatementParser() {
 		super("{");

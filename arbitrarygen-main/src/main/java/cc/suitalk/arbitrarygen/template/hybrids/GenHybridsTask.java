@@ -7,8 +7,8 @@ import java.util.Set;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
 import cc.suitalk.arbitrarygen.template.DelayReadFileTask;
+import cc.suitalk.arbitrarygen.template.TaskInfo;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
 import cc.suitalk.arbitrarygen.template.base.BaseGenCodeWorker;
@@ -25,7 +25,7 @@ import net.sf.json.JSONObject;
  */
 public class GenHybridsTask extends BaseGenCodeWorker {
 
-	private static final String TAG = "CodeGen.GenHybridsTask";
+	private static final String TAG = "AG.GenHybridsTask";
 	
 	public static final String LINEFEED_CODE = "\\x0a";
 	public static final String CARRIAGE_RETURN_CODE = "\\x0d";

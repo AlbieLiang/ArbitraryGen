@@ -12,7 +12,7 @@ public class Environment {
 
 	public static class EnvironmentArgs {
 		
-//		private static final String TAG = "CodeGen.EnvironmentArgs";
+//		private static final String TAG = "AG.EnvironmentArgs";
 		public static final int SOURCE_TYPE_NORMAL_TEMPLATE = 0;
 		public static final int SOURCE_TYPE_JAVA = 1;
 		public static final int MODE_NORMAL = 0;

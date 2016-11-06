@@ -16,7 +16,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class RuleParser {
 
-	private static final String TAG = "CodeGen.RuleParser";
+	private static final String TAG = "AG.RuleParser";
 
 	public RuleParser() {
 		;

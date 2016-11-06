@@ -24,7 +24,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class ExtractJsApiFuncInfoWorker implements IAGTaskWorker {
 
-	private static final String TAG = "CodeGen.ExtractJsApiFuncInfoWorker";
+	private static final String TAG = "AG.ExtractJsApiFuncInfoWorker";
 	private static final String ANNOTATION_NAME = "JsApiFuncMark";
 	
 	@Override

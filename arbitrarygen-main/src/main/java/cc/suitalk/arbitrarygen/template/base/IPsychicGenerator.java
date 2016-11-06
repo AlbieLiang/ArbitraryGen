@@ -4,7 +4,7 @@ import net.sf.json.JSONObject;
 
 import javax.script.ScriptEngine;
 
-import cc.suitalk.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
+import cc.suitalk.arbitrarygen.template.TaskInfo;
 
 /**
  * Created by albieliang on 16/7/24.

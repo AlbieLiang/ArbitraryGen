@@ -12,7 +12,6 @@ import java.util.Set;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
 import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -25,7 +24,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class PsychicGenTask extends BasePsychicWorker {
 
-	private static final String TAG = "CodeGen.GenVigorDBTask";
+	private static final String TAG = "AG.GenVigorDBTask";
 
 	private List<String> mSupportSuffixList;
 

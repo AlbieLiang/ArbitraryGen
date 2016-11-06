@@ -9,7 +9,7 @@ import cc.suitalk.arbitrarygen.template.TemplateConfig;
 import cc.suitalk.arbitrarygen.template.base.ITemplateProcessor;
 
 /**
- * Created by albieliang on 16/11/2.
+ * Created by AlbieLiang on 16/11/2.
  */
 public class ScriptTemplateParser implements SourceFileParser<JSONObject> {
 

@@ -144,7 +144,7 @@ public class ArbitraryGenCore {
         addProcessor(new ScriptTemplateAGEngine());
         addProcessor(new JavaCodeAGEngine());
 
-        // load external engine jar
+        // load external engine
         JSONObject engineJson = jsonObject.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_ENGINE);
         if (engineJson != null) {
             JSONObject extensionJson = engineJson.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);

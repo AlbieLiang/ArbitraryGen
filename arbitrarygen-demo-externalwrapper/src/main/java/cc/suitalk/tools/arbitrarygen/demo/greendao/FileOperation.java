@@ -14,7 +14,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class FileOperation {
 
-    private static final String TAG = "CodeGen.FileOperation";
+    private static final String TAG = "AG.FileOperation";
 
     public static String read(String file) {
         File f = new File(file);

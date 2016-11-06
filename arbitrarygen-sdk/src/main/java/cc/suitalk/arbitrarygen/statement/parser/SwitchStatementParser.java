@@ -22,7 +22,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class SwitchStatementParser extends BaseStatementParser {
 
-	private static final String TAG = "CodeGen.SwitchStatementParser";
+	private static final String TAG = "AG.SwitchStatementParser";
 
 	public SwitchStatementParser() {
 		super("switch");

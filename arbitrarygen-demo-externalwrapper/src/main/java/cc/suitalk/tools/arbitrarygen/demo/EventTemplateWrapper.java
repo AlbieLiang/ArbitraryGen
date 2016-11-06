@@ -25,7 +25,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class EventTemplateWrapper implements ITemplateWrapper {
 
-	private static final String TAG = "CodeGen.EventTemplateWrapper";
+	private static final String TAG = "AG.EventTemplateWrapper";
 	private static final String TAG_NAME = "Event";
 	private Session session;
 
