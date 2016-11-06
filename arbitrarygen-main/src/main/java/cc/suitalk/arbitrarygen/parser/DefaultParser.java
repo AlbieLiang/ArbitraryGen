@@ -16,11 +16,11 @@ import cc.suitalk.arbitrarygen.core.ContextInfo;
 import cc.suitalk.arbitrarygen.core.GenCodeTaskInfo;
 import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
 import cc.suitalk.arbitrarygen.core.TemplateConstants;
-import cc.suitalk.arbitrarygen.core.TemplateConvertorMgr;
+import cc.suitalk.arbitrarygen.core.TemplateConverterMgr;
 import cc.suitalk.arbitrarygen.core.TemplateParserMgr;
 import cc.suitalk.arbitrarygen.core.TemplateWrapperMgr;
 import cc.suitalk.arbitrarygen.core.base.SourceFileParser;
-import cc.suitalk.arbitrarygen.extension.ICustomizeConvertor;
+import cc.suitalk.arbitrarygen.extension.ICustomizeConverter;
 import cc.suitalk.arbitrarygen.extension.ICustomizeGenerator;
 import cc.suitalk.arbitrarygen.extension.ICustomizeParser;
 import cc.suitalk.arbitrarygen.extension.ITemplateWrapper;
@@ -42,13 +42,13 @@ public class DefaultParser implements SourceFileParser<JSONObject> {
     private DefaultRawTemplateParser mDefaultRawTemplateParser;
 
     private TemplateParserMgr mParserMgr;
-    private TemplateConvertorMgr mConverterMgr;
+    private TemplateConverterMgr mConverterMgr;
     protected TemplateWrapperMgr mWrapperMgr;
 
     public DefaultParser(ArbitraryGenCore core, JSONObject args) {
         mArgs = args;
         mParserMgr = new TemplateParserMgr();
-        mConverterMgr = new TemplateConvertorMgr();
+        mConverterMgr = new TemplateConverterMgr();
         mWrapperMgr = new TemplateWrapperMgr();
 
         // load extension jar
@@ -80,8 +80,8 @@ public class DefaultParser implements SourceFileParser<JSONObject> {
                         Object o = clazz.newInstance();
                         if (o instanceof ICustomizeParser) {
                             mParserMgr.addParser((ICustomizeParser) o);
-                        } else if (o instanceof ICustomizeConvertor) {
-                            mConverterMgr.addConvertor((ICustomizeConvertor) o);
+                        } else if (o instanceof ICustomizeConverter) {
+                            mConverterMgr.addConverter((ICustomizeConverter) o);
                         } else if (o instanceof ITemplateWrapper) {
                             mWrapperMgr.addWrapper((ITemplateWrapper) o);
                         }
@@ -134,7 +134,7 @@ public class DefaultParser implements SourceFileParser<JSONObject> {
             List<RawTemplate> subTemplates = template.getElements();
             for (int j = 0; j < subTemplates.size(); j++) {
                 RawTemplate t = subTemplates.get(j);
-                ICustomizeConvertor converter = mConverterMgr.getFirstMatchConvertor(t);
+                ICustomizeConverter converter = mConverterMgr.getFirstMatchConverter(t);
                 if (converter == null || !converter.canConvert(t)) {
                     continue;
                 }

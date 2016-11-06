@@ -13,10 +13,7 @@ arbitraryGen {
     general {
         format "db" // Use XML format parser.
         rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
-        parsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConvertor", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"]
-//        parsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateConvertor"
-//        parsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.EventTemplateWrapper"
-//        parsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateWrapper"
+        parsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]
     }
 
     logger {

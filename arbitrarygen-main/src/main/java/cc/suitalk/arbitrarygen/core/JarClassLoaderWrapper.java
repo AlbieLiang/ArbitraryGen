@@ -18,7 +18,7 @@ public class JarClassLoaderWrapper {
 	private URLClassLoader mLoader;
 
 	public JarClassLoaderWrapper() {
-		mJarFiles = new LinkedList<File>();
+		mJarFiles = new LinkedList<>();
 	}
 
 	public Class<?> loadClass(String className) throws ClassNotFoundException,

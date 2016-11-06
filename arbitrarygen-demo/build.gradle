@@ -49,17 +49,17 @@ arbitraryGen {
     general {
         // suffix list
         format "xml","db" // Use XML format parser.
-        parsers {
+        parser {
 
         }
         extension {
             // jar list
             jar "../ArbitraryGen/arbitrarygen-demo-wrapper.jar"
             // class list
-            tClass "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConvertor",
+            tClass "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter",
                     "cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper",
                     "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper",
-                    "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"
+                    "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"
         }
     }
 
@@ -75,13 +75,17 @@ arbitraryGen {
         format "e"
     }
 
+    javaCodeEngine {
+        rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
+    }
+
     // external engine argument
     engine {
         // external jar and class of customize engine
         extension {
             jar "../ArbitraryGen/arbitrarygen-demo-wrapper.jar"
-            tClass "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor",
-                    "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"
+            tClass "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter",
+                    "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"
         }
         // example engine
         testEngine {
@@ -91,7 +95,4 @@ arbitraryGen {
             }
         }
     }
-//    javaCodeEngine {
-//        rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
-//    }
 }
