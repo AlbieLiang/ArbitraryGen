@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cc.suitalk.arbitrarygen.core.base.ArbitraryGenEngine;
-import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor;
-import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor.ErrorCode;
+import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor.ErrorCode;
 import cc.suitalk.arbitrarygen.engine.DefaultAGEngine;
 import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
@@ -26,7 +27,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
 /**
  * Created by AlbieLiang on 16/10/27.
  */
-public class ArbitraryGenCore {
+public class ArbitraryGenCore implements AGCore {
 
     private static final String TAG = "AG.ArbitraryGenCore";
 
@@ -44,6 +45,7 @@ public class ArbitraryGenCore {
         mJarClassLoader = new JarClassLoaderWrapper();
     }
 
+    @Override
     public void initialize(JSONObject jsonObject) {
         if (jsonObject == null) {
             throw new NullPointerException("jsonObject can't be null.");
@@ -60,6 +62,7 @@ public class ArbitraryGenCore {
         mInitialized = true;
     }
 
+    @Override
     public void start() {
         if (mStarted) {
             Log.i(TAG, "the core has been started.");
@@ -72,6 +75,7 @@ public class ArbitraryGenCore {
         mStarted = true;
     }
 
+    @Override
     public void addProcessor(ArbitraryGenProcessor processor) {
         if (processor == null) {
             Log.w(TAG, "the processor is null.");
@@ -90,10 +94,12 @@ public class ArbitraryGenCore {
         }
     }
 
+    @Override
     public ArbitraryGenProcessor removeProcessor(String name) {
         return mProcessors.remove(name);
     }
 
+    @Override
     public ArbitraryGenProcessor getProcessor(String name) {
         return mProcessors.get(name);
     }
@@ -105,6 +111,7 @@ public class ArbitraryGenCore {
      * @param args
      * @return
      */
+    @Override
     public JSONObject execProcess(Map<String, ArbitraryGenProcessor> processors, String processorName, JSONObject args) {
         return execProcess(processors.get(processorName), args);
     }
@@ -114,6 +121,7 @@ public class ArbitraryGenCore {
      * @param processor
      * @return
      */
+    @Override
     public JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args) {
         if (processor == null) {
             return null;
@@ -131,6 +139,7 @@ public class ArbitraryGenCore {
         return processor.exec(this, engines, args);
     }
 
+    @Override
     public JarClassLoaderWrapper getJarClassLoader() {
         return mJarClassLoader;
     }

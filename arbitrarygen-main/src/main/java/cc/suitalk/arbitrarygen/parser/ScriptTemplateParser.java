@@ -4,7 +4,7 @@ import net.sf.json.JSONObject;
 
 import java.io.File;
 
-import cc.suitalk.arbitrarygen.core.base.SourceFileParser;
+import cc.suitalk.arbitrarygen.extension.SourceFileParser;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
 import cc.suitalk.arbitrarygen.template.base.ITemplateProcessor;
 

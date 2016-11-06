@@ -1,13 +1,11 @@
-package cc.suitalk.arbitrarygen.core.base;
+package cc.suitalk.arbitrarygen.extension;
 
 import net.sf.json.JSONObject;
 
 import java.util.Map;
 
-import cc.suitalk.arbitrarygen.core.ArbitraryGenCore;
-
 /**
- * Created by albieliang on 16/10/27.
+ * Created by AlbieLiang on 16/10/27.
  */
 public interface ArbitraryGenProcessor {
 
@@ -24,7 +22,7 @@ public interface ArbitraryGenProcessor {
      * @param core
      * @param args
      */
-    void initialize(ArbitraryGenCore core, JSONObject args);
+    void initialize(AGCore core, JSONObject args);
 
     /**
      * Get dependencies {@link ArbitraryGenProcessor}'s name array.
@@ -39,7 +37,7 @@ public interface ArbitraryGenProcessor {
      * @param processors
      * @return if has result then return a {@link JSONObject}, otherwise return null.
      */
-    JSONObject exec(ArbitraryGenCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args);
+    JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args);
 
     /**
      * When error occur during the process.

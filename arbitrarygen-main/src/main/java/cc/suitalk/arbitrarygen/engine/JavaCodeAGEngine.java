@@ -9,14 +9,14 @@ import java.util.Map;
 
 import cc.suitalk.arbitrarygen.analyzer.JavaFileLexer;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
-import cc.suitalk.arbitrarygen.core.ArbitraryGenCore;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.core.CodeGenerator;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
 import cc.suitalk.arbitrarygen.core.GenCodeTaskInfo;
 import cc.suitalk.arbitrarygen.core.SourceFileInfo;
-import cc.suitalk.arbitrarygen.core.base.ArbitraryGenEngine;
-import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor;
+import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.extension.ICustomizeGenerator;
 import cc.suitalk.arbitrarygen.extension.ITypeDefineWrapper;
 import cc.suitalk.arbitrarygen.impl.DefaultTypeDefineWrapper;
@@ -45,7 +45,7 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void initialize(ArbitraryGenCore core, JSONObject args) {
+    public void initialize(AGCore core, JSONObject args) {
         if (args == null) {
             return;
         }
@@ -73,7 +73,7 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(ArbitraryGenCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         if (!mEnable) {
             return null;
         }

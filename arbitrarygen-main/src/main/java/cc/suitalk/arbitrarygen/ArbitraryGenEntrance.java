@@ -10,6 +10,7 @@ import java.util.Map;
 import cc.suitalk.arbitrarygen.core.ArbitraryGenCore;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.debug.Debuger;
+import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.tools.DefaultUncaughtExceptionHandler;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -47,7 +48,7 @@ public class ArbitraryGenEntrance {
 			return;
 		}
 		// For new engine framework
-		ArbitraryGenCore core = new ArbitraryGenCore();
+		AGCore core = new ArbitraryGenCore();
 		JSONObject jsonObject = null;
 		try {
 			String json = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ARG_JSON);

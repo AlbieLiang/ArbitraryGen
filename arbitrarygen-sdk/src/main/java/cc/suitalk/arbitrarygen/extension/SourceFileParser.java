@@ -1,9 +1,9 @@
-package cc.suitalk.arbitrarygen.core.base;
+package cc.suitalk.arbitrarygen.extension;
 
 import java.io.File;
 
 /**
- * Created by albieliang on 16/10/28.
+ * Created by AlbieLiang on 16/10/28.
  */
 public interface SourceFileParser<ResultType> {
 

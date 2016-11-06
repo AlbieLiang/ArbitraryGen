@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import cc.suitalk.arbitrarygen.core.ArbitraryGenCore;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
-import cc.suitalk.arbitrarygen.core.base.ArbitraryGenEngine;
-import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor;
+import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
 import cc.suitalk.arbitrarygen.template.GenVigorDBTask;
 import cc.suitalk.arbitrarygen.template.JsTemplateProcessor;
@@ -40,7 +40,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void initialize(ArbitraryGenCore core, JSONObject args) {
+    public void initialize(AGCore core, JSONObject args) {
         if (args == null) {
             return;
         }
@@ -80,7 +80,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(ArbitraryGenCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         if (mTemplateProcessor == null) {
             return null;
         }

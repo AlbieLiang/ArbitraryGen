@@ -4,9 +4,9 @@ import net.sf.json.JSONObject;
 
 import java.util.Map;
 
-import cc.suitalk.arbitrarygen.core.ArbitraryGenCore;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
-import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor;
+import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.debug.Debuger;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -24,7 +24,7 @@ public class LoggerAGProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(ArbitraryGenCore core, JSONObject args) {
+    public void initialize(AGCore core, JSONObject args) {
         boolean logToFile = args == null || args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_TO_FILE, true);
         if (logToFile) {
             String logFile = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_FILE);
@@ -49,7 +49,7 @@ public class LoggerAGProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(ArbitraryGenCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         return null;
     }
 

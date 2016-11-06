@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import cc.suitalk.arbitrarygen.core.ArbitraryGenCore;
 import cc.suitalk.arbitrarygen.core.SourceFileInfo;
-import cc.suitalk.arbitrarygen.core.base.ArbitraryGenProcessor;
+import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -37,7 +37,7 @@ public class ScannerAGProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(ArbitraryGenCore core, JSONObject args) {
+    public void initialize(AGCore core, JSONObject args) {
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ScannerAGProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(ArbitraryGenCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String srcDir = args.getString(KEY_SRC_DIR);
         JSONArray suffixJsonArray = args.optJSONArray(KEY_SUFFIX_LIST);
         int scanMode = args.optInt(KEY_SCAN_MODE);
