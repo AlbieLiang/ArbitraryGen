@@ -83,9 +83,8 @@ arbitraryGen {
     engine {
         // external jar and class of customize engine
         extension {
-            jar "../ArbitraryGen/arbitrarygen-demo-wrapper.jar"
-            tClass "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter",
-                    "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"
+            jar "../ArbitraryGen/arbitrarygen-demo-engine.jar"
+            tClass "cc.suitalk.tools.arbitrarygen.demo.TestEngine"
         }
         // example engine
         testEngine {

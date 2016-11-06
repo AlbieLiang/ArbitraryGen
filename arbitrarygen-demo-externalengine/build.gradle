@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+version = '1.0.0'
+mainClassName = ''
+archivesBaseName = 'arbitrarygen-demo-engine'
+
+jar {
+    baseName = archivesBaseName
+    version = this.version
+}
+
+dependencies {
+    compile 'cc.suitalk.tools:arbitrarygen-sdk:1.0.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+}
+
+//打包
+task packLibJar(type: Jar, dependsOn: classes) {
+    from files(sourceSets.main.output.classesDir)
+    from fileTree(dir: 'libs', include: [""]).files.collect { zipTree(it) }
+//    {
+//        include "freemarker-2.3.23.jar"
+//        include "greendao-generator-2.1.0.jar"
+//    }.files.collect { zipTree(it) }
+    baseName = archivesBaseName
+    version = this.version
+}
+
+task uploadJar(type: Copy, dependsOn: packLibJar) {
+    from("build/libs")
+    into("../ArbitraryGen/")
+    include("${archivesBaseName}-${version}.jar")
+    rename("${archivesBaseName}-${version}.jar", "${archivesBaseName}.jar")
+}
+
