@@ -5,8 +5,6 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.TaskAction
 
-//import org.gradle.internal.impldep.com.google.gson.JsonObject
-
 /**
  *
  * @Author AlbieLiang
@@ -24,17 +22,6 @@ class ArbitraryGenTask extends DefaultTask {
     def File outputDir
 
 //    @Input
-    def GeneralArgs generalArgs;
-
-//    @Input
-    def LoggerArgs loggerArgs;
-
-//    @Input
-    def ScriptEngineArgs scriptEngineArgs;
-
-//    @Input
-    def JavaCodeEngineArgs javaCodeEngineArgs;
-
     def ArbitraryGenPluginExtension extension
 
     @TaskAction

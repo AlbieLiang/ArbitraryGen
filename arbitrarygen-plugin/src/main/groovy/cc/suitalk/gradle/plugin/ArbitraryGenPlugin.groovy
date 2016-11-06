@@ -14,22 +14,12 @@ class ArbitraryGenPlugin implements Plugin<Project> {
 
     ArbitraryGenPluginExtension extension;
 
-    LoggerArgs loggerExtension;
-    GeneralArgs argsExtension;
-    ScriptEngineArgs scriptEngineExtension;
-    JavaCodeEngineArgs javaCodeEngineExtension;
-
     ArbitraryGenTask arbitraryGenTask;
-    Closure argsClosureExtension;
 
     @Override
     void apply(Project project) {
         this.project = project
         this.extension = project.extensions.create("arbitraryGen", ArbitraryGenPluginExtension)
-        this.loggerExtension = this.extension.extensions.create("logger", LoggerArgs)
-        this.argsExtension = this.extension.extensions.create("general", GeneralArgs)
-        this.scriptEngineExtension = this.extension.extensions.create("scriptEngine", ScriptEngineArgs)
-        this.javaCodeEngineExtension = this.extension.extensions.create("javaCodeEngine", JavaCodeEngineArgs)
 
         this.arbitraryGenTask = this.project.tasks.create("arbitraryGen", ArbitraryGenTask)
 
@@ -50,10 +40,6 @@ class ArbitraryGenPlugin implements Plugin<Project> {
             arbitraryGenTask.outputDir = this.project.file(this.extension.outputDir)
             arbitraryGenTask.libsDir = this.project.file(this.extension.libsDir)
 
-            arbitraryGenTask.loggerArgs = this.loggerExtension
-            arbitraryGenTask.generalArgs = this.argsExtension
-            arbitraryGenTask.scriptEngineArgs = this.scriptEngineExtension
-            arbitraryGenTask.javaCodeEngineArgs = this.javaCodeEngineExtension
             arbitraryGenTask.extension = this.extension
 
             if (arbitraryGenTask.inputDir == null || !arbitraryGenTask.inputDir.exists()) {
