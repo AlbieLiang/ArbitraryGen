@@ -8,7 +8,7 @@ import cc.suitalk.arbitrarygen.utils.Log;
 
 /**
  * 
- * @author albieliang
+ * @author AlbieLiang
  * 
  */
 public class GreenDaoConverter implements ICustomizeConverter {

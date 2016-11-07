@@ -11,7 +11,7 @@ import cc.suitalk.arbitrarygen.template.base.ITemplateProcessor;
 /**
  * Created by AlbieLiang on 16/11/2.
  */
-public class ScriptTemplateParser implements SourceFileParser<JSONObject> {
+public class ScriptTemplateParser implements SourceFileParser<JSONObject, JSONObject> {
 
     private ITemplateProcessor mTemplateProcessor;
     private TemplateConfig mTemplateConfig;
@@ -22,7 +22,7 @@ public class ScriptTemplateParser implements SourceFileParser<JSONObject> {
     }
 
     @Override
-    public JSONObject parse(File file) {
+    public JSONObject parse(JSONObject args, File file) {
         return null;
     }
 }

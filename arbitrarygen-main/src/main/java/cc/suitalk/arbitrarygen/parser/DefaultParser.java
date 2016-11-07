@@ -34,7 +34,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
 /**
  * Created by AlbieLiang on 16/11/02.
  */
-public class DefaultParser implements SourceFileParser<JSONObject> {
+public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
 
     private static final String TAG = "AG.DefaultParser";
 
@@ -64,7 +64,7 @@ public class DefaultParser implements SourceFileParser<JSONObject> {
                     }
                     File file = new File(jar);
                     if (!loader.contains(file) && loader.addJar(file)) {
-                        Log.i(TAG, "Loaded Jar(%) into ClassLoader.", jar);
+                        Log.i(TAG, "Loaded Jar(%s) into ClassLoader.", jar);
                     }
                 }
             }
@@ -110,13 +110,16 @@ public class DefaultParser implements SourceFileParser<JSONObject> {
     }
 
     @Override
-    public JSONObject parse(File file) {
+    public JSONObject parse(JSONObject args, File file) {
+        Log.v(TAG, "parse file(%s)", file);
         String suffix = Util.getSuffix(file.getName());
         if (Util.isNullOrNil(suffix)) {
+            Log.w(TAG, "parse failed, suffix of the file(%s) is null or nil.", file);
             return null;
         }
         ICustomizeParser parser = mParserMgr.getFirstMatchParser(suffix);
         if (parser == null || !parser.canParse(suffix)) {
+            Log.i(TAG, "parse failed, do not has a parser can parse the file(%s).", file);
             return null;
         }
         List<RawTemplate> templates = parser.parse(file);

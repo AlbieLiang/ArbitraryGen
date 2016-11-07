@@ -12,29 +12,31 @@ public interface ArbitraryGenProcessor {
     /**
      * Get Engine name.
      *
-     * @return
+     * @return can not be null or nil
      */
     String getName();
 
     /**
      * Initialize the Engine with arguments.
      *
-     * @param core
-     * @param args
+     * @param core the ArbitraryGen Engine Core
+     * @param args input arguments
      */
     void initialize(AGCore core, JSONObject args);
 
     /**
      * Get dependencies {@link ArbitraryGenProcessor}'s name array.
      *
-     * @return
+     * @return the dependencies processors of this processor
      */
     String[] getDependencies();
 
     /**
      * The real time to execute the Engine logic.
      *
-     * @param processors
+     * @param core the ArbitraryGen Engine Core
+     * @param processors dependencies processors
+     * @param args input arguments
      * @return if has result then return a {@link JSONObject}, otherwise return null.
      */
     JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args);
@@ -42,8 +44,8 @@ public interface ArbitraryGenProcessor {
     /**
      * When error occur during the process.
      *
-     * @param errorCode
-     * @param message
+     * @param errorCode code for different error case
+     * @param message error message
      */
     void onError(int errorCode, String message);
 

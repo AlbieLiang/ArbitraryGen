@@ -47,14 +47,16 @@ arbitraryGen {
     outputDir "$buildDir/generated/source/autogen"
 
     general {
+        enable true
         // suffix list
-        format "xml","db" // Use XML format parser.
+        format "xml","db","greendao" // Use XML format parser.
         parser {
-
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+            tClass "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"
         }
         extension {
             // jar list
-            jar "../ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-wrapper.jar"
             // class list
             tClass "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter",
                     "cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper",
@@ -83,7 +85,7 @@ arbitraryGen {
     engine {
         // external jar and class of customize engine
         extension {
-            jar "../ArbitraryGen/arbitrarygen-demo-engine.jar"
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-engine.jar"
             tClass "cc.suitalk.tools.arbitrarygen.demo.TestEngine"
         }
         // example engine

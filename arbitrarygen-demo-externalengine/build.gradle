@@ -18,7 +18,7 @@ dependencies {
 //打包
 task packLibJar(type: Jar, dependsOn: classes) {
     from files(sourceSets.main.output.classesDir)
-    from fileTree(dir: 'libs', include: [""]).files.collect { zipTree(it) }
+//    from fileTree(dir: 'libs', include: [""]).files.collect { zipTree(it) }
 //    {
 //        include "freemarker-2.3.23.jar"
 //        include "greendao-generator-2.1.0.jar"

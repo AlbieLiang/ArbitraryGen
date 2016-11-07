@@ -31,6 +31,7 @@ public class ArbitraryGenCore implements AGCore {
 
     private static final String TAG = "AG.ArbitraryGenCore";
 
+    private List<ArbitraryGenProcessor> mProcessorList;
     private Map<String, ArbitraryGenProcessor> mProcessors;
     private Map<String, ArbitraryGenEngine> mEngines;
     private volatile boolean mInitialized;
@@ -41,6 +42,7 @@ public class ArbitraryGenCore implements AGCore {
 
     public ArbitraryGenCore() {
         mProcessors = new ConcurrentHashMap<>();
+        mProcessorList = new LinkedList<>();
         mEngines = new ConcurrentHashMap<>();
         mJarClassLoader = new JarClassLoaderWrapper();
     }
@@ -56,8 +58,10 @@ public class ArbitraryGenCore implements AGCore {
         }
         mArgs = jsonObject;
         prepare(jsonObject);
-        for (ArbitraryGenProcessor processor : mProcessors.values()) {
+        for (ArbitraryGenProcessor processor : mProcessorList) {
             processor.initialize(this, getAGProcessorArgs(mArgs, processor.getName()));
+
+            Log.i(TAG, "initialized(%s), args(%s)", processor.getName(), getAGProcessorArgs(mArgs, processor.getName()));
         }
         mInitialized = true;
     }
@@ -84,7 +88,11 @@ public class ArbitraryGenCore implements AGCore {
         if (mInitialized) {
             processor.initialize(this, getAGProcessorArgs(mArgs, processor.getName()));
         }
-        mProcessors.put(processor.getName(), processor);
+        ArbitraryGenProcessor p = mProcessors.put(processor.getName(), processor);
+        if (p != null) {
+            mProcessorList.remove(p);
+        }
+        mProcessorList.add(processor);
         // For auto execute engine
         if (processor instanceof ArbitraryGenEngine) {
             mEngines.put(processor.getName(), (ArbitraryGenEngine) processor);
@@ -96,7 +104,11 @@ public class ArbitraryGenCore implements AGCore {
 
     @Override
     public ArbitraryGenProcessor removeProcessor(String name) {
-        return mProcessors.remove(name);
+        ArbitraryGenProcessor processor = mProcessors.remove(name);
+        if (processor != null) {
+            mProcessorList.remove(processor);
+        }
+        return processor;
     }
 
     @Override
@@ -175,6 +187,8 @@ public class ArbitraryGenCore implements AGCore {
                 File file = new File(jar);
                 if (!loader.contains(file) && loader.addJar(file)) {
                     Log.i(TAG, "Loaded Jar(%s) into ClassLoader.", jar);
+                } else {
+                    Log.i(TAG, "Load Jar(%s) failed.", jar);
                 }
             }
         }
@@ -192,7 +206,7 @@ public class ArbitraryGenCore implements AGCore {
                         ArbitraryGenProcessor processor = (ArbitraryGenProcessor) o;
                         String name = processor.getName();
                         if (getProcessor(name) != null) {
-                            Log.i(TAG, "add external AGProcessor fail, duplicate processor name(%s).", name);
+                            Log.i(TAG, "add external AGProcessor failed, duplicate processor name(%s).", name);
                             continue;
                         }
                         JSONObject args = argsJson.optJSONObject(name);
@@ -240,7 +254,7 @@ public class ArbitraryGenCore implements AGCore {
                 args.put(name, jsonObject);
             }
         }
-        Log.v(TAG, "AGProcessor(%s) args : %s", name, jsonObject);
+        Log.v(TAG, "getAGProcessor(%s) args : %s", name, jsonObject);
         return jsonObject;
     }
 }

@@ -45,18 +45,20 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
     @Override
     public void initialize(AGCore core, JSONObject args) {
         if (args == null) {
+            Log.w(TAG, "initialize failed, args is null.");
             return;
         }
-        boolean enable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE);
+        boolean enable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE, true);
         if (!enable) {
+            Log.i(TAG, "initialize failed, the engine is disable.");
             return;
         }
-
+        Log.i(TAG, "initialize, args(%s).", args);
         // load parser jar
         JSONObject parserJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_PARSER);
         if (parserJson != null) {
-            JSONArray jarArray = JSONArgsUtils.getJSONArray(parserJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true);
             JarClassLoaderWrapper loader = core.getJarClassLoader();
+            JSONArray jarArray = JSONArgsUtils.getJSONArray(parserJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true);
             if (jarArray != null && !jarArray.isEmpty()) {
                 for (int i = 0; i < jarArray.size(); i++) {
                     String jar = jarArray.optString(i);
@@ -65,7 +67,9 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
                     }
                     File file = new File(jar);
                     if (!loader.contains(file) && loader.addJar(file)) {
-                        Log.i(TAG, "Loaded Jar(%) into ClassLoader.", jar);
+                        Log.i(TAG, "Loaded Jar(%s) into ClassLoader.", jar);
+                    } else {
+                        Log.i(TAG, "Load Jar(%s) failed.", jar);
                     }
                 }
             }
@@ -81,6 +85,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
                         Object o = clazz.newInstance();
                         if (o instanceof SourceFileParser) {
                             mParserMgr.addParser((SourceFileParser) o);
+                            Log.v(TAG, "add parser(%s)", clazz.getName());
                         }
                     } catch (MalformedURLException e) {
                         Log.e(TAG, "load class error : %s", e);
@@ -121,9 +126,10 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
     @Override
     public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         if (!mInitialized) {
+            Log.w(TAG, "exec failed, haven't initialized.");
             return null;
         }
-        Log.v(TAG, "execute, args(%s)", args);
+        Log.v(TAG, "execute general engine, args(%s)", args);
         JSONObject argsJSONObject = new JSONObject();
         argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
         argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
@@ -131,10 +137,12 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
 
         JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);
         if (jsonObject == null) {
+            Log.i(TAG, "exec failed, scan out  file list is null.");
             return null;
         }
         Set<String> keySet = jsonObject.keySet();
         if (keySet == null || keySet.isEmpty()) {
+            Log.i(TAG, "exec failed, scan out  file list is nil.");
             return null;
         }
         for (String key : keySet) {
@@ -142,7 +150,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
             if (array == null || array.isEmpty()) {
                 continue;
             }
-            SourceFileParser<JSONObject> parser = mParserMgr.getParser(JSONObject.class, key);
+            SourceFileParser<JSONObject, JSONObject> parser = mParserMgr.getParser(JSONObject.class, JSONObject.class, key);
             if (parser == null) {
                 continue;
             }
@@ -152,7 +160,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
                     continue;
                 }
                 File file = new File(path);
-                JSONObject sourceJSON = parser.parse(file);
+                JSONObject sourceJSON = parser.parse(args, file);
                 if (sourceJSON == null) {
                     continue;
                 }
@@ -192,12 +200,14 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
             return mSrcFileParserList.remove(parser);
         }
 
-        public <T> SourceFileParser<T> getParser(Class<T> clazz, String suffix) {
-            for (SourceFileParser parser : mSrcFileParserList) {
+        public <T1, T2> SourceFileParser<T1, T2> getParser(Class<T1> t1Class, Class<T2> t2Class, String suffix) {
+            for (int i = 0; i < mSrcFileParserList.size(); i++) {
+                SourceFileParser parser = mSrcFileParserList.get(i);
                 if (parser.match(suffix)) {
                     try {
-                        return (SourceFileParser<T>) parser;
+                        return (SourceFileParser<T1, T2>) parser;
                     } catch (Exception e) {
+                        Log.w(TAG, "cast parser error : %s", e);
                         continue;
                     }
                 }

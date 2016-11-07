@@ -5,9 +5,9 @@ import java.io.File;
 /**
  * Created by AlbieLiang on 16/10/28.
  */
-public interface SourceFileParser<ResultType> {
+public interface SourceFileParser<InputType, ResultType> {
 
     boolean match(String suffix);
 
-    ResultType parse(File file);
+    ResultType parse(InputType args, File file);
 }

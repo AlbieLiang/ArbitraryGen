@@ -14,11 +14,13 @@ import java.util.List;
  */
 public class JarClassLoaderWrapper {
 
-	private List<File> mJarFiles;
+	private List<File> mLoadedJarFileList;
+	private List<File> mNotLoadJarFileList;
 	private URLClassLoader mLoader;
 
 	public JarClassLoaderWrapper() {
-		mJarFiles = new LinkedList<>();
+		mLoadedJarFileList = new LinkedList<>();
+		mNotLoadJarFileList = new LinkedList<>();
 	}
 
 	public Class<?> loadClass(String className) throws ClassNotFoundException,
@@ -31,25 +33,33 @@ public class JarClassLoaderWrapper {
 	}
 
 	private URLClassLoader getClassLoader() throws MalformedURLException {
-		if (mLoader == null) {
-			URL[] urls = new URL[mJarFiles.size()];
+		URL[] urls = new URL[0];
+		if (!mNotLoadJarFileList.isEmpty()) {
+			List<File> list = new LinkedList<>(mNotLoadJarFileList);
+			mNotLoadJarFileList.clear();
+			mLoadedJarFileList.addAll(list);
+			urls = new URL[list.size()];
 			for (int i = 0; i < urls.length; i++) {
-				urls[i] = mJarFiles.get(i).toURI().toURL();
+				urls[i] = list.get(i).toURI().toURL();
 			}
+		}
+		if (mLoader != null) {
+			mLoader = new URLClassLoader(urls, mLoader);
+		} else {
 			mLoader = new URLClassLoader(urls);
 		}
 		return mLoader;
 	}
 
 	/**
-	 * The method will work only before the method
-	 * {@link #loadClass(String className)} was invoked.
+	 * The method will add external Jar file into ClassLoader.
 	 * 
-	 * @param file
+	 * @param file adding file
+	 * @return true means add the jar file success, otherwise false
 	 */
 	public boolean addJar(File file) {
 		if (file != null && file.exists() && file.isFile() && !contains(file)) {
-			mJarFiles.add(file);
+			mNotLoadJarFileList.add(file);
 			return true;
 		}
 		return false;
@@ -59,16 +69,22 @@ public class JarClassLoaderWrapper {
 	 * The method will work only before the method
 	 * {@link #loadClass(String className)} was invoked.
 	 * 
-	 * @param file
+	 * @param file removing file
 	 */
 	public void removeJar(File file) {
-		mJarFiles.remove(file);
+		mNotLoadJarFileList.remove(file);
 	}
 
 	public boolean contains(File file) {
 		if (file != null) {
-			for (int i = 0; i < mJarFiles.size(); i++) {
-				File f = mJarFiles.get(i);
+			for (int i = 0; i < mLoadedJarFileList.size(); i++) {
+				File f = mLoadedJarFileList.get(i);
+				if (f == file || f.getAbsolutePath().equals(file.getAbsolutePath())) {
+					return true;
+				}
+			}
+			for (int i = 0; i < mNotLoadJarFileList.size(); i++) {
+				File f = mNotLoadJarFileList.get(i);
 				if (f == file || f.getAbsolutePath().equals(file.getAbsolutePath())) {
 					return true;
 				}
