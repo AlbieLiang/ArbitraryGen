@@ -23,7 +23,7 @@ import <%=_package%>.<%=_dbItems[i]%>;
  */
 public class VDBInfoDelegate implements IDatabaseInfoDelegate {
 
-	private static final String TAG = "AutoGen.VDBInfoDelegate";
+	private static final String TAG = "AG.VDBInfoDelegate";
 	
 	@Override
 	public void delegate(IDatabaseEngine engine) {

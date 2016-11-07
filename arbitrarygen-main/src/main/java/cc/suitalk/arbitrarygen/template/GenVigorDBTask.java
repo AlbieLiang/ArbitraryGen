@@ -39,7 +39,7 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 		
 		// Use default class name
 		if (Util.isNullOrNil(delegate)) {
-			delegate = "AutoGen_VDBInfoDelegate";
+			delegate = "AG_VDBInfoDelegate";
 		}
 		try {
 			if (tbObj instanceof JSONArray) {

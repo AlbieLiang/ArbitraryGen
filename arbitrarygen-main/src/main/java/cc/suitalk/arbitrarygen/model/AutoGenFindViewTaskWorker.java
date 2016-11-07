@@ -29,7 +29,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class AutoGenFindViewTaskWorker extends BaseAGTaskWorker {
 
-	private static final String TAG = "GenCode.AutoGenFindViewTaskWorker";
+	private static final String TAG = "AG.AutoGenFindViewTaskWorker";
 
 	public AutoGenFindViewTaskWorker() {
 		super(Command.Type.COMMAND_EXTRACT_VIEW_ID);

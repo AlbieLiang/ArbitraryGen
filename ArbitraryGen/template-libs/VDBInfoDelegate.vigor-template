@@ -18,7 +18,7 @@ import cc.suitalk.sdk.db.base.IDatabaseInfoDelegate;
  *
  * @since <%var date = new Date();%><%=date.toLocaleDateString() + " " + date.toLocaleTimeString()%>
  */
-public class <%if (_name) {%><%=_name%><%} else {%>AutoGen_VDBInfoDelegate<%}%> implements IDatabaseInfoDelegate {
+public class <%if (_name) {%><%=_name%><%} else {%>AG_VDBInfoDelegate<%}%> implements IDatabaseInfoDelegate {
 
 	@Override
 	public void delegate(IDatabaseEngine engine) {

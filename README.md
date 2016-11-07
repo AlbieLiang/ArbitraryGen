@@ -53,7 +53,7 @@
      */
     public class VDBInfoDelegate implements IDatabaseInfoDelegate {
 
-    	private static final String TAG = "AutoGen.VDBInfoDelegate";
+    	private static final String TAG = "AG.VDBInfoDelegate";
 
     	@Override
     	public void delegate(IDatabaseEngine engine) {
@@ -203,7 +203,7 @@
      */
     public class VDBInfoDelegate implements IDatabaseInfoDelegate {
 
-       private static final String TAG = "AutoGen.VDBInfoDelegate";
+       private static final String TAG = "AG.VDBInfoDelegate";
 
        @Override
        public void delegate(IDatabaseEngine engine) {
