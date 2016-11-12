@@ -46,6 +46,13 @@ arbitraryGen {
     inputDir "${project.projectDir.absolutePath}/autogen"
     outputDir "$buildDir/generated/source/autogen"
 
+    logger {
+        debug true
+        logToFile true
+        printTag true
+        path "$buildDir/outputs/logs/ag.log"
+    }
+
     general {
         enable true
         // suffix list
@@ -63,13 +70,6 @@ arbitraryGen {
                     "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper",
                     "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"
         }
-    }
-
-    logger {
-        debug true
-        logToFile true
-        printTag true
-        path "$buildDir/outputs/logs/ag.log"
     }
 
     scriptEngine {

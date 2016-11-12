@@ -12,6 +12,7 @@ import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
 import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
+import cc.suitalk.arbitrarygen.core.TypeDefineWrapperMgr;
 import cc.suitalk.arbitrarygen.extension.AGAnnotationProcessor;
 import cc.suitalk.arbitrarygen.gencode.SourceFileInfo;
 import cc.suitalk.arbitrarygen.extension.AGCore;
