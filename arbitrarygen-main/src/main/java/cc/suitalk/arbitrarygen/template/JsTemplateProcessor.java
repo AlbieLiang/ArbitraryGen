@@ -54,7 +54,7 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 		XMLSerializer ss = new XMLSerializer();
 		ss.setTypeHintsEnabled(false);
 		ss.setTypeHintsCompatibility(false);
-		Log.i(TAG, "process src : " + src);
+		Log.i(TAG, "process src : %s", src);
 		JSONObject json = (JSONObject) ss.read(FileOperation.read(src));
 		
 		TaskInfo info = new TaskInfo();

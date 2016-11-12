@@ -20,7 +20,7 @@ import cc.suitalk.arbitrarygen.statement.NormalStatement;
 public class RunInMainThreadTaskWorker extends BaseAGTaskWorker {
 
 	public RunInMainThreadTaskWorker() {
-		super(Command.Type.COMMAND_KEEP);
+		super(Command.Type.COMMAND_RUN_IN_MAIN_THREAD);
 	}
 
 	@Override

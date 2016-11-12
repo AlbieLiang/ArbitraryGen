@@ -10,20 +10,21 @@ import java.util.Map;
 import cc.suitalk.arbitrarygen.analyzer.JavaFileLexer;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
-import cc.suitalk.arbitrarygen.core.CodeGenerator;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
-import cc.suitalk.arbitrarygen.core.GenCodeTaskInfo;
-import cc.suitalk.arbitrarygen.core.SourceFileInfo;
+import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
+import cc.suitalk.arbitrarygen.extension.AGAnnotationProcessor;
+import cc.suitalk.arbitrarygen.gencode.SourceFileInfo;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
-import cc.suitalk.arbitrarygen.extension.ICustomizeGenerator;
 import cc.suitalk.arbitrarygen.extension.ITypeDefineWrapper;
-import cc.suitalk.arbitrarygen.impl.DefaultTypeDefineWrapper;
+import cc.suitalk.arbitrarygen.impl.AGAnnotationWrapper;
 import cc.suitalk.arbitrarygen.rule.Project;
 import cc.suitalk.arbitrarygen.rule.Rule;
 import cc.suitalk.arbitrarygen.rule.RuleParser;
+import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
+import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -47,22 +48,52 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
     @Override
     public void initialize(AGCore core, JSONObject args) {
         if (args == null) {
+            Log.i(TAG, "initialize failed, args is null.");
             return;
         }
         mRules = new LinkedList<>();
         mTypeDefWrapper = new TypeDefineWrapperMgr();
         // Extract ArbitraryEnable flag
-        mEnable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE);
+        mEnable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE, true);
         if (mEnable) {
             String ruleArg = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_RULE);
             if (!Util.isNullOrNil(ruleArg)) {
                 // Java file
                 RuleParser parser = new RuleParser();
                 addRule(parser.parse(ruleArg));
-                ITypeDefineWrapper wrapper = new DefaultTypeDefineWrapper();
+                final AGAnnotationWrapper annWrapper = new AGAnnotationWrapper();
+                addTypeDefWrapper(annWrapper);
+                // load extension jar
+                JSONObject extensionJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);
+                if (extensionJson != null) {
+                    JarClassLoaderWrapper loader = core.getJarClassLoader();
+                    ExtJarClassLoaderTools.loadJar(loader,
+                            JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true));
+                    ExtJarClassLoaderTools.loadClass(loader,
+                            JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true),
+                            new ExtJarClassLoaderTools.OnLoadedClass() {
+                                @Override
+                                public void onLoadedClass(Object o) {
+                                    if (o instanceof ITypeDefineWrapper) {
+                                        addTypeDefWrapper((ITypeDefineWrapper) o);
+                                    }
+                                }
+                            });
+                    ExtJarClassLoaderTools.loadClass(loader,
+                            JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_PROCESSOR_CLASS, true),
+                            new ExtJarClassLoaderTools.OnLoadedClass() {
+                                @Override
+                                public void onLoadedClass(Object o) {
+                                    if (o instanceof AGAnnotationProcessor) {
+                                        annWrapper.addAnnotationProcessor((AGAnnotationProcessor) o);
+                                    }
+                                }
+                            });
+                }
+//                ITypeDefineWrapper wrapper = new DefaultTypeDefineWrapper();
                 // TODO: 16/11/2 albieliang, Add more type worker here
-//					wrapper.addIAGTaskWorker(worker);
-                addTypeDefWrapper(wrapper);
+//                wrapper.addIAGTaskWorker(worker);
+//                addTypeDefWrapper(wrapper);
             }
         }
     }
@@ -77,7 +108,6 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
         if (!mEnable) {
             return null;
         }
-
         ConfigInfo configInfo = new ConfigInfo();
         // Extract the destination path arg
         String dest = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
@@ -100,20 +130,12 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
                 srcFileInfoList.addAll(scan(projects.get(i)));
             }
         }
-
         for (int i = 0; i < srcFileInfoList.size(); i++) {
             SourceFileInfo info = srcFileInfoList.get(i);
             JavaFileLexer lexer = new JavaFileLexer(info.file);
             JavaFileObject javaFileObject = lexer.start();
+            configInfo.setFile(info.file);
             mTypeDefWrapper.doWrap(configInfo, javaFileObject);
-
-            GenCodeTaskInfo taskInfo = new GenCodeTaskInfo();
-            taskInfo.FileName = javaFileObject.getFileName();
-            taskInfo.RootDir = configInfo.getDestPath() + Util.getPackageDir(javaFileObject);
-            taskInfo.javaFileObject = javaFileObject;
-            // GenCode
-            ICustomizeGenerator generator = new CodeGenerator(javaFileObject);
-            FileOperation.saveToFile(taskInfo, generator.genCode());
         }
         return null;
     }

@@ -17,7 +17,7 @@
 # @Src-dir cc.suitalk.generator.core                        # Define a source directory for parse. It just parse the source file of this directory.
 # @Src-dir-recursion cc.suitalk.generator.core              # Define a source directory for parse, the child directory of the
 #                                                               # source directory may work as a source directory.
-# @Src-file cc.suitalk.generator.core.CodeGeneratorEntrance # Define a source file for parse
+# @Src-file cc.suitalk.arbitrarygen.core.ArbitraryGenEntrance # Define a source file for parse
 #
 # cc.suitalk.generator.core.*                     # A simple rule just like @Src-dir
 # cc.suitalk.generator.core.*.*                   # A simple rule parts match @Src-dir-recursion
@@ -33,12 +33,12 @@
 @Author AlbieLiang
 @Date current
 @Root ../
-@Project AutoGenCodeTest
-@Src src
+@Project arbitrarygen-demo
+@Src src/main/java
 @Src-format java
-#osc.innovator.arbitrarygen.demo.QQUserProtos
-osc.innovator.arbitrarygen.demo.MainActivity
+#cc.suitalk.arbitrarygen.demo.QQUserProtos
+cc.suitalk.arbitrarygen.demo.MainActivity
 
-@Project-begin AutoGenCodeTest
-# osc.innovator.arbitrarygen.demo.MainActivity
+@Project-begin arbitrarygen-demo
+# cc.suitalk.arbitrarygen.demo.MainActivity
 @Project-end

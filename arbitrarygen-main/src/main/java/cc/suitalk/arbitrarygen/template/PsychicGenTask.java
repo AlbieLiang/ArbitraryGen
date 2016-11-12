@@ -24,7 +24,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class PsychicGenTask extends BasePsychicWorker {
 
-	private static final String TAG = "AG.GenVigorDBTask";
+	private static final String TAG = "AG.PsychicGenTask";
 
 	private List<String> mSupportSuffixList;
 

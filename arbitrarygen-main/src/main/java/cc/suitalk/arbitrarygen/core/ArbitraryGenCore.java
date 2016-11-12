@@ -1,10 +1,7 @@
 package cc.suitalk.arbitrarygen.core;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +17,7 @@ import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
 import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
+import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -60,8 +58,6 @@ public class ArbitraryGenCore implements AGCore {
         prepare(jsonObject);
         for (ArbitraryGenProcessor processor : mProcessorList) {
             processor.initialize(this, getAGProcessorArgs(mArgs, processor.getName()));
-
-            Log.i(TAG, "initialized(%s), args(%s)", processor.getName(), getAGProcessorArgs(mArgs, processor.getName()));
         }
         mInitialized = true;
     }
@@ -175,57 +171,30 @@ public class ArbitraryGenCore implements AGCore {
         }
     }
 
-    private void addExternalProcessor(JSONObject argsJson, JSONObject extensionJson) {
+    private void addExternalProcessor(final JSONObject argsJson, JSONObject extensionJson) {
         JarClassLoaderWrapper loader = getJarClassLoader();
-        JSONArray jarArray = JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true);
-        if (jarArray != null && !jarArray.isEmpty()) {
-            for (int i = 0; i < jarArray.size(); i++) {
-                String jar = jarArray.optString(i);
-                if (Util.isNullOrNil(jar)) {
-                    continue;
-                }
-                File file = new File(jar);
-                if (!loader.contains(file) && loader.addJar(file)) {
-                    Log.i(TAG, "Loaded Jar(%s) into ClassLoader.", jar);
-                } else {
-                    Log.i(TAG, "Load Jar(%s) failed.", jar);
-                }
-            }
-        }
-        JSONArray classArray = JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true);
-        if (classArray != null && !classArray.isEmpty()) {
-            for (int i = 0; i < classArray.size(); i++) {
-                String tClass = classArray.optString(i);
-                if (Util.isNullOrNil(tClass)) {
-                    continue;
-                }
-                try {
-                    Class<?> clazz = loader.loadClass(tClass);
-                    Object o = clazz.newInstance();
-                    if (o instanceof ArbitraryGenProcessor) {
-                        ArbitraryGenProcessor processor = (ArbitraryGenProcessor) o;
-                        String name = processor.getName();
-                        if (getProcessor(name) != null) {
-                            Log.i(TAG, "add external AGProcessor failed, duplicate processor name(%s).", name);
-                            continue;
+        ExtJarClassLoaderTools.loadJar(loader,
+                JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true));
+        ExtJarClassLoaderTools.loadClass(loader,
+                JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true),
+                new ExtJarClassLoaderTools.OnLoadedClass() {
+                    @Override
+                    public void onLoadedClass(Object o) {
+                        if (o instanceof ArbitraryGenProcessor) {
+                            ArbitraryGenProcessor processor = (ArbitraryGenProcessor) o;
+                            String name = processor.getName();
+                            if (getProcessor(name) != null) {
+                                Log.i(TAG, "add external AGProcessor failed, duplicate processor name(%s).", name);
+                                return;
+                            }
+                            JSONObject args = argsJson.optJSONObject(name);
+                            if (args != null) {
+                                mArgs.put(name, args);
+                            }
+                            addProcessor(processor);
                         }
-                        JSONObject args = argsJson.optJSONObject(name);
-                        if (args != null) {
-                            mArgs.put(name, args);
-                        }
-                        addProcessor(processor);
                     }
-                } catch (MalformedURLException e) {
-                    Log.e(TAG, "load class error : %s", e);
-                } catch (ClassNotFoundException e) {
-                    Log.e(TAG, "load class error : %s", e);
-                } catch (InstantiationException e) {
-                    Log.e(TAG, "load class error : %s", e);
-                } catch (IllegalAccessException e) {
-                    Log.e(TAG, "load class error : %s", e);
-                }
-            }
-        }
+                });
     }
 
     private JSONObject getAGProcessorArgs(JSONObject args, String name) {

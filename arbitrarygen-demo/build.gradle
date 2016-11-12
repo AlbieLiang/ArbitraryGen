@@ -78,7 +78,15 @@ arbitraryGen {
     }
 
     javaCodeEngine {
+        enable true
         rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
+
+        // external jar and class of customize type-define wrapper or customize annotation processor
+        extension {
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+            // customize annotation processor
+            pClass "cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"
+        }
     }
 
     // external engine argument

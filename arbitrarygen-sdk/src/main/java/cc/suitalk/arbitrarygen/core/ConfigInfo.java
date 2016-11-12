@@ -1,5 +1,7 @@
 package cc.suitalk.arbitrarygen.core;
 
+import java.io.File;
+
 /**
  * 
  * @author AlbieLiang
@@ -16,7 +18,8 @@ public class ConfigInfo {
 	private String mRootPath;
 	private String mDestPath;
 	private String mSrcPath;
-	
+	private File mFile;
+
 	public ConfigInfo() {
 		mRootPath = System.getProperty("user.dir");
 		setDestPath(mRootPath + "/gen");
@@ -63,5 +66,13 @@ public class ConfigInfo {
 	
 	public String getRootPath() {
 		return mRootPath;
+	}
+
+	public File getFile() {
+		return mFile;
+	}
+
+	public void setFile(File file) {
+		mFile = file;
 	}
 }

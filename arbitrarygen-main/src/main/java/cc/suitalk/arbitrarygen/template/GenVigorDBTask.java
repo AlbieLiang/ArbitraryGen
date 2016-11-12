@@ -7,6 +7,7 @@ import javax.script.ScriptException;
 
 import cc.suitalk.arbitrarygen.template.base.BaseGenCodeWorker;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
+import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -57,7 +58,7 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 				tables.add(json.getString("@name"));
 			}
 		} catch (ScriptException e) {
-			e.printStackTrace();
+			Log.e(TAG, "gen item code error : %s", e);
 		}
 		if (mVigorDBInfoDelegateTmpl == null || !info.templateLibs.equals(mTemplateLibs)) {
 			mVigorDBInfoDelegateTmpl = FileOperation.read(info.templateLibs + "/VDBInfoDelegate.vigor-template");
@@ -70,7 +71,7 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 		try {
 			genCode(engine, mVigorDBInfoDelegateTmpl, info.transfer, "", info.destPath, delegateJson);
 		} catch (ScriptException e) {
-			e.printStackTrace();
+			Log.e(TAG, "gen delegate code error : %s", e);
 		}
 		return null;
 	}

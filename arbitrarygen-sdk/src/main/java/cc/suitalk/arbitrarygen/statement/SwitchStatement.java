@@ -50,9 +50,9 @@ public class SwitchStatement extends BaseStatement {
 		builder.append(genCommendBlock(linefeed));
 		builder.append(Util.getPrefix(this, "switch"));
 		builder.append(blank);
-		builder.append(Util.getLeftBlacket(this));
+		builder.append(Util.getLeftBracket(this));
 		builder.append(mExpression.genCode(linefeed));
-		builder.append(Util.getRightBlacket(this));
+		builder.append(Util.getRightBracket(this));
 		builder.append(blank);
 		builder.append(mLeftBrack != null ? mLeftBrack : "{");
 		for (int i = 0; i < mCaseStatements.size(); i++) {

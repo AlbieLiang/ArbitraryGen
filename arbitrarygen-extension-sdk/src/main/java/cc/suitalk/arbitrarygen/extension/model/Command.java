@@ -13,6 +13,7 @@ public final class Command {
 		public static final int COMMAND_RUN_IN_MAIN_THREAD = 2;
 		public static final int COMMAND_RUN_IN_WORKER_THREAD = 3;
 		public static final int COMMAND_KEEP = 4;
+		public static final int COMMAND_RENAME_CLASS = 5;
 	}
 	
 	public static final class Status {

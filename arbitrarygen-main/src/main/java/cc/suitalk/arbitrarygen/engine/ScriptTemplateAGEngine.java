@@ -45,7 +45,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
             return;
         }
         // For script template engine
-        boolean enable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE);
+        boolean enable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE, true);
         if (!enable) {
             return;
         }
@@ -106,13 +106,13 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         }
         final String destPath = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
         tp.prepare(mTemplateConfig);
-        for (String key : keySet) {
-            JSONArray array = jsonObject.optJSONArray(key);
-            if (array == null || array.isEmpty()) {
+        for (String suffix : keySet) {
+            JSONArray pathArray = jsonObject.optJSONArray(suffix);
+            if (pathArray == null || pathArray.isEmpty()) {
                 continue;
             }
-            for (int i = 0; i < array.size(); i++) {
-                String path = array.optString(i);
+            for (int i = 0; i < pathArray.size(); i++) {
+                String path = pathArray.optString(i);
                 if (Util.isNullOrNil(path)) {
                     continue;
                 }

@@ -28,7 +28,7 @@ public class ForStatement extends BaseStatement {
 		builder.append(genCommendBlock(linefeed));
 		builder.append(Util.getPrefix(this, "for"));
 		builder.append(blank);
-		builder.append(Util.getLeftBlacket(this));
+		builder.append(Util.getLeftBracket(this));
 		boolean needAppend = false;
 		if (mExpression1 != null) {
 			builder.append(mExpression1.genCode(""));
@@ -48,7 +48,7 @@ public class ForStatement extends BaseStatement {
 		if (mExpression3 != null) {
 			builder.append(mExpression3.genCode(""));
 		}
-		builder.append(Util.getRightBlacket(this));
+		builder.append(Util.getRightBracket(this));
 		builder.append(blank);
 		builder.append(genPlainCodeBlock(linefeed));
 		return builder.toString();

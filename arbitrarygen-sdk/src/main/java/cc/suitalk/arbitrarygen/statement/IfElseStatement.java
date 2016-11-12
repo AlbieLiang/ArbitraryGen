@@ -49,9 +49,9 @@ public class IfElseStatement extends BaseStatement {
 		builder.append(genCommendBlock(linefeed));
 		builder.append(Util.getPrefix(this, "if"));
 		builder.append(blank);
-		builder.append(Util.getLeftBlacket(this));
+		builder.append(Util.getLeftBracket(this));
 		builder.append(mExpression.genCode(linefeed));
-		builder.append(Util.getRightBlacket(this));
+		builder.append(Util.getRightBracket(this));
 		builder.append(blank);
 		builder.append(genPlainCodeBlock(linefeed));
 		for (int i = 0; i < mElseIfStatements.size(); i++) {

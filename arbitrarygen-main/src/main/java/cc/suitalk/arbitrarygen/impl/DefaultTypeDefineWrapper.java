@@ -10,20 +10,26 @@ import java.util.Set;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.MethodCodeBlock;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
+import cc.suitalk.arbitrarygen.gencode.CodeGenerator;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
+import cc.suitalk.arbitrarygen.gencode.GenCodeTaskInfo;
 import cc.suitalk.arbitrarygen.extension.IAGTaskWorker;
+import cc.suitalk.arbitrarygen.extension.ICustomizeGenerator;
 import cc.suitalk.arbitrarygen.extension.ITypeDefineWrapper;
 import cc.suitalk.arbitrarygen.model.ArbitraryGenTaskInfo;
 import cc.suitalk.arbitrarygen.model.AutoGenFindViewTaskWorker;
 import cc.suitalk.arbitrarygen.model.Constants;
 import cc.suitalk.arbitrarygen.model.ExtractJsApiFuncInfoWorker;
 import cc.suitalk.arbitrarygen.model.KeepTaskWorker;
+import cc.suitalk.arbitrarygen.model.RenameClassTaskWorker;
 import cc.suitalk.arbitrarygen.model.RunInMainThreadTaskWorker;
 import cc.suitalk.arbitrarygen.model.RunInWorkerThreadTaskWorker;
 import cc.suitalk.arbitrarygen.model.TypeName;
 import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
+import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.SignatureCreator;
+import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
  * 
@@ -37,7 +43,8 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 	private Set<IAGTaskWorker> mWorkers;
 	
 	public DefaultTypeDefineWrapper() {
-		mWorkers = new HashSet<IAGTaskWorker>();
+		mWorkers = new HashSet<>();
+		addIAGTaskWorker(new RenameClassTaskWorker());
 		addIAGTaskWorker(new AutoGenFindViewTaskWorker());
 		addIAGTaskWorker(new KeepTaskWorker());
 		addIAGTaskWorker(new RunInMainThreadTaskWorker());
@@ -46,10 +53,10 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 	}
 	
 	@Override
-	public boolean doWrap(ConfigInfo configInfo, JavaFileObject fileObject) {
+	public boolean doWrap(final ConfigInfo configInfo, final JavaFileObject fileObject) {
 		if (fileObject != null) {
 			Log.d(TAG, "doWrap, fileName : " + fileObject.getFileName());
-			List<TypeDefineCodeBlock> typeDefineCodeBlocks = new LinkedList<TypeDefineCodeBlock>();
+			List<TypeDefineCodeBlock> typeDefineCodeBlocks = new LinkedList<>();
 			// find need to handle TypeDefineCodeBlock
 			for (int i = 0; i < fileObject.getCountOfTypeDefCodeBlock(); i++) {
 				TypeDefineCodeBlock typeDef = fileObject.getTypeDefineCodeBlock(i);
@@ -66,7 +73,7 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 						continue;
 					}
 					String nameStr = name.getName();
-					Log.d(TAG, "annotation : " + nameStr);
+					Log.d(TAG, "annotation : %s", nameStr);
 					if (!Constants.NEED_TO_HANDLE_TASK_ANNOTATION.equals(nameStr)) {
 						continue;
 					}
@@ -74,8 +81,8 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 				}
 			}
 			if (typeDefineCodeBlocks.size() > 0) {
-				Map<String, ArbitraryGenTaskInfo> srcGenTasks = new HashMap<String, ArbitraryGenTaskInfo>();
-				Map<String, ArbitraryGenTaskInfo> targetTasks = new HashMap<String, ArbitraryGenTaskInfo>();
+				Map<String, ArbitraryGenTaskInfo> srcGenTasks = new HashMap<>();
+				Map<String, ArbitraryGenTaskInfo> targetTasks = new HashMap<>();
 				for (int i = 0; i < typeDefineCodeBlocks.size(); i++) {
 					TypeDefineCodeBlock typeDef = typeDefineCodeBlocks.get(i);
 					for (int j = 0; j < typeDef.countOfMethods(); j++) {
@@ -118,7 +125,7 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 					}
 				}
 				boolean hasTask = false;
-				Log.d(TAG, "srcGenTasks size : " + srcGenTasks.size() + ", targetTasks size : " + targetTasks.size());
+				Log.d(TAG, "srcGenTasks size : %d, targetTasks size : %d", srcGenTasks.size(), targetTasks.size());
 				if (srcGenTasks.size() > 0) {
 					hasTask = true;
 					for (ArbitraryGenTaskInfo task : srcGenTasks.values()) {
@@ -127,6 +134,14 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 						}
 					}
 				}
+				GenCodeTaskInfo taskInfo = new GenCodeTaskInfo();
+				taskInfo.FileName = fileObject.getFileName();
+				taskInfo.RootDir = configInfo.getDestPath() + Util.getPackageDir(fileObject);
+				taskInfo.javaFileObject = fileObject;
+				// GenCode
+				ICustomizeGenerator generator = new CodeGenerator(fileObject);
+				Log.i(TAG, "genCode rootDir : %s, fileName : %s, suffix : %s", taskInfo.RootDir, taskInfo.FileName, taskInfo.Suffix);
+				FileOperation.saveToFile(taskInfo, generator.genCode());
 				return hasTask;
 			}
 		}

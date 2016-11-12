@@ -105,7 +105,7 @@ public class JavaLexer implements ILexer {
 			word.blankStr = builder.toString();
 //			Log.d(TAG, word.toString());
 		} else {
-			Log.v(TAG, word.toString());// + "(" + word.type + ")"
+//			Log.v(TAG, word.toString());// + "(" + word.type + ")"
 		}
 		return word;
 	}

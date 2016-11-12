@@ -1,18 +1,16 @@
 package cc.suitalk.arbitrarygen.parser;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.List;
 
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
-import cc.suitalk.arbitrarygen.core.CodeGenerator;
+import cc.suitalk.arbitrarygen.gencode.CodeGenerator;
 import cc.suitalk.arbitrarygen.core.ContextInfo;
-import cc.suitalk.arbitrarygen.core.GenCodeTaskInfo;
+import cc.suitalk.arbitrarygen.gencode.GenCodeTaskInfo;
 import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
 import cc.suitalk.arbitrarygen.core.TemplateConstants;
 import cc.suitalk.arbitrarygen.core.TemplateConverterMgr;
@@ -26,6 +24,7 @@ import cc.suitalk.arbitrarygen.extension.ICustomizeParser;
 import cc.suitalk.arbitrarygen.extension.ITemplateWrapper;
 import cc.suitalk.arbitrarygen.impl.DefaultRawTemplateParser;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
+import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -54,48 +53,23 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
         // load extension jar
         JSONObject extensionJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);
         if (extensionJson != null) {
-            JSONArray jarArray = JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true);
             JarClassLoaderWrapper loader = core.getJarClassLoader();
-            if (jarArray != null && !jarArray.isEmpty()) {
-                for (int i = 0; i < jarArray.size(); i++) {
-                    String jar = jarArray.optString(i);
-                    if (Util.isNullOrNil(jar)) {
-                        continue;
-                    }
-                    File file = new File(jar);
-                    if (!loader.contains(file) && loader.addJar(file)) {
-                        Log.i(TAG, "Loaded Jar(%s) into ClassLoader.", jar);
-                    }
-                }
-            }
-            JSONArray classArray = JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true);
-            if (classArray != null && !classArray.isEmpty()) {
-                for (int i = 0; i < classArray.size(); i++) {
-                    String tClass = classArray.optString(i);
-                    if (Util.isNullOrNil(tClass)) {
-                        continue;
-                    }
-                    try {
-                        Class<?> clazz = loader.loadClass(tClass);
-                        Object o = clazz.newInstance();
-                        if (o instanceof ICustomizeParser) {
-                            mParserMgr.addParser((ICustomizeParser) o);
-                        } else if (o instanceof ICustomizeConverter) {
-                            mConverterMgr.addConverter((ICustomizeConverter) o);
-                        } else if (o instanceof ITemplateWrapper) {
-                            mWrapperMgr.addWrapper((ITemplateWrapper) o);
+            ExtJarClassLoaderTools.loadJar(loader,
+                    JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true));
+            ExtJarClassLoaderTools.loadClass(loader,
+                    JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true),
+                    new ExtJarClassLoaderTools.OnLoadedClass() {
+                        @Override
+                        public void onLoadedClass(Object o) {
+                            if (o instanceof ICustomizeParser) {
+                                mParserMgr.addParser((ICustomizeParser) o);
+                            } else if (o instanceof ICustomizeConverter) {
+                                mConverterMgr.addConverter((ICustomizeConverter) o);
+                            } else if (o instanceof ITemplateWrapper) {
+                                mWrapperMgr.addWrapper((ITemplateWrapper) o);
+                            }
                         }
-                    } catch (MalformedURLException e) {
-                        Log.e(TAG, "load class error : %s", e);
-                    } catch (ClassNotFoundException e) {
-                        Log.e(TAG, "load class error : %s", e);
-                    } catch (InstantiationException e) {
-                        Log.e(TAG, "load class error : %s", e);
-                    } catch (IllegalAccessException e) {
-                        Log.e(TAG, "load class error : %s", e);
-                    }
-                }
-            }
+                    });
         }
         mDefaultRawTemplateParser = new DefaultRawTemplateParser();
         mParserMgr.addParser(mDefaultRawTemplateParser);

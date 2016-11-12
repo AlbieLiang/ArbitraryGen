@@ -1,4 +1,4 @@
-package cc.suitalk.arbitrarygen.core;
+package cc.suitalk.arbitrarygen.gencode;
 
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 

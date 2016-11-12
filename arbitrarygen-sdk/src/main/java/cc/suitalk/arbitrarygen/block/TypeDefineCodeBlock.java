@@ -178,7 +178,14 @@ public class TypeDefineCodeBlock extends BaseDefineCodeBlock {
 	public int countOfFields() {
 		return mFields.size();
 	}
-	
+
+	public FieldCodeBlock getField(int index) {
+		if (index >= 0 && index < mFields.size()) {
+			return mFields.get(index);
+		}
+		return null;
+	}
+
 	public boolean addMethod(MethodCodeBlock method) {
 		if (mMethods.contains(method)) {
 			return false;

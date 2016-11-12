@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseCodeParser;
@@ -13,6 +17,9 @@ import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
+import cc.suitalk.arbitrarygen.block.FieldCodeBlock;
+import cc.suitalk.arbitrarygen.block.MethodCodeBlock;
+import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Value;
 import cc.suitalk.arbitrarygen.core.Word;
@@ -325,6 +332,36 @@ public class Util {
 		}
 	}
 
+	public static Map<String, Set<BaseStatement>> extractContainsAnnotationStatementOfTypeDefine(TypeDefineCodeBlock codeBlock) {
+		Map<String, Set<BaseStatement>> map = new HashMap<>();
+		extractStatement(map, codeBlock);
+		for (int m = 0; m < codeBlock.countOfMethods(); m++) {
+			MethodCodeBlock mcb = codeBlock.getMethod(m);
+			extractStatement(map, mcb);
+		}
+		for (int f = 0; f < codeBlock.countOfFields(); f++) {
+			FieldCodeBlock fcb = codeBlock.getField(f);
+			extractStatement(map, fcb);
+		}
+		return map;
+	}
+
+	private static void extractStatement(Map<String, Set<BaseStatement>> map, BaseStatement statement) {
+		if (map == null || statement == null) {
+			return;
+		}
+		for (int i = 0; i < statement.countOfAnnotations(); i++) {
+			AnnotationStatement as = statement.getAnnotation(i);
+			String name = as.getName().getName();
+			Set<BaseStatement> set = map.get(name);
+			if (set == null) {
+				set = new HashSet<>();
+				map.put(name, set);
+			}
+			set.add(statement);
+		}
+	}
+
 	public static String extractExpressionWithEndSign(IReader reader, ILexer lexer, BaseCodeParser parser, String closeSign) throws IOException {
 //		if (curWord != null && curWord.value.equals(closeSign)) {
 //			return "";
@@ -412,7 +449,7 @@ public class Util {
 		return word;
 	}
 	
-	public static final String getLeftBlacket(BaseStatement stm) {
+	public static final String getLeftBracket(BaseStatement stm) {
 		if (stm != null) {
 			Word word = stm.getWordLeftBracket();
 			if (word != null) {
@@ -422,7 +459,7 @@ public class Util {
 		return "(";
 	}
 	
-	public static final String getRightBlacket(BaseStatement stm) {
+	public static final String getRightBracket(BaseStatement stm) {
 		if (stm != null) {
 			Word word = stm.getWordRightBracket();
 			if (word != null) {

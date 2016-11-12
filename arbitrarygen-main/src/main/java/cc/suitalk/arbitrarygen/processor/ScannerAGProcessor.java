@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import cc.suitalk.arbitrarygen.core.SourceFileInfo;
+import cc.suitalk.arbitrarygen.gencode.SourceFileInfo;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.utils.FileOperation;

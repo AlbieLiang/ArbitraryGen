@@ -36,9 +36,9 @@ public class ElseIfStatement extends BaseStatement {
 		builder.append(blank);
 		builder.append(mWordIf != null ? mWordIf : "if");
 		builder.append(blank);
-		builder.append(Util.getLeftBlacket(this));
+		builder.append(Util.getLeftBracket(this));
 		builder.append(mExpression.genCode(linefeed));
-		builder.append(Util.getRightBlacket(this));
+		builder.append(Util.getRightBracket(this));
 		builder.append(blank);
 		builder.append(genPlainCodeBlock(linefeed));
 		return builder.toString();

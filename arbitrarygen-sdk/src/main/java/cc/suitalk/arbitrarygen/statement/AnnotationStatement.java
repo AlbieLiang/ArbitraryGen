@@ -37,7 +37,7 @@ public class AnnotationStatement extends BaseStatement {
 		builder.append(Util.getPrefix(this, "@"));
 		builder.append(mName);
 		if (mArgs.size() > 0) {
-			builder.append(Util.getLeftBlacket(this));
+			builder.append(Util.getLeftBracket(this));
 			Iterator<String> keys = mArgs.keySet().iterator();
 			String key = null;
 			if (keys.hasNext()) {
@@ -49,11 +49,11 @@ public class AnnotationStatement extends BaseStatement {
 				builder.append(",");
 				appendArg(builder, key, mArgs.get(key));
 			}
-			builder.append(Util.getRightBlacket(this));
+			builder.append(Util.getRightBracket(this));
 		} else if (mValue != null) {
-			builder.append(Util.getLeftBlacket(this));
+			builder.append(Util.getLeftBracket(this));
 			builder.append(mValue.getValueStr());
-			builder.append(Util.getRightBlacket(this));
+			builder.append(Util.getRightBracket(this));
 		}
 		return builder.toString();
 	}

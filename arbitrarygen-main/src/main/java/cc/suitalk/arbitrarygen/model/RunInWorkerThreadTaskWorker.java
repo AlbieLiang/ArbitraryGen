@@ -15,7 +15,7 @@ import cc.suitalk.arbitrarygen.extension.BaseAGTaskWorker;
 public class RunInWorkerThreadTaskWorker extends BaseAGTaskWorker {
 
 	public RunInWorkerThreadTaskWorker() {
-		super(Command.Type.COMMAND_KEEP);
+		super(Command.Type.COMMAND_RUN_IN_WORKER_THREAD);
 	}
 
 	@Override

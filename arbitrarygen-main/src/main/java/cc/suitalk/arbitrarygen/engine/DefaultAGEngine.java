@@ -4,7 +4,6 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ import cc.suitalk.arbitrarygen.extension.SourceFileParser;
 import cc.suitalk.arbitrarygen.parser.DefaultParser;
 import cc.suitalk.arbitrarygen.parser.ScriptTemplateParser;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
+import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -58,46 +58,19 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
         JSONObject parserJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_PARSER);
         if (parserJson != null) {
             JarClassLoaderWrapper loader = core.getJarClassLoader();
-            JSONArray jarArray = JSONArgsUtils.getJSONArray(parserJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true);
-            if (jarArray != null && !jarArray.isEmpty()) {
-                for (int i = 0; i < jarArray.size(); i++) {
-                    String jar = jarArray.optString(i);
-                    if (Util.isNullOrNil(jar)) {
-                        continue;
-                    }
-                    File file = new File(jar);
-                    if (!loader.contains(file) && loader.addJar(file)) {
-                        Log.i(TAG, "Loaded Jar(%s) into ClassLoader.", jar);
-                    } else {
-                        Log.i(TAG, "Load Jar(%s) failed.", jar);
-                    }
-                }
-            }
-            JSONArray classArray = JSONArgsUtils.getJSONArray(parserJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true);
-            if (classArray != null && !classArray.isEmpty()) {
-                for (int i = 0; i < classArray.size(); i++) {
-                    String tClass = classArray.optString(i);
-                    if (Util.isNullOrNil(tClass)) {
-                        continue;
-                    }
-                    try {
-                        Class<?> clazz = loader.loadClass(tClass);
-                        Object o = clazz.newInstance();
-                        if (o instanceof SourceFileParser) {
-                            mParserMgr.addParser((SourceFileParser) o);
-                            Log.v(TAG, "add parser(%s)", clazz.getName());
+            ExtJarClassLoaderTools.loadJar(loader,
+                    JSONArgsUtils.getJSONArray(parserJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true));
+            ExtJarClassLoaderTools.loadClass(loader,
+                    JSONArgsUtils.getJSONArray(parserJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true),
+                    new ExtJarClassLoaderTools.OnLoadedClass() {
+                        @Override
+                        public void onLoadedClass(Object o) {
+                            if (o instanceof SourceFileParser) {
+                                mParserMgr.addParser((SourceFileParser) o);
+                                Log.v(TAG, "add parser(%s)", o.getClass().getName());
+                            }
                         }
-                    } catch (MalformedURLException e) {
-                        Log.e(TAG, "load class error : %s", e);
-                    } catch (ClassNotFoundException e) {
-                        Log.e(TAG, "load class error : %s", e);
-                    } catch (InstantiationException e) {
-                        Log.e(TAG, "load class error : %s", e);
-                    } catch (IllegalAccessException e) {
-                        Log.e(TAG, "load class error : %s", e);
-                    }
-                }
-            }
+                    });
         }
         JSONArray suffixList = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT, true);
         List<String> list = new LinkedList<>();

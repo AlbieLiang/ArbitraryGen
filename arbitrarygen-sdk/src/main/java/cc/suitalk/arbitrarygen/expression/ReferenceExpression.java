@@ -19,7 +19,7 @@ public class ReferenceExpression extends Expression {
 	private List<Word> mWords;
 
 	public ReferenceExpression() {
-		mWords = new LinkedList<Word>();
+		mWords = new LinkedList<>();
 	}
 
 	public ReferenceExpression(String variable) {
@@ -46,15 +46,18 @@ public class ReferenceExpression extends Expression {
 	public void appendNode(String name) {
 		if (mWords.size() == 0) {
 			mWords.add(Util.createKeyWord(name));
+			super.setVariable("");
 		} else {
 			mWords.add(Util.createSignWord(".", Type.NORMAL));
 			mWords.add(Util.createKeyWord(name));
+			super.setVariable("");
 		}
 	}
 
 	public void appendNode(Word word) {
 		if (word != null) {
 			mWords.add(word);
+			super.setVariable("");
 		}
 	}
 	

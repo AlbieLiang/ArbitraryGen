@@ -39,7 +39,7 @@ public class MethodCodeBlock extends BaseDefineCodeBlock {
 //		builder.append(genAnnotationBlock(linefeed));
 		builder.append(genDefCode(this, linefeed));
 		// Insert args of the method
-		builder.append(Util.getLeftBlacket(this));
+		builder.append(Util.getLeftBracket(this));
 		//
 		if (mt.mArgs != null && mt.mArgs.size() > 0) {
 			KeyValuePair<Word, TypeName> kv = mt.mArgs.get(0);
@@ -59,7 +59,7 @@ public class MethodCodeBlock extends BaseDefineCodeBlock {
 				}
 			}
 		}
-		builder.append(Util.getRightBlacket(this));
+		builder.append(Util.getRightBracket(this));
 		if (mThrows.size() > 0) {
 			builder.append(blank);
 			builder.append(mWordThrows != null ? mWordThrows : "throws");
