@@ -7,7 +7,7 @@ import java.util.List;
  * @author AlbieLiang
  *
  */
-public interface IAGPsychicWorker extends IPsychicGenerator {
+public interface AGPyroWorker extends PsychicGenerator {
 	
 	List<String> getSupportSuffixList();
 }

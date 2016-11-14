@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import cc.suitalk.arbitrarygen.extension.ICustomizeParser;
+import cc.suitalk.arbitrarygen.extension.CustomizeParser;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.XmlUtils;
@@ -14,7 +14,7 @@ import cc.suitalk.arbitrarygen.utils.XmlUtils;
  * @author AlbieLiang
  *
  */
-public class DefaultRawTemplateParser implements ICustomizeParser {
+public class DefaultRawTemplateParser implements CustomizeParser {
 
 	private static final String TAG = "AG.DefaultRawTemplateParser";
 

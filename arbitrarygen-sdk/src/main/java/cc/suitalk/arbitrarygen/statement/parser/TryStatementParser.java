@@ -6,7 +6,7 @@ import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseStatementParser;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.CatchStatement;
 import cc.suitalk.arbitrarygen.statement.DefinitionStatement;
 import cc.suitalk.arbitrarygen.statement.FinallyStatement;
@@ -26,7 +26,7 @@ public class TryStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public TryStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public TryStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		try {
 			super.parse(reader, lexer, curWord);
 			curWord = getLastWord();

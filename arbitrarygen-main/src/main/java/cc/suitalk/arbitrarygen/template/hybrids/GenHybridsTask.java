@@ -11,7 +11,7 @@ import cc.suitalk.arbitrarygen.template.DelayReadFileTask;
 import cc.suitalk.arbitrarygen.template.TaskInfo;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
-import cc.suitalk.arbitrarygen.template.base.BaseGenCodeWorker;
+import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -23,7 +23,7 @@ import net.sf.json.JSONObject;
  * @author AlbieLiang
  *
  */
-public class GenHybridsTask extends BaseGenCodeWorker {
+public class GenHybridsTask extends BasePsychicWorker {
 
 	private static final String TAG = "AG.GenHybridsTask";
 	

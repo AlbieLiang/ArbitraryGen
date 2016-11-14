@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.core.Word;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 
 /**
  * 
@@ -20,12 +20,12 @@ public abstract class BaseStatementParser extends BaseCodeParser {
 		mPrefix = prefix;
 	}
 
-	public BaseStatement parse(IReader reader, ILexer lexer, Word curWord) throws IOException {
+	public BaseStatement parse(IReader reader, Lexer lexer, Word curWord) throws IOException {
 		doPreParse(reader, lexer, curWord);
 		return null;
 	}
 	
-	protected void doPreParse(IReader reader, ILexer lexer, Word curWord) throws IOException {
+	protected void doPreParse(IReader reader, Lexer lexer, Word curWord) throws IOException {
 //		CommendStatementParser commStmParser = ParserFactory.getCommendStatementParser();
 //		NormalStatement nStm = commStmParser.parse(reader, lexer, curWord);
 //		setCommendStr(Util.nullAsNil(nStm != null ? nStm.getCommendBlock() : ""));

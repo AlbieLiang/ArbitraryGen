@@ -7,7 +7,7 @@ import cc.suitalk.arbitrarygen.base.BaseExpressionParser;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 
 /**
  * 
@@ -23,7 +23,7 @@ public class ReferenceExpressionParser extends BaseExpressionParser {
 	}
 
 	@Override
-	public ReferenceExpression parse(IReader reader, ILexer lexer, Word curWord) throws IOException {
+	public ReferenceExpression parse(IReader reader, Lexer lexer, Word curWord) throws IOException {
 		ReferenceExpression expression = new ReferenceExpression();
 		Word word = null;
 		if (curWord != null) {

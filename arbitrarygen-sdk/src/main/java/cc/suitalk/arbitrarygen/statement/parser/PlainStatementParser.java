@@ -9,7 +9,7 @@ import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.PlainStatement;
 
 /**
@@ -26,7 +26,7 @@ public class PlainStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public PlainStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public PlainStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		try {
 //			super.parse(reader, lexer, curWord);
 //			curWord = getLastWord();

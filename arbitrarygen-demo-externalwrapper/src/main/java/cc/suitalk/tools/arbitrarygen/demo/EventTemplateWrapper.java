@@ -10,7 +10,7 @@ import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ContextInfo;
 import cc.suitalk.arbitrarygen.core.KeyWords;
 import cc.suitalk.arbitrarygen.core.TemplateConstants;
-import cc.suitalk.arbitrarygen.extension.ITemplateWrapper;
+import cc.suitalk.arbitrarygen.extension.TemplateWrapper;
 import cc.suitalk.arbitrarygen.model.DefaultKeyValuePair;
 import cc.suitalk.arbitrarygen.statement.NormalStatement;
 import cc.suitalk.arbitrarygen.template.FastAssignRawTemplate;
@@ -23,7 +23,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class EventTemplateWrapper implements ITemplateWrapper {
+public class EventTemplateWrapper implements TemplateWrapper {
 
 	private static final String TAG = "AG.EventTemplateWrapper";
 	private static final String TAG_NAME = "Event";

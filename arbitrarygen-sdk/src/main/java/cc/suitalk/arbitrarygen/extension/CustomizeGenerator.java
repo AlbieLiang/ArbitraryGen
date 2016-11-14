@@ -1,5 +1,5 @@
 package cc.suitalk.arbitrarygen.extension;
 
-public interface ICustomizeGenerator {
+public interface CustomizeGenerator {
 	String genCode();
 }

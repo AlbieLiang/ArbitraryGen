@@ -8,7 +8,7 @@ import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.expression.parser.PlainExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.ReturnStatement;
 
 /**
@@ -23,7 +23,7 @@ public class ReturnStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public ReturnStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public ReturnStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		try {
 			super.parse(reader, lexer, curWord);
 			curWord = getLastWord();

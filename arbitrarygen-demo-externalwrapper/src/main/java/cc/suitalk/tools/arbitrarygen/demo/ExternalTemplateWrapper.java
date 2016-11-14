@@ -5,7 +5,7 @@ import java.util.Map;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ContextInfo;
 import cc.suitalk.arbitrarygen.core.TemplateConstants;
-import cc.suitalk.arbitrarygen.extension.ITemplateWrapper;
+import cc.suitalk.arbitrarygen.extension.TemplateWrapper;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -14,7 +14,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class ExternalTemplateWrapper implements ITemplateWrapper {
+public class ExternalTemplateWrapper implements TemplateWrapper {
 
 	private static final String TAG_NAME = "Wrapper";
 

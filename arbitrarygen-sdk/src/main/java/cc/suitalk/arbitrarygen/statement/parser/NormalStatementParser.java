@@ -12,7 +12,7 @@ import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.parser.PlainExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.NormalStatement;
 import cc.suitalk.arbitrarygen.statement.PlainStatement;
 
@@ -41,7 +41,7 @@ public class NormalStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public BaseStatement parse(IReader reader, ILexer lexer, Word curWord) throws IOException {
+	public BaseStatement parse(IReader reader, Lexer lexer, Word curWord) throws IOException {
 		super.parse(reader, lexer, curWord);
 		Word word = getLastWord();
 		if ("{".equals(word.value)) {

@@ -1,14 +1,14 @@
 package cc.suitalk.arbitrarygen.gencode;
 
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
-import cc.suitalk.arbitrarygen.extension.ICustomizeGenerator;
+import cc.suitalk.arbitrarygen.extension.CustomizeGenerator;
 
 /**
  * 
  * @author AlbieLiang
  * 
  */
-public class CodeGenerator implements ICustomizeGenerator {
+public class CodeGenerator implements CustomizeGenerator {
 
 	public static final String LINEFEED_UNIT = "\r\n";
 	private JavaFileObject mJavaFileObject;

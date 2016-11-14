@@ -10,12 +10,12 @@ import java.util.Set;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.MethodCodeBlock;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
+import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
 import cc.suitalk.arbitrarygen.gencode.CodeGenerator;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
 import cc.suitalk.arbitrarygen.gencode.GenCodeTaskInfo;
-import cc.suitalk.arbitrarygen.extension.IAGTaskWorker;
-import cc.suitalk.arbitrarygen.extension.ICustomizeGenerator;
-import cc.suitalk.arbitrarygen.extension.ITypeDefineWrapper;
+import cc.suitalk.arbitrarygen.extension.AGTaskWorker;
+import cc.suitalk.arbitrarygen.extension.CustomizeGenerator;
 import cc.suitalk.arbitrarygen.model.ArbitraryGenTaskInfo;
 import cc.suitalk.arbitrarygen.model.AutoGenFindViewTaskWorker;
 import cc.suitalk.arbitrarygen.model.Constants;
@@ -36,11 +36,11 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
+public class DefaultTypeDefineWrapper implements TypeDefineWrapper {
 
 	private static final String TAG = "AG.DefaultTypeDefineWrapper";
 
-	private Set<IAGTaskWorker> mWorkers;
+	private Set<AGTaskWorker> mWorkers;
 	
 	public DefaultTypeDefineWrapper() {
 		mWorkers = new HashSet<>();
@@ -129,7 +129,7 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 				if (srcGenTasks.size() > 0) {
 					hasTask = true;
 					for (ArbitraryGenTaskInfo task : srcGenTasks.values()) {
-						for (IAGTaskWorker worker : mWorkers) {
+						for (AGTaskWorker worker : mWorkers) {
 							worker.doTask(configInfo, task, fileObject, srcGenTasks, targetTasks);
 						}
 					}
@@ -139,7 +139,7 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 				taskInfo.RootDir = configInfo.getDestPath() + Util.getPackageDir(fileObject);
 				taskInfo.javaFileObject = fileObject;
 				// GenCode
-				ICustomizeGenerator generator = new CodeGenerator(fileObject);
+				CustomizeGenerator generator = new CodeGenerator(fileObject);
 				Log.i(TAG, "genCode rootDir : %s, fileName : %s, suffix : %s", taskInfo.RootDir, taskInfo.FileName, taskInfo.Suffix);
 				FileOperation.saveToFile(taskInfo, generator.genCode());
 				return hasTask;
@@ -157,7 +157,7 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 	}
 	
 	@Override
-	public boolean addIAGTaskWorker(IAGTaskWorker worker) {
+	public boolean addIAGTaskWorker(AGTaskWorker worker) {
 		if (worker != null) {
 			return mWorkers.add(worker);
 		}
@@ -165,7 +165,7 @@ public class DefaultTypeDefineWrapper implements ITypeDefineWrapper {
 	}
 	
 	@Override
-	public boolean removeIAGTaskWorker(IAGTaskWorker worker) {
+	public boolean removeIAGTaskWorker(AGTaskWorker worker) {
 		return mWorkers.remove(worker);
 	}
 }

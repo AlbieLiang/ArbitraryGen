@@ -3,7 +3,7 @@ package cc.suitalk.arbitrarygen.core;
 import java.util.LinkedList;
 import java.util.List;
 
-import cc.suitalk.arbitrarygen.extension.ICustomizeConverter;
+import cc.suitalk.arbitrarygen.extension.CustomizeConverter;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 
 /**
@@ -13,7 +13,7 @@ import cc.suitalk.arbitrarygen.template.RawTemplate;
  */
 public class TemplateConverterMgr {
 
-	private List<ICustomizeConverter> mConverterList;
+	private List<CustomizeConverter> mConverterList;
 	private static TemplateConverterMgr sMgr;
 
 	public static TemplateConverterMgr getMgr() {
@@ -27,9 +27,9 @@ public class TemplateConverterMgr {
 		mConverterList = new LinkedList<>();
 	}
 
-	public ICustomizeConverter getFirstMatchConverter(RawTemplate rawTemplate) {
+	public CustomizeConverter getFirstMatchConverter(RawTemplate rawTemplate) {
 		for (int i = 0; i < mConverterList.size(); i++) {
-			ICustomizeConverter a = mConverterList.get(i);
+			CustomizeConverter a = mConverterList.get(i);
 			if (a.canConvert(rawTemplate)) {
 				return a;
 			}
@@ -37,17 +37,17 @@ public class TemplateConverterMgr {
 		return null;
 	}
 
-	public List<ICustomizeConverter> getConverterList() {
+	public List<CustomizeConverter> getConverterList() {
 		return mConverterList;
 	}
 
-	public void addConverter(ICustomizeConverter converter) {
+	public void addConverter(CustomizeConverter converter) {
 		if (converter != null) {
 			this.mConverterList.add(0, converter);
 		}
 	}
 
-	public void removeConverter(ICustomizeConverter converter) {
+	public void removeConverter(CustomizeConverter converter) {
 		mConverterList.remove(converter);
 	}
 }

@@ -6,7 +6,7 @@ import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseStatementParser;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.PlainStatement;
 import cc.suitalk.arbitrarygen.statement.StaticStatement;
 
@@ -22,7 +22,7 @@ public class StaticStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public StaticStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public StaticStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		try {
 			super.parse(reader, lexer, curWord);
 			curWord = getLastWord();

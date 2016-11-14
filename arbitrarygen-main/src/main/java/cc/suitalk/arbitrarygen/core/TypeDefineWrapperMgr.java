@@ -5,7 +5,7 @@ import java.util.List;
 
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
-import cc.suitalk.arbitrarygen.extension.ITypeDefineWrapper;
+import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
 
 /**
  * 
@@ -16,7 +16,7 @@ public class TypeDefineWrapperMgr {
 
 	private static TypeDefineWrapperMgr sMgr;
 
-	private List<ITypeDefineWrapper> mWrapperList;
+	private List<TypeDefineWrapper> mWrapperList;
 
 	public static TypeDefineWrapperMgr getMgr() {
 		if (sMgr == null) {
@@ -31,7 +31,7 @@ public class TypeDefineWrapperMgr {
 
 	public void doWrap(ConfigInfo configInfo, JavaFileObject fileObject) {
 		for (int i = 0; i < mWrapperList.size(); i++) {
-			ITypeDefineWrapper p = mWrapperList.get(i);
+			TypeDefineWrapper p = mWrapperList.get(i);
 			// TODO
 			if (p.doWrap(configInfo, fileObject)) {
 //				return;
@@ -41,24 +41,24 @@ public class TypeDefineWrapperMgr {
 
 	public void doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeblock) {
 		for (int i = 0; i < mWrapperList.size(); i++) {
-			ITypeDefineWrapper p = mWrapperList.get(i);
+			TypeDefineWrapper p = mWrapperList.get(i);
 			if (p.doWrap(configInfo, codeblock)) {
 				return;
 			}
 		}
 	}
 
-	public List<ITypeDefineWrapper> getWrapperList() {
+	public List<TypeDefineWrapper> getWrapperList() {
 		return mWrapperList;
 	}
 
-	public void addWrapper(ITypeDefineWrapper wrapper) {
+	public void addWrapper(TypeDefineWrapper wrapper) {
 		if (wrapper != null) {
 			this.mWrapperList.add(0, wrapper);
 		}
 	}
 
-	public void removeWrapper(ITypeDefineWrapper wrapper) {
+	public void removeWrapper(TypeDefineWrapper wrapper) {
 		mWrapperList.remove(wrapper);
 	}
 }

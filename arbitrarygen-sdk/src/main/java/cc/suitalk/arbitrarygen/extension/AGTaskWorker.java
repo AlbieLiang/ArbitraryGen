@@ -12,7 +12,7 @@ import cc.suitalk.arbitrarygen.model.ArbitraryGenTaskInfo;
  * @author AlbieLiang
  *
  */
-public interface IAGTaskWorker {
+public interface AGTaskWorker {
 
 	boolean doTask(ConfigInfo configInfo, ArbitraryGenTaskInfo task, JavaFileObject fileObject, Map<String, ArbitraryGenTaskInfo> srcGenTasks, Map<String, ArbitraryGenTaskInfo> targetTasks);
 }

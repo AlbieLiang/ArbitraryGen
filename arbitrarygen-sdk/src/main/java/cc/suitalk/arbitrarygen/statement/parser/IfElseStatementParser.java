@@ -6,7 +6,7 @@ import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseStatementParser;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.core.Word;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.ElseIfStatement;
 import cc.suitalk.arbitrarygen.statement.ElseStatement;
 import cc.suitalk.arbitrarygen.statement.IfElseStatement;
@@ -24,7 +24,7 @@ public class IfElseStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public IfElseStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public IfElseStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		try {
 			super.parse(reader, lexer, curWord);
 			curWord = getLastWord();

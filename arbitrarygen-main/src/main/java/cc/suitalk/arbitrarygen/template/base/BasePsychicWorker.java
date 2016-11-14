@@ -7,10 +7,10 @@ import cc.suitalk.arbitrarygen.template.TemplateConfig;
  * @author AlbieLiang
  *
  */
-public abstract class BasePsychicWorker implements IAGPsychicWorker {
+public abstract class BasePsychicWorker implements AGPsychicWorker {
 
 	protected TemplateConfig mConfigArgs;
-
+	
 	public BasePsychicWorker(TemplateConfig cfg) {
 		if (cfg == null) {
 			throw new RuntimeException("Config args is null.");

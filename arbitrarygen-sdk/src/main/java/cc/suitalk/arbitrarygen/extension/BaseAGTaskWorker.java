@@ -7,7 +7,7 @@ import cc.suitalk.arbitrarygen.base.BaseDefineCodeBlock;
  * @author AlbieLiang
  *
  */
-public abstract class BaseAGTaskWorker implements IAGTaskWorker {
+public abstract class BaseAGTaskWorker implements AGTaskWorker {
 
 	private int mCommand;
 	private BaseDefineCodeBlock mSourceCodeBlock;

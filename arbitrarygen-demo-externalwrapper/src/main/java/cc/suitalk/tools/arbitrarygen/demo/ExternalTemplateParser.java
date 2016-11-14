@@ -3,12 +3,12 @@ package cc.suitalk.tools.arbitrarygen.demo;
 import java.io.File;
 import java.util.List;
 
-import cc.suitalk.arbitrarygen.extension.ICustomizeParser;
+import cc.suitalk.arbitrarygen.extension.CustomizeParser;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.XmlUtils;
 
-public class ExternalTemplateParser  implements ICustomizeParser {
+public class ExternalTemplateParser  implements CustomizeParser {
 
 	private static final String TAG = "AG.demo.ExternalTemplateParser";
 

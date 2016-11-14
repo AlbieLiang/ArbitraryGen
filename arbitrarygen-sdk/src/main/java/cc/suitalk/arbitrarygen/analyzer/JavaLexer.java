@@ -16,7 +16,7 @@ import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Environment.EnvironmentArgs;
 import cc.suitalk.arbitrarygen.core.KeyWords.Sign.Type;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.ImportStatement;
 import cc.suitalk.arbitrarygen.statement.PackageStatement;
 import cc.suitalk.arbitrarygen.statement.parser.ImportStatementParser;
@@ -29,7 +29,7 @@ import cc.suitalk.arbitrarygen.utils.Log;
  * @author AlbieLiang
  *
  */
-public class JavaLexer implements ILexer {
+public class JavaLexer implements Lexer {
 
 	private static final String TAG = "AG.JavaLexer";
 	private char mCurChar;

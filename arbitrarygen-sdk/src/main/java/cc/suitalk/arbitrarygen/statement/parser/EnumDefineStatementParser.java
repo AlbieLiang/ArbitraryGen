@@ -8,7 +8,7 @@ import cc.suitalk.arbitrarygen.base.BaseStatementParser;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 
 /**
  * 
@@ -22,7 +22,7 @@ public class EnumDefineStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public TypeDefineCodeBlock parse(IReader reader, ILexer lexer, Word curWord) {
+	public TypeDefineCodeBlock parse(IReader reader, Lexer lexer, Word curWord) {
 		setLastWord(curWord);
 		if (curWord == null) {
 			return null;

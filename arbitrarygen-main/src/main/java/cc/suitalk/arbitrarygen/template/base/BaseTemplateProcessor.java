@@ -8,9 +8,9 @@ import java.util.List;
  * @author AlbieLiang
  *
  */
-public abstract class BaseTemplateProcessor implements ITemplateProcessor {
+public abstract class BaseTemplateProcessor implements TemplateProcessor {
 
-	protected List<IPsychicGenerator> mWorkers;
+	protected List<PsychicGenerator> mWorkers;
 	protected List<String> mSupportSuffixList;
 	
 	public BaseTemplateProcessor() {
@@ -19,13 +19,13 @@ public abstract class BaseTemplateProcessor implements ITemplateProcessor {
 	}
 	
 	@Override
-	public void addTaskWorker(IGenCodeWorker worker) {
+	public void addTaskWorker(AGPsychicWorker worker) {
 		mWorkers.add(worker);
 		mSupportSuffixList.add(worker.getSupportSuffix());
 	}
 
 	@Override
-	public void addTaskWorker(IAGPsychicWorker worker) {
+	public void addTaskWorker(AGPyroWorker worker) {
 		mWorkers.add(worker);
 		mSupportSuffixList.addAll(worker.getSupportSuffixList());
 	}

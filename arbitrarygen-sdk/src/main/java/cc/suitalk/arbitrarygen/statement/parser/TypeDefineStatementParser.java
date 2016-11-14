@@ -19,7 +19,7 @@ import cc.suitalk.arbitrarygen.core.Value;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.parser.PlainExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.model.KeyValuePair;
 import cc.suitalk.arbitrarygen.model.TypeName;
 import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
@@ -51,7 +51,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public TypeDefineCodeBlock parse(IReader reader, ILexer lexer, Word curWord) {
+	public TypeDefineCodeBlock parse(IReader reader, Lexer lexer, Word curWord) {
 		setLastWord(curWord);
 		if (curWord == null) {
 			return null;
@@ -156,7 +156,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 		typeDefine.setType(typeWord != null ? Util.createSimpleTypeName(typeWord) : null);
 	}
 
-	private void parseTypeDefineCodeBlock(IReader reader, ILexer lexer, Word curWord, TypeDefineCodeBlock typeDefine, Map<String, Word> keywords) throws IOException {
+	private void parseTypeDefineCodeBlock(IReader reader, Lexer lexer, Word curWord, TypeDefineCodeBlock typeDefine, Map<String, Word> keywords) throws IOException {
 		Word word = curWord;
 		attachModifiers(typeDefine, keywords);
 		if (keywords.size() > 0) {
@@ -196,7 +196,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 		parseTypeCodeBlock(reader, lexer, word, typeDefine);
 	}
 	
-	private void parseTypeCodeBlock(IReader reader, ILexer lexer, Word curWord, TypeDefineCodeBlock typeDefine) throws IOException {
+	private void parseTypeCodeBlock(IReader reader, Lexer lexer, Word curWord, TypeDefineCodeBlock typeDefine) throws IOException {
 		if (curWord == null || !"{".equals(curWord.value)) {
 			throw new RuntimeException("parseTypeCodeBlock failed, curWord is (" + curWord + ")");
 		}
@@ -221,7 +221,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 		nextWord(reader, lexer);
 	}
 
-	private void parseAndAddStatement(IReader reader, ILexer lexer, Word curWord, TypeDefineCodeBlock typeDefine) throws IOException {
+	private void parseAndAddStatement(IReader reader, Lexer lexer, Word curWord, TypeDefineCodeBlock typeDefine) throws IOException {
 		LinkedList<String> keywords = new LinkedList<String>();
 		Map<String, Word> keywordMap = new HashMap<String, Word>();
 		// Parse Annotation

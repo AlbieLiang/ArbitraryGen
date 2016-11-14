@@ -10,7 +10,7 @@ import cc.suitalk.arbitrarygen.gencode.CodeGenerator;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
 import cc.suitalk.arbitrarygen.gencode.GenCodeTaskInfo;
 import cc.suitalk.arbitrarygen.core.Word;
-import cc.suitalk.arbitrarygen.extension.IAGTaskWorker;
+import cc.suitalk.arbitrarygen.extension.AGTaskWorker;
 import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
 import cc.suitalk.arbitrarygen.statement.NormalStatement;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
@@ -22,7 +22,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class ExtractJsApiFuncInfoWorker implements IAGTaskWorker {
+public class ExtractJsApiFuncInfoWorker implements AGTaskWorker {
 
 	private static final String TAG = "AG.ExtractJsApiFuncInfoWorker";
 	private static final String ANNOTATION_NAME = "JsApiFuncMark";

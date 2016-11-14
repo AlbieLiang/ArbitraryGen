@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.core.Word;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 
 /**
  * 
@@ -13,5 +13,5 @@ import cc.suitalk.arbitrarygen.extension.ILexer;
  */
 public abstract class BaseExpressionParser extends BaseCodeParser {
 
-	public abstract Expression parse(IReader reader, ILexer lexer, Word curWord) throws IOException;
+	public abstract Expression parse(IReader reader, Lexer lexer, Word curWord) throws IOException;
 }

@@ -18,10 +18,10 @@ import cc.suitalk.arbitrarygen.core.TemplateParserMgr;
 import cc.suitalk.arbitrarygen.core.TemplateWrapperMgr;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.SourceFileParser;
-import cc.suitalk.arbitrarygen.extension.ICustomizeConverter;
-import cc.suitalk.arbitrarygen.extension.ICustomizeGenerator;
-import cc.suitalk.arbitrarygen.extension.ICustomizeParser;
-import cc.suitalk.arbitrarygen.extension.ITemplateWrapper;
+import cc.suitalk.arbitrarygen.extension.CustomizeConverter;
+import cc.suitalk.arbitrarygen.extension.CustomizeGenerator;
+import cc.suitalk.arbitrarygen.extension.CustomizeParser;
+import cc.suitalk.arbitrarygen.extension.TemplateWrapper;
 import cc.suitalk.arbitrarygen.impl.DefaultRawTemplateParser;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
@@ -61,12 +61,12 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
                     new ExtJarClassLoaderTools.OnLoadedClass() {
                         @Override
                         public void onLoadedClass(Object o) {
-                            if (o instanceof ICustomizeParser) {
-                                mParserMgr.addParser((ICustomizeParser) o);
-                            } else if (o instanceof ICustomizeConverter) {
-                                mConverterMgr.addConverter((ICustomizeConverter) o);
-                            } else if (o instanceof ITemplateWrapper) {
-                                mWrapperMgr.addWrapper((ITemplateWrapper) o);
+                            if (o instanceof CustomizeParser) {
+                                mParserMgr.addParser((CustomizeParser) o);
+                            } else if (o instanceof CustomizeConverter) {
+                                mConverterMgr.addConverter((CustomizeConverter) o);
+                            } else if (o instanceof TemplateWrapper) {
+                                mWrapperMgr.addWrapper((TemplateWrapper) o);
                             }
                         }
                     });
@@ -91,7 +91,7 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
             Log.w(TAG, "parse failed, suffix of the file(%s) is null or nil.", file);
             return null;
         }
-        ICustomizeParser parser = mParserMgr.getFirstMatchParser(suffix);
+        CustomizeParser parser = mParserMgr.getFirstMatchParser(suffix);
         if (parser == null || !parser.canParse(suffix)) {
             Log.i(TAG, "parse failed, do not has a parser can parse the file(%s).", file);
             return null;
@@ -111,7 +111,7 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
             List<RawTemplate> subTemplates = template.getElements();
             for (int j = 0; j < subTemplates.size(); j++) {
                 RawTemplate t = subTemplates.get(j);
-                ICustomizeConverter converter = mConverterMgr.getFirstMatchConverter(t);
+                CustomizeConverter converter = mConverterMgr.getFirstMatchConverter(t);
                 if (converter == null || !converter.canConvert(t)) {
                     continue;
                 }
@@ -161,7 +161,7 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
 
     private void doGenCode(GenCodeTaskInfo info) {
         JavaFileObject javaFileObject = info.javaFileObject;
-        ICustomizeGenerator generator = new CodeGenerator(javaFileObject);
+        CustomizeGenerator generator = new CodeGenerator(javaFileObject);
         FileOperation.saveToFile(info, generator.genCode());
     }
 

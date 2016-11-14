@@ -8,7 +8,7 @@ import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.model.TypeName;
 import cc.suitalk.arbitrarygen.statement.DefinitionStatement;
 
@@ -24,7 +24,7 @@ public class DefinitionStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public DefinitionStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public DefinitionStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		if (curWord != null) {
 			try {
 				super.parse(reader, lexer, curWord);

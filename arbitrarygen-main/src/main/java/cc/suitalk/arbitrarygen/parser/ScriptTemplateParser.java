@@ -6,14 +6,14 @@ import java.io.File;
 
 import cc.suitalk.arbitrarygen.extension.SourceFileParser;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
-import cc.suitalk.arbitrarygen.template.base.ITemplateProcessor;
+import cc.suitalk.arbitrarygen.template.base.TemplateProcessor;
 
 /**
  * Created by AlbieLiang on 16/11/2.
  */
 public class ScriptTemplateParser implements SourceFileParser<JSONObject, JSONObject> {
 
-    private ITemplateProcessor mTemplateProcessor;
+    private TemplateProcessor mTemplateProcessor;
     private TemplateConfig mTemplateConfig;
 
     @Override

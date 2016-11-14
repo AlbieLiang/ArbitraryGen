@@ -7,9 +7,9 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import cc.suitalk.arbitrarygen.template.base.BaseTemplateProcessor;
-import cc.suitalk.arbitrarygen.template.base.IAGPsychicWorker;
-import cc.suitalk.arbitrarygen.template.base.IGenCodeWorker;
-import cc.suitalk.arbitrarygen.template.base.IPsychicGenerator;
+import cc.suitalk.arbitrarygen.template.base.AGPyroWorker;
+import cc.suitalk.arbitrarygen.template.base.AGPsychicWorker;
+import cc.suitalk.arbitrarygen.template.base.PsychicGenerator;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -65,15 +65,15 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 		info.templateLibs = mTemplateCfg.getTemplateLibs();
 		info.templateSuffix = Util.nullAsNil(Util.getSuffix(src));
 		
-		for (IPsychicGenerator worker : mWorkers) {
-			if (worker instanceof IGenCodeWorker) {
-				if (info.templateSuffix.equalsIgnoreCase(((IGenCodeWorker) worker).getSupportSuffix())) {
+		for (PsychicGenerator worker : mWorkers) {
+			if (worker instanceof AGPsychicWorker) {
+				if (info.templateSuffix.equalsIgnoreCase(((AGPsychicWorker) worker).getSupportSuffix())) {
 					worker.genCode(mScriptEngine, json, info);
 					continue;
 				}
 			}
-			if (worker instanceof IAGPsychicWorker) {
-				if (isSupportSuffix((IAGPsychicWorker) worker, info.templateSuffix)) {
+			if (worker instanceof AGPyroWorker) {
+				if (isSupportSuffix((AGPyroWorker) worker, info.templateSuffix)) {
 					worker.genCode(mScriptEngine, json, info);
 					continue;
 				}
@@ -82,7 +82,7 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 		}
 	}
 
-	private static boolean isSupportSuffix(IAGPsychicWorker worker, String suffix) {
+	private static boolean isSupportSuffix(AGPyroWorker worker, String suffix) {
 		List<String> list = worker.getSupportSuffixList();
 		return list != null && list.contains(suffix);
 	}

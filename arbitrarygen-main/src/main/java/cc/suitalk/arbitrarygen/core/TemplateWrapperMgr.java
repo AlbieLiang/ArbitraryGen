@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
-import cc.suitalk.arbitrarygen.extension.ITemplateWrapper;
+import cc.suitalk.arbitrarygen.extension.TemplateWrapper;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 
 /**
@@ -14,7 +14,7 @@ import cc.suitalk.arbitrarygen.template.RawTemplate;
  */
 public class TemplateWrapperMgr {
 
-	private List<ITemplateWrapper> mWrappers;
+	private List<TemplateWrapper> mWrappers;
 	private static TemplateWrapperMgr mgr;
 
 	public static TemplateWrapperMgr getMgr() {
@@ -30,7 +30,7 @@ public class TemplateWrapperMgr {
 
 	public void doWrap(ContextInfo contextInfo, RawTemplate template) {
 		for (int i = 0; i < mWrappers.size(); i++) {
-			ITemplateWrapper p = mWrappers.get(i);
+			TemplateWrapper p = mWrappers.get(i);
 			if (p.doWrap(contextInfo, template)) {
 				return;
 			}
@@ -39,24 +39,24 @@ public class TemplateWrapperMgr {
 
 	public void doWrap(ContextInfo contextInfo, TypeDefineCodeBlock template) {
 		for (int i = 0; i < mWrappers.size(); i++) {
-			ITemplateWrapper p = mWrappers.get(i);
+			TemplateWrapper p = mWrappers.get(i);
 			if (p.doWrap(contextInfo, template)) {
 				return;
 			}
 		}
 	}
 
-	public List<ITemplateWrapper> getWrappers() {
+	public List<TemplateWrapper> getWrappers() {
 		return mWrappers;
 	}
 
-	public void addWrapper(ITemplateWrapper wrapper) {
+	public void addWrapper(TemplateWrapper wrapper) {
 		if (wrapper != null) {
 			this.mWrappers.add(0, wrapper);
 		}
 	}
 
-	public void removeWrapper(ITemplateWrapper wrapper) {
+	public void removeWrapper(TemplateWrapper wrapper) {
 		mWrappers.remove(wrapper);
 	}
 }

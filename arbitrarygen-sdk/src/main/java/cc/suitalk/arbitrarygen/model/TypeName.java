@@ -14,7 +14,7 @@ import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.expression.VariableExpression;
 import cc.suitalk.arbitrarygen.expression.parser.ReferenceExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 //import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -173,7 +173,7 @@ public class TypeName implements ICodeGenerator {
 		private static final String TAG = "TypeName.Parser";
 
 		@Override
-		public TypeName parse(IReader reader, ILexer lexer, Word curWord) throws IOException {
+		public TypeName parse(IReader reader, Lexer lexer, Word curWord) throws IOException {
 			ReferenceExpressionParser parser = ParserFactory.getRefExpressionParser(true);
 			ReferenceExpression refExpr = parser.parse(reader, lexer, curWord);
 			if (refExpr == null) {

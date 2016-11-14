@@ -9,15 +9,15 @@ import cc.suitalk.arbitrarygen.template.TemplateConfig;
  * @author AlbieLiang
  *
  */
-public interface ITemplateProcessor {
+public interface TemplateProcessor {
 	
 	void prepare(TemplateConfig cfg);
 	
 	void process(String src, String destPath);
 	
-	void addTaskWorker(IGenCodeWorker worker);
+	void addTaskWorker(AGPsychicWorker worker);
 	
-	void addTaskWorker(IAGPsychicWorker worker);
+	void addTaskWorker(AGPyroWorker worker);
 
 	List<String> getSupportSuffixList();
 }

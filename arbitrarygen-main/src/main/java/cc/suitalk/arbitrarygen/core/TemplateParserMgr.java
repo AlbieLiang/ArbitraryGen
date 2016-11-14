@@ -3,7 +3,7 @@ package cc.suitalk.arbitrarygen.core;
 import java.util.LinkedList;
 import java.util.List;
 
-import cc.suitalk.arbitrarygen.extension.ICustomizeParser;
+import cc.suitalk.arbitrarygen.extension.CustomizeParser;
 
 /**
  * 
@@ -12,7 +12,7 @@ import cc.suitalk.arbitrarygen.extension.ICustomizeParser;
  */
 public class TemplateParserMgr {
 
-	private List<ICustomizeParser> mParsers;
+	private List<CustomizeParser> mParsers;
 	private static TemplateParserMgr mgr;
 
 	public static TemplateParserMgr getMgr() {
@@ -23,12 +23,12 @@ public class TemplateParserMgr {
 	}
 
 	public TemplateParserMgr() {
-		mParsers = new LinkedList<ICustomizeParser>();
+		mParsers = new LinkedList<CustomizeParser>();
 	}
 
-	public ICustomizeParser getFirstMatchParser(String suffix) {
+	public CustomizeParser getFirstMatchParser(String suffix) {
 		for (int i = 0; i < mParsers.size(); i++) {
-			ICustomizeParser p = mParsers.get(i);
+			CustomizeParser p = mParsers.get(i);
 			if (p.canParse(suffix)) {
 				return p;
 			}
@@ -36,17 +36,17 @@ public class TemplateParserMgr {
 		return null;
 	}
 
-	public List<ICustomizeParser> getParsers() {
+	public List<CustomizeParser> getParsers() {
 		return mParsers;
 	}
 
-	public void addParser(ICustomizeParser parser) {
+	public void addParser(CustomizeParser parser) {
 		if (parser != null) {
 			this.mParsers.add(0, parser);
 		}
 	}
 
-	public void removeParser(ICustomizeParser parser) {
+	public void removeParser(CustomizeParser parser) {
 		mParsers.remove(parser);
 	}
 }

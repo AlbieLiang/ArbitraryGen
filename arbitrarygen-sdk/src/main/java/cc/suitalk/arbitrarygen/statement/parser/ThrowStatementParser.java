@@ -8,7 +8,7 @@ import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.expression.parser.PlainExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.ThrowStatement;
 
 /**
@@ -23,7 +23,7 @@ public class ThrowStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public ThrowStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public ThrowStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		try {
 			super.parse(reader, lexer, curWord);
 			curWord = getLastWord();

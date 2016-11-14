@@ -12,7 +12,7 @@ import java.util.Set;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
+import cc.suitalk.arbitrarygen.template.base.BasePyroWorker;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -22,18 +22,18 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class PsychicGenTask extends BasePsychicWorker {
+public class PyroGenTask extends BasePyroWorker {
 
-	private static final String TAG = "AG.PsychicGenTask";
+	private static final String TAG = "AG.PyroGenTask";
 
 	private List<String> mSupportSuffixList;
 
-	public PsychicGenTask(TemplateConfig cfg) {
+	public PyroGenTask(TemplateConfig cfg) {
 		super(cfg);
 		mSupportSuffixList = new LinkedList<>();
 	}
 
-	public PsychicGenTask(TemplateConfig cfg, List<String> supportSuffixList) {
+	public PyroGenTask(TemplateConfig cfg, List<String> supportSuffixList) {
 		this(cfg);
 		addSupportSuffixList(supportSuffixList);
 	}

@@ -5,7 +5,7 @@ import java.util.Map;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ContextInfo;
 import cc.suitalk.arbitrarygen.core.TemplateConstants;
-import cc.suitalk.arbitrarygen.extension.ICustomizeConverter;
+import cc.suitalk.arbitrarygen.extension.CustomizeConverter;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 import cc.suitalk.arbitrarygen.utils.AnalyzerHelper;
 
@@ -14,7 +14,7 @@ import cc.suitalk.arbitrarygen.utils.AnalyzerHelper;
  * @author AlbieLiang
  * 
  */
-public class EventTemplateConverter implements ICustomizeConverter {
+public class EventTemplateConverter implements CustomizeConverter {
 
 	private static final String TAG_NAME = "event";
 

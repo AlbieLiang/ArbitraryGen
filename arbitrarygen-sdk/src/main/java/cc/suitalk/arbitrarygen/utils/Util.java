@@ -31,7 +31,7 @@ import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.expression.VariableExpression;
 import cc.suitalk.arbitrarygen.expression.parser.ReferenceExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.model.TypeName;
 import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
 import cc.suitalk.arbitrarygen.statement.DefinitionStatement;
@@ -261,7 +261,7 @@ public class Util {
 		return value;
 	}
 	
-	public static Value getValue(IReader reader, ILexer lexer, BaseCodeParser parser) throws IOException {
+	public static Value getValue(IReader reader, Lexer lexer, BaseCodeParser parser) throws IOException {
 		StringBuilder builder = new StringBuilder();
 		Value value = null;
 		Word word = parser.nextWord(reader, lexer);
@@ -278,7 +278,7 @@ public class Util {
 		return value;
 	}
 
-	public static List<AnnotationStatement> parseAndAddAnnotation(IReader reader, ILexer lexer, Word curWord, BaseCodeParser parser) {
+	public static List<AnnotationStatement> parseAndAddAnnotation(IReader reader, Lexer lexer, Word curWord, BaseCodeParser parser) {
 		AnnotationStatementParser asParser = ParserFactory.getAnnotationStatementParser();
 		AnnotationStatement as = null;
 		Word word = curWord;
@@ -298,7 +298,7 @@ public class Util {
 		return ans.size() > 0 ? ans : null;
 	}
 	
-	public static Expression extractExpressionFromBlacket(IReader reader, ILexer lexer, Word curWord, BaseCodeParser parser) throws IOException {
+	public static Expression extractExpressionFromBlacket(IReader reader, Lexer lexer, Word curWord, BaseCodeParser parser) throws IOException {
 		Word word = curWord;
 		if (!"(".equals(word.value)) {
 			throw new RuntimeException("missed '(' when parse statement.");
@@ -316,7 +316,7 @@ public class Util {
 		return e;
 	}
 
-	public static void getAndAttachCodeBlock(IReader reader, ILexer lexer, Word curWord, BaseStatement statement, BaseCodeParser parser) throws IOException {
+	public static void getAndAttachCodeBlock(IReader reader, Lexer lexer, Word curWord, BaseStatement statement, BaseCodeParser parser) throws IOException {
 		NormalStatementParser nsp = ParserFactory.getNormalStatementParser();
 		BaseStatement s = nsp.parse(reader, lexer, curWord);
 		parser.setLastWord(nsp.getLastWord());
@@ -362,7 +362,7 @@ public class Util {
 		}
 	}
 
-	public static String extractExpressionWithEndSign(IReader reader, ILexer lexer, BaseCodeParser parser, String closeSign) throws IOException {
+	public static String extractExpressionWithEndSign(IReader reader, Lexer lexer, BaseCodeParser parser, String closeSign) throws IOException {
 //		if (curWord != null && curWord.value.equals(closeSign)) {
 //			return "";
 //		}
@@ -389,7 +389,7 @@ public class Util {
 		return builder.toString();
 	}
 	
-	public static final Expression extractExpression(IReader reader, ILexer lexer, Word curWord, BaseCodeParser parser, String closeSign) throws IOException {
+	public static final Expression extractExpression(IReader reader, Lexer lexer, Word curWord, BaseCodeParser parser, String closeSign) throws IOException {
 		StringBuilder builder = new StringBuilder();
 		Word word = curWord;
 		String cs = null;

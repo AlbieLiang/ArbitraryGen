@@ -9,7 +9,7 @@ import cc.suitalk.arbitrarygen.template.TaskInfo;
 /**
  * Created by albieliang on 16/7/24.
  */
-public interface IPsychicGenerator {
+public interface PsychicGenerator {
 
     String genCode(ScriptEngine engine, JSONObject jsonObj, TaskInfo info);
 }

@@ -11,7 +11,7 @@ import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.extension.AGAnnotationProcessor;
-import cc.suitalk.arbitrarygen.extension.ICustomizeGenerator;
+import cc.suitalk.arbitrarygen.extension.CustomizeGenerator;
 import cc.suitalk.arbitrarygen.extension.annotation.ArbitraryGenTask;
 import cc.suitalk.arbitrarygen.extension.annotation.Keep;
 import cc.suitalk.arbitrarygen.extension.annotation.RunInMainThread;
@@ -84,7 +84,7 @@ public class TestAGAnnotationProcessor implements AGAnnotationProcessor {
 			taskInfo.RootDir = parentDir;
 			taskInfo.javaFileObject = fObject;
 			// GenCode
-			ICustomizeGenerator generator = new CodeGenerator(fObject);
+			CustomizeGenerator generator = new CodeGenerator(fObject);
 			Log.i(TAG, "genCode rootDir : %s, fileName : %s, suffix : %s", taskInfo.RootDir, taskInfo.FileName, taskInfo.Suffix);
 			FileOperation.saveToFile(taskInfo, generator.genCode());
 			return true;

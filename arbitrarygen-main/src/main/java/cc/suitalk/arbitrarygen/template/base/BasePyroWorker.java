@@ -7,18 +7,18 @@ import cc.suitalk.arbitrarygen.template.TemplateConfig;
  * @author AlbieLiang
  *
  */
-public abstract class BaseGenCodeWorker implements IGenCodeWorker {
+public abstract class BasePyroWorker implements AGPyroWorker {
 
 	protected TemplateConfig mConfigArgs;
-	
-	public BaseGenCodeWorker(TemplateConfig cfg) {
+
+	public BasePyroWorker(TemplateConfig cfg) {
 		if (cfg == null) {
 			throw new RuntimeException("Config args is null.");
 		}
 		setConfigArgs(cfg);
 	}
 	
-	public BaseGenCodeWorker setConfigArgs(TemplateConfig cfg) {
+	public BasePyroWorker setConfigArgs(TemplateConfig cfg) {
 		mConfigArgs = cfg;
 		return this;
 	}

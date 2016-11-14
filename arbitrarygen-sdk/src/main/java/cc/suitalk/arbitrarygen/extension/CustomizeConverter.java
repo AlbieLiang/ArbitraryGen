@@ -4,7 +4,7 @@ import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ContextInfo;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 
-public interface ICustomizeConverter {
+public interface CustomizeConverter {
 
 	TypeDefineCodeBlock convert(ContextInfo contextInfo, RawTemplate template);
 

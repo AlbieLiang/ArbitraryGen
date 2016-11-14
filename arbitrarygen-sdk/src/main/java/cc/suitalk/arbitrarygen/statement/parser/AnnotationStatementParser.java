@@ -11,7 +11,7 @@ import cc.suitalk.arbitrarygen.core.Value.ValueType;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.expression.parser.ReferenceExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.model.TypeName;
 import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -28,7 +28,7 @@ public class AnnotationStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public AnnotationStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public AnnotationStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		try {
 			super.parse(reader, lexer, curWord);
 			curWord = getLastWord();

@@ -16,9 +16,9 @@ import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
 import cc.suitalk.arbitrarygen.template.GenVigorDBTask;
 import cc.suitalk.arbitrarygen.template.JsTemplateProcessor;
-import cc.suitalk.arbitrarygen.template.PsychicGenTask;
+import cc.suitalk.arbitrarygen.template.PyroGenTask;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
-import cc.suitalk.arbitrarygen.template.base.ITemplateProcessor;
+import cc.suitalk.arbitrarygen.template.base.TemplateProcessor;
 import cc.suitalk.arbitrarygen.template.hybrids.GenHybridsTask;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -31,7 +31,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
 
     private static final String TAG = "AG.ScriptTemplateAGEngine";
 
-    private ITemplateProcessor mTemplateProcessor;
+    private TemplateProcessor mTemplateProcessor;
     private TemplateConfig mTemplateConfig;
 
     @Override
@@ -70,7 +70,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
 
             mTemplateProcessor.addTaskWorker(new GenVigorDBTask(mTemplateConfig));
             mTemplateProcessor.addTaskWorker(new GenHybridsTask(mTemplateConfig));
-            mTemplateProcessor.addTaskWorker(new PsychicGenTask(mTemplateConfig, list));
+            mTemplateProcessor.addTaskWorker(new PyroGenTask(mTemplateConfig, list));
         }
     }
 
@@ -84,7 +84,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         if (mTemplateProcessor == null) {
             return null;
         }
-        final ITemplateProcessor tp = mTemplateProcessor;
+        final TemplateProcessor tp = mTemplateProcessor;
         JSONArray formatArray = new JSONArray();
         List<String> suffixList = tp.getSupportSuffixList();
         for (String suffix : suffixList) {

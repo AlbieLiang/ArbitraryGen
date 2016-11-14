@@ -5,7 +5,7 @@ import java.io.File;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.template.base.BaseGenCodeWorker;
+import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -17,7 +17,7 @@ import net.sf.json.JSONObject;
  * @author AlbieLiang
  *
  */
-public class GenVigorDBTask extends BaseGenCodeWorker {
+public class GenVigorDBTask extends BasePsychicWorker {
 
 	private static final String TAG = "AG.GenVigorDBTask";
 	

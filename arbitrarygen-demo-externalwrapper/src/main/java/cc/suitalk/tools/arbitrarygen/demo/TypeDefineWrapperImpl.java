@@ -3,15 +3,15 @@ package cc.suitalk.tools.arbitrarygen.demo;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
-import cc.suitalk.arbitrarygen.extension.IAGTaskWorker;
-import cc.suitalk.arbitrarygen.extension.ITypeDefineWrapper;
+import cc.suitalk.arbitrarygen.extension.AGTaskWorker;
+import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
 
 /**
  * 
  * @author AlbieLiang
  *
  */
-public class TypeDefineWrapperImpl implements ITypeDefineWrapper {
+public class TypeDefineWrapperImpl implements TypeDefineWrapper {
 
 	@Override
 	public boolean doWrap(ConfigInfo configInfo, JavaFileObject fileObject) {
@@ -26,13 +26,13 @@ public class TypeDefineWrapperImpl implements ITypeDefineWrapper {
 	}
 
 	@Override
-	public boolean addIAGTaskWorker(IAGTaskWorker worker) {
+	public boolean addIAGTaskWorker(AGTaskWorker worker) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean removeIAGTaskWorker(IAGTaskWorker worker) {
+	public boolean removeIAGTaskWorker(AGTaskWorker worker) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -14,15 +14,15 @@ import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
 import cc.suitalk.arbitrarygen.extension.AGAnnotationProcessor;
-import cc.suitalk.arbitrarygen.extension.IAGTaskWorker;
-import cc.suitalk.arbitrarygen.extension.ITypeDefineWrapper;
+import cc.suitalk.arbitrarygen.extension.AGTaskWorker;
+import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
 import cc.suitalk.arbitrarygen.protocol.EnvArgsConstants;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
  * Created by AlbieLiang on 16/11/12.
  */
-public class AGAnnotationWrapper implements ITypeDefineWrapper {
+public class AGAnnotationWrapper implements TypeDefineWrapper {
 
 	private static final String TAG = "AG.AGAnnotationWrapper";
 
@@ -77,12 +77,12 @@ public class AGAnnotationWrapper implements ITypeDefineWrapper {
 	}
 	
 	@Override
-	public boolean addIAGTaskWorker(IAGTaskWorker worker) {
+	public boolean addIAGTaskWorker(AGTaskWorker worker) {
 		return false;
 	}
 	
 	@Override
-	public boolean removeIAGTaskWorker(IAGTaskWorker worker) {
+	public boolean removeIAGTaskWorker(AGTaskWorker worker) {
 		return false;
 	}
 

@@ -9,7 +9,7 @@ import cc.suitalk.arbitrarygen.core.ConfigInfo;
  * @author AlbieLiang
  *
  */
-public interface ITypeDefineWrapper {
+public interface TypeDefineWrapper {
 
 	/**
 	 * To wrap the {@link JavaFileObject}
@@ -32,18 +32,18 @@ public interface ITypeDefineWrapper {
 	boolean doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeblock);
 	
 	/**
-	 * Add a {@link IAGTaskWorker} to the worker set.
+	 * Add a {@link AGTaskWorker} to the worker set.
 	 * 
-	 * @param worker the {@link IAGTaskWorker} for {@link ITypeDefineWrapper}
+	 * @param worker the {@link AGTaskWorker} for {@link TypeDefineWrapper}
 	 * @return added or not
 	 */
-	boolean addIAGTaskWorker(IAGTaskWorker worker);
+	boolean addIAGTaskWorker(AGTaskWorker worker);
 	
 	/**
-	 * Remove a {@link IAGTaskWorker} from the worker set.
+	 * Remove a {@link AGTaskWorker} from the worker set.
 	 * 
-	 * @param worker the {@link IAGTaskWorker} added before
+	 * @param worker the {@link AGTaskWorker} added before
 	 * @return removed success or not
 	 */
-	boolean removeIAGTaskWorker(IAGTaskWorker worker);
+	boolean removeIAGTaskWorker(AGTaskWorker worker);
 }

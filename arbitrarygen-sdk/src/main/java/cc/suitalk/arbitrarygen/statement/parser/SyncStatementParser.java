@@ -6,7 +6,7 @@ import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseStatementParser;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.core.Word;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.SyncStatement;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -22,7 +22,7 @@ public class SyncStatementParser extends BaseStatementParser {
 	}
 
 	@Override
-	public SyncStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public SyncStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		try {
 			super.parse(reader, lexer, curWord);
 			curWord = getLastWord();

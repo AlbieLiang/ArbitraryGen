@@ -14,11 +14,11 @@ import cc.suitalk.arbitrarygen.core.ConfigInfo;
 import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
 import cc.suitalk.arbitrarygen.core.TypeDefineWrapperMgr;
 import cc.suitalk.arbitrarygen.extension.AGAnnotationProcessor;
+import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
 import cc.suitalk.arbitrarygen.gencode.SourceFileInfo;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
-import cc.suitalk.arbitrarygen.extension.ITypeDefineWrapper;
 import cc.suitalk.arbitrarygen.impl.AGAnnotationWrapper;
 import cc.suitalk.arbitrarygen.rule.Project;
 import cc.suitalk.arbitrarygen.rule.Rule;
@@ -75,8 +75,8 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
                             new ExtJarClassLoaderTools.OnLoadedClass() {
                                 @Override
                                 public void onLoadedClass(Object o) {
-                                    if (o instanceof ITypeDefineWrapper) {
-                                        addTypeDefWrapper((ITypeDefineWrapper) o);
+                                    if (o instanceof TypeDefineWrapper) {
+                                        addTypeDefWrapper((TypeDefineWrapper) o);
                                     }
                                 }
                             });
@@ -91,7 +91,7 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
                                 }
                             });
                 }
-//                ITypeDefineWrapper wrapper = new DefaultTypeDefineWrapper();
+//                TypeDefineWrapper wrapper = new DefaultTypeDefineWrapper();
                 // TODO: 16/11/2 albieliang, Add more type worker here
 //                wrapper.addIAGTaskWorker(worker);
 //                addTypeDefWrapper(wrapper);
@@ -181,11 +181,11 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
         return mRules.remove(rule);
     }
 
-    public void addTypeDefWrapper(ITypeDefineWrapper wrapper) {
+    public void addTypeDefWrapper(TypeDefineWrapper wrapper) {
         this.mTypeDefWrapper.addWrapper(wrapper);
     }
 
-    public void removeTypeDefWrapper(ITypeDefineWrapper wrapper) {
+    public void removeTypeDefWrapper(TypeDefineWrapper wrapper) {
         this.mTypeDefWrapper.removeWrapper(wrapper);
     }
 }

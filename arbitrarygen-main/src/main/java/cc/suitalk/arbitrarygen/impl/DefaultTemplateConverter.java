@@ -2,7 +2,7 @@ package cc.suitalk.arbitrarygen.impl;
 
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ContextInfo;
-import cc.suitalk.arbitrarygen.extension.ICustomizeConverter;
+import cc.suitalk.arbitrarygen.extension.CustomizeConverter;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 import cc.suitalk.arbitrarygen.utils.AnalyzerHelper;
 
@@ -11,7 +11,7 @@ import cc.suitalk.arbitrarygen.utils.AnalyzerHelper;
  * @author AlbieLiang
  * 
  */
-public class DefaultTemplateConverter implements ICustomizeConverter {
+public class DefaultTemplateConverter implements CustomizeConverter {
 
 	public DefaultTemplateConverter() {
 	}
