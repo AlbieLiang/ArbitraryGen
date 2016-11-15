@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psychic-define
+	tag="psychic-task">
+
+	<psychic-task name="AGTestPsychicTask" worker="script-executor">
+		<input name="loadScript" type="String" comment="for duplicate removal"/>
+		<field name="field_2" type="String"/>
+		<field name="field_3" type="byte[]">
+			<part name="field_part_1" type="long"/>
+ 		</field>
+		<field name="field_4" type="boolean" default="false" index="Table_1_index"/>
+		<index name="field_3_and_1_index" fields="field_3,field_1"/>
+	</psychic-task>
+
+	<psychic-task name="AGTestPsychicTask1" worker="genCode-executor">
+		<field name="field_1" type="String" comment="for duplicate removal"/>
+		<field name="field_2" type="String"/>
+		<field name="field_3" type="byte[]">
+			<part name="field_part_1" type="long"/>
+ 		</field>
+		<field name="field_4" type="boolean" default="false" index="Table_1_index"/>
+		<index name="field_3_and_1_index" fields="field_3,field_1"/>
+	</psychic-task>
+
+</psychic-define>

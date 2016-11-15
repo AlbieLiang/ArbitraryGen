@@ -16,6 +16,7 @@ import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
 import cc.suitalk.arbitrarygen.template.GenVigorDBTask;
 import cc.suitalk.arbitrarygen.template.JsTemplateProcessor;
+import cc.suitalk.arbitrarygen.template.PsychicGenTask;
 import cc.suitalk.arbitrarygen.template.PyroGenTask;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
 import cc.suitalk.arbitrarygen.template.base.TemplateProcessor;
@@ -70,6 +71,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
 
             mTemplateProcessor.addTaskWorker(new GenVigorDBTask(mTemplateConfig));
             mTemplateProcessor.addTaskWorker(new GenHybridsTask(mTemplateConfig));
+            mTemplateProcessor.addTaskWorker(new PsychicGenTask(mTemplateConfig));
             mTemplateProcessor.addTaskWorker(new PyroGenTask(mTemplateConfig, list));
         }
     }
