@@ -1,5 +1,7 @@
 package cc.suitalk.arbitrarygen.block;
 
+import net.sf.json.JSONObject;
+
 import cc.suitalk.arbitrarygen.base.BaseDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.KeyWords;
 import cc.suitalk.arbitrarygen.core.Word;
@@ -32,6 +34,13 @@ public class FieldCodeBlock extends BaseDefineCodeBlock {
 		}
 		builder.append(Util.getSuffix(this, KeyWords.V_JAVA_KEYWORDS_SIGN_SEMICOLON));
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = super.toJSONObject();
+		jsonObject.put("_default", Default);
+		return jsonObject;
 	}
 
 	public String getDefault() {

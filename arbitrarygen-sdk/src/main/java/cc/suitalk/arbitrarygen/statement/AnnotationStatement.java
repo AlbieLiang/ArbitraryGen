@@ -1,5 +1,8 @@
 package cc.suitalk.arbitrarygen.statement;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,12 +25,12 @@ public class AnnotationStatement extends BaseStatement {
 
 	public AnnotationStatement(String name) {
 		mName = Util.createSimpleTypeName(name);
-		mArgs = new HashMap<String, Value>();
+		mArgs = new HashMap<>();
 	}
 	
 	public AnnotationStatement(TypeName name) {
 		mName = name;
-		mArgs = new HashMap<String, Value>();
+		mArgs = new HashMap<>();
 	}
 
 	@Override
@@ -56,6 +59,19 @@ public class AnnotationStatement extends BaseStatement {
 			builder.append(Util.getRightBracket(this));
 		}
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		if (!mArgs.isEmpty()) {
+			for (String key : mArgs.keySet()) {
+				jsonObject.put(key, mArgs.get(key).getValue());
+			}
+		} else if (mValue != null) {
+			jsonObject.put("_value", mValue.getValue());
+		}
+		return jsonObject;
 	}
 
 	private void appendArg(StringBuilder builder, String key, Value value) {

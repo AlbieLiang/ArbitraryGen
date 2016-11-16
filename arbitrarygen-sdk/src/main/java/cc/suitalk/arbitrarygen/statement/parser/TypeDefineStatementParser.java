@@ -201,7 +201,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 			throw new RuntimeException("parseTypeCodeBlock failed, curWord is (" + curWord + ")");
 		}
 		PlainCodeBlock codeblock = typeDefine.getCodeBlock();
-		codeblock.setLeftBrack(curWord);
+		codeblock.setLeftBrace(curWord);
 		Word word = nextWord(reader, lexer);
 		while (word != null && word.type != WordType.DOC_END && !"}".equals(word.value)) {
 			if ("{".equals(word.value)) {
@@ -217,7 +217,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 			}
 			word = getLastWord();
 		}
-		codeblock.setRightBrack(word);
+		codeblock.setRightBrace(word);
 		nextWord(reader, lexer);
 	}
 

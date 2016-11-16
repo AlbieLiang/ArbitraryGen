@@ -1,5 +1,8 @@
 package cc.suitalk.arbitrarygen.block;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +13,7 @@ import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
 import cc.suitalk.arbitrarygen.core.KeyWords;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.model.TypeName;
+import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
@@ -36,11 +40,11 @@ public class TypeDefineCodeBlock extends BaseDefineCodeBlock {
 	private Word mWordImplements;
 	
 	public TypeDefineCodeBlock() {
-		mInterfaces = new LinkedList<TypeName>();
-		mFields = new LinkedList<FieldCodeBlock>();
-		mSubTypeDefineCodeBlocks = new LinkedList<TypeDefineCodeBlock>();
-		mMethods = new LinkedList<MethodCodeBlock>();
-		mFieldIndexs = new HashMap<String, FieldCodeBlock>();
+		mInterfaces = new LinkedList<>();
+		mFields = new LinkedList<>();
+		mSubTypeDefineCodeBlocks = new LinkedList<>();
+		mMethods = new LinkedList<>();
+		mFieldIndexs = new HashMap<>();
 		mWordExtends = Util.createKeyWord("extends");
 		mWordImplements = Util.createKeyWord("implements");
 		setCodeBlock(new PlainCodeBlock());
@@ -64,6 +68,62 @@ public class TypeDefineCodeBlock extends BaseDefineCodeBlock {
 			// end of code
 		}
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		if (mParent != null) {
+			jsonObject.put("_parent", mParent.toJSONObject());
+		}
+		JSONArray interfaceList = new JSONArray();
+		for (int i = 0; i < mInterfaces.size(); i++) {
+			TypeName _interface = mInterfaces.get(i);
+			interfaceList.add(_interface.toJSONObject());
+		}
+		if (!interfaceList.isEmpty()) {
+			jsonObject.put("_interface", interfaceList);
+		}
+		JSONArray fieldList = new JSONArray();
+		for (int i = 0; i < mFields.size(); i++) {
+			FieldCodeBlock field = mFields.get(i);
+			fieldList.add(field.toJSONObject());
+		}
+		jsonObject.put("_modifier", getModifier());
+		jsonObject.put("_static", isIsStatic());
+		jsonObject.put("_final", isIsFinal());
+		jsonObject.put("_abstract", isIsAbstract());
+		jsonObject.put("_synchronized", isIsSynchronized());
+		jsonObject.put("_type", getType().getName());
+		jsonObject.put("_name", getName().getName());
+		JSONObject annJsonObj = new JSONObject();
+		for (int i = 0; i < countOfAnnotations(); i++) {
+			AnnotationStatement astm = getAnnotation(i);
+			annJsonObj.put(astm.getName().getName(), astm.toJSONObject());
+		}
+		if (!annJsonObj.isEmpty()) {
+			jsonObject.put("_annotation", annJsonObj);
+		}
+		if (!fieldList.isEmpty()) {
+			jsonObject.put("field", fieldList);
+		}
+		JSONArray methodList = new JSONArray();
+		for (int i = 0; i < mMethods.size(); i++) {
+			MethodCodeBlock method = mMethods.get(i);
+			methodList.add(method.toJSONObject());
+		}
+		if (!methodList.isEmpty()) {
+			jsonObject.put("method", methodList);
+		}
+		JSONArray typeDefineList = new JSONArray();
+		for (int i = 0; i < mSubTypeDefineCodeBlocks.size(); i++) {
+			TypeDefineCodeBlock typeDefine = mSubTypeDefineCodeBlocks.get(i);
+			typeDefineList.add(typeDefine.toJSONObject());
+		}
+		if (!typeDefineList.isEmpty()) {
+			jsonObject.put("subClass", typeDefineList);
+		}
+		return jsonObject;
 	}
 	
 	protected String genTypedef(TypeDefineCodeBlock typeDefCodeBlock, String linefeed) {

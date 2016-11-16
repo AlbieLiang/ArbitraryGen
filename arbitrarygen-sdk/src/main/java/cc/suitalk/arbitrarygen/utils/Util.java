@@ -327,7 +327,7 @@ public class Util {
 			statement.setCodeBlock(s.getCodeBlock());
 		} else {
 			PlainCodeBlock codeblock = statement.getCodeBlock();
-			codeblock.setDisplayBrack(false);
+			codeblock.setDisplayBrace(false);
 			statement.addStatement(s);
 		}
 	}

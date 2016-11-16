@@ -1,5 +1,8 @@
 package cc.suitalk.arbitrarygen.block;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +20,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  *
  */
 public class MethodCodeBlock extends BaseDefineCodeBlock {
+
 	protected List<KeyValuePair<Word, TypeName>> mArgs;
 	private List<TypeName> mThrows;
 	private Word mWordThrows;
@@ -78,6 +82,31 @@ public class MethodCodeBlock extends BaseDefineCodeBlock {
 			builder.append(";");
 		}
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = super.toJSONObject();
+		JSONArray argArray = new JSONArray();
+		for (int i = 0; i < mArgs.size(); i++) {
+			KeyValuePair<Word, TypeName> keyValuePair = mArgs.get(i);
+			JSONObject arg = new JSONObject();
+			arg.put("_type", keyValuePair.getValue().toJSONObject());
+			arg.put("_name", keyValuePair.getKey().value);
+			argArray.add(arg);
+		}
+		if (!argArray.isEmpty()) {
+			jsonObject.put("_args", argArray);
+		}
+		JSONArray throwsArray = new JSONArray();
+		for (int i = 0; i < mThrows.size(); i++) {
+			TypeName t = mThrows.get(i);
+			throwsArray.add(t.getName());
+		}
+		if (!throwsArray.isEmpty()) {
+			jsonObject.put("_throws", throwsArray);
+		}
+		return jsonObject;
 	}
 
 	public List<TypeName> getThrows() {

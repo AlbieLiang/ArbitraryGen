@@ -1,25 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<psychic-define
-	tag="psychic-task">
+<PsychicDefine tag="PsychicTask">
 
-	<psychic-task name="AGTestPsychicTask" worker="script-executor">
-		<input name="loadScript" type="String" comment="for duplicate removal"/>
-		<field name="field_2" type="String"/>
-		<field name="field_3" type="byte[]">
-			<part name="field_part_1" type="long"/>
- 		</field>
-		<field name="field_4" type="boolean" default="false" index="Table_1_index"/>
-		<index name="field_3_and_1_index" fields="field_3,field_1"/>
-	</psychic-task>
+	<PsychicTask name="AGPsychicTask_TemplateProcessor" processor="hybrid-template-processor">
+		<template>./src/main/java/cc/suitalk/arbitrarygen/demo/psychic/JsApiFrameworkCore.java</template>
+		<dependsOn name="JsApiList" type="input" processor="parse-java">
+            <rule>./autogen/jsapi-demo-project.rule</rule>
+		</dependsOn>
+	</PsychicTask>
 
-	<psychic-task name="AGTestPsychicTask1" worker="genCode-executor">
-		<field name="field_1" type="String" comment="for duplicate removal"/>
-		<field name="field_2" type="String"/>
-		<field name="field_3" type="byte[]">
-			<part name="field_part_1" type="long"/>
- 		</field>
-		<field name="field_4" type="boolean" default="false" index="Table_1_index"/>
-		<index name="field_3_and_1_index" fields="field_3,field_1"/>
-	</psychic-task>
+	<!--<PsychicTask name="AGPsychicTask_ScriptExecutor" processor="script-executor">-->
+		<!--<script>./autogen/psychic-script.psychic-script</script>-->
 
-</psychic-define>
+		<!--<dependsOn name="GenLog" type="output" processor="genCode-executor">-->
+		<!--</dependsOn>-->
+		<!--<dependsOn name="JsApiList" type="input" processor="parse-java">-->
+			<!--<rule>./autogen/parse-project.rule</rule>-->
+		<!--</dependsOn>-->
+	<!--</PsychicTask>-->
+
+	<!--<PsychicTask name="AGPsychicTask_TemplateProcessor" processor="template-processor">-->
+		<!--<template>../ArbitraryGen/template-libs/VDBInfoDelegate.vigor-template</template>-->
+		<!--<templateTag>vigor-delegate</templateTag>-->
+
+		<!--<toFile>cc/suitalk/arbitrarygen/demo/psychic/AGPsychicTaskTest.java</toFile>-->
+
+		<!--<dependsOn name="GenLog" type="output" processor="genCode-executor">-->
+		<!--</dependsOn>-->
+		<!--<dependsOn name="JsApiList" type="input" processor="parse-java">-->
+			<!--<rule>./autogen/parse-project.rule</rule>-->
+		<!--</dependsOn>-->
+	<!--</PsychicTask>-->
+
+	<!--<PsychicTask name="scanTask" processor="scanner">-->
+		<!--<format>e</format>-->
+	<!--</PsychicTask>-->
+
+	<!--<PsychicTask name="genCodeTask" processor="genCode-executor">-->
+	<!--</PsychicTask>-->
+
+	<!--<PsychicTask name="javaCodeTask" processor="javaCode-executor">-->
+		<!--<enable>rule</enable>-->
+		<!--<rule>./autogen/parse-project.rule</rule>-->
+		<!--<extension>-->
+		    <!--<jar>../ArbitraryGen/arbitrarygen-demo-wrapper.jar</jar>-->
+		<!--</extension>-->
+		<!--<tClass/>-->
+		<!--<pClass>cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor</pClass>-->
+	<!--</PsychicTask>-->
+
+</PsychicDefine>

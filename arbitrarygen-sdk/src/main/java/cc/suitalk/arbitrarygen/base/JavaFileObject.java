@@ -1,5 +1,8 @@
 package cc.suitalk.arbitrarygen.base;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +18,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class JavaFileObject implements ICodeGenerator {
+public class JavaFileObject implements ICodeGenerator, JSONConverter {
 
 	private String mPackage;
 	private List<String> mImport;
@@ -42,6 +45,28 @@ public class JavaFileObject implements ICodeGenerator {
 			builder.append(typeDefine.genCode(linefeed));
 		}
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("_package", getPackage());
+		JSONArray importArray = new JSONArray();
+		for (int i = 0; i < mImportStms.size(); i++) {
+			importArray.add(mImportStms.get(i).getImportRefExpression().getVariable());
+		}
+		if (!importArray.isEmpty()) {
+			jsonObject.put("_import", importArray);
+		}
+		JSONArray typeDefineArray = new JSONArray();
+		for (int i = 0; i < mTypeDefineCodeBlocks.size(); i++) {
+			TypeDefineCodeBlock typeDefineCodeBlock = mTypeDefineCodeBlocks.get(i);
+			typeDefineArray.add(typeDefineCodeBlock.toJSONObject());
+		}
+		if (!typeDefineArray.isEmpty()) {
+			jsonObject.put("_class", typeDefineArray);
+		}
+		return jsonObject;
 	}
 
 	public void attachEnvironmentArgs(EnvironmentArgs args) {

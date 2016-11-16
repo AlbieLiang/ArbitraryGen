@@ -34,7 +34,7 @@ public class PlainStatementParser extends BaseStatementParser {
 			if (curWord != null && "{".equals(curWord.value)) {
 				PlainStatement statement = new PlainStatement();
 				PlainCodeBlock cb = statement.getCodeBlock();
-				cb.setLeftBrack(curWord);
+				cb.setLeftBrace(curWord);
 //				statement.setCommendBlock(getCommendStr());
 				NormalStatementParser parser = ParserFactory.getNormalStatementParser();
 				Word word = nextWord(reader, lexer);
@@ -46,7 +46,7 @@ public class PlainStatementParser extends BaseStatementParser {
 						statement.addStatement(s);
 					}
 					if ("}".equals(word.value)) {
-						cb.setRightBrack(word);
+						cb.setRightBrace(word);
 						nextWord(reader, lexer);
 						return statement;
 					}

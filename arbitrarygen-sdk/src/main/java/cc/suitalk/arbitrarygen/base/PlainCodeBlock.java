@@ -1,5 +1,8 @@
 package cc.suitalk.arbitrarygen.base;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,20 +17,20 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class PlainCodeBlock implements ICodeGenerator {
+public class PlainCodeBlock implements ICodeGenerator, JSONConverter {
 
 	private List<BaseStatement> mStatements;
 	private EnvironmentArgs mEnvironmentArgs;
-	private Word mLeftBrack;
-	private Word mRightBrack;
-	private boolean mDisplayBrack;
+	private Word mLeftBrace;
+	private Word mRightBrace;
+	private boolean mDisplayBrace;
 	private BaseStatement mBelongStatement;
 	
 	public PlainCodeBlock() {
-		mStatements = new LinkedList<BaseStatement>();
-		mLeftBrack = Util.createSignWord("{", Type.BEGIN);
-		mRightBrack = Util.createSignWord("}", Type.END);
-		mDisplayBrack = true;
+		mStatements = new LinkedList<>();
+		mLeftBrace = Util.createSignWord("{", Type.BEGIN);
+		mRightBrace = Util.createSignWord("}", Type.END);
+		mDisplayBrace = true;
 	}
 
 	public void attachEnvironmentArgs(EnvironmentArgs args) {
@@ -37,6 +40,23 @@ public class PlainCodeBlock implements ICodeGenerator {
 			stm = mStatements.get(i);
 			stm.attachEnvironmentArgs(args);
 		}
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		if (mStatements.isEmpty()) {
+			return null;
+		}
+		JSONObject jsonObject = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		for (int i = 0; i < mStatements.size(); i++) {
+			BaseStatement stm = mStatements.get(i);
+			jsonArray.add(stm.toJSONObject());
+		}
+		if (!jsonArray.isEmpty()) {
+			jsonObject.put("statement", jsonArray);
+		}
+		return jsonObject;
 	}
 
 	public BaseStatement getBelongStatement() {
@@ -54,16 +74,16 @@ public class PlainCodeBlock implements ICodeGenerator {
 	@Override
 	public String genCode(String linefeed) {
 		StringBuilder builder = new StringBuilder();
-		if (mDisplayBrack) {
-			builder.append(mLeftBrack != null ? mLeftBrack : "{");
+		if (mDisplayBrace) {
+			builder.append(mLeftBrace != null ? mLeftBrace : "{");
 		}
 		for (BaseStatement statement : mStatements) {
 			builder.append(getLinefeed(linefeed + TAB));
 			builder.append(statement.genCode(linefeed + TAB));
 		}
 		builder.append(getLinefeed(linefeed));
-		if (mDisplayBrack) {
-			builder.append(mRightBrack != null ? mRightBrack : "}");
+		if (mDisplayBrace) {
+			builder.append(mRightBrace != null ? mRightBrace : "}");
 		}
 		return builder.toString();
 	}
@@ -101,27 +121,27 @@ public class PlainCodeBlock implements ICodeGenerator {
 		return mStatements.size();
 	}
 	
-	public Word getLeftBrack() {
-		return mLeftBrack;
+	public Word getLeftBrace() {
+		return mLeftBrace;
 	}
 
-	public void setLeftBrack(Word leftBrack) {
-		this.mLeftBrack = leftBrack;
+	public void setLeftBrace(Word leftBrace) {
+		this.mLeftBrace = leftBrace;
 	}
 
-	public Word getRightBrack() {
-		return mRightBrack;
+	public Word getRightBrace() {
+		return mRightBrace;
 	}
 
-	public void setRightBrack(Word rightBrack) {
-		this.mRightBrack = rightBrack;
+	public void setRightBrace(Word rightBrace) {
+		this.mRightBrace = rightBrace;
 	}
 
-	public boolean isDisplayBrack() {
-		return mDisplayBrack;
+	public boolean isDisplayBrace() {
+		return mDisplayBrace;
 	}
 
-	public void setDisplayBrack(boolean displayBrack) {
-		this.mDisplayBrack = displayBrack;
+	public void setDisplayBrace(boolean displayBrace) {
+		this.mDisplayBrace = displayBrace;
 	}
 }

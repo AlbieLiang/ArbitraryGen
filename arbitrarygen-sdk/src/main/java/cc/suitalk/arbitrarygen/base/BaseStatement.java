@@ -1,5 +1,8 @@
 package cc.suitalk.arbitrarygen.base;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +16,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public abstract class BaseStatement extends Session implements ICodeGenerator {
+public abstract class BaseStatement extends Session implements ICodeGenerator, JSONConverter {
 
 	private String mCommendBlock;
 	private List<AnnotationStatement> mAnnotationStatements;
@@ -27,7 +30,7 @@ public abstract class BaseStatement extends Session implements ICodeGenerator {
 	private BaseStatement mBelongStatement;
 	
 	public BaseStatement() {
-		mAnnotationStatements = new LinkedList<AnnotationStatement>();
+		mAnnotationStatements = new LinkedList<>();
 	}
 
 	public void attachEnvironmentArgs(EnvironmentArgs args) {
@@ -53,6 +56,23 @@ public abstract class BaseStatement extends Session implements ICodeGenerator {
 	 * @param args the {@link EnvironmentArgs} of this statement.
 	 */
 	public void onAttachEnvironmentArgs(EnvironmentArgs args) {
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		JSONArray annArray = new JSONArray();
+		for (int i = 0; i < mAnnotationStatements.size(); i++) {
+			AnnotationStatement astm = mAnnotationStatements.get(i);
+			annArray.add(astm.toJSONObject());
+		}
+		if (!annArray.isEmpty()) {
+			jsonObject.put("_annotation", annArray);
+		}
+		if (mCodeBlock != null) {
+			jsonObject.put("codeBlock", mCodeBlock.toJSONObject());
+		}
+		return jsonObject;
 	}
 
 	public BaseStatement getOuterStatement() {

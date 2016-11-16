@@ -1,0 +1,14 @@
+@Author AlbieLiang
+@Date current
+@Root ..
+@Project arbitrarygen-demo
+@Src src/main/java
+@Src-format java
+cc.suitalk.arbitrarygen.demo.jsapi.JsApiFunc_A
+cc.suitalk.arbitrarygen.demo.jsapi.JsApiFunc_B
+cc.suitalk.arbitrarygen.demo.jsapi.JsApiFunc_C
+cc.suitalk.arbitrarygen.demo.jsapi.JsApiFunc_D
+
+@Project-begin arbitrarygen-demo
+# cc.suitalk.arbitrarygen.demo.MainActivity
+@Project-end

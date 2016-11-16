@@ -11,6 +11,7 @@ import cc.suitalk.arbitrarygen.gencode.SourceFileInfo;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
+import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -48,7 +49,7 @@ public class ScannerAGProcessor implements ArbitraryGenProcessor {
     @Override
     public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String srcDir = args.getString(KEY_SRC_DIR);
-        JSONArray suffixJsonArray = args.optJSONArray(KEY_SUFFIX_LIST);
+        JSONArray suffixJsonArray = JSONArgsUtils.getJSONArray(args, KEY_SUFFIX_LIST, true);
         int scanMode = args.optInt(KEY_SCAN_MODE);
 
         Log.v(TAG, "execute args(%s)", args);

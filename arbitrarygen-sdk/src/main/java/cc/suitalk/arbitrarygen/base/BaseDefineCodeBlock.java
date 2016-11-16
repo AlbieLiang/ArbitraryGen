@@ -1,5 +1,7 @@
 package cc.suitalk.arbitrarygen.base;
 
+import net.sf.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public abstract class BaseDefineCodeBlock extends BaseStatement implements ICode
 	private List<Word> mModifierWords;
 
 	public BaseDefineCodeBlock() {
-		mModifierWords = new LinkedList<Word>();
+		mModifierWords = new LinkedList<>();
 	}
 	
 	protected String genDefCode(BaseDefineCodeBlock defCodeBlock, String linefeed) {
@@ -101,7 +103,20 @@ public abstract class BaseDefineCodeBlock extends BaseStatement implements ICode
 		}
 		return builder.toString();
 	}
-	
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = super.toJSONObject();
+		jsonObject.put("_modifier", mModifier);
+		jsonObject.put("_static", mIsStatic);
+		jsonObject.put("_final", mIsFinal);
+		jsonObject.put("_abstract", mIsAbstract);
+		jsonObject.put("_synchronized", mIsSynchronized);
+		jsonObject.put("_type", mType.getName());
+		jsonObject.put("_name", mName.getName());
+		return jsonObject;
+	}
+
 	private boolean addModifier(Word word) {
 		return mModifierWords.add(word);
 	}

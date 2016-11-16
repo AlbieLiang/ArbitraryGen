@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import cc.suitalk.arbitrarygen.engine.PsychicAGEngine;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
@@ -15,8 +16,13 @@ import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor.ErrorCode;
 import cc.suitalk.arbitrarygen.engine.DefaultAGEngine;
 import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
+import cc.suitalk.arbitrarygen.processor.ExecuteScriptProcessor;
+import cc.suitalk.arbitrarygen.processor.HybridTemplateProcessor;
 import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
+import cc.suitalk.arbitrarygen.processor.ParseJavaFileProcessor;
+import cc.suitalk.arbitrarygen.processor.ParseRuleProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
+import cc.suitalk.arbitrarygen.processor.TemplateProcessor;
 import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -156,10 +162,16 @@ public class ArbitraryGenCore implements AGCore {
         // Resolve hardcode Engine
         addProcessor(new LoggerAGProcessor());
         addProcessor(new ScannerAGProcessor());
+        addProcessor(new ParseRuleProcessor());
+        addProcessor(new ParseJavaFileProcessor());
+        addProcessor(new ExecuteScriptProcessor());
+        addProcessor(new TemplateProcessor());
+        addProcessor(new HybridTemplateProcessor());
         // Add more extension Engine by arguments
         addProcessor(new DefaultAGEngine());
         addProcessor(new ScriptTemplateAGEngine());
         addProcessor(new JavaCodeAGEngine());
+        addProcessor(new PsychicAGEngine());
 
         // load external engine
         JSONObject engineJson = jsonObject.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_ENGINE);
@@ -202,26 +214,27 @@ public class ArbitraryGenCore implements AGCore {
             return null;
         }
         JSONObject jsonObject = args.optJSONObject(name);
-        if (jsonObject != null) {
-            int count = 0;
-            String src = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC);
-            String dest = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
-            String libsDir = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR);
-            if (Util.isNullOrNil(src)) {
-                jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_SRC, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
-                count++;
-            }
-            if (Util.isNullOrNil(dest)) {
-                jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_DEST, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST));
-                count++;
-            }
-            if (Util.isNullOrNil(libsDir)) {
-                jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR));
-                count++;
-            }
-            if (count > 0) {
-                args.put(name, jsonObject);
-            }
+        if (jsonObject == null) {
+            jsonObject = new JSONObject();
+        }
+        int count = 0;
+        String src = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC);
+        String dest = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
+        String libsDir = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR);
+        if (Util.isNullOrNil(src)) {
+            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_SRC, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
+            count++;
+        }
+        if (Util.isNullOrNil(dest)) {
+            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_DEST, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST));
+            count++;
+        }
+        if (Util.isNullOrNil(libsDir)) {
+            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR));
+            count++;
+        }
+        if (count > 0) {
+            args.put(name, jsonObject);
         }
         Log.v(TAG, "getAGProcessor(%s) args : %s", name, jsonObject);
         return jsonObject;

@@ -1,5 +1,8 @@
 package cc.suitalk.arbitrarygen.model;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +11,7 @@ import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseCodeParser;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.base.ICodeGenerator;
+import cc.suitalk.arbitrarygen.base.JSONConverter;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
@@ -24,7 +28,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class TypeName implements ICodeGenerator {
+public class TypeName implements ICodeGenerator, JSONConverter {
 
 //	private List<AnnotationStatement> mAnnotationStatements;
 	private ReferenceExpression mName;
@@ -61,7 +65,30 @@ public class TypeName implements ICodeGenerator {
 		}
 		return builder.toString();
 	}
-	
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("name", mName.getVariable());
+		JSONArray genericityTypeArray = new JSONArray();
+		for (int i = 0; i < mGenericityTypes.size(); i++) {
+			TypeName name = mGenericityTypes.get(i);
+			genericityTypeArray.add(name.getName());
+		}
+		if (!genericityTypeArray.isEmpty()) {
+			jsonObject.put("genericityType", genericityTypeArray);
+		}
+		JSONArray arrayArgsArray = new JSONArray();
+		for (int i = 0; i < mGenericityTypes.size(); i++) {
+			TypeName name = mGenericityTypes.get(i);
+			genericityTypeArray.add(name.getName());
+		}
+		if (!arrayArgsArray.isEmpty()) {
+			jsonObject.put("arrayArgs", arrayArgsArray);
+		}
+		return jsonObject;
+	}
+
 	@Override
 	public String toString() {
 		return genCode("");
@@ -163,6 +190,7 @@ public class TypeName implements ICodeGenerator {
 	public void addArrayArg(Expression e) {
 		mArrayArgs.add(e);
 	}
+
 	/**
 	 * 
 	 * @author AlbieLiang

@@ -32,7 +32,7 @@
 # Add more rules here.
 @Author AlbieLiang
 @Date current
-@Root ../
+@Root ..
 @Project arbitrarygen-demo
 @Src src/main/java
 @Src-format java
