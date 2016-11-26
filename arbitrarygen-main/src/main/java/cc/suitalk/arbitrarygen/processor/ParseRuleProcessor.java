@@ -75,18 +75,20 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
         List<String> ruleList = new LinkedList<>();
 
         RuleFileObject fileObject = p.getRuleFileObject();
-        final String dir = fileObject.getRoot() + File.separator + p.getName() + File.separator;
+        final String dir = Util.joint(File.separator, fileObject.getRoot(), p.getName(), p.getSrc()) + File.separator;
         for (Rule rule : p.getRuleList()) {
             final String content = rule.getContent();
+            Log.v(TAG, "rule(%s)", content);
             switch (rule.getType()) {
                 case Rule.TYPE_RULE:
                     int index = content.indexOf("*");
                     if (index >= 0) {
-                        File file = new File(content.substring(0, index));
+                        File file = new File(dir + content.substring(0, index));
+                        Log.v(TAG, "list rule files(%s)", file.getAbsolutePath());
                         if (file.isDirectory()) {
                             ruleFileList.addAll(FileOperation.listFilePaths(file, true));
                             ruleList.add(file.getAbsolutePath() + File.separator
-                                    + content.substring(index).replaceAll("\\*", "(\\\\.)+"));
+                                    + content.substring(index).replaceAll("\\*", "(.)+"));
                         }
                         break;
                     }

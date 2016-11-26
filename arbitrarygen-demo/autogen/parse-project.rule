@@ -36,7 +36,7 @@
 @Src src/main/java
 #cc/suitalk/arbitrarygen/demo/QQUserProtos.java
 cc/suitalk/arbitrarygen/demo/MainActivity.java
-cc/suitalk/arbitrarygen/demo/*.java
+#cc/suitalk/arbitrarygen/demo/*.java
 
 @Project-begin arbitrarygen-demo
 # cc/suitalk/arbitrarygen/demo/MainActivity.java

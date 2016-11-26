@@ -36,6 +36,7 @@ public class RuleParser {
 			String line = null;
 			Project defaultProject = new Project();
 			ruleFileObject.addProject(defaultProject);
+			defaultProject.setRuleFileObject(ruleFileObject);
 			while ((line = bufReader.readLine()) != null) {
 				Log.v(TAG, line);
 				line = line.trim();
@@ -59,8 +60,6 @@ public class RuleParser {
 						date = Util.getDateFormat("yyyy-MM-dd HH:mm:ss", System.currentTimeMillis());
 					}
 					ruleFileObject.setDate(date);
-				} else if ((args = splitArgs(RuleConstants.PROJECT, line)) != null && args.length > 0) {
-					defaultProject.setName(args[0]);
 				} else if ((args = splitArgs(RuleConstants.ROOT, line)) != null && args.length > 0) {
 					ruleFileObject.setRoot(args[0]);
 				} else if ((args = splitArgs(RuleConstants.SRC_DIR_RECURSION, line)) != null && args.length > 0) {
@@ -84,20 +83,25 @@ public class RuleParser {
 					Project project = parseProject(args[0], bufReader);
 					project.setRuleFileObject(ruleFileObject);
 					ruleFileObject.addProject(project);
+				} else if ((args = splitArgs(RuleConstants.PROJECT, line)) != null && args.length > 0) {
+					defaultProject.setName(args[0]);
 				} else {
 					// TODO: 2016/11/26 albieliang, handle illegal format
 					Rule rule = new Rule();
 					rule.setType(Rule.TYPE_RULE);
-					rule.setContent(args[0]);
+					rule.setContent(line);
 					defaultProject.addRule(rule);
 				}
 			}
 		} catch (FileNotFoundException e) {
 			ruleFileObject = null;
-			Log.e(TAG, "parse error : %s", e);
+			Log.e(TAG, "parse error : %s", Log.getStackTraceString(e));
 		} catch (IOException e) {
 			ruleFileObject = null;
-			Log.e(TAG, "parse error : %s", e);
+			Log.e(TAG, "parse error : %s", Log.getStackTraceString(e));
+		} catch (Exception e) {
+			ruleFileObject = null;
+			Log.e(TAG, "parse error : %s", Log.getStackTraceString(e));
 		} finally {
 			try {
 				if (bufReader != null) {
@@ -147,6 +151,7 @@ public class RuleParser {
 			} else if ((args = splitArgs(RuleConstants.SRC, line)) != null && args.length > 0) {
 				project.setSrc(args[0]);
 			} else if (splitArgs(RuleConstants.PROJECT_END, line) != null) {
+				Log.d(TAG, "end tag for Project(%s).", name);
 				break;
 			} else {
 				// TODO: 2016/11/26 albieliang, handle illegal format
