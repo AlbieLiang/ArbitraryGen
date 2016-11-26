@@ -1,48 +1,34 @@
 package cc.suitalk.arbitrarygen.rule;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- * 
- * @author AlbieLiang
- *
+ * Created by AlbieLiang on 2016/11/26.
  */
 public class Rule {
-	
-	private Project mDefaultProject;
-	private List<Project> mProjects;
 
-	public Rule() {
-		mProjects = new LinkedList<Project>();
-	}
-	
-	public List<Project> getProjects() {
-		return mProjects;
-	}
+    public static final int TYPE_RULE = 0;
+    public static final int TYPE_FILE = 1;
+    public static final int TYPE_DIRECTORY = 2;
+    public static final int TYPE_RECURSION_DIRECTORY = 3;
 
-	public void addProjects(List<Project> projects) {
-		if (projects != null) {
-			mProjects.addAll(projects);
-		}
-	}
+    private int type;
 
-	public boolean addProject(Project p) {
-		if (p != null && !mProjects.contains(p)) {
-			return mProjects.add(p);
-		}
-		return false;
-	}
-	
-	public boolean removeProject(Project p) {
-		return mProjects.remove(p);
-	}
-	
-	public Project getDefaultProject() {
-		return mDefaultProject;
-	}
+    private String content;
 
-	public void setDefaultProject(Project p) {
-		this.mDefaultProject = p;
-	}
+    public int getType() {
+        return type;
+    }
+
+    public Rule setType(int type) {
+        this.type = type;
+        return this;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Rule setContent(String content) {
+        this.content = content;
+        return this;
+    }
 }

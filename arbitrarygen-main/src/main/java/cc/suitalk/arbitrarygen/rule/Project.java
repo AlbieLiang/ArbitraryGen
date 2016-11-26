@@ -12,143 +12,53 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class Project {
 
-	private Rule mRule;
-	private String mRoot;
+	private RuleFileObject mRuleFileObject;
+
 	private String mName;
-	private String mAuthor;
-	private String mDate;
-	private List<String> mFormats;
-	private List<String> mSrcs;
-	private List<String> mSrcDirs;
-	private List<String> mSrcDirRecursions;
-	private List<String> mSrcfiles;
+	private String mSrc;
+	private List<Rule> mRuleList;
 	
 	public Project() {
-		mFormats = new LinkedList<String>();
-		mSrcs = new LinkedList<String>();
-		mSrcDirs = new LinkedList<String>();
-		mSrcDirRecursions = new LinkedList<String>();
-		mSrcfiles = new LinkedList<String>();
+		mRuleList = new LinkedList<>();
 	}
 	
-	public Rule getRule() {
-		return mRule;
+	public RuleFileObject getRuleFileObject() {
+		return mRuleFileObject;
 	}
 
-	public void setRule(Rule rule) {
-		this.mRule = rule;
+	public void setRuleFileObject(RuleFileObject ruleFileObject) {
+		this.mRuleFileObject = ruleFileObject;
 	}
 
-	public String getRoot() {
-		return mRoot;
-	}
-	
-	public void setRoot(String root) {
-		this.mRoot = root;
-	}
-	
 	public String getName() {
 		return mName;
 	}
-	
+
 	public void setName(String name) {
 		this.mName = name;
 	}
-	
-	public String getAuthor() {
-		return mAuthor;
+
+	public String getSrc() {
+		return mSrc;
 	}
 	
-	public void setAuthor(String author) {
-		this.mAuthor = author;
+	public void setSrc(String src) {
+		mSrc = src;
+	}
+
+	public List<Rule> getRuleList() {
+		return mRuleList;
 	}
 	
-	public String getDate() {
-		return mDate;
+	public void addRuleList(List<Rule> ruleList) {
+		Util.addAll(mRuleList, ruleList);
 	}
 	
-	public void setDate(String date) {
-		this.mDate = date;
+	public boolean addRule(Rule rule) {
+		return Util.add(mRuleList, rule);
 	}
 	
-	public List<String> getFormats() {
-		return mFormats;
-	}
-	
-	public void addFormats(List<String> formats) {
-		Util.addAll(mFormats, formats);
-	}
-	
-	public boolean addFormat(String format) {
-		return Util.add(mFormats, format);
-	}
-	
-	public boolean removeFormat(String format) {
-		return mFormats.remove(format);
-	}
-	
-	public List<String> getSrcs() {
-		return mSrcs;
-	}
-	
-	public void addSrcs(List<String> srcs) {
-		Util.addAll(mSrcs, srcs);
-	}
-	
-	public boolean addSrc(String src) {
-		return Util.add(mSrcs, src);
-	}
-	
-	public boolean removeSrc(String src) {
-		return mSrcs.remove(src);
-	}
-	
-	
-	public List<String> getSrcDirs() {
-		return mSrcDirs;
-	}
-	
-	public void addSrcDirs(List<String> srcDirs) {
-		Util.addAll(mSrcDirs, srcDirs);
-	}
-	
-	public boolean addSrcDir(String srcDir) {
-		return Util.add(mSrcDirs, srcDir);
-	}
-	
-	public boolean removeSrcDir(String srcDir) {
-		return mSrcDirs.remove(srcDir);
-	}
-	
-	public List<String> getSrcDirRecursions() {
-		return mSrcDirRecursions;
-	}
-	
-	public void addSrcDirRecursions(List<String> srcDirRecursions) {
-		Util.addAll(mSrcDirRecursions, srcDirRecursions);
-	}
-	
-	public boolean addSrcDirRecursion(String srcDirRecursion) {
-		return Util.add(mSrcDirRecursions, srcDirRecursion);
-	}
-	
-	public boolean removeSrcDirRecursion(String srcDirRecursion) {
-		return mSrcDirRecursions.remove(srcDirRecursion);
-	}
-	
-	public List<String> getSrcfiles() {
-		return mSrcfiles;
-	}
-	
-	public void addSrcfiles(List<String> srcfiles) {
-		Util.addAll(mSrcfiles, srcfiles);
-	}
-	
-	public boolean addSrcfile(String srcfile) {
-		return Util.add(mSrcfiles, srcfile);
-	}
-	
-	public boolean removeSrcfile(String srcfile) {
-		return mSrcfiles.remove(srcfile);
+	public boolean removeSrcDir(String rule) {
+		return mRuleList.remove(rule);
 	}
 }

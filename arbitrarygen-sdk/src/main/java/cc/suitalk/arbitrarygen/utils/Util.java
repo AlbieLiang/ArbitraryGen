@@ -519,16 +519,15 @@ public class Util {
 		}
 		return builder.toString();
 	}
-	
 
-	public static final void addAll(List<String> list, List<String> str) {
+	public static final<T> void addAll(List<T> list, List<T> str) {
 		if (list != null && str != null) {
 			list.addAll(str);
 		}
 	}
 	
-	public static final boolean add(List<String> list, String str) {
-		if (list != null && !Util.isNullOrNil(str) && !list.contains(str)) {
+	public static final<T> boolean add(List<T> list, T str) {
+		if (list != null && str != null && !list.contains(str)) {
 			list.add(str);
 		}
 		return false;

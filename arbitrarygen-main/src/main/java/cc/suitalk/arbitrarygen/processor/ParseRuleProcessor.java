@@ -11,9 +11,9 @@ import java.util.Map;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
-import cc.suitalk.arbitrarygen.gencode.SourceFileInfo;
 import cc.suitalk.arbitrarygen.rule.Project;
 import cc.suitalk.arbitrarygen.rule.Rule;
+import cc.suitalk.arbitrarygen.rule.RuleFileObject;
 import cc.suitalk.arbitrarygen.rule.RuleParser;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -42,31 +42,23 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
 
     @Override
     public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
-        List<Rule> ruleList = new LinkedList<>();
         String ruleArg = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_RULE);
+        List<String> pathList = new LinkedList<>();
         if (!Util.isNullOrNil(ruleArg)) {
             RuleParser parser = new RuleParser();
-            Rule rule = parser.parse(ruleArg);
-            if (rule != null) {
-                ruleList.add(rule);
-            }
-        }
-        List<SourceFileInfo> srcFileInfoList = new LinkedList<>();
-        for (Rule r : ruleList) {
-            Project p = r.getDefaultProject();
-            if (p != null) {
-                srcFileInfoList.addAll(scan(p));
-            }
-            List<Project> projects = r.getProjects();
-            for (int i = 0; i < projects.size(); i++) {
-                srcFileInfoList.addAll(scan(projects.get(i)));
+            RuleFileObject ruleFileObject = parser.parse(ruleArg);
+            if (ruleFileObject != null) {
+                List<Project> projects = ruleFileObject.getProjects();
+                for (int i = 0; i < projects.size(); i++) {
+                    pathList.addAll(scan(projects.get(i)));
+                }
             }
         }
         JSONObject result = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < srcFileInfoList.size(); i++) {
-            SourceFileInfo info = srcFileInfoList.get(i);
-            jsonArray.add(info.file.getAbsolutePath());
+        for (int i = 0; i < pathList.size(); i++) {
+            String path = pathList.get(i);
+            jsonArray.add(path);
         }
         result.put("fileArray", jsonArray);
         return result;
@@ -77,16 +69,58 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 
-    private List<SourceFileInfo> scan(Project p) {
-        List<SourceFileInfo> results = new LinkedList<>();
-        for (String path : p.getSrcfiles()) {
-            String absolutePath = p.getRoot() + File.separator + p.getName() + File.separator + p.getSrcs().get(0) + File.separator + Util.exchangeToPath(path) + "." + p.getFormats().get(0);
-            Log.v(TAG, "path : " + absolutePath);
-            List<SourceFileInfo> r = FileOperation.scan(absolutePath, p.getFormats());
-            if (r != null && r.size() > 0) {
-                results.addAll(r);
+    private List<String> scan(Project p) {
+        List<String> fileList = new LinkedList<>();
+        List<String> ruleFileList = new LinkedList<>();
+        List<String> ruleList = new LinkedList<>();
+
+        RuleFileObject fileObject = p.getRuleFileObject();
+        final String dir = fileObject.getRoot() + File.separator + p.getName() + File.separator;
+        for (Rule rule : p.getRuleList()) {
+            final String content = rule.getContent();
+            switch (rule.getType()) {
+                case Rule.TYPE_RULE:
+                    int index = content.indexOf("*");
+                    if (index >= 0) {
+                        File file = new File(content.substring(0, index));
+                        if (file.isDirectory()) {
+                            ruleFileList.addAll(FileOperation.listFilePaths(file, true));
+                            ruleList.add(file.getAbsolutePath() + File.separator
+                                    + content.substring(index).replaceAll("\\*", "(\\\\.)+"));
+                        }
+                        break;
+                    }
+                case Rule.TYPE_FILE:
+                    File file = new File(dir + content);
+                    if (file.isFile()) {
+                        fileList.add(file.getAbsolutePath());
+                    }
+                    break;
+                case Rule.TYPE_DIRECTORY:
+                    file = new File(dir + content);
+                    if (!file.isDirectory()) {
+                        break;
+                    }
+                    fileList.addAll(FileOperation.listFilePaths(file, false));
+                    break;
+                case Rule.TYPE_RECURSION_DIRECTORY:
+                    file = new File(dir + content);
+                    if (!file.isDirectory()) {
+                        break;
+                    }
+                    fileList.addAll(FileOperation.listFilePaths(file, true));
+                    break;
             }
         }
-        return results;
+        for (String path : ruleFileList) {
+            for (String r : ruleList) {
+                boolean match = path.matches(r);
+                if (match) {
+                    fileList.add(path);
+                }
+                Log.v(TAG, "rule(%s) match(%s) result : %b", r, path, match);
+            }
+        }
+        return fileList;
     }
 }

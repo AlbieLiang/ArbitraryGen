@@ -13,15 +13,14 @@
 # @Project-begin SomeProject # SomeProject begin and it must closed will the @Project-end tag. Detail define please reference
 #                            # the tag @Project
 # @Src src                   # The source folder(directory) name of the project, it can be repeated.
-# @Src-format java           # The format of the source file. Default format is java.
-# @Src-dir cc.suitalk.generator.core                        # Define a source directory for parse. It just parse the source file of this directory.
-# @Src-dir-recursion cc.suitalk.generator.core              # Define a source directory for parse, the child directory of the
-#                                                               # source directory may work as a source directory.
-# @Src-file cc.suitalk.arbitrarygen.core.ArbitraryGenEntrance # Define a source file for parse
+# @Src-dir cc/suitalk/generator/core                               # Define a source directory for parse. It just parse the source file of this directory.
+# @Src-dir-recursion cc/suitalk/generator/core                     # Define a source directory for parse, the child directory of the
+#                                                                  # source directory may work as a source directory.
+# @Src-file cc/suitalk/arbitrarygen/core/ArbitraryGenEntrance.java # Define a source file for parse
 #
-# cc.suitalk.generator.core.*                     # A simple rule just like @Src-dir
-# cc.suitalk.generator.core.*.*                   # A simple rule parts match @Src-dir-recursion
-# cc.suitalk.generator.core.CodeGeneratorEntrance # A simple rule just like @Src-file
+# cc/suitalk/generator/core/*                          # A simple rule just like @Src-dir
+# cc/suitalk/generator/core/*/*                        # A simple rule parts match @Src-dir-recursion
+# cc/suitalk/generator/core/CodeGeneratorEntrance.java # A simple rule just like @Src-file
 # 
 # 
 # 
@@ -35,10 +34,10 @@
 @Root ..
 @Project arbitrarygen-demo
 @Src src/main/java
-@Src-format java
-#cc.suitalk.arbitrarygen.demo.QQUserProtos
-cc.suitalk.arbitrarygen.demo.MainActivity
+#cc/suitalk/arbitrarygen/demo/QQUserProtos.java
+cc/suitalk/arbitrarygen/demo/MainActivity.java
+cc/suitalk/arbitrarygen/demo/*.java
 
 @Project-begin arbitrarygen-demo
-# cc.suitalk.arbitrarygen.demo.MainActivity
+# cc/suitalk/arbitrarygen/demo/MainActivity.java
 @Project-end

@@ -20,6 +20,35 @@ public class FileOperation {
 
 	private static final String TAG = "AG.FileOperation";
 
+	public static List<File> listFiles(File file, boolean recursion) {
+		List<File> resultList = new LinkedList<>();
+		File[] files = file.listFiles();
+		if (files != null && files.length > 0) {
+			for (File f : files) {
+				if (f.isFile()) {
+					resultList.add(f);
+				} else if (f.isDirectory() && recursion) {
+					resultList.addAll(listFiles(f, true));
+				}
+			}
+		}
+		return resultList;
+	}
+
+	public static List<String> listFilePaths(File file, boolean recursion) {
+		List<String> resultList = new LinkedList<>();
+		File[] files = file.listFiles();
+		if (files != null && files.length > 0) {
+			for (File f : files) {
+				if (f.isFile()) {
+					resultList.add(f.getAbsolutePath());
+				} else if (f.isDirectory() && recursion) {
+					resultList.addAll(listFilePaths(f, true));
+				}
+			}
+		}
+		return resultList;
+	}
 	public static final List<SourceFileInfo> scan(String path, List<String> suffixList) {
 		if (Util.isNullOrNil(path) || suffixList == null || suffixList.size() == 0) {
 			Log.d(TAG, "path : %s, suffixList is null = %s", path, (suffixList == null));
