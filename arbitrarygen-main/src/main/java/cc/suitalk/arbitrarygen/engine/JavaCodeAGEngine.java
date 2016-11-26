@@ -1,10 +1,9 @@
 package cc.suitalk.arbitrarygen.engine;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import cc.suitalk.arbitrarygen.analyzer.JavaFileLexer;
@@ -15,16 +14,11 @@ import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
 import cc.suitalk.arbitrarygen.core.TypeDefineWrapperMgr;
 import cc.suitalk.arbitrarygen.extension.AGAnnotationProcessor;
 import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
-import cc.suitalk.arbitrarygen.gencode.SourceFileInfo;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.impl.AGAnnotationWrapper;
-import cc.suitalk.arbitrarygen.rule.Project;
-import cc.suitalk.arbitrarygen.rule.Rule;
-import cc.suitalk.arbitrarygen.rule.RuleParser;
 import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
-import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -38,7 +32,6 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
 
     private volatile boolean mEnable;
 
-    private List<Rule> mRules;
     private TypeDefineWrapperMgr mTypeDefWrapper;
 
     @Override
@@ -52,56 +45,49 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
             Log.i(TAG, "initialize failed, args is null.");
             return;
         }
-        mRules = new LinkedList<>();
         mTypeDefWrapper = new TypeDefineWrapperMgr();
         // Extract ArbitraryEnable flag
         mEnable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE, true);
         if (mEnable) {
-            String ruleArg = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_RULE);
-            if (!Util.isNullOrNil(ruleArg)) {
-                // Java file
-                RuleParser parser = new RuleParser();
-                addRule(parser.parse(ruleArg));
-                final AGAnnotationWrapper annWrapper = new AGAnnotationWrapper();
-                addTypeDefWrapper(annWrapper);
-                // load extension jar
-                JSONObject extensionJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);
-                if (extensionJson != null) {
-                    JarClassLoaderWrapper loader = core.getJarClassLoader();
-                    ExtJarClassLoaderTools.loadJar(loader,
-                            JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true));
-                    ExtJarClassLoaderTools.loadClass(loader,
-                            JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true),
-                            new ExtJarClassLoaderTools.OnLoadedClass() {
-                                @Override
-                                public void onLoadedClass(Object o) {
-                                    if (o instanceof TypeDefineWrapper) {
-                                        addTypeDefWrapper((TypeDefineWrapper) o);
-                                    }
+            final AGAnnotationWrapper annWrapper = new AGAnnotationWrapper();
+            addTypeDefWrapper(annWrapper);
+            // load extension jar
+            JSONObject extensionJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);
+            if (extensionJson != null) {
+                JarClassLoaderWrapper loader = core.getJarClassLoader();
+                ExtJarClassLoaderTools.loadJar(loader,
+                        JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true));
+                ExtJarClassLoaderTools.loadClass(loader,
+                        JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_CLASS, true),
+                        new ExtJarClassLoaderTools.OnLoadedClass() {
+                            @Override
+                            public void onLoadedClass(Object o) {
+                                if (o instanceof TypeDefineWrapper) {
+                                    addTypeDefWrapper((TypeDefineWrapper) o);
                                 }
-                            });
-                    ExtJarClassLoaderTools.loadClass(loader,
-                            JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_PROCESSOR_CLASS, true),
-                            new ExtJarClassLoaderTools.OnLoadedClass() {
-                                @Override
-                                public void onLoadedClass(Object o) {
-                                    if (o instanceof AGAnnotationProcessor) {
-                                        annWrapper.addAnnotationProcessor((AGAnnotationProcessor) o);
-                                    }
+                            }
+                        });
+                ExtJarClassLoaderTools.loadClass(loader,
+                        JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_PROCESSOR_CLASS, true),
+                        new ExtJarClassLoaderTools.OnLoadedClass() {
+                            @Override
+                            public void onLoadedClass(Object o) {
+                                if (o instanceof AGAnnotationProcessor) {
+                                    annWrapper.addAnnotationProcessor((AGAnnotationProcessor) o);
                                 }
-                            });
-                }
+                            }
+                        });
+            }
 //                TypeDefineWrapper wrapper = new DefaultTypeDefineWrapper();
-                // TODO: 16/11/2 albieliang, Add more type worker here
+            // TODO: 16/11/2 albieliang, Add more type worker here
 //                wrapper.addIAGTaskWorker(worker);
 //                addTypeDefWrapper(wrapper);
-            }
         }
     }
 
     @Override
     public String[] getDependencies() {
-        return new String[0];
+        return new String[] { "parse-rule" };
     }
 
     @Override
@@ -120,22 +106,21 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
         if (!Util.isNullOrNil(src)) {
             configInfo.setSrcPath(src);
         }
-        List<SourceFileInfo> srcFileInfoList = new LinkedList<>();
-        for (Rule r : mRules) {
-            Project p = r.getDefaultProject();
-            if (p != null) {
-                srcFileInfoList.addAll(scan(p));
-            }
-            List<Project> projects = r.getProjects();
-            for (int i = 0; i < projects.size(); i++) {
-                srcFileInfoList.addAll(scan(projects.get(i)));
-            }
+        JSONObject result = core.execProcess(processors, "parse-rule", args);
+        if (result == null) {
+            Log.i(TAG, "parse rule result is null.");
+            return null;
         }
-        for (int i = 0; i < srcFileInfoList.size(); i++) {
-            SourceFileInfo info = srcFileInfoList.get(i);
-            JavaFileLexer lexer = new JavaFileLexer(info.file);
+        JSONArray fileArray = result.optJSONArray("fileArray");
+        if (fileArray == null) {
+            Log.i(TAG, "file array is null.");
+            return null;
+        }
+        for (int i = 0; i < fileArray.size(); i++) {
+            File file = new File(fileArray.getString(i));
+            JavaFileLexer lexer = new JavaFileLexer(file);
             JavaFileObject javaFileObject = lexer.start();
-            configInfo.setFile(info.file);
+            configInfo.setFile(file);
             mTypeDefWrapper.doWrap(configInfo, javaFileObject);
         }
         return null;
@@ -144,41 +129,6 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
     @Override
     public void onError(int errorCode, String message) {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
-    }
-
-    private List<SourceFileInfo> scan(Project p) {
-        List<SourceFileInfo> results = new LinkedList<>();
-        for (String path : p.getSrcfiles()) {
-            String absolutePath = p.getRoot() + File.separator + p.getName() + File.separator + p.getSrcs().get(0) + File.separator + Util.exchangeToPath(path) + "." + p.getFormats().get(0);
-            Log.v(TAG, "path : " + absolutePath);
-            List<SourceFileInfo> r = FileOperation.scan(absolutePath, p.getFormats());
-            if (r != null && r.size() > 0) {
-                results.addAll(r);
-            }
-        }
-        return results;
-    }
-
-    public List<Rule> getRules() {
-        return mRules;
-    }
-
-    public boolean addRules(List<Rule> rules) {
-        if (rules == null) {
-            return false;
-        }
-        return this.mRules.addAll(rules);
-    }
-
-    public boolean addRule(Rule rule) {
-        if (rule == null || mRules.contains(rule)) {
-            return false;
-        }
-        return this.mRules.add(rule);
-    }
-
-    public boolean removeRule(Rule rule) {
-        return mRules.remove(rule);
     }
 
     public void addTypeDefWrapper(TypeDefineWrapper wrapper) {
