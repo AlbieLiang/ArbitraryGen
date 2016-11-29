@@ -181,6 +181,14 @@ public class ArbitraryGenCore implements AGCore {
                 addExternalProcessor(engineJson, extensionJson);
             }
         }
+        // load external processor
+        JSONObject processorJson = jsonObject.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_PROCESSOR);
+        if (processorJson != null) {
+            JSONObject extensionJson = processorJson.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);
+            if (extensionJson != null) {
+                addExternalProcessor(processorJson, extensionJson);
+            }
+        }
     }
 
     private void addExternalProcessor(final JSONObject argsJson, JSONObject extensionJson) {

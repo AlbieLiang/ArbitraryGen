@@ -57,6 +57,7 @@ class ArbitraryGenTask extends DefaultTask {
                 scriptEngine (extension.scriptEngine == null ? {} : extension.scriptEngine)
                 javaCodeEngine (extension.javaCodeEngine == null ? {} : extension.javaCodeEngine)
                 engine (extension.engine == null ? {} : extension.engine)
+                processor (extension.processor == null ? {} : extension.processor)
             }
             arg(value: "argJson:${builder.toString()}")
             println("${builder.toPrettyString()}")

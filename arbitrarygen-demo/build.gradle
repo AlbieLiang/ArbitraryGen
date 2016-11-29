@@ -104,4 +104,18 @@ arbitraryGen {
             }
         }
     }
+
+    // external processor argument
+    processor {
+        // external jar and class of customize engine
+        extension {
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-engine.jar"
+            tClass "cc.suitalk.tools.arbitrarygen.demo.TestProcessor"
+        }
+        // example processor
+        testProcessor {
+            message "do smothing"
+        }
+    }
+
 }

@@ -13,6 +13,7 @@ class ArbitraryGenPluginExtension {
     Closure scriptEngine
     Closure javaCodeEngine
     Closure engine
+    Closure processor
 
     public ArbitraryGenPluginExtension() {
         enable = true
