@@ -6,6 +6,9 @@
 		<dependsOn name="JsApiList" type="input" processor="parse-java">
             <rule>./autogen/jsapi-demo-project.rule</rule>
 		</dependsOn>
+		<resultTo processor="statistic">
+            <toFile>./build/outputs/logs/ag-statistic.log</toFile>
+		</resultTo>
 	</PsychicTask>
 
 	<!--<PsychicTask name="AGPsychicTask_ScriptExecutor" processor="script-executor">-->

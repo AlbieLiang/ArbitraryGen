@@ -113,7 +113,30 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                 } else {
                     Log.i(TAG, "dependsOn array is null.");
                 }
-                core.execProcess(processors, processor, taskInfo);
+                JSONObject result = core.execProcess(processors, processor, taskInfo);
+                if (result == null) {
+                    Log.i(TAG, "execute task processor result is null, switch to next task.");
+                    continue;
+                }
+                JSONArray resultToArray = JSONArgsUtils.getJSONArray(taskInfo, "resultTo", true);
+                if (resultToArray != null) {
+                    for (int d = 0; d < resultToArray.size(); d++) {
+                        JSONObject resultToInfo = resultToArray.optJSONObject(d);
+                        if (resultToInfo == null) {
+                            Log.i(TAG, "resultTo info is null.");
+                            continue;
+                        }
+                        String p = resultToInfo.optString("_processor");
+                        if (Util.isNullOrNil(p)) {
+                            Log.i(TAG, "the processor(%s) of resultTo info is null or nil.", p);
+                            continue;
+                        }
+                        JSONObject r = core.execProcess(processors, p, resultToInfo);
+                        Log.i(TAG, "the processor(%s) of resultTo info, execute result is : %s.", p, r);
+                    }
+                } else {
+                    Log.i(TAG, "resultTo array is null.");
+                }
             }
         }
         return null;
