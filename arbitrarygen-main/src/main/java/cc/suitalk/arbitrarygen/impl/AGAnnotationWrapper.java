@@ -61,7 +61,9 @@ public class AGAnnotationWrapper implements TypeDefineWrapper {
 							set.addAll(baseStatementSet);
 						}
 					}
-					processor.process(env, fileObject, codeBlock, set);
+					if (!set.isEmpty()) {
+						processor.process(env, fileObject, codeBlock, set);
+					}
 				}
 			}
 		}
@@ -70,9 +72,6 @@ public class AGAnnotationWrapper implements TypeDefineWrapper {
 
 	@Override
 	public boolean doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeBlock) {
-		if (codeBlock != null) {
-			return true;
-		}
 		return false;
 	}
 	

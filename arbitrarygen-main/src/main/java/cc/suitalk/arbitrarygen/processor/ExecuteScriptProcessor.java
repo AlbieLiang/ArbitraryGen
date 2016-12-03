@@ -59,6 +59,8 @@ public class ExecuteScriptProcessor implements ArbitraryGenProcessor {
             Object o = engine.eval(script);
             if (o instanceof JSONObject) {
                 jsonObject = (JSONObject) o;
+            } else if (o instanceof String) {
+                jsonObject = JSONObject.fromObject(o);
             }
         } catch (ScriptException e) {
             Log.e(TAG, "eval script error, exception : %s", e);

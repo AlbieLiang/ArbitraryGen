@@ -23,6 +23,8 @@ public interface AGCore {
 
     JSONObject execProcess(Map<String, ArbitraryGenProcessor> processors, String processorName, JSONObject args);
 
+    JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args, Map<String, ArbitraryGenProcessor> deliverDepends);
+
     JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args);
 
     JarClassLoaderWrapper getJarClassLoader();

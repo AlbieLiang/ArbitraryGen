@@ -86,6 +86,22 @@ public class Util {
 		return builder.toString();
 	}
 
+	public static String jointWhenNoNil(String separator, String... str) {
+		if (str == null || str.length == 0) {
+			return "";
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append(str[0]);
+		for (int i = 1; i < str.length; i++) {
+			if (Util.isNullOrNil(str[i])) {
+				continue;
+			}
+			builder.append(separator);
+			builder.append(str[i]);
+		}
+		return builder.toString();
+	}
+
 	public static List<TypeName> convertTo(List<String> names) {
 		List<TypeName> results = new LinkedList<TypeName>();
 		if (names != null) {

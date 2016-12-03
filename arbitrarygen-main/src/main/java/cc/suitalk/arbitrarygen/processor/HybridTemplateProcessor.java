@@ -2,7 +2,6 @@ package cc.suitalk.arbitrarygen.processor;
 
 import net.sf.json.JSONObject;
 
-import java.io.File;
 import java.util.Map;
 
 import javax.script.ScriptEngine;

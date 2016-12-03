@@ -216,7 +216,11 @@ public abstract class BaseStatement extends Session implements ICodeGenerator, J
 		}
 		return null;
 	}
-	
+
+	public boolean containsAnnotation(String name) {
+		return getAnnotation(name) != null;
+	}
+
 	public int countOfAnnotations() {
 		return mAnnotationStatements.size();
 	}

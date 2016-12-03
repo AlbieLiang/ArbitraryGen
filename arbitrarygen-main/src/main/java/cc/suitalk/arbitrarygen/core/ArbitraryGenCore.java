@@ -21,6 +21,7 @@ import cc.suitalk.arbitrarygen.processor.HybridTemplateProcessor;
 import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseJavaFileProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseRuleProcessor;
+import cc.suitalk.arbitrarygen.processor.PsychicTaskProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
 import cc.suitalk.arbitrarygen.processor.TemplateProcessor;
 import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
@@ -137,20 +138,33 @@ public class ArbitraryGenCore implements AGCore {
      */
     @Override
     public JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args) {
+        return execProcess(processor, args, null);
+    }
+
+    /**
+     *
+     * @param processor
+     * @return
+     */
+    @Override
+    public JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args, Map<String, ArbitraryGenProcessor> deliverDepends) {
         if (processor == null) {
             return null;
         }
         String[] dependencies = processor.getDependencies();
-        Map<String, ArbitraryGenProcessor> engines = new HashMap<>();
+        Map<String, ArbitraryGenProcessor> dependsPros = new HashMap<>();
         for (int i = 0; i < dependencies.length; i++) {
             ArbitraryGenProcessor p = mProcessors.get(dependencies[i]);
             if (p == null) {
                 processor.onError(ErrorCode.MISSING_DEPENDENCIES, String.format("Missing dependencies engine '%s", dependencies[i]));
                 return null;
             }
-            engines.put(dependencies[i], p);
+            dependsPros.put(dependencies[i], p);
         }
-        return processor.exec(this, engines, args);
+        if (deliverDepends != null && !deliverDepends.isEmpty()) {
+            dependsPros.putAll(deliverDepends);
+        }
+        return processor.exec(this, dependsPros, args);
     }
 
     @Override
@@ -167,6 +181,7 @@ public class ArbitraryGenCore implements AGCore {
         addProcessor(new ExecuteScriptProcessor());
         addProcessor(new TemplateProcessor());
         addProcessor(new HybridTemplateProcessor());
+        addProcessor(new PsychicTaskProcessor());
         // Add more extension Engine by arguments
         addProcessor(new DefaultAGEngine());
         addProcessor(new ScriptTemplateAGEngine());

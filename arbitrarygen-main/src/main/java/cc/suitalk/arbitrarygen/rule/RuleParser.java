@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
+import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -18,10 +21,22 @@ public class RuleParser {
 
 	private static final String TAG = "AG.RuleParser";
 
-	public RuleParser() {
+	private RuleParser() {
 	}
 
-	public RuleFileObject parse(String path) {
+	public static List<String> parseAndScan(String path) {
+		List<String> pathList = new LinkedList<>();
+		RuleFileObject ruleFileObject = RuleParser.parse(path);
+		if (ruleFileObject != null) {
+			List<Project> projects = ruleFileObject.getProjects();
+			for (int i = 0; i < projects.size(); i++) {
+				pathList.addAll(RuleParser.scan(projects.get(i)));
+			}
+		}
+		return pathList;
+	}
+
+	public static RuleFileObject parse(String path) {
 		File file = new File(path);
 		if (!file.exists() || !file.isFile()) {
 			return null;
@@ -112,6 +127,64 @@ public class RuleParser {
 			}
 		}
 		return ruleFileObject;
+	}
+
+	public static List<String> scan(Project p) {
+		List<String> fileList = new LinkedList<>();
+		List<String> ruleFileList = new LinkedList<>();
+		List<String> ruleList = new LinkedList<>();
+
+		RuleFileObject fileObject = p.getRuleFileObject();
+		final String dir = Util.jointWhenNoNil(File.separator,
+				(fileObject != null ? fileObject.getRoot() : ""), p.getName(), p.getSrc()) + File.separator;
+		for (Rule rule : p.getRuleList()) {
+			final String content = rule.getContent();
+			Log.v(TAG, "rule(%s)", content);
+			switch (rule.getType()) {
+				case Rule.TYPE_RULE:
+					int index = content.indexOf("*");
+					if (index >= 0) {
+						File file = new File(dir + content.substring(0, index));
+						Log.v(TAG, "list rule files(%s)", file.getAbsolutePath());
+						if (file.isDirectory()) {
+							ruleFileList.addAll(FileOperation.listFilePaths(file, true));
+							ruleList.add(file.getAbsolutePath() + File.separator
+									+ content.substring(index).replaceAll("\\*", "(.)+"));
+						}
+						break;
+					}
+				case Rule.TYPE_FILE:
+					File file = new File(dir + content);
+					if (file.isFile()) {
+						fileList.add(file.getAbsolutePath());
+					}
+					break;
+				case Rule.TYPE_DIRECTORY:
+					file = new File(dir + content);
+					if (!file.isDirectory()) {
+						break;
+					}
+					fileList.addAll(FileOperation.listFilePaths(file, false));
+					break;
+				case Rule.TYPE_RECURSION_DIRECTORY:
+					file = new File(dir + content);
+					if (!file.isDirectory()) {
+						break;
+					}
+					fileList.addAll(FileOperation.listFilePaths(file, true));
+					break;
+			}
+		}
+		for (String path : ruleFileList) {
+			for (String r : ruleList) {
+				boolean match = path.matches(r);
+				if (match) {
+					fileList.add(path);
+				}
+				Log.v(TAG, "rule(%s) match(%s) result : %b", r, path, match);
+			}
+		}
+		return fileList;
 	}
 
 	private static Project parseProject(String name, BufferedReader bufReader) throws IOException {
