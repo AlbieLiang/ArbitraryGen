@@ -49,12 +49,12 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
     @Override
     public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         Log.v(TAG, "execute Psychic engine, args(%s)", args);
-        JSONObject argsJSONObject = new JSONObject();
-        argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
-        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
         JSONArray suffixList = new JSONArray();
         suffixList.add("psychic-define");
         suffixList.add("psychic-rule");
+        JSONObject argsJSONObject = new JSONObject();
+        argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
+        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
         argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, suffixList);
 
         JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);
@@ -100,7 +100,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
 
     private void dealPsychicRule(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONArray ruleFileArray) {
         if (ruleFileArray == null || ruleFileArray.isEmpty()) {
-            Log.i(TAG, "scan out psychic define file list is nil.");
+            Log.i(TAG, "scan out psychic rule file list is nil.");
             return;
         }
         ArbitraryGenProcessor parseRuleProcessor = processors.get("parse-rule");
@@ -112,7 +112,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                 Log.i(TAG, "file path is null or nil.");
                 continue;
             }
-            args.put(ArgsConstants.EXTERNAL_ARGS_KEY_RULE, path);
+            args.put(ArgsConstants.EXTERNAL_ARGS_KEY_RULE_FILE, path);
             JSONObject result = parseRuleProcessor.exec(core, processors, args);
             if (result == null) {
                 Log.i(TAG, "parse rule result is null.");
@@ -145,11 +145,35 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                     continue;
                 }
                 JSONObject psychicTask = new JSONObject();
-                JSONObject ruleJSON = new JSONObject();
-                ruleJSON.put("_name", ruleStm.getArg("name").toString());
-                ruleJSON.put("_processor", "parse-java");
-                ruleJSON.put("_type", "input");
-                ruleJSON.put("rule", ruleStm.getArg("rule").toString());
+                JSONArray dependsOnArray = new JSONArray();
+                if (ruleStm != null) {
+                    JSONObject ruleInfo = new JSONObject();
+                    ruleInfo.put("_name", ruleStm.getArg("name").getValue());
+                    ruleInfo.put("_processor", "parse-java");
+                    ruleInfo.put("_type", "input");
+                    // TODO: 2016/12/3 albieliang, resolve rule array case.
+                    ruleInfo.put("rule", ruleStm.getArg("rule").toString());
+                    dependsOnArray.add(ruleInfo);
+
+                }
+                if (dependsStm != null) {
+                    JSONObject dependsOnInfo = new JSONObject();
+                    String argsStr = dependsStm.getArg("args").getValue().toString();
+                    if (!Util.isNullOrNil(argsStr)) {
+                        JSONObject argsJSONObject = JSONObject.fromObject(argsStr);
+                        if (argsJSONObject != null) {
+                            dependsOnInfo.putAll(argsJSONObject);
+                        }
+                    }
+                    dependsOnInfo.put("_name", dependsStm.getArg("name").getValue());
+                    dependsOnInfo.put("_processor", dependsStm.getArg("processor").getValue());
+                    dependsOnInfo.put("_type", "input");
+                    dependsOnArray.add(dependsOnInfo);
+                }
+                psychicTask.put("_name", "AGPsychicTask_" + javaFileObject.getFileName());
+                psychicTask.put("_processor", "hybrid-template-processor");
+                psychicTask.put("dependsOn", dependsOnArray);
+                psychicTask.put("template", file.getAbsolutePath());
                 taskArray.add(psychicTask);
             }
             psychicArgs.put("PsychicTask", taskArray);

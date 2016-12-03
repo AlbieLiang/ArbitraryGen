@@ -10,7 +10,10 @@ import java.util.Map;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
+import cc.suitalk.arbitrarygen.rule.Project;
+import cc.suitalk.arbitrarygen.rule.Rule;
 import cc.suitalk.arbitrarygen.rule.RuleParser;
+import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -37,18 +40,41 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
 
     @Override
     public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
-        String ruleArg = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_RULE);
-        List<String> pathList = new LinkedList<>();
-        if (!Util.isNullOrNil(ruleArg)) {
-            pathList.addAll(RuleParser.parseAndScan(ruleArg));
-        }
         JSONObject result = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < pathList.size(); i++) {
-            String path = pathList.get(i);
-            jsonArray.add(path);
+        JSONArray fileArray = new JSONArray();
+        JSONArray ruleFileArray = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_RULE_FILE, true);
+        if (ruleFileArray != null) {
+            List<String> pathList = new LinkedList<>();
+            for (int i = 0; i < ruleFileArray.size(); i++) {
+                String ruleArg = ruleFileArray.optString(i);
+                if (Util.isNullOrNil(ruleArg)) {
+                    continue;
+                }
+                pathList.addAll(RuleParser.parseAndScan(ruleArg));
+            }
+            for (int j = 0; j < pathList.size(); j++) {
+                String path = pathList.get(j);
+                fileArray.add(path);
+            }
         }
-        result.put("fileArray", jsonArray);
+        JSONArray ruleArray = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_RULE, true);
+        if (ruleArray != null) {
+            List<String> pathList = new LinkedList<>();
+            for (int i = 0; i < ruleArray.size(); i++) {
+                String ruleArg = ruleArray.optString(i);
+                if (Util.isNullOrNil(ruleArg)) {
+                    continue;
+                }
+                Project project = new Project();
+                project.addRule(new Rule(ruleArg));
+                pathList.addAll(RuleParser.scan(project));
+            }
+            for (int j = 0; j < pathList.size(); j++) {
+                String path = pathList.get(j);
+                fileArray.add(path);
+            }
+        }
+        result.put("fileArray", fileArray);
         return result;
     }
 

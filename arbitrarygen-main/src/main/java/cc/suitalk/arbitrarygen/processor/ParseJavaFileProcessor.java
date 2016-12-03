@@ -27,7 +27,6 @@ public class ParseJavaFileProcessor implements ArbitraryGenProcessor {
 
     @Override
     public void initialize(AGCore core, JSONObject args) {
-
     }
 
     @Override

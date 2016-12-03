@@ -31,6 +31,7 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_LOG_TO_FILE = "logToFile";
 	String EXTERNAL_ARGS_KEY_LOG_FILE = "path";
 
+	String EXTERNAL_ARGS_KEY_RULE_FILE = "ruleFile";
 	String EXTERNAL_ARGS_KEY_RULE = "rule";
 	String EXTERNAL_ARGS_KEY_CORE_LIBS = "coreLibs";
 	String EXTERNAL_ARGS_KEY_TEMPLATE_LIBS = "templateLibs";

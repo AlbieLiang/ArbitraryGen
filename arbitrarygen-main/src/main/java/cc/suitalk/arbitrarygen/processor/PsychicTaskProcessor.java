@@ -77,7 +77,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
             }
             JSONObject result = core.execProcess(processors, processor, taskInfo);
             if (result == null) {
-                Log.i(TAG, "execute task processor result is null, switch to next task.");
+                Log.d(TAG, "execute task processor result is null, switch to next task.");
                 continue;
             }
             JSONArray resultToArray = JSONArgsUtils.getJSONArray(taskInfo, "resultTo", true);

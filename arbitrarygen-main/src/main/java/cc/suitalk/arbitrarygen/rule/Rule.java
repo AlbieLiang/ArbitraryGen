@@ -14,6 +14,18 @@ public class Rule {
 
     private String content;
 
+    public Rule() {
+    }
+
+    public Rule(String content) {
+        setContent(content);
+    }
+
+    public Rule(int type, String content) {
+        setType(type);
+        setContent(content);
+    }
+
     public int getType() {
         return type;
     }

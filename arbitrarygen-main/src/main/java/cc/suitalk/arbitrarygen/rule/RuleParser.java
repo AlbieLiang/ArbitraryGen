@@ -135,8 +135,11 @@ public class RuleParser {
 		List<String> ruleList = new LinkedList<>();
 
 		RuleFileObject fileObject = p.getRuleFileObject();
-		final String dir = Util.jointWhenNoNil(File.separator,
-				(fileObject != null ? fileObject.getRoot() : ""), p.getName(), p.getSrc()) + File.separator;
+		String dir = Util.jointWhenNoNil(File.separator,
+				(fileObject != null ? fileObject.getRoot() : ""), p.getName(), p.getSrc());
+		if (!Util.isNullOrNil(dir) && !dir.endsWith(File.separator)) {
+			dir += File.separator;
+		}
 		for (Rule rule : p.getRuleList()) {
 			final String content = rule.getContent();
 			Log.v(TAG, "rule(%s)", content);

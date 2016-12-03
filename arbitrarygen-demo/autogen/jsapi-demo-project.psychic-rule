@@ -3,7 +3,7 @@
 @Root ..
 @Project arbitrarygen-demo
 @Src src/main/java
-cc/suitalk/arbitrarygen/demo/jsapi/*
+cc/suitalk/arbitrarygen/demo/psychic/*
 
 @Project-begin arbitrarygen-demo
 # cc/suitalk/arbitrarygen/demo/MainActivity.java

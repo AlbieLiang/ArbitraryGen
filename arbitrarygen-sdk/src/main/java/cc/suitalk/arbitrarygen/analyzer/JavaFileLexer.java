@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
+import cc.suitalk.arbitrarygen.utils.Log;
 
 /**
  * 
@@ -13,6 +14,8 @@ import cc.suitalk.arbitrarygen.base.JavaFileObject;
  *
  */
 public class JavaFileLexer extends JavaLexer {
+
+	private static final String TAG = "AG.JavaFileLexer";
 
 	private File mFile;
 	
@@ -28,6 +31,7 @@ public class JavaFileLexer extends JavaLexer {
 		IReader reader = null;
 		JavaFileObject javaFileObject = null;
 		try {
+			Log.v(TAG, "start to analyze file(%s)", mFile.getAbsolutePath());
 			reader = new ReaderWrapper(new InputStreamReader(new FileInputStream(mFile)));
 			javaFileObject = analyzeJavaFileObject(reader);
 		} catch (Exception e) {

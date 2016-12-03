@@ -4,7 +4,8 @@
 	<PsychicTask name="AGPsychicTask_TemplateProcessor" processor="hybrid-template-processor">
 		<template>./src/main/java/cc/suitalk/arbitrarygen/demo/psychic/JsApiFrameworkCore.java</template>
 		<dependsOn name="JsApiList" type="input" processor="parse-java">
-            <rule>./autogen/jsapi-demo-project.rule</rule>
+            <ruleFile>./autogen/jsapi-demo-project.rule</ruleFile>
+			<rule>./src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/*</rule>
 		</dependsOn>
 		<resultTo processor="statistic">
             <toFile>./build/outputs/logs/ag-statistic.log</toFile>
