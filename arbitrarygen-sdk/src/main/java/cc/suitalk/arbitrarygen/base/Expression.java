@@ -110,6 +110,46 @@ public class Expression implements ICodeGenerator {
 		return builder.toString();
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		if (needSurround()) {
+			builder.append("(");
+		}
+		if (!Util.isNullOrNil(mVariable)) {
+			builder.append(mVariable);
+		}
+		if (!Util.isNullOrNil(mOperator1)) {
+			if (builder.length() > 0) {
+				builder.append(" ");
+			}
+			builder.append(mOperator1);
+		}
+		String expression = null;
+		if (mLeftExpression != null && !Util.isNullOrNil(expression = mLeftExpression.toString())) {
+			if (builder.length() > 0) {
+				builder.append(" ");
+			}
+			builder.append(expression);
+		}
+		if (!Util.isNullOrNil(mOperator2)) {
+			if (builder.length() > 0) {
+				builder.append(" ");
+			}
+			builder.append(mOperator2);
+		}
+		if (mRightExpression != null && !Util.isNullOrNil(expression = mRightExpression.toString())) {
+			if (builder.length() > 0) {
+				builder.append(" ");
+			}
+			builder.append(expression);
+		}
+		if (needSurround()) {
+			builder.append(")");
+		}
+		return builder.toString();
+	}
+
 	public String getBlankStr() {
 		return mBlankStr;
 	}

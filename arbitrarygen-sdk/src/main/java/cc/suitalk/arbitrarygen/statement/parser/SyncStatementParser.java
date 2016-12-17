@@ -31,9 +31,9 @@ public class SyncStatementParser extends BaseStatementParser {
 				syncStm.setPrefixWord(curWord);
 				Word word = nextWord(reader, lexer);
 //				syncStm.setCommendBlock(getCommendStr());
-				Expression condition = Util.extractExpressionFromBlacket(reader, lexer, word, this);
+				Expression condition = Util.extractExpressionFromBracket(reader, lexer, word, this);
 				if (condition == null) {
-					throw new RuntimeException("extract expression from blacket failed.");
+					throw new RuntimeException("extract expression from bracket failed.");
 				}
 				syncStm.setConditionExpression(condition);
 				Util.getAndAttachCodeBlock(reader, lexer, word, syncStm, this);

@@ -107,12 +107,16 @@ public abstract class BaseDefineCodeBlock extends BaseStatement implements ICode
 	@Override
 	public JSONObject toJSONObject() {
 		JSONObject jsonObject = super.toJSONObject();
-		jsonObject.put("_modifier", mModifier);
+		if (!Util.isNullOrNil(mModifier)) {
+			jsonObject.put("_modifier", mModifier);
+		}
 		jsonObject.put("_static", mIsStatic);
 		jsonObject.put("_final", mIsFinal);
 		jsonObject.put("_abstract", mIsAbstract);
 		jsonObject.put("_synchronized", mIsSynchronized);
-		jsonObject.put("_type", mType.getName());
+		if (mType != null) {
+			jsonObject.put("_type", mType.getName());
+		}
 		jsonObject.put("_name", mName.getName());
 		return jsonObject;
 	}

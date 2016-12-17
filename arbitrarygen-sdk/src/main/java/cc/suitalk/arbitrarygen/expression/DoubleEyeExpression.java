@@ -25,4 +25,19 @@ public class DoubleEyeExpression extends Expression {
 		}
 		return builder.toString();
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		if (needSurround()) {
+			builder.append("(");
+		}
+		builder.append(getLeftExpression().toString());
+		builder.append(getOperator2());
+		builder.append(getRightExpression().toString());
+		if (needSurround()) {
+			builder.append(")");
+		}
+		return builder.toString();
+	}
 }

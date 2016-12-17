@@ -1,5 +1,7 @@
 package cc.suitalk.arbitrarygen.statement;
 
+import net.sf.json.JSONObject;
+
 import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
@@ -52,6 +54,22 @@ public class ForStatement extends BaseStatement {
 		builder.append(blank);
 		builder.append(genPlainCodeBlock(linefeed));
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "for");
+		if (mExpression1 != null) {
+			o.put("_expression1", mExpression1.toString());
+		}
+		if (mExpression2 != null) {
+			o.put("_expression2", mExpression2.toString());
+		}
+		if (mExpression3 != null) {
+			o.put("_expression3", mExpression3.toString());
+		}
+		return o;
 	}
 
 	public Expression getExpression1() {

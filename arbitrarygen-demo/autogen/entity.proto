@@ -2,8 +2,8 @@ option java_package = "com.lizongbo.beans";
 option java_outer_classname = "QQUserProtos";
 
 message QQUser {
-required int32 uin = 1 [default = 10000];
-required string nick = 2 [default = "n"];
-required int32 age = 3 [default = 20];
-required int32 faceId = 4 [default = 0];
+    required int32 uin = 1 [default = 10000];
+    required string nick = 2 [default = "n"];
+    required int32 age = 3 [default = 20];
+    required int32 faceId = 4 [default = 0];
 }

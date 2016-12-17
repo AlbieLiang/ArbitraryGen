@@ -2,6 +2,8 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'maven'
 
+apply plugin: 'arbitrarygen'
+
 // For maven config
 version = '1.0.0'
 group = 'cc.suitalk.tools'
@@ -14,6 +16,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(":arbitrarygen-sdk")
 }
+
 jar {
     from files(sourceSets.main.output.classesDir)
     from configurations.runtime.asFileTree.files.collect { zipTree(it) }
@@ -25,6 +28,20 @@ jar {
     }
     baseName = 'ArbitraryGen'
     version = this.version
+}
+
+arbitraryGen {
+    libsDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen"
+    inputDir "${project.projectDir.absolutePath}/autogen"
+    outputDir "$buildDir/generated/source/autogen"
+
+    logger {
+        debug true
+        logToFile true
+        printTag true
+        path "$buildDir/logs/ag.log"
+    }
+
 }
 
 //打包

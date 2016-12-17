@@ -16,6 +16,8 @@ import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor.ErrorCode;
 import cc.suitalk.arbitrarygen.engine.DefaultAGEngine;
 import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
+import cc.suitalk.arbitrarygen.extension.psychic.ParseJavaRule;
+import cc.suitalk.arbitrarygen.extension.psychic.PsychicTask;
 import cc.suitalk.arbitrarygen.processor.ExecuteScriptProcessor;
 import cc.suitalk.arbitrarygen.processor.HybridTemplateProcessor;
 import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
@@ -32,6 +34,8 @@ import cc.suitalk.arbitrarygen.utils.Util;
 /**
  * Created by AlbieLiang on 16/10/27.
  */
+@ParseJavaRule(name = "processorList", rule = "src/main/java/cc/suitalk/arbitrarygen/processor/*")
+@PsychicTask
 public class ArbitraryGenCore implements AGCore {
 
     private static final String TAG = "AG.ArbitraryGenCore";
@@ -182,6 +186,13 @@ public class ArbitraryGenCore implements AGCore {
         addProcessor(new TemplateProcessor());
         addProcessor(new HybridTemplateProcessor());
         addProcessor(new PsychicTaskProcessor());
+
+        /*@@@#SCRIPT-BEGIN#
+        <%if (processorList && processorList.length > 0) {%>
+           <%for (var i = 0; i < processorList.length; i++) {%>
+        addProcessor(new <%=processorList[i]._class[0]._name%>());<%}%>
+        <%}%>
+        #SCRIPT-END#@@@*/
         // Add more extension Engine by arguments
         addProcessor(new DefaultAGEngine());
         addProcessor(new ScriptTemplateAGEngine());

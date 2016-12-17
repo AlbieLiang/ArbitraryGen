@@ -32,7 +32,6 @@ public class ReturnStatementParser extends BaseStatementParser {
 				PlainExpressionParser parser = ParserFactory.getPlainExpressionParser();
 				ReturnStatement stm = new ReturnStatement();
 				stm.setPrefixWord(curWord);
-//				s.setCommendBlock(getCommendStr());
 				Expression e = parser.parse(reader, lexer, word);
 				if (e == null) {
 					throw new RuntimeException("parse return expression error.");

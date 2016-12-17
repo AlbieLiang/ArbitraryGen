@@ -16,6 +16,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
 public class ReferenceExpression extends Expression {
 
 	private static final String TAG = "AG.ReferenceExpression";
+
 	private List<Word> mWords;
 
 	public ReferenceExpression() {
@@ -33,6 +34,19 @@ public class ReferenceExpression extends Expression {
 		if (!Util.isNullOrNil(mBlankStr)) {
 			builder.append(mBlankStr);
 		}
+		if (needSurround()) {
+			builder.append("(");
+		}
+		builder.append(Util.getCodeStr(mWords));
+		if (needSurround()) {
+			builder.append(")");
+		}
+		return builder.toString();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
 		if (needSurround()) {
 			builder.append("(");
 		}

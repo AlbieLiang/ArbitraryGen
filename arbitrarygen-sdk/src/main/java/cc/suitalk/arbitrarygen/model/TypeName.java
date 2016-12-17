@@ -12,6 +12,7 @@ import cc.suitalk.arbitrarygen.base.BaseCodeParser;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.base.ICodeGenerator;
 import cc.suitalk.arbitrarygen.base.JSONConverter;
+import cc.suitalk.arbitrarygen.core.KeyWords.Sign.Type;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
@@ -19,7 +20,6 @@ import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.expression.VariableExpression;
 import cc.suitalk.arbitrarygen.expression.parser.ReferenceExpressionParser;
 import cc.suitalk.arbitrarygen.extension.Lexer;
-//import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -30,15 +30,18 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class TypeName implements ICodeGenerator, JSONConverter {
 
-//	private List<AnnotationStatement> mAnnotationStatements;
 	private ReferenceExpression mName;
 	private List<TypeName> mGenericityTypes;
 	private List<Expression> mArrayArgs;
-	
+
+	private List<Word> mLeftSquareBrackets;
+	private List<Word> mRightSquareBrackets;
+
 	public TypeName() {
-		mGenericityTypes = new LinkedList<TypeName>();
-		mArrayArgs = new LinkedList<Expression>();
-//		mAnnotationStatements = new LinkedList<AnnotationStatement>();
+		mGenericityTypes = new LinkedList<>();
+		mArrayArgs = new LinkedList<>();
+		mLeftSquareBrackets = new LinkedList<>();
+		mRightSquareBrackets = new LinkedList<>();
 	}
 
 	@Override
@@ -56,12 +59,12 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 			builder.append(">");
 		}
 		for (int i = 0; i < mArrayArgs.size(); i++) {
-			builder.append("[");
+			builder.append(mLeftSquareBrackets.get(i));
 			Expression expression = mArrayArgs.get(i);
 			if (expression != null) {
 				builder.append(expression.genCode(""));
 			}
-			builder.append("]");
+			builder.append(mRightSquareBrackets.get(i));
 		}
 		return builder.toString();
 	}
@@ -94,75 +97,6 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 		return genCode("");
 	}
 
-//	protected String genAnnotationBlock(String linefeed) {
-//		StringBuilder builder = new StringBuilder();
-//		int i = 0;
-//		for (; i < mAnnotationStatements.size(); i++) {
-//			AnnotationStatement s = mAnnotationStatements.get(i);
-////			builder.append(getLinefeed(linefeed));
-//			builder.append(s.genCode(linefeed));
-//		}
-//		if (i > 0) {
-////			builder.append(getLinefeed(linefeed));
-//		}
-//		return builder.toString();
-//	}
-//
-//	public boolean addAnnotation(AnnotationStatement s) {
-//		if (s == null || mAnnotationStatements.contains(s)) {
-//			return false;
-//		}
-//		return mAnnotationStatements.add(s);
-//	}
-//
-//	public void addAnnotations(List<AnnotationStatement> annoStms) {
-//		if (annoStms == null || annoStms.size() == 0) {
-//			return;
-//		}
-//		for (AnnotationStatement as : annoStms) {
-//			addAnnotation(as);
-//		}
-//	}
-//
-//	public AnnotationStatement removeAnnotation(int index) {
-//		if (index >= 0 && index < mAnnotationStatements.size()) {
-//			return mAnnotationStatements.remove(index);
-//		}
-//		return null;
-//	}
-//	
-//	public boolean removeAnnotation(AnnotationStatement stm) {
-//		if (stm != null) {
-//			return mAnnotationStatements.remove(stm);
-//		}
-//		return false;
-//	}
-//	
-//	public AnnotationStatement getAnnotation(int index) {
-//		if (index >= 0 && index < mAnnotationStatements.size()) {
-//			return mAnnotationStatements.get(index);
-//		}
-//		return null;
-//	}
-//	
-//	public AnnotationStatement getAnnotation(String name) {
-//		if (!Util.isNullOrNil(name)) {
-//			for (int i = 0; i < mAnnotationStatements.size(); i++) {
-//				AnnotationStatement as = mAnnotationStatements.get(i);
-//				String aname = as.getName().getName();
-//				if (aname.equals(name) || (aname.length() > name.length() && aname.endsWith(name)
-//						&& aname.charAt(aname.length() - name.length() - 1) == '.')) {
-//					return as;
-//				}
-//			}
-//		}
-//		return null;
-//	}
-//	
-//	public int countOfAnnotations() {
-//		return mAnnotationStatements.size();
-//	}
-	
 	public ReferenceExpression getNameRefExpression() {
 		return mName;
 	}
@@ -187,8 +121,10 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 		return mArrayArgs;
 	}
 	
-	public void addArrayArg(Expression e) {
+	public void addArrayArg(Word leftSquareBracket, Expression e, Word rightSquareBracket) {
+		mLeftSquareBrackets.add(leftSquareBracket == null ? Util.createSignWord("[", Type.BEGIN) : leftSquareBracket);
 		mArrayArgs.add(e);
+		mRightSquareBrackets.add(rightSquareBracket == null ? Util.createSignWord("]", Type.END) : rightSquareBracket);
 	}
 
 	/**
@@ -244,7 +180,7 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 			}
 			while ("[".equals(word.value)) {
 				Expression e = Util.extractExpression(reader, lexer, nextWord(reader, lexer), this, "]");
-				typeName.addArrayArg(e);
+				typeName.addArrayArg(word, e, getLastWord());
 				word = nextWord(reader, lexer);
 			}
 			return typeName;

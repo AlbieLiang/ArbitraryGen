@@ -1,8 +1,8 @@
 package cc.suitalk.arbitrarygen.statement.parser;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseStatement;
@@ -23,21 +23,22 @@ import cc.suitalk.arbitrarygen.statement.PlainStatement;
  */
 public class NormalStatementParser extends BaseStatementParser {
 
-	private static final String TAG = "NormalStatementParser";
+	private static final String TAG = "AG.NormalStatementParser";
 	
-	private List<BaseStatementParser> mParsers; 
+	private Map<String, BaseStatementParser> mParserMap;
+
 	public NormalStatementParser() {
 		super("");
-		mParsers = new LinkedList<BaseStatementParser>();
-		mParsers.add(new IfElseStatementParser());
-		mParsers.add(new SwitchStatementParser());
-		mParsers.add(new SyncStatementParser());
-		mParsers.add(new ForStatementParser());
-		mParsers.add(new TryStatementParser());
-		mParsers.add(new ThrowStatementParser());
-		mParsers.add(new WhileStatementParser());
-		mParsers.add(new DoWhileStatementParser());
-		mParsers.add(new ReturnStatementParser());
+		mParserMap = new HashMap<>();
+		addParser(new IfElseStatementParser());
+		addParser(new SwitchStatementParser());
+		addParser(new SyncStatementParser());
+		addParser(new ForStatementParser());
+		addParser(new TryStatementParser());
+		addParser(new ThrowStatementParser());
+		addParser(new WhileStatementParser());
+		addParser(new DoWhileStatementParser());
+		addParser(new ReturnStatementParser());
 	}
 
 	@Override
@@ -49,15 +50,14 @@ public class NormalStatementParser extends BaseStatementParser {
 			PlainStatement statement = parser.parse(reader, lexer, word);
 			word = parser.getLastWord();
 			if (statement != null) {
-//				statement.setCommendBlock(getCommendStr());
 				setLastWord(parser.getLastWord());
 				return statement;
 			} else {
-				// TODO empty statement
 				throw new RuntimeException("Parse statement failed.(current word : " + word.value + ")");
 			}
 		} else if(word.type == WordType.STRING) {
-			for (BaseStatementParser parser : mParsers) {
+			BaseStatementParser parser = mParserMap.get(word.value);
+			if (parser != null) {
 				BaseStatement s = parser.parse(reader, lexer, word);
 				if (s != null) {
 					setLastWord(parser.getLastWord());
@@ -73,9 +73,13 @@ public class NormalStatementParser extends BaseStatementParser {
 			throw new RuntimeException("Parse Plain expression failed.");
 		}
 		NormalStatement nstm = new NormalStatement();
-//		nstm.setCommendBlock(getCommendStr());
 		nstm.setStatementStr(e.genCode(""));
+		nstm.setSuffixWord(peParser.getLastWord());
 		nextWord(reader, lexer);
 		return nstm;
+	}
+
+	private void addParser(BaseStatementParser parser) {
+		mParserMap.put(parser.getPrefix(), parser);
 	}
 }

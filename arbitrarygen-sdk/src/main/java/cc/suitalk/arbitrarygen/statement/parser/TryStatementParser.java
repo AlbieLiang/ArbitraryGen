@@ -61,7 +61,7 @@ public class TryStatementParser extends BaseStatementParser {
 					setLastWord(parser.getLastWord());
 					word = getLastWord();
 					catchStm.setCodeBlock(pstm.getCodeBlock());
-					tryStm.addCatchStatment(catchStm);
+					tryStm.addCatchStatement(catchStm);
 				}
 				if ("finally".equals(word.value)) {
 					FinallyStatement finallyStm = new FinallyStatement();

@@ -314,7 +314,7 @@ public class Util {
 		return ans.size() > 0 ? ans : null;
 	}
 	
-	public static Expression extractExpressionFromBlacket(IReader reader, Lexer lexer, Word curWord, BaseCodeParser parser) throws IOException {
+	public static Expression extractExpressionFromBracket(IReader reader, Lexer lexer, Word curWord, BaseCodeParser parser) throws IOException {
 		Word word = curWord;
 		if (!"(".equals(word.value)) {
 			throw new RuntimeException("missed '(' when parse statement.");
@@ -378,16 +378,24 @@ public class Util {
 		}
 	}
 
+	/**
+	 * The result do not contains the End Sign.
+	 *
+	 * @param reader word reader
+	 * @param lexer Java lexer
+	 * @param parser customize parser
+	 * @param closeSign end sign
+	 * @return extract expression
+     * @throws IOException io exception
+     */
 	public static String extractExpressionWithEndSign(IReader reader, Lexer lexer, BaseCodeParser parser, String closeSign) throws IOException {
-//		if (curWord != null && curWord.value.equals(closeSign)) {
-//			return "";
-//		}
 		StringBuilder builder = new StringBuilder();
-		Word word = null;
+		Word word = parser.nextWord(reader, lexer);
 		String cs = closeSign;
-//		builder.append(word.value);
-		while ((word = parser.nextWord(reader, lexer)) != null && word.type != WordType.DOC_END) {
+		while (word != null && word.type != WordType.DOC_END) {
 			if (word.value.equals(closeSign)) {
+//				builder.append(word);
+//				parser.nextWord(reader, lexer);
 				break;
 			}
 			builder.append(word);
@@ -396,11 +404,13 @@ public class Util {
 			} else if ("{".equals(word.value)) {
 				cs = "}";
 			} else {
+				word = parser.nextWord(reader, lexer);
 				continue;
 			}
 			builder.append(extractExpressionWithEndSign(reader, lexer, parser, cs));
 			word = parser.getLastWord();
 			builder.append(word);
+			word = parser.nextWord(reader, lexer);
 		}
 		return builder.toString();
 	}
@@ -409,7 +419,12 @@ public class Util {
 		StringBuilder builder = new StringBuilder();
 		Word word = curWord;
 		String cs = null;
-		while (!closeSign.equals(word.value)) {
+		while (word != null && word.type != WordType.DOC_END) {
+			if (word.value.equals(closeSign)) {
+//				builder.append(word);
+//				parser.nextWord(reader, lexer);
+				break;
+			}
 			builder.append(word);
 			if ("(".equals(word.value)) {
 				cs = ")";
@@ -421,10 +436,8 @@ public class Util {
 			}
 			builder.append(Util.nullAsNil(Util.extractExpressionWithEndSign(reader, lexer, parser, cs)));
 			word = parser.getLastWord();
-			if (closeSign.equals(cs)) {
-				builder.append(word);
-				word = parser.nextWord(reader, lexer);
-			}
+			builder.append(word);
+			word = parser.nextWord(reader, lexer);
 		}
 		Expression e = new Expression();
 		e.setVariable(builder.toString());

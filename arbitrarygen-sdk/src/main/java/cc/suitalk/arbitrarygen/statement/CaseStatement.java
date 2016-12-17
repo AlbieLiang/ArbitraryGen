@@ -1,5 +1,7 @@
 package cc.suitalk.arbitrarygen.statement;
 
+import net.sf.json.JSONObject;
+
 import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
@@ -42,6 +44,14 @@ public class CaseStatement extends BaseStatement {
 			}
 		}
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "case");
+		o.put("_condition", mExpression.toString());
+		return o;
 	}
 
 	public Word getWordColon() {

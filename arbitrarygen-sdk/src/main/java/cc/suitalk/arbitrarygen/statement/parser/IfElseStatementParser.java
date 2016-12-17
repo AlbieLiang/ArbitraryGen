@@ -33,10 +33,9 @@ public class IfElseStatementParser extends BaseStatementParser {
 				IfElseStatement ifElseStatement = new IfElseStatement();
 				ifElseStatement.setPrefixWord(curWord);
 				ifElseStatement.setWordLeftBracket(word);
-//				ifElseStatement.setCommendBlock(getCommendStr());
-				Expression condition = Util.extractExpressionFromBlacket(reader, lexer, word, this);
+				Expression condition = Util.extractExpressionFromBracket(reader, lexer, word, this);
 				if (condition == null) {
-					throw new RuntimeException("extract expression from blacket failed.");
+					throw new RuntimeException("extract expression from bracket failed.");
 				}
 //				ifElseStatement.setWordRightBracket(word);
 				ifElseStatement.setConditionExpression(condition);
@@ -52,13 +51,13 @@ public class IfElseStatementParser extends BaseStatementParser {
 						elseIfStatement.setWordIf(word);
 						word = nextWord(reader, lexer);
 						elseIfStatement.setWordLeftBracket(word);
-						Expression e = Util.extractExpressionFromBlacket(reader, lexer, word, this);
+						Expression e = Util.extractExpressionFromBracket(reader, lexer, word, this);
 						if (e == null) {
-							throw new RuntimeException("extract expression from blacket failed.");
+							throw new RuntimeException("extract expression from bracket failed.");
 						}
 //						elseIfStatement.setWordRightBracket(word);
 						elseIfStatement.setConditionExpression(e);
-						ifElseStatement.addElseIfStatment(elseIfStatement);
+						ifElseStatement.addElseIfStatement(elseIfStatement);
 					} else {
 						ElseStatement elseStatement = new ElseStatement();
 						elseStatement.setPrefixWord(tempWord);

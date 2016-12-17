@@ -1,5 +1,7 @@
 package cc.suitalk.arbitrarygen.statement;
 
+import net.sf.json.JSONObject;
+
 import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
@@ -37,6 +39,14 @@ public class SyncStatement extends BaseStatement {
 		builder.append(blank);
 		builder.append(genPlainCodeBlock(linefeed));
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "synchronized");
+		o.put("_expression", mExpression.toString());
+		return o;
 	}
 
 	public void setConditionExpression(Expression condition) {

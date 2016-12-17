@@ -43,7 +43,7 @@ public class ForStatementParser extends BaseStatementParser {
 				if (condition == null) {
 					throw new RuntimeException("parse for statement failed.");
 				}
-//				forStm.setWordRightBracket(word);
+				forStm.setWordRightBracket(word);
 				forStm.setExpression1(condition);
 				// condition2
 //				word = nextWord(reader, lexer);
@@ -58,6 +58,7 @@ public class ForStatementParser extends BaseStatementParser {
 //					forStm.setExpression3(condition3);
 //					word = nextWord(reader, lexer);
 //				}
+				word = nextWord(reader, lexer);
 				Util.getAndAttachCodeBlock(reader, lexer, word, forStm, this);
 				word = getLastWord();
 				return forStm;

@@ -33,7 +33,6 @@ public class ThrowStatementParser extends BaseStatementParser {
 				if (expression != null) {
 					ThrowStatement stm = new ThrowStatement(expression);
 					stm.setPrefixWord(curWord);
-//					s.setCommendBlock(getCommendStr());
 					stm.setSuffixWord(parser.getLastWord());
 					nextWord(reader, lexer);
 					return stm;

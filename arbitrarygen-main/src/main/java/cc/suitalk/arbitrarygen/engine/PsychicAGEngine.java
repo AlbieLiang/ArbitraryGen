@@ -27,6 +27,8 @@ import cc.suitalk.arbitrarygen.utils.Util;
 /**
  * Created by AlbieLiang on 16/11/16.
  */
+@ParseJavaRule(name = "processorList", rule = "src/main/java/cc/suitalk/arbitrarygen/processor/*")
+@PsychicTask
 public class PsychicAGEngine implements ArbitraryGenEngine {
 
     private static final String TAG = "AG.PsychicAGEngine";
@@ -38,12 +40,47 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
 
     @Override
     public void initialize(AGCore core, JSONObject args) {
-
     }
 
     @Override
     public String[] getDependencies() {
-        return new String[] { "scanner", "script-executor", "hybrid-template-processor", "parse-java", "parse-rule", "template-processor", "psychic-processor" };
+        return new String[] {
+                /*@@@#SCRIPT-BEGIN#
+                <%processorList = processorList.processorList;%>
+                <%if (processorList && processorList.length > 0) {%>
+                    <%var list = [];%>
+                    <%for (var i = 0; i < processorList.length; i++) {%>
+                       <%var methodArray = processorList[i]._class[0].method;%>
+                       <%for (var m = 0; m < methodArray.length; m++) {%>
+                           <%var method = methodArray[m];%>
+                           <%if (method && method._name == "getName" && method.codeBlock) {%>
+                                <%if (method.codeBlock.statement && method.codeBlock.statement.length > 0) {%>
+                                    <%var s = method.codeBlock.statement[method.codeBlock.statement.length - 1];%>
+                                    <%if (s._type == "return") {%>
+                                        <%list[list.length] = s._expression;break;%>
+                                    <%}%>
+                                <%}%>
+                           <%}%>
+                       <%}%>
+                    <%}%>
+                    <%if (list.length > 0) {%>
+                        <%for (var i = 0; i < list.length - 1; i++) {%>
+                <%=list[i].replace(";", "")%>,
+                        <%}%>
+                <%=list[list.length - 1].replace(";", "")%>
+                    <%}%>
+                <%}%>
+                #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
+                 "script-executor",
+                 "hybrid-template-processor",
+                 "logger",
+                 "parse-java",
+                 "parse-rule",
+                 "psychic-processor",
+                 "scanner",
+                 "template-processor"
+//@@@#AUTO-GEN-END#
+        };
     }
 
     @Override
@@ -130,18 +167,22 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                 JavaFileLexer lexer = new JavaFileLexer(file);
                 JavaFileObject javaFileObject = lexer.start();
                 if (javaFileObject == null) {
+                    Log.i(TAG, "JavaFileObject is null.");
                     continue;
                 }
                 TypeDefineCodeBlock typeDefine = javaFileObject.getTheFileCodeBlock(true);
                 if (typeDefine == null) {
+                    Log.i(TAG, "type define code block is null.");
                     continue;
                 }
                 if (!typeDefine.containsAnnotation(PsychicTask.class.getSimpleName())) {
+                    Log.v(TAG, "type define do not contains PsychicTask annotation.");
                     continue;
                 }
                 AnnotationStatement ruleStm = typeDefine.getAnnotation(ParseJavaRule.class.getSimpleName());
                 AnnotationStatement dependsStm = typeDefine.getAnnotation(DependsOn.class.getSimpleName());
                 if (ruleStm == null && dependsStm == null) {
+                    Log.i(TAG, "Annotation ParseJavaRule and DependsOn is null.");
                     continue;
                 }
                 JSONObject psychicTask = new JSONObject();
@@ -152,7 +193,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                     ruleInfo.put("_processor", "parse-java");
                     ruleInfo.put("_type", "input");
                     // TODO: 2016/12/3 albieliang, resolve rule array case.
-                    ruleInfo.put("rule", ruleStm.getArg("rule").toString());
+                    ruleInfo.put("rule", ruleStm.getArg("rule").getValue());
                     dependsOnArray.add(ruleInfo);
 
                 }
@@ -177,6 +218,9 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                 taskArray.add(psychicTask);
             }
             psychicArgs.put("PsychicTask", taskArray);
+//            Log.i(TAG, "execute task path(%s)", path);
+//            Log.i(TAG, "execute task array(%s)", psychicArgs);
+//            Log.i(TAG, "execute task fileArray(%s)", fileArray);
             psychicProcessor.exec(core, processors, psychicArgs);
         }
     }

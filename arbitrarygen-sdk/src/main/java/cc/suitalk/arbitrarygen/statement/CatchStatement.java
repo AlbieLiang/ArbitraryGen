@@ -1,5 +1,7 @@
 package cc.suitalk.arbitrarygen.statement;
 
+import net.sf.json.JSONObject;
+
 import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -36,6 +38,14 @@ public class CatchStatement extends BaseStatement {
 		builder.append(blank);
 		builder.append(genPlainCodeBlock(linefeed));
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "catch");
+		o.put("_condition", mDefinitionStatement.toJSONObject());
+		return o;
 	}
 
 	public DefinitionStatement getDefinitionStatement() {

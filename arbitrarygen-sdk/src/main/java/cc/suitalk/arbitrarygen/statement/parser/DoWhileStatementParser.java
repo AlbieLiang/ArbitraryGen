@@ -43,9 +43,9 @@ public class DoWhileStatementParser extends BaseStatementParser {
 					}
 					stm.setWordWhile(word);
 					word = nextWord(reader, lexer);
-					Expression e = Util.extractExpressionFromBlacket(reader, lexer, word, this);
+					Expression e = Util.extractExpressionFromBracket(reader, lexer, word, this);
 					if (e == null) {
-						throw new RuntimeException("extract Expression from blacket failed.");
+						throw new RuntimeException("extract Expression from bracket failed.");
 					}
 					stm.setConditionExpression(e);
 					word = nextWord(reader, lexer);

@@ -1,0 +1,8 @@
+@Author AlbieLiang
+@Date current
+@Root ..
+@Project arbitrarygen-main
+@Src src/main/java
+
+#cc/suitalk/arbitrarygen/engine/PsychicAGEngine.java
+#cc/suitalk/arbitrarygen/core/ArbitraryGenCore.java

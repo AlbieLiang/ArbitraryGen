@@ -53,7 +53,6 @@ public class RuleParser {
 			ruleFileObject.addProject(defaultProject);
 			defaultProject.setRuleFileObject(ruleFileObject);
 			while ((line = bufReader.readLine()) != null) {
-				Log.v(TAG, line);
 				line = line.trim();
 				if (line.startsWith("#")) {
 					continue;

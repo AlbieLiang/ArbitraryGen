@@ -1,5 +1,8 @@
 package cc.suitalk.arbitrarygen.statement;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class SwitchStatement extends BaseStatement {
 	private Expression mExpression;
 	private List<CaseStatement> mCaseStatements;
 	private DefaultStatement mDefaultStatement;
-	private Word mLeftBrack;
+	private Word mLeftBrace;
 	private Word mRightBrack;
 
 	public SwitchStatement() {
@@ -54,7 +57,7 @@ public class SwitchStatement extends BaseStatement {
 		builder.append(mExpression.genCode(linefeed));
 		builder.append(Util.getRightBracket(this));
 		builder.append(blank);
-		builder.append(mLeftBrack != null ? mLeftBrack : "{");
+		builder.append(mLeftBrace != null ? mLeftBrace : "{");
 		for (int i = 0; i < mCaseStatements.size(); i++) {
 			CaseStatement s = mCaseStatements.get(i);
 			if (s != null) {
@@ -71,7 +74,29 @@ public class SwitchStatement extends BaseStatement {
 		return builder.toString();
 	}
 
-	public boolean addCaseStatment(CaseStatement statement) {
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "switch");
+		o.put("_condition", mExpression.toString());
+		JSONArray caseArray = new JSONArray();
+		for (int i = 0; i < mCaseStatements.size(); i++) {
+			CaseStatement s = mCaseStatements.get(i);
+			if (s == null) {
+				continue;
+			}
+			caseArray.add(s.toJSONObject());
+		}
+		if (!caseArray.isEmpty()) {
+			o.put("_case", caseArray);
+		}
+		if (mDefaultStatement != null) {
+			o.put("_default", mDefaultStatement.toJSONObject());
+		}
+		return o;
+	}
+
+	public boolean addCaseStatement(CaseStatement statement) {
 		if (statement == null) {
 			return false;
 		}
@@ -89,20 +114,20 @@ public class SwitchStatement extends BaseStatement {
 		}
 	}
 
-	public Word getLeftBrack() {
-		return mLeftBrack;
+	public Word getLeftBrace() {
+		return mLeftBrace;
 	}
 
-	public void setLeftBrack(Word leftBrack) {
-		this.mLeftBrack = leftBrack;
+	public void setLeftBrace(Word leftBrace) {
+		this.mLeftBrace = leftBrace;
 	}
 
-	public Word getRightBrack() {
+	public Word getRightBrace() {
 		return mRightBrack;
 	}
 
-	public void setRightBrack(Word rightBrack) {
-		this.mRightBrack = rightBrack;
+	public void setRightBrace(Word rightBrace) {
+		this.mRightBrack = rightBrace;
 	}
 	
 	public void setConditionExpression(Expression condition) {

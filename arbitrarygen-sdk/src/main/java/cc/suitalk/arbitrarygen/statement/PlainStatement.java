@@ -1,5 +1,7 @@
 package cc.suitalk.arbitrarygen.statement;
 
+import net.sf.json.JSONObject;
+
 import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
 
@@ -22,6 +24,14 @@ public class PlainStatement extends BaseStatement {
 			return codeBlock.genCode(linefeed);
 		}
 		return null;
+	}
+
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "plain");
+		return o;
 	}
 
 	/**

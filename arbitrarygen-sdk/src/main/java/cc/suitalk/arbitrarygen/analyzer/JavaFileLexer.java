@@ -35,13 +35,13 @@ public class JavaFileLexer extends JavaLexer {
 			reader = new ReaderWrapper(new InputStreamReader(new FileInputStream(mFile)));
 			javaFileObject = analyzeJavaFileObject(reader);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "analyze java file error, exception : %s", Log.getStackTraceString(e));
 		} finally {
 			if (reader != null) {
 				try {
 					reader.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Log.e(TAG, "close reader error, exception : %s", Log.getStackTraceString(e));
 				}
 			}
 		}

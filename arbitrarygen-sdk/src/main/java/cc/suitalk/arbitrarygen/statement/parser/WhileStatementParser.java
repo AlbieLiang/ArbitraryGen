@@ -32,9 +32,9 @@ public class WhileStatementParser extends BaseStatementParser {
 				Word word = nextWord(reader, lexer);
 				whileStm.setWordLeftBracket(word);
 //				whileStm.setCommendBlock(getCommendStr());
-				Expression condition = Util.extractExpressionFromBlacket(reader, lexer, word, this);
+				Expression condition = Util.extractExpressionFromBracket(reader, lexer, word, this);
 				if (condition == null) {
-					throw new RuntimeException("extract expression from blacket failed.");
+					throw new RuntimeException("extract expression from bracket failed.");
 				}
 //				whileStm.setWordRightBracket(word);
 				whileStm.setConditionExpression(condition);

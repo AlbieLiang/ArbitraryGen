@@ -35,4 +35,23 @@ public class SingleEyeExpression extends Expression {
 		}
 		return builder.toString();
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		if (needSurround()) {
+			builder.append("(");
+		}
+		if (!mPrefixOperator) {
+			builder.append(getLeftExpression().toString());
+		}
+		builder.append(getOperator2());
+		if (mPrefixOperator) {
+			builder.append(getRightExpression().toString());
+		}
+		if (needSurround()) {
+			builder.append(")");
+		}
+		return builder.toString();
+	}
 }

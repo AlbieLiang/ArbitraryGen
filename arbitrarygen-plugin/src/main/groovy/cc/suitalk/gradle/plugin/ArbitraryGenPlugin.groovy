@@ -2,6 +2,7 @@ package cc.suitalk.gradle.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 
 /**
  *
@@ -18,19 +19,24 @@ class ArbitraryGenPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        println("project ${project.name} apply ArbitraryGenPlugin")
         this.project = project
         this.extension = project.extensions.create("arbitraryGen", ArbitraryGenPluginExtension)
 
         this.arbitraryGenTask = this.project.tasks.create("arbitraryGen", ArbitraryGenTask)
 
         this.project.tasks.whenTaskAdded { task ->
-            this.project.getLogger().debug("when task(${task.name}) added in project(${project.name}).")
-            if (task.name.startsWith('generate') && task.name.endsWith('Sources')) {
+            println("when task(${task.name}) added in project(${project.name}).")
+            if (task.name.startsWith('generate') && task.name.endsWith('Sources') || task.name.equals("compileJava")) {
                 println("add task(${task.name}) project : ${this.project}, name : $name.")
                 task.dependsOn arbitraryGenTask
             }
         }
 
+        Task task = this.project.tasks.findByName("compileJava")
+        if (task != null) {
+            task.dependsOn arbitraryGenTask
+        }
         project.afterEvaluate {
             println "arbitrarygen(${this.project.name}) libsDir : '${this.extension.libsDir}'"
             println "arbitrarygen(${this.project.name}) inputDir : '${this.extension.inputDir}'"

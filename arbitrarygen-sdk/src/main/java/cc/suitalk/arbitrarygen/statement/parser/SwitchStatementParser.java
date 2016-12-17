@@ -38,9 +38,9 @@ public class SwitchStatementParser extends BaseStatementParser {
 				switchStm.setPrefixWord(curWord);
 				Word word = nextWord(reader, lexer);
 				switchStm.setWordLeftBracket(word);
-				Expression condition = Util.extractExpressionFromBlacket(reader, lexer, word, this);
+				Expression condition = Util.extractExpressionFromBracket(reader, lexer, word, this);
 				if (condition == null) {
-					throw new RuntimeException("extract expression from blacket failed.");
+					throw new RuntimeException("extract expression from bracket failed.");
 				}
 				switchStm.setConditionExpression(condition);
 //				switchStm.setCommendBlock(getCommendStr());
@@ -48,7 +48,7 @@ public class SwitchStatementParser extends BaseStatementParser {
 				if (!"{".equals(word.value)) {
 					throw new RuntimeException("missing '{' when parse switch statement.");
 				}
-				switchStm.setLeftBrack(word);
+				switchStm.setLeftBrace(word);
 				word = nextWord(reader, lexer);
 				while ("case".equals(word.value)) {
 					Word tempWord = word;
@@ -57,7 +57,7 @@ public class SwitchStatementParser extends BaseStatementParser {
 					CaseStatement caseStm = new CaseStatement(expression);
 					caseStm.setPrefixWord(tempWord);
 					caseStm.setWordColon(getLastWord());
-					switchStm.addCaseStatment(caseStm);
+					switchStm.addCaseStatement(caseStm);
 					word = nextWord(reader, lexer);
 					while (!"}".equals(word.value) && word.type != WordType.DOC_END) {
 						if ("default".equals(word.value) || "case".equals(word.value)) {
@@ -89,7 +89,7 @@ public class SwitchStatementParser extends BaseStatementParser {
 				if (!"}".equals(word.value)) {
 					throw new RuntimeException("missing '}' sign when parse switch statement.");
 				}
-				switchStm.setRightBrack(word);
+				switchStm.setRightBrace(word);
 				nextWord(reader, lexer);
 				return switchStm;
 			}

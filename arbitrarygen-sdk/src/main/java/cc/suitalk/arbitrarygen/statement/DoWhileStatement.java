@@ -1,5 +1,7 @@
 package cc.suitalk.arbitrarygen.statement;
 
+import net.sf.json.JSONObject;
+
 import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
@@ -43,6 +45,14 @@ public class DoWhileStatement extends BaseStatement {
 		builder.append(Util.getRightBracket(this));
 		builder.append(Util.getSuffix(this, ";"));
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "doWhile");
+		o.put("_condition", mExpression.toString());
+		return o;
 	}
 
 	public void setConditionExpression(Expression condition) {

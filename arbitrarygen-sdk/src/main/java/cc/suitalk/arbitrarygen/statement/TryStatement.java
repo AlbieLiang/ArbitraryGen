@@ -1,5 +1,8 @@
 package cc.suitalk.arbitrarygen.statement;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,7 +60,28 @@ public class TryStatement extends BaseStatement {
 		return builder.toString();
 	}
 
-	public boolean addCatchStatment(CatchStatement statement) {
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "try");
+		JSONArray catchArray = new JSONArray();
+		for (int i = 0; i < mCatchStatements.size(); i++) {
+			CatchStatement s = mCatchStatements.get(i);
+			if (s == null) {
+				continue;
+			}
+			catchArray.add(s.toJSONObject());
+		}
+		if (!catchArray.isEmpty()) {
+			o.put("_catch", catchArray);
+		}
+		if (mFinallyStatement != null) {
+			o.put("_finally", mFinallyStatement.toJSONObject());
+		}
+		return o;
+	}
+
+	public boolean addCatchStatement(CatchStatement statement) {
 		if (statement == null) {
 			return false;
 		}
