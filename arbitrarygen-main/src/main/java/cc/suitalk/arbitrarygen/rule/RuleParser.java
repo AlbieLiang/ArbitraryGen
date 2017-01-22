@@ -147,11 +147,23 @@ public class RuleParser {
 					int index = content.indexOf("*");
 					if (index >= 0) {
 						File file = new File(dir + content.substring(0, index));
-						Log.v(TAG, "list rule files(%s)", file.getAbsolutePath());
 						if (file.isDirectory()) {
+							Log.v(TAG, "list rule files(%s)", file.getAbsolutePath());
 							ruleFileList.addAll(FileOperation.listFilePaths(file, true));
 							ruleList.add(file.getAbsolutePath() + File.separator
 									+ content.substring(index).replaceAll("\\*", "(.)+"));
+						} else {
+							File parentFile = file.getParentFile();
+							if (parentFile != null && parentFile.isDirectory()) {
+								Log.v(TAG, "list rule files(%s)", parentFile.getAbsolutePath());
+								ruleFileList.addAll(FileOperation.listFilePaths(parentFile, true));
+								if ("/".equals(content.substring(index - 1, index))) {
+									ruleList.add(file.getAbsolutePath() + File.separator
+											+ content.substring(index).replaceAll("\\*", "(.)+"));
+								} else  {
+									ruleList.add(file.getAbsolutePath() + content.substring(index).replaceAll("\\*", "(.)+"));
+								}
+							}
 						}
 						break;
 					}
