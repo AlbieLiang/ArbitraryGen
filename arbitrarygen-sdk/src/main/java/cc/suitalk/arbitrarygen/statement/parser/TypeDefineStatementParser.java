@@ -70,6 +70,17 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 			// Parse modifier
 			while (!"{".equals(word.value) && word.type != WordType.DOC_END) {
 				if (word.type != WordType.STRING) {
+					if (word.value.equals("@")) {
+						Word nextWord = nextWord(reader, lexer);
+						if ("interface".equals(nextWord.value)) {
+							nextWord.value = word.value + nextWord.value;
+							nextWord.blankStr = word.blankStr;
+							word = nextWord;
+							keywords.put(word.value, word);
+							error = false;
+							break;
+						}
+					}
 					throw new RuntimeException("Error has occurred when parse type define code block before '{' appear.");
 				}
 				keywords.put(word.value, word);

@@ -65,6 +65,7 @@ public class AnnotationStatementParser extends BaseStatementParser {
 								builder.append(word.value);
 								builder.append(e.genCode(""));
 								annotation.setValue(new Value(null, ValueType.REFERENCE, builder.toString()));
+								word = lastWord;
 							} else {
 								doThrow(annotation);
 							}
