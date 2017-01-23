@@ -1,12 +1,12 @@
 package cc.suitalk.arbitrarygen.utils;
 
 /**
- * Created by AlbieLiang on 16/11/16.
+ * Created by AlbieLiang on 2017/1/16.
  */
-public class TemplateUtils {
+public class HybridsTemplateUtils {
 
-    public static final String LINEFEED_CODE = "\\x0a";
-    public static final String CARRIAGE_RETURN_CODE = "\\x0d";
+    public static final String LINEFEED_CODE = "\\\\n";
+    public static final String CARRIAGE_RETURN_CODE = "\\\\r";
 
     public static String escape(String str) {
 //		return str.replaceAll("(\r\n)+", "\\x0a").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\x29");
@@ -21,8 +21,8 @@ public class TemplateUtils {
         if (str == null || str.length() == 0) {
             return str;
         }
-//		return str.replaceAll("(x0a[ ]*)+", "\r\n").replace("x29", "'");
-        return str.replaceAll("x0d", "\r").replaceAll("x0a", "\n").replace("x29", "'");
+//        return str.replaceAll("x0d", "\r").replaceAll("x0a", "\n").replace("x29", "'");
+        return str.replace("x29", "'");
     }
 
     public static String format(String str) {

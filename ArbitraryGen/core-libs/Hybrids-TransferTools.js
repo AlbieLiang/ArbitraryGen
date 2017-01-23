@@ -1,5 +1,5 @@
-var linefeed = "\\x0a";
-var carriageReturn = "\\x0d";
+var linefeed = "\\n";
+var carriageReturn = "\\r";
 
 String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {  
 	if (!RegExp.prototype.isPrototypeOf(reallyDo)) {  
@@ -17,10 +17,17 @@ String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {
 		var c = str.charAt(i);
 		if (c === '\n') {
 			// append raw string
-			line += c;
+			line += "\\n";
 			result += "p.push('" + line + "');";
 			line = "";
-		} else {
+			continue;
+		} else if (c === '\r') {
+            // append raw string
+            line += "\\r";
+            result += "p.push('" + line + "');";
+            line = "";
+            continue;
+        } else {
 			// '/*@@@#SCRIPT-BEGIN#'
 			if (c === '/' && str.length > i + 18) {
 				if ("/*@@@#SCRIPT-BEGIN#" === str.substring(i, i + 19)) {
@@ -33,8 +40,15 @@ String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {
 						var cc = str.charAt(i + j);
 						if (cc === '\n') {
 							// append raw string
-							line += cc;
-							rawCode += cc;
+							line += "\\n";
+							rawCode += "\\n";
+							result += "p.push('" + line + "');";
+							line = "";
+							continue;
+						} else if (cc == '\r') {
+							// append raw string
+							line += "\\r";
+							rawCode += "\\r";
 							result += "p.push('" + line + "');";
 							line = "";
 							continue;
@@ -44,11 +58,12 @@ String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {
 								finishScript = true;
 								codeBlock += "','" + rawCode + "');";
 								result += "p.push('" + line + "');";
+								var indent = line.replaceAll(/\S/, " ");
 								line = "";
 								rawCode = "";
 								result += "p.push('#SCRIPT-END#@@@*/"
-								        + "//@@@#AUTO-GEN-BEGIN#" + linefeed + "');"
-								        + codeBlock + "p.push('" + linefeed + "//@@@#AUTO-GEN-END#');";
+								        + "//@@@#AUTO-GEN-BEGIN#');" + codeBlock
+								        + "p.push('" + linefeed + indent + "//@@@#AUTO-GEN-END#');";
 								i += j + 16;
 								break;
 							}
@@ -68,11 +83,20 @@ String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {
 									var codeChar = str.charAt(k);
 									if (codeChar === '\n') {
 										// append raw string
-										line += codeChar;
+										line += "\\n";
 										result += "p.push('" + line + "');";
 										line = "";
 										// Script code
 										statement += codeChar;
+										continue;
+									} else if (codeChar == '\r') {
+										// append raw string
+										line += "\\r";
+										result += "p.push('" + line + "');";
+										line = "";
+										// Script code
+										statement += codeChar;
+										continue;
 									} else if (codeChar === '%' && str.length > k + 1 && str.charAt(k + 1) === '>') {
 										// end of script code
 										line += "%>";
@@ -133,4 +157,31 @@ String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {
 ;function parseTemplate(str, data) {
 	var fn = new Function("obj", "" + transfer(str, data));
 	return data != undefined ? fn.call(data, data) : fn;
+}
+;function clearAutoGenBlock(str) {
+    var result = "";
+	for (var i = 0; i < str.length; i++) {
+		var c = str.charAt(i);
+		if (c === '/' && str.length > i + 20 && "//@@@#AUTO-GEN-BEGIN#" === str.substring(i, i + 21)) {
+            var close = false;
+            for (var j = 21; i + j < str.length; j++) {
+                var cc = str.charAt(i + j);
+                if (cc === '/' && str.length > i + j + 18) {
+                    // '//@@@#AUTO-GEN-END#'
+                    if ("//@@@#AUTO-GEN-END#" === str.substring(i + j, i + j + 19)) {
+                        close = true;
+                        i += j + 18;
+                        break;
+                    }
+                }
+            }
+            if (close) {
+                continue;
+            } else {
+                throw "error, missing '//@@@#AUTO-GEN-END#'";
+            }
+		}
+		result += c;
+	}
+    return result;
 };

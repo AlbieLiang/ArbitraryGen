@@ -5,7 +5,7 @@
 		<template>./src/main/java/cc/suitalk/arbitrarygen/demo/psychic/JsApiFrameworkCore.java</template>
 		<dependsOn name="JsApiList" type="input" processor="parse-java">
             <ruleFile>./autogen/jsapi-demo-project.rule</ruleFile>
-			<rule>./src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/*</rule>
+			<rule>./src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/recursion/*</rule>
 		</dependsOn>
 		<resultTo processor="statistic">
             <toFile>./build/outputs/logs/ag-statistic.log</toFile>

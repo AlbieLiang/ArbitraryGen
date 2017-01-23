@@ -14,8 +14,8 @@ import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.template.DelayReadFileTask;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
+import cc.suitalk.arbitrarygen.utils.HybridsTemplateUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
-import cc.suitalk.arbitrarygen.utils.TemplateUtils;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
@@ -71,7 +71,7 @@ public class HybridTemplateProcessor implements ArbitraryGenProcessor {
         final ScriptEngine engine = mScriptEngine;
 
         String jsonStr = args.toString();
-        String script = mTransferTools + mUtils + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
+        String script = mTransferTools + mUtils + "\nparseTemplate(\"" + HybridsTemplateUtils.escape(template) + "\"," + jsonStr + ");";
         final String path = templatePath;
 
 //		Log.d(TAG, "jsonStr : %s\n", jsonStr);
@@ -79,7 +79,7 @@ public class HybridTemplateProcessor implements ArbitraryGenProcessor {
         Log.d(TAG, "path : %s\n", path);
 
         try {
-            FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(script))));
+            FileOperation.write(path, HybridsTemplateUtils.format(HybridsTemplateUtils.unescape((String) engine.eval(script))));
             Log.i(TAG, "genCode into file %s successfully.", path);
         } catch (ScriptException e) {
             Log.e(TAG, "eval script error, exception : %s", e);
