@@ -8,6 +8,7 @@ import javax.script.ScriptException;
 import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
+import cc.suitalk.arbitrarygen.utils.TemplateUtils;
 import cc.suitalk.arbitrarygen.utils.Util;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -83,7 +84,7 @@ public class GenVigorDBTask extends BasePsychicWorker {
 	
 	private void genCode(ScriptEngine engine, String template, String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
 		String jsonStr = obj.toString().replace("@", "_");
-		String script = transfer + utils + "\nparseTemplate(\"" + escape(template) + "\"," + jsonStr + ");";
+		String script = transfer + utils + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
 		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
 		String path = dest + "/" + obj.getString("@name") + ".java";
 
@@ -91,42 +92,6 @@ public class GenVigorDBTask extends BasePsychicWorker {
 		if (!destFolder.exists()) {
 			destFolder.mkdirs();
 		}
-//		Log.d(TAG, "jsonStr : %s\n", jsonStr);
-//		Log.d(TAG, "script : %s\n", script);
-//		Log.d(TAG, "dest : %s\n", dest);
-//		Log.d(TAG, "path : %s\n", path);
-		FileOperation.write(path, format(unescape((String) engine.eval(script))));
-	}
-
-	public static String escape(String str) {
-		return str.replaceAll("[\r\n]+", "\\x0a").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\x29");
-	}
-	
-	public static String unescape(String str) {
-		return str.replaceAll("(x0a[ ]*)+", "\r\n").replace("x29", "'");
-	}
-
-	public static String format(String str) {
-		String indent = "";
-		String vary = "    ";
-		StringBuilder sb = new StringBuilder();
-		String[] sps = str.split("\r\n");
-		
-		for (int i = 0, len = sps.length; i < len; i++) {
-			String sp = sps[i].trim();
-			if (sp.startsWith("}}")) {
-				indent = indent.replaceFirst(vary, "");
-				indent = indent.replaceFirst(vary, "");
-			} else if (sp.startsWith("}")) {
-				indent = indent.replaceFirst(vary, "");
-			}
-			sb.append(indent);
-			sb.append(sp);
-			if (sp.endsWith("{")) {
-				indent += vary;
-			}
-			sb.append("\r\n");
-		}
-		return sb.toString();
+		FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(script))));
 	}
 }

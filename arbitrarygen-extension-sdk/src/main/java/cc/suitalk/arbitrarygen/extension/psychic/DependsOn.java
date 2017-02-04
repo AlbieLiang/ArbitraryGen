@@ -18,6 +18,8 @@ public @interface DependsOn {
 
     /**
      * JSON format string.
+     *
+     * @return JSON string of arguments
      */
     String args();
 }
