@@ -1,13 +1,56 @@
-;function parseTemplate(str, data) {
-	var code =
-		str
-		.replace(/[\r\t\n]/g, " ")           /* 把所有的回车、换行和制表符 替换成空格(代码被整理成单行) */
-		.split("<%").join("\t")              /* 将脚本的开始标签换成制表符（当前只有这种情况下才会出现\t字符）*/
-		.replace(/((^|%>)[^\t]*)'/g, "$1\r") /* */
-		.replace(/\t=(.*?)%>/g, "',$1,'")    /* 将数值直接赋值语句，*/
-		.split("\t").join("');")             /* */
-		.split("%>").join("p.push('")        /* */
-		.split("\r").join("\\'");            /* */
-	var fn = new Function("obj", "var p=[];with(obj){p.push('" + code + "');}return p.join('');");
+;function transfer(str, data) {
+	var result = "";
+	var line = "";
+	for (var i = 0; i < str.length; i++) {
+		var c = str.charAt(i);
+		if (c === '\n') {
+			line += "\\n";
+			result += line + "');p.push('";
+			line = "";
+			continue;
+		} else if (c === '\r') {
+            line += "\\r";
+            result += line + "');p.push('";
+            line = "";
+            continue;
+        } else if (c === '<') {
+            var c1 = str.charAt(i + 1);
+            if (c1 === '%') {
+                var assign = false;
+                var statement = "";
+                var baseIndex = i + 2;
+                result += line + "');"
+                line = "";
+                if (str.charAt(baseIndex) === '=') {
+                    assign = true;
+                    baseIndex++;
+                    result += ";p.push('" + line + "','";
+                    line = "";
+                }
+                for (var k = baseIndex; k < str.length; k++) {
+                    var codeChar = str.charAt(k);
+                    if (codeChar === '%' && str.length > k + 1 && str.charAt(k + 1) === '>') {
+                        // end of script code
+                        i = k + 1;
+                        break;
+                    }
+                    statement += codeChar;
+                }
+                if (assign) {
+                    result += "'," + statement + ");";
+                } else {
+                    result += statement;
+                }
+                result += ";p.push('";
+                continue;
+            }
+		}
+		line += c;
+	}
+	result += "');p.push('" + line;
+	return "var p=[];with(obj){p.push('" + result + "');}return p.join('');";
+};
+function parseTemplate(str, data) {
+	var fn = new Function("obj", "" + transfer(str, data));
 	return data != undefined ? fn.call(data, data) : fn;
 };

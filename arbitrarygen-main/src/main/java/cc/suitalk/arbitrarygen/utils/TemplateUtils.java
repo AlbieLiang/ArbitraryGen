@@ -10,11 +10,12 @@ public class TemplateUtils {
 
     public static String escape(String str) {
 //		return str.replaceAll("(\r\n)+", "\\x0a").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\x29");
-        return str
-                .replaceAll("\r", CARRIAGE_RETURN_CODE)
-                .replaceAll("\n", LINEFEED_CODE)
-                .replaceAll("\"", "\\\\\"")
-                .replaceAll("\'", "\\x29");
+//        return str
+//                .replaceAll("\r", CARRIAGE_RETURN_CODE)
+//                .replaceAll("\n", LINEFEED_CODE)
+//                .replaceAll("\"", "\\\\\"")
+//                .replaceAll("\'", "\\x29");
+        return HybridsTemplateUtils.escape(str);
     }
 
     public static String unescape(String str) {
@@ -22,7 +23,8 @@ public class TemplateUtils {
             return str;
         }
 //		return str.replaceAll("(x0a[ ]*)+", "\r\n").replace("x29", "'");
-        return str.replaceAll("x0d", "\r").replaceAll("x0a", "\n").replace("x29", "'");
+//        return str.replaceAll("x0d", "\r").replaceAll("x0a", "\n").replace("x29", "'");
+        return HybridsTemplateUtils.unescape(str);
     }
 
     public static String format(String str) {

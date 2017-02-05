@@ -1,13 +1,6 @@
 var linefeed = "\\n";
 var carriageReturn = "\\r";
 
-String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {  
-	if (!RegExp.prototype.isPrototypeOf(reallyDo)) {  
- 	    return this.replace(new RegExp(reallyDo, (ignoreCase ? "gi": "g")), replaceWith);  
-	} else {  
-		return this.replace(reallyDo, replaceWith);  
-	}  
-}
 ;function transfer(str, data) {
 	var result = "";
 	var line = "";

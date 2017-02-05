@@ -157,4 +157,11 @@ String.prototype.endsWith = function(suffix) {
 };
 String.prototype.toCamel = function() {
 	return this.substr(0,1).toUpperCase() + this.substr(1);
+}
+;String.prototype.replaceAll = function(reallyDo, replaceWith, ignoreCase) {
+    if (!RegExp.prototype.isPrototypeOf(reallyDo)) {
+        return this.replace(new RegExp(reallyDo, (ignoreCase ? "gi": "g")), replaceWith);
+    } else {
+        return this.replace(reallyDo, replaceWith);
+    }
 };
