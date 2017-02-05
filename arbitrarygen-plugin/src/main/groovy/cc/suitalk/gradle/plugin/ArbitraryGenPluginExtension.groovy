@@ -9,6 +9,7 @@ class ArbitraryGenPluginExtension {
     boolean enable;
 
     Closure logger
+    Closure statistic
     Closure general
     Closure scriptEngine
     Closure javaCodeEngine

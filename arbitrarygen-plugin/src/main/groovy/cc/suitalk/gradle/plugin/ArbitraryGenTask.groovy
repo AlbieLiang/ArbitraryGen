@@ -53,6 +53,7 @@ class ArbitraryGenTask extends DefaultTask {
                 libsDir "${libsDir.absolutePath}"
                 enable extension.enable
                 logger (extension.logger == null ? {} : extension.logger)
+                statistic (extension.statistic == null ? {} : extension.statistic)
                 general (extension.general == null ? {} : extension.general)
                 scriptEngine (extension.scriptEngine == null ? {} : extension.scriptEngine)
                 javaCodeEngine (extension.javaCodeEngine == null ? {} : extension.javaCodeEngine)

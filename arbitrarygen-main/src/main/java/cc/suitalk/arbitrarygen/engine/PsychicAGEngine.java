@@ -46,31 +46,32 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
     public String[] getDependencies() {
         return new String[] {
                 /*@@@#SCRIPT-BEGIN#
-                <%processorList = processorList.processorList;%>
-                <%if (processorList && processorList.length > 0) {%>
-                    <%var list = [];%>
-                    <%for (var i = 0; i < processorList.length; i++) {%>
-                       <%var methodArray = processorList[i]._class[0].method;%>
-                       <%for (var m = 0; m < methodArray.length; m++) {%>
-                           <%var method = methodArray[m];%>
-                           <%if (method && method._name == "getName" && method.codeBlock) {%>
-                                <%if (method.codeBlock.statement && method.codeBlock.statement.length > 0) {%>
-                                    <%var s = method.codeBlock.statement[method.codeBlock.statement.length - 1];%>
-                                    <%if (s._type == "return") {%>
-                                        <%list[list.length] = s._expression;break;%>
-                                    <%}%>
-                                <%}%>
-                           <%}%>
-                       <%}%>
-                    <%}%>
-                    <%if (list.length > 0) {%>
-                        <%for (var i = 0; i < list.length - 1; i++) {%>
-                <%=list[i].replace(";", "")%>,
-                        <%}%>
+                <%processorList = processorList.processorList;
+                if (processorList && processorList.length > 0) {
+                    var list = [];
+                    for (var i = 0; i < processorList.length; i++) {
+                       var methodArray = processorList[i]._class[0].method;
+                       for (var m = 0; m < methodArray.length; m++) {
+                           var method = methodArray[m];
+                           if (method && method._name == "getName" && method.codeBlock) {
+                                if (method.codeBlock.statement && method.codeBlock.statement.length > 0) {
+                                    var s = method.codeBlock.statement[method.codeBlock.statement.length - 1];
+                                    if (s._type == "return") {
+                                        list[list.length] = s._expression;break;
+                                    }
+                                }
+                           }
+                       }
+                    }
+                    if (list.length > 0) {
+                        for (var i = 0; i < list.length - 1; i++) {%>
+                <%=list[i].replace(";", "")%>,<%
+                        }%>
                 <%=list[list.length - 1].replace(";", "")%>
-                    <%}%>
-                <%}%>
+                    <%}
+                }%>
                 #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
+                
                  "script-executor",
                  "hybrid-template-processor",
                  "logger",
@@ -78,8 +79,11 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                  "parse-rule",
                  "psychic-processor",
                  "scanner",
+                 "statistic",
                  "template-processor"
-//@@@#AUTO-GEN-END#
+                    
+                
+                //@@@#AUTO-GEN-END#
         };
     }
 

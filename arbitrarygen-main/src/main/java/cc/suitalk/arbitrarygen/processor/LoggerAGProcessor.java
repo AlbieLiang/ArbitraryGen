@@ -27,7 +27,7 @@ public class LoggerAGProcessor implements ArbitraryGenProcessor {
     public void initialize(AGCore core, JSONObject args) {
         boolean logToFile = args == null || args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_TO_FILE, true);
         if (logToFile) {
-            String logFile = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_FILE);
+            String logFile = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_PATH);
             if (Util.isNullOrNil(logFile)) {
                 logFile = "./output/ag.log";
             }

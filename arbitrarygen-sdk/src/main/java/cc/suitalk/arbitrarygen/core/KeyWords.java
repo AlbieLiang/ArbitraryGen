@@ -26,6 +26,7 @@ public class KeyWords {
 	public static final String V_JAVA_KEYWORDS_FINAL = "final";
 	public static final String V_JAVA_KEYWORDS_ABSTRACT = "abstract";
 	public static final String V_JAVA_KEYWORDS_SYNCHRONIZED = "synchronized";
+	public static final String V_JAVA_KEYWORDS_VOLATILE = "volatile";
 	public static final String V_JAVA_KEYWORDS_EXTENDS = "extends";
 	public static final String V_JAVA_KEYWORDS_IMPLEMENTS = "implements";
 	public static final String V_JAVA_KEYWORDS_THROWS = "throws";
@@ -174,7 +175,7 @@ public class KeyWords {
 	/**
 	 * size of java keywords
 	 */
-	public static final int JAVA_KEYWORDS_SIZE = 87;
+	public static final int JAVA_KEYWORDS_SIZE = 88;
 
 	public static Map<String, String> Keywords;
 	public static Map<String, String> BaseDataTypes;
@@ -194,6 +195,7 @@ public class KeyWords {
 		Keywords.put(V_JAVA_KEYWORDS_STATIC, V_JAVA_KEYWORDS_STATIC);
 		Keywords.put(V_JAVA_KEYWORDS_FINAL, V_JAVA_KEYWORDS_FINAL);
 		Keywords.put(V_JAVA_KEYWORDS_SYNCHRONIZED, V_JAVA_KEYWORDS_SYNCHRONIZED);
+		Keywords.put(V_JAVA_KEYWORDS_VOLATILE, V_JAVA_KEYWORDS_VOLATILE);
 		Keywords.put(V_JAVA_KEYWORDS_NEW, V_JAVA_KEYWORDS_NEW);
 		Keywords.put(V_JAVA_KEYWORDS_IF, V_JAVA_KEYWORDS_IF);
 		Keywords.put(V_JAVA_KEYWORDS_ELSE, V_JAVA_KEYWORDS_ELSE);

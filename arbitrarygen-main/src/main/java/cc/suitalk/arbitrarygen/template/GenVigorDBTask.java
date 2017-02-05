@@ -8,6 +8,7 @@ import javax.script.ScriptException;
 import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
+import cc.suitalk.arbitrarygen.utils.StatisticManager;
 import cc.suitalk.arbitrarygen.utils.TemplateUtils;
 import cc.suitalk.arbitrarygen.utils.Util;
 import net.sf.json.JSONArray;
@@ -49,13 +50,17 @@ public class GenVigorDBTask extends BasePsychicWorker {
 				for (int i = 0, len = arr.size(); i < len; i++) {
 					JSONObject obj = arr.getJSONObject(i);
 					obj.put("@package", pkg);
+					long startTime = System.currentTimeMillis();
 					genCode(engine, mVigorDBItemTmpl, info.transfer, info.utils, info.destPath, obj);
+					StatisticManager.mark("GenCode", "[VigorDB]", (System.currentTimeMillis() - startTime));
 					tables.add(obj.getString("@name"));
 				}
 			} else {
 				JSONObject json = (JSONObject) tbObj;
 				json.put("@package", pkg);
+				long startTime = System.currentTimeMillis();
 				genCode(engine, mVigorDBItemTmpl, info.transfer, info.utils, info.destPath, json);
+				StatisticManager.mark("GenCode", "[VigorDB]", (System.currentTimeMillis() - startTime));
 				tables.add(json.getString("@name"));
 			}
 		} catch (ScriptException e) {
@@ -70,7 +75,9 @@ public class GenVigorDBTask extends BasePsychicWorker {
 		delegateJson.put("@name", delegate);
 		delegateJson.put("@dbItems", tables);
 		try {
+			long startTime = System.currentTimeMillis();
 			genCode(engine, mVigorDBInfoDelegateTmpl, info.transfer, "", info.destPath, delegateJson);
+			StatisticManager.mark("GenCode", "[VigorDB]", (System.currentTimeMillis() - startTime));
 		} catch (ScriptException e) {
 			Log.e(TAG, "gen delegate code error : %s", e);
 		}

@@ -13,6 +13,7 @@ import cc.suitalk.arbitrarygen.debug.Debuger;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.tools.DefaultUncaughtExceptionHandler;
 import cc.suitalk.arbitrarygen.utils.Log;
+import cc.suitalk.arbitrarygen.utils.StatisticManager;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
@@ -67,6 +68,7 @@ public class ArbitraryGenEntrance {
 			core.start();
 			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");
 		}
+		StatisticManager.close();
 		Log.close();
 //		if (configInfo != null) {
 //			Runtime runtime = Runtime.getRuntime();

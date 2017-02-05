@@ -53,6 +53,11 @@ arbitraryGen {
         path "$buildDir/outputs/logs/ag.log"
     }
 
+    statistic {
+        toFile true
+        path "$buildDir/outputs/logs/ag.statistic"
+    }
+
     general {
         enable true
         // suffix list

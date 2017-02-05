@@ -29,7 +29,8 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_LOG_PRINT_TAG = "printTag";
 	String EXTERNAL_ARGS_KEY_LOG_PRINT_LEVEL = "printLevel";
 	String EXTERNAL_ARGS_KEY_LOG_TO_FILE = "logToFile";
-	String EXTERNAL_ARGS_KEY_LOG_FILE = "path";
+	String EXTERNAL_ARGS_KEY_TO_FILE = "toFile";
+	String EXTERNAL_ARGS_KEY_PATH = "path";
 
 	String EXTERNAL_ARGS_KEY_RULE_FILE = "ruleFile";
 	String EXTERNAL_ARGS_KEY_RULE = "rule";

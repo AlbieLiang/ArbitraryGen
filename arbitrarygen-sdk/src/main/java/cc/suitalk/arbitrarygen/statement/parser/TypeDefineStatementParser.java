@@ -48,6 +48,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 		mModifierKeywords.put("final", "final");
 		mModifierKeywords.put("abstract", "abstract");
 		mModifierKeywords.put("synchronized", "synchronized");
+		mModifierKeywords.put("volatile", "volatile");
 	}
 
 	@Override
@@ -333,7 +334,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 					} else if (")".equals(word.value)) {
 						break;
 					} else {
-						throw new RuntimeException("parse method params error.");
+						throw new RuntimeException(String.format("parse method params error.(cw:'%s')", word));
 					}
 				}	
 			} else if (!")".equals(word.value)) {
@@ -395,7 +396,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 				word = peParser.getLastWord();
 			}
 		} else {
-			throw new RuntimeException("An error occurred when Parse field.");
+			throw new RuntimeException(String.format("An error occurred when Parse field.(cw:'%s')", word));
 		}
 		fcb.setSuffixWord(word);
 		nextWord(reader, lexer);

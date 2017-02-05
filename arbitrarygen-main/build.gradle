@@ -42,6 +42,11 @@ arbitraryGen {
         path "$buildDir/logs/ag.log"
     }
 
+    statistic {
+        toFile true
+        path "$buildDir/logs/ag.statistic"
+    }
+
 }
 
 //打包

@@ -25,6 +25,7 @@ import cc.suitalk.arbitrarygen.processor.ParseJavaFileProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseRuleProcessor;
 import cc.suitalk.arbitrarygen.processor.PsychicTaskProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
+import cc.suitalk.arbitrarygen.processor.StatisticProcessor;
 import cc.suitalk.arbitrarygen.processor.TemplateProcessor;
 import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
@@ -179,20 +180,29 @@ public class ArbitraryGenCore implements AGCore {
     private void prepare(JSONObject jsonObject) {
         // Resolve hardcode Engine
         addProcessor(new LoggerAGProcessor());
-        addProcessor(new ScannerAGProcessor());
-        addProcessor(new ParseRuleProcessor());
-        addProcessor(new ParseJavaFileProcessor());
-        addProcessor(new ExecuteScriptProcessor());
-        addProcessor(new TemplateProcessor());
-        addProcessor(new HybridTemplateProcessor());
-        addProcessor(new PsychicTaskProcessor());
+        addProcessor(new StatisticProcessor());
 
         /*@@@#SCRIPT-BEGIN#
-        <%if (processorList && processorList.length > 0) {%>
-           <%for (var i = 0; i < processorList.length; i++) {%>
-        addProcessor(new <%=processorList[i]._class[0]._name%>());<%}%>
-        <%}%>
-        #SCRIPT-END#@@@*/
+        <%processorList = processorList.processorList;
+        if (processorList && processorList.length > 0) {
+            for (var i = 0; i < processorList.length; i++) {
+                if ("LoggerAGProcessor" == processorList[i]._class[0]._name || "StatisticProcessor" == processorList[i]._class[0]._name) {
+                    continue;
+                }%>
+        addProcessor(new <%=processorList[i]._class[0]._name%>());<%
+            }
+        }%>
+        #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
+        
+        addProcessor(new ExecuteScriptProcessor());
+        addProcessor(new HybridTemplateProcessor());
+        addProcessor(new ParseJavaFileProcessor());
+        addProcessor(new ParseRuleProcessor());
+        addProcessor(new PsychicTaskProcessor());
+        addProcessor(new ScannerAGProcessor());
+        addProcessor(new TemplateProcessor());
+        
+        //@@@#AUTO-GEN-END#
         // Add more extension Engine by arguments
         addProcessor(new DefaultAGEngine());
         addProcessor(new ScriptTemplateAGEngine());

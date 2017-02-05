@@ -30,6 +30,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class TypeName implements ICodeGenerator, JSONConverter {
 
+	private Word mWordFinal;
 	private ReferenceExpression mName;
 	private List<TypeName> mGenericityTypes;
 	private List<Expression> mArrayArgs;
@@ -48,6 +49,9 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 	public String genCode(String linefeed) {
 		StringBuilder builder = new StringBuilder();
 //		builder.append(genAnnotationBlock(linefeed));
+		if (mWordFinal != null) {
+			builder.append(mWordFinal);
+		}
 		builder.append(mName.genCode(linefeed));
 		if (mGenericityTypes.size() > 0) {
 			builder.append("<");
@@ -72,6 +76,7 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 	@Override
 	public JSONObject toJSONObject() {
 		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("isFinal", mWordFinal != null);
 		jsonObject.put("name", mName.getVariable());
 		JSONArray genericityTypeArray = new JSONArray();
 		for (int i = 0; i < mGenericityTypes.size(); i++) {
@@ -100,7 +105,15 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 	public ReferenceExpression getNameRefExpression() {
 		return mName;
 	}
-	
+
+	public Word getFinal() {
+		return mWordFinal;
+	}
+
+	public void setFinal(Word word) {
+		mWordFinal = word;
+	}
+
 	public String getName() {
 		return mName.getVariable();
 	}
@@ -138,6 +151,11 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 
 		@Override
 		public TypeName parse(IReader reader, Lexer lexer, Word curWord) throws IOException {
+			Word finalWord = null;
+			if (curWord != null && "final".equals(curWord.value)) {
+				finalWord = curWord;
+				curWord = nextWord(reader, lexer);
+			}
 			ReferenceExpressionParser parser = ParserFactory.getRefExpressionParser(true);
 			ReferenceExpression refExpr = parser.parse(reader, lexer, curWord);
 			if (refExpr == null) {
@@ -148,6 +166,7 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 			Word word = getLastWord();
 			TypeName typeName = new TypeName();
 			typeName.setName(refExpr);
+			typeName.setFinal(finalWord);
 			if (word.value.equals("<")) {
 				word = nextWord(reader, lexer);
 				if ("?".equals(word.value)) {
