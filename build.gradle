@@ -1,16 +1,26 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+apply from : "config.gradle"
+
 buildscript {
+    // Must apply config.gradle file here, because it run first of the script file.
+    apply from : "config.gradle"
     repositories {
 //        mavenCentral()
         jcenter()
-        maven {
-            // 假如你有私服可以用的话，可以引用私服
-            // url 'http://10.XXX.XXX.XXX:8080/nexus/content/repositories/releases/'
-            // 没有的话，就本地引入
-            url "file:${project.rootDir.getAbsolutePath()}/repositories/release"
+        if (rootProject.ext.buildConfig["debug"]) {
+            maven {
+                // 假如你有私服可以用的话，可以引用私服
+                // url 'http://10.XXX.XXX.XXX:8080/nexus/content/repositories/releases/'
+                // 没有的话，就本地引入
+                url "file:${project.rootDir.getAbsolutePath()}/repositories/release"
 //            url 'https://github.com/AlbieLiang/ArbitraryGen/tree/master/arbitrarygen-plugin/plugin-output/release/'
 //            url 'https://dl.bintray.com/albieliang/maven/'
+            }
+        } else {
+            maven {
+                url 'https://dl.bintray.com/albieliang/maven/'
+            }
         }
     }
 
@@ -22,7 +32,7 @@ buildscript {
 
 
         // 自定义的插件以 groupId:name:版本号 的方式引用，这个name来自插件工程下的arbitrarygen.properties文件名
-        classpath 'cc.suitalk.tools:arbitrarygen-plugin:1.0.0'
+        classpath 'cc.suitalk.tools:arbitrarygen-plugin:2.0.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -31,14 +41,20 @@ allprojects {
     repositories {
 //        mavenCentral()
         jcenter()
-        maven {
-            // 假如你有私服可以用的话，可以引用私服
-            // url 'http://10.XXX.XXX.XXX:8080/nexus/content/repositories/releases/'
-            // 没有的话，就本地引入
-            url "file:${project.rootDir.getAbsolutePath()}/repositories/release"
+        if (rootProject.ext.buildConfig["debug"]) {
+            maven {
+                // 假如你有私服可以用的话，可以引用私服
+                // url 'http://10.XXX.XXX.XXX:8080/nexus/content/repositories/releases/'
+                // 没有的话，就本地引入
+                url "file:${project.rootDir.getAbsolutePath()}/repositories/release"
 //            url 'https://github.com/AlbieLiang/ArbitraryGen/tree/master/arbitrarygen-plugin/plugin-output/release/'
 
 //            url 'https://dl.bintray.com/albieliang/maven/'
+            }
+        } else {
+            maven {
+                url 'https://dl.bintray.com/albieliang/maven/'
+            }
         }
     }
     tasks.withType(JavaCompile) {

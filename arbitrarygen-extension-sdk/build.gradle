@@ -5,12 +5,12 @@ apply plugin: 'application'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def siteUrl = 'https://github.com/AlbieLiang/ArbitraryGen'   // 项目的主页
-def gitUrl = 'https://github.com/AlbieLiang/ArbitraryGen.git'   // Git仓库的url
+def siteUrl = rootProject.ext.bintrayConfig["siteUrl"]   // 项目的主页
+def gitUrl = rootProject.ext.bintrayConfig["gitUrl"]   // Git仓库的url
 group = "cc.suitalk.tools"            // Maven Group ID for the artifact，
 
 // 这个version是library的版本，更新后也需要更改这个值
-version = '1.0.0'
+version = '2.0.0'
 archivesBaseName = 'arbitrarygen-extension-sdk'
 
 // For jar config
@@ -68,15 +68,15 @@ install {
                 // Set your license
                 licenses {
                     license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name rootProject.ext.bintrayConfig["license-name"]
+                        url rootProject.ext.bintrayConfig["license-url"]
                     }
                 }
                 developers {
                     developer {
-                        id 'albieliang'        //填写的一些基本信息
-                        name 'Albie Liang'
-                        email 'albieliang@gmail.com'
+                        id rootProject.ext.bintrayConfig["developer-id"]
+                        name rootProject.ext.bintrayConfig["developer-name"]
+                        email rootProject.ext.bintrayConfig["developer-email"]
                     }
                 }
                 scm {
