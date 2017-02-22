@@ -53,12 +53,7 @@ public class AutoGenFindViewHelper {
 	public static final String XML_SUFFIX = "xml";
 	
 	public static final String XML_ATTRIBUTE_ANDROID_ID = "android:id";
-	
-	/**
-	 * 
-	 * @param fileName
-	 * @return
-	 */
+
 	public static List<FindViewIdsTask> getIdsFromLayoutFile(String fileName) {
 		if (Util.isNullOrNil(fileName)) {
 			return null;

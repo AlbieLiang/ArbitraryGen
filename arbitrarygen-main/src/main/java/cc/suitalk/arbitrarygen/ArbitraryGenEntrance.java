@@ -52,7 +52,9 @@ public class ArbitraryGenEntrance {
 	}
 	
 	/**
-	 * @param args
+	 * Entrance method
+	 *
+	 * @param args arguments for the code generator
 	 */
 	public static void main(String[] args) {
 		// Crash handler

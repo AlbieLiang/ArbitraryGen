@@ -65,9 +65,10 @@ public class TemplateManager {
 	}
 	
 	/**
-	 * 
-	 * @param name
-	 * @return
+	 * Get template from the cache by the given name.
+	 *
+	 * @param name name of the template
+	 * @return string of the template
 	 */
 	public String get(String name) {
 		TemplateWrapper tw = mTemplates.get(name);
@@ -85,9 +86,9 @@ public class TemplateManager {
 	 * then it with invoke {@link DelayGetTask#doGet()} to get value
 	 * and update the template immediately.
 	 * 
-	 * @param name
-	 * @param task
-	 * @return
+	 * @param name name of the template
+	 * @param task delay-get task
+	 * @return template string
 	 */
 	public String get(String name, DelayGetTask task) {
 		TemplateWrapper tw = mTemplates.get(name);
@@ -129,7 +130,7 @@ public class TemplateManager {
 	 * @author AlbieLiang
 	 *
 	 */
-	public static interface DelayGetTask {
+	public interface DelayGetTask {
 		String doGet();
 	}
 	

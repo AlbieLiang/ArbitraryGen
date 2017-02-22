@@ -141,33 +141,16 @@ public class ArbitraryGenCore implements AGCore {
         return mProcessors.get(name);
     }
 
-    /**
-     *
-     * @param processors
-     * @param processorName
-     * @param args
-     * @return
-     */
     @Override
     public JSONObject execProcess(Map<String, ArbitraryGenProcessor> processors, String processorName, JSONObject args) {
         return execProcess(processors.get(processorName), args);
     }
 
-    /**
-     *
-     * @param processor
-     * @return
-     */
     @Override
     public JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args) {
         return execProcess(processor, args, null);
     }
 
-    /**
-     *
-     * @param processor
-     * @return
-     */
     @Override
     public JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args, Map<String, ArbitraryGenProcessor> deliverDepends) {
         if (processor == null) {

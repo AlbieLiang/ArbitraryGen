@@ -182,9 +182,6 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
         FileOperation.saveToFile(info, generator.genCode());
     }
 
-    /**
-     * @param suffix
-     */
     public void addSuffix(String suffix) {
         if (suffix == null) {
             return;
@@ -192,9 +189,6 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
         mDefaultRawTemplateParser.addSuffix(suffix);
     }
 
-    /**
-     * @param suffixList
-     */
     public void addSuffixList(List<String> suffixList) {
         if (suffixList == null || suffixList.isEmpty()) {
             return;

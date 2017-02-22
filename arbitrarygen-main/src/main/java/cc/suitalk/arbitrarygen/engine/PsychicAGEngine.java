@@ -86,7 +86,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                         }%>
                 <%=list[list.length - 1].replace(";", "")%>
                     <%}
-                }%>\
+                }%>
                 #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
                 
                  "script-executor",
