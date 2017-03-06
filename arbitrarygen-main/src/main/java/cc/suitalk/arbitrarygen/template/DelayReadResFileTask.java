@@ -17,13 +17,29 @@
 
 package cc.suitalk.arbitrarygen.template;
 
-/**
- * Created by AlbieLiang on 16/11/6.
- */
-public class TaskInfo {
-    public String script;
-    public String destPath;
-    public String templateLibs;
-    public String templateSuffix;
-}
+import java.io.InputStream;
 
+import cc.suitalk.arbitrarygen.template.TemplateManager.DelayGetTask;
+import cc.suitalk.arbitrarygen.utils.FileOperation;
+
+/**
+ * Created by AlbieLiang on 2017/3/7.
+ */
+public class DelayReadResFileTask implements DelayGetTask {
+
+	String path;
+
+	public DelayReadResFileTask(String path) {
+		this.path = path;
+	}
+	
+	@Override
+	public String doGet() {
+		InputStream is = DelayReadResFileTask.class.getResourceAsStream(path);
+		if (is != null) {
+			return FileOperation.read(is);
+		}
+		return "";
+	}
+	
+}

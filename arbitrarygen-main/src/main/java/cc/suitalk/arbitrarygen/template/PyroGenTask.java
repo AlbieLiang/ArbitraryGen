@@ -109,7 +109,7 @@ public class PyroGenTask extends BasePyroWorker {
 							JSONObject obj = arr.getJSONObject(j);
 							obj.put("@package", pkg);
 							if (!Util.isNullOrNil(template)) {
-								genCode(engine, template, info.transfer, info.utils, info.destPath, obj);
+								genCode(engine, template, info.script, info.destPath, obj);
 							}
 							list.add(obj);
 						}
@@ -117,7 +117,7 @@ public class PyroGenTask extends BasePyroWorker {
 						JSONObject json = (JSONObject) tagObj;
 						json.put("@package", pkg);
 						if (!Util.isNullOrNil(template)) {
-							genCode(engine, template, info.transfer, info.utils, info.destPath, json);
+							genCode(engine, template, info.script, info.destPath, json);
 						}
 						list.add(json);
 					}
@@ -133,36 +133,14 @@ public class PyroGenTask extends BasePyroWorker {
 				Log.w(TAG, "the template do not exist with tag : %s", rootTag);
 				break;
 			}
-			String path = info.coreLibs + "/TransferTools.js";
-			String transferTools = TemplateManager.getImpl().get(path, new DelayReadFileTask(path));
 			try {
-				genCode(engine, template, transferTools, "", info.destPath, delegateJson);
+				genCode(engine, template, info.script, info.destPath, delegateJson);
 			} catch (ScriptException e) {
 				Log.e(TAG, "gen code error : %s", e);
 			}
 			break;
 		}
 		return null;
-	}
-
-	private String getValidateTag(String tag) {
-		if (Util.isNullOrNil(tag)) {
-			return tag;
-		}
-		return tag.replaceAll("-", "_");
-	}
-
-	private void genCode(ScriptEngine engine, String template, String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
-		String jsonStr = obj.toString().replace("@", "_");
-		String script = transfer + utils + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
-		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
-		String path = dest + "/" + obj.getString("@name") + ".java";
-
-		File destFolder = new File(dest);
-		if (!destFolder.exists()) {
-			destFolder.mkdirs();
-		}
-		FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(script))));
 	}
 
 	@Override
@@ -173,4 +151,25 @@ public class PyroGenTask extends BasePyroWorker {
 	public void addSupportSuffixList(List<String> suffixList) {
 		mSupportSuffixList.addAll(suffixList);
 	}
+
+	private String getValidateTag(String tag) {
+		if (Util.isNullOrNil(tag)) {
+			return tag;
+		}
+		return tag.replaceAll("-", "_");
+	}
+
+	private void genCode(ScriptEngine engine, String template, String script, String destPath, JSONObject obj) throws ScriptException {
+		String jsonStr = obj.toString().replace("@", "_");
+		String s = script + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
+		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
+		String path = dest + "/" + obj.getString("@name") + ".java";
+
+		File destFolder = new File(dest);
+		if (!destFolder.exists()) {
+			destFolder.mkdirs();
+		}
+		FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(s))));
+	}
+
 }

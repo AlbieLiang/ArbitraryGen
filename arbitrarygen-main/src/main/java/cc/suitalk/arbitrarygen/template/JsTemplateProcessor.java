@@ -23,6 +23,7 @@ import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import cc.suitalk.arbitrarygen.constant.ResConstants;
 import cc.suitalk.arbitrarygen.template.base.BaseTemplateProcessor;
 import cc.suitalk.arbitrarygen.template.base.AGPyroWorker;
 import cc.suitalk.arbitrarygen.template.base.AGPsychicWorker;
@@ -43,8 +44,7 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 	private static final String TAG = "AG.JsTemplateProcessor";
 	
 	private ScriptEngine mScriptEngine;
-	private String mTransferTools;
-	private String mUtils;
+	private String mCoreScript;
 	private TemplateConfig mTemplateCfg;
 
 	public JsTemplateProcessor() {
@@ -54,8 +54,8 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 	@Override
 	public void prepare(TemplateConfig cfg) {
 		mTemplateCfg = cfg;
-		mTransferTools = FileOperation.read(cfg.getCoreLibs() + "/TransferTools.js");
-		mUtils = FileOperation.read(cfg.getCoreLibs() + "/TypeUtils.js") + FileOperation.read(cfg.getCoreLibs() + "/utils.js");
+		mCoreScript = TemplateManager.getImpl().get(
+				ResConstants.PATH_CORE_SCRIPT, new DelayReadResFileTask(ResConstants.PATH_CORE_SCRIPT));
 	}
 
 	@Override
@@ -75,10 +75,7 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 		JSONObject json = (JSONObject) ss.read(FileOperation.read(src));
 		
 		TaskInfo info = new TaskInfo();
-		info.transfer = mTransferTools;
-		info.utils = mUtils;
 		info.destPath = destPath;
-		info.coreLibs = mTemplateCfg.getCoreLibs();
 		info.templateLibs = mTemplateCfg.getTemplateLibs();
 		info.templateSuffix = Util.nullAsNil(Util.getSuffix(src));
 		

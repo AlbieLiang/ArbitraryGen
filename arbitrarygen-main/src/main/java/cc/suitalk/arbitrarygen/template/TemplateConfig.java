@@ -33,12 +33,10 @@ public class TemplateConfig {
 	
 	private static final String TAG = "AG.TemplateConfig";
 	
-	private String coreLibs;
 	private String templateLibs;
 	private Properties properties;
 	
-	public TemplateConfig(String coreLibs, String templateLibs) {
-		this.coreLibs = coreLibs;
+	public TemplateConfig(String templateLibs) {
 		this.templateLibs = templateLibs;
 
 		properties = new Properties();
@@ -67,11 +65,7 @@ public class TemplateConfig {
 			}
 		}
 	}
-	
-	public String getCoreLibs() {
-		return coreLibs;
-	}
-	
+
 	public String getTemplateLibs() {
 		return templateLibs;
 	}

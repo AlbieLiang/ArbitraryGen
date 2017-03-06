@@ -17,6 +17,9 @@
 
 package cc.suitalk.arbitrarygen.demo.psychic;
 
+import java.util.Map;
+
+import cc.suitalk.arbitrarygen.demo.jsapi.base.BaseJsApiFunc;
 import cc.suitalk.arbitrarygen.extension.psychic.DependsOn;
 import cc.suitalk.arbitrarygen.extension.psychic.ParseJavaRule;
 import cc.suitalk.arbitrarygen.extension.psychic.PsychicTask;
@@ -28,27 +31,67 @@ import cc.suitalk.arbitrarygen.extension.psychic.PsychicTask;
 @PsychicTask
 public class AGPsychicAnnotationTestCase {
 
-    /*@@@#SCRIPT-BEGIN#
-    <%if (JsApiList && JsApiList.length > 0) {%>
-       <%for (var i = 0; i < JsApiList.length; i++) {%>
-    //<%=JsApiList[i].toString()%><%}%>
-    <%}%>
-    // TaskInfo
-    //
-    // name : <%=_name%>
-    // processor : <%=_processor%>
-    // template : <%=template%>
-    // dependsOn : <%=JSON.stringify(dependsOn)%>
-    // JsApiList : <%=JSON.stringify(JsApiList)%>
-    #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
-    
-    // TaskInfo
-    //
-    // name : AGPsychicTask_AGPsychicAnnotationTestCase
-    // processor : hybrid-template-processor
-    // template : /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo/../arbitrarygen-demo/src/main/java/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java
-    // dependsOn : [{"_name":"JsApiList","_processor":"parse-java","_type":"input","rule":"src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_*"}]
-    // JsApiList : {"JsApiList":[{"_package":"cc.suitalk.arbitrarygen.demo.jsapi","_import":["org.json.JSONObject","cc.suitalk.arbitrarygen.demo.jsapi.annotation.JsApiFunc","cc.suitalk.arbitrarygen.demo.jsapi.base.BaseJsApiFunc","cc.suitalk.arbitrarygen.demo.jsapi.base.JsApiContext"],"_class":[{"_parent":{"isFinal":false,"name":"BaseJsApiFunc"},"_modifier":"public","_static":false,"_final":false,"_abstract":false,"_synchronized":false,"_type":"class","_name":"JsApiFunc_A","_annotation":{"JsApiFunc":{"name":"A","id":0}},"method":[{"_annotation":[{}],"codeBlock":{"statement":[{"_type":"return","_expression":" false"}]},"_modifier":"public","_static":false,"_final":false,"_abstract":false,"_synchronized":false,"_type":"boolean","_name":"invoke","_args":[{"_type":{"isFinal":false,"name":"JsApiContext"},"_name":"context"},{"_type":{"isFinal":false,"name":"JSONObject"},"_name":"args"},{"_type":{"isFinal":false,"name":"InvokedCallback"},"_name":"callback"}]}]}]},{"_package":"cc.suitalk.arbitrarygen.demo.jsapi","_import":["org.json.JSONObject","cc.suitalk.arbitrarygen.demo.jsapi.annotation.JsApiFunc","cc.suitalk.arbitrarygen.demo.jsapi.base.BaseJsApiFunc","cc.suitalk.arbitrarygen.demo.jsapi.base.JsApiContext"],"_class":[{"_parent":{"isFinal":false,"name":"BaseJsApiFunc"},"_modifier":"public","_static":false,"_final":false,"_abstract":false,"_synchronized":false,"_type":"class","_name":"JsApiFunc_B","_annotation":{"JsApiFunc":{"name":"B","id":1}},"method":[{"_annotation":[{}],"codeBlock":{"statement":[{"_type":"return","_expression":" false"}]},"_modifier":"public","_static":false,"_final":false,"_abstract":false,"_synchronized":false,"_type":"boolean","_name":"invoke","_args":[{"_type":{"isFinal":false,"name":"JsApiContext"},"_name":"context"},{"_type":{"isFinal":false,"name":"JSONObject"},"_name":"args"},{"_type":{"isFinal":false,"name":"InvokedCallback"},"_name":"callback"}]}]}]},{"_package":"cc.suitalk.arbitrarygen.demo.jsapi","_import":["org.json.JSONObject","cc.suitalk.arbitrarygen.demo.jsapi.annotation.JsApiFunc","cc.suitalk.arbitrarygen.demo.jsapi.base.BaseJsApiFunc","cc.suitalk.arbitrarygen.demo.jsapi.base.JsApiContext"],"_class":[{"_parent":{"isFinal":false,"name":"BaseJsApiFunc"},"_modifier":"public","_static":false,"_final":false,"_abstract":false,"_synchronized":false,"_type":"class","_name":"JsApiFunc_C","_annotation":{"JsApiFunc":{"name":"C","id":2}},"method":[{"_annotation":[{}],"codeBlock":{"statement":[{"_type":"return","_expression":" false"}]},"_modifier":"public","_static":false,"_final":false,"_abstract":false,"_synchronized":false,"_type":"boolean","_name":"invoke","_args":[{"_type":{"isFinal":false,"name":"JsApiContext"},"_name":"context"},{"_type":{"isFinal":false,"name":"JSONObject"},"_name":"args"},{"_type":{"isFinal":false,"name":"InvokedCallback"},"_name":"callback"}]}]}]},{"_package":"cc.suitalk.arbitrarygen.demo.jsapi","_import":["org.json.JSONObject","cc.suitalk.arbitrarygen.demo.jsapi.annotation.JsApiFunc","cc.suitalk.arbitrarygen.demo.jsapi.annotation.Sync","cc.suitalk.arbitrarygen.demo.jsapi.base.BaseJsApiFunc","cc.suitalk.arbitrarygen.demo.jsapi.base.JsApiContext"],"_class":[{"_parent":{"isFinal":false,"name":"BaseJsApiFunc"},"_modifier":"public","_static":false,"_final":false,"_abstract":false,"_synchronized":false,"_type":"class","_name":"JsApiFunc_D","_annotation":{"Sync":{},"JsApiFunc":{"name":"D","id":3}},"method":[{"_annotation":[{}],"codeBlock":{"statement":[{"_type":"return","_expression":" false"}]},"_modifier":"public","_static":false,"_final":false,"_abstract":false,"_synchronized":false,"_type":"boolean","_name":"invoke","_args":[{"_type":{"isFinal":false,"name":"JsApiContext"},"_name":"context"},{"_type":{"isFinal":false,"name":"JSONObject"},"_name":"args"},{"_type":{"isFinal":false,"name":"InvokedCallback"},"_name":"callback"}]}]}]}]}
-    
-    //@@@#AUTO-GEN-END#
+    private Map<String, BaseJsApiFunc> mJsApiFunc;
+
+    public void initialize() {
+        BaseJsApiFunc jsApiFunc = null;
+        /*@@@#SCRIPT-BEGIN#
+        // TaskInfo
+        //
+        // name : <%=_name%>
+        // processor : <%=_processor%>
+        <% var jsApiFuncArray = JsApiList.JsApiList;
+        if (jsApiFuncArray && jsApiFuncArray.length > 0) {
+            for (var i = 0; i < jsApiFuncArray.length; i++) {
+                var fileObj = jsApiFuncArray[i];
+                var _class = null;
+                if (!fileObj || !fileObj._class || fileObj._class.length == 0) {
+                    continue;
+                }
+                if (!(_class = fileObj._class[0]) || !_class._annotation || !_class._annotation.JsApiFunc) {
+                    continue;
+                }
+                var jfAnn = _class._annotation.JsApiFunc;
+                var syncAnn = _class._annotation.Sync;
+                %>
+        // AG. gen JsApiFunc : <%=_class._name%>
+        jsApiFunc = new <%=fileObj._package%>.<%=_class._name%>();
+        jsApiFunc.setId(<%=jfAnn.id%>);
+        jsApiFunc.setName("<%=jfAnn.name%>");
+        mJsApiFunc.put(jsApiFunc.getName(), jsApiFunc);
+            <%}
+        } %>
+        #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
+        // TaskInfo
+        //
+        // name : AGPsychicTask_AGPsychicAnnotationTestCase
+        // processor : hybrid-template-processor
+        
+        // AG. gen JsApiFunc : JsApiFunc_A
+        jsApiFunc = new cc.suitalk.arbitrarygen.demo.jsapi.JsApiFunc_A();
+        jsApiFunc.setId(0);
+        jsApiFunc.setName("A");
+        mJsApiFunc.put(jsApiFunc.getName(), jsApiFunc);
+            
+        // AG. gen JsApiFunc : JsApiFunc_B
+        jsApiFunc = new cc.suitalk.arbitrarygen.demo.jsapi.JsApiFunc_B();
+        jsApiFunc.setId(1);
+        jsApiFunc.setName("B");
+        mJsApiFunc.put(jsApiFunc.getName(), jsApiFunc);
+            
+        // AG. gen JsApiFunc : JsApiFunc_C
+        jsApiFunc = new cc.suitalk.arbitrarygen.demo.jsapi.JsApiFunc_C();
+        jsApiFunc.setId(2);
+        jsApiFunc.setName("C");
+        mJsApiFunc.put(jsApiFunc.getName(), jsApiFunc);
+            
+        // AG. gen JsApiFunc : JsApiFunc_D
+        jsApiFunc = new cc.suitalk.arbitrarygen.demo.jsapi.JsApiFunc_D();
+        jsApiFunc.setId(3);
+        jsApiFunc.setName("D");
+        mJsApiFunc.put(jsApiFunc.getName(), jsApiFunc);
+            
+        
+        //@@@#AUTO-GEN-END#
+    }
 }

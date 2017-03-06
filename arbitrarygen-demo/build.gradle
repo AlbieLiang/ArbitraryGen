@@ -38,7 +38,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'de.greenrobot:greendao:2.1.0'
-    compile 'cc.suitalk.tools:arbitrarygen-extension-sdk:1.0.0'
+    compile 'cc.suitalk.tools:arbitrarygen-extension-sdk:2.0.0'
 }
 
 arbitraryGen {

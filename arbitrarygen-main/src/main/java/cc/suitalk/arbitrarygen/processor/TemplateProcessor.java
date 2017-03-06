@@ -26,10 +26,12 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import cc.suitalk.arbitrarygen.constant.ResConstants;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.template.DelayReadFileTask;
+import cc.suitalk.arbitrarygen.template.DelayReadResFileTask;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -44,8 +46,7 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
     private static final String TAG ="AG.TemplateProcessor";
 
     private ScriptEngine mScriptEngine;
-    private String mTransferTools;
-    private String mUtils;
+    private String mCoreScript;
 
     public TemplateProcessor() {
         mScriptEngine = new ScriptEngineManager().getEngineByName("javascript");
@@ -58,13 +59,8 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
 
     @Override
     public void initialize(AGCore core, JSONObject args) {
-        String libsDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR);
-        String coreLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_CORE_LIBS, libsDir + "/core-libs");
-        String templateLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS, libsDir + "/template-libs");
-
-        final String path = coreLibs + "/TransferTools.js";
-        mTransferTools = TemplateManager.getImpl().get(path, new DelayReadFileTask(path));
-        mUtils = FileOperation.read(coreLibs + "/TypeUtils.js") + FileOperation.read(coreLibs + "/utils.js");
+        mCoreScript = TemplateManager.getImpl().get(
+                ResConstants.PATH_CORE_SCRIPT, new DelayReadResFileTask(ResConstants.PATH_CORE_SCRIPT));
     }
 
     @Override
@@ -91,13 +87,10 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
             Log.i(TAG, "template is null or nil.");
             return null;
         }
-
-
         final ScriptEngine engine = mScriptEngine;
-
         String dest = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
         String jsonStr = args.toString();
-        String script = mTransferTools + mUtils + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
+        String script = mCoreScript + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
         String path = dest + "/" + args.getString("toFile");
 
         File destFolder = new File(path).getParentFile();
@@ -108,7 +101,6 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
 //		Log.d(TAG, "script : %s\n", script);
         Log.d(TAG, "dest : %s\n", dest);
         Log.d(TAG, "path : %s\n", path);
-
         try {
             FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(script))));
             Log.i(TAG, "genCode into file %s successfully.", path);

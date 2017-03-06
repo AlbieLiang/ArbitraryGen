@@ -68,7 +68,7 @@ public class GenVigorDBTask extends BasePsychicWorker {
 					JSONObject obj = arr.getJSONObject(i);
 					obj.put("@package", pkg);
 					long startTime = System.currentTimeMillis();
-					genCode(engine, mVigorDBItemTmpl, info.transfer, info.utils, info.destPath, obj);
+					genCode(engine, mVigorDBItemTmpl, info.script, info.destPath, obj);
 					StatisticManager.mark("GenCode", "[VigorDB]", (System.currentTimeMillis() - startTime));
 					tables.add(obj.getString("@name"));
 				}
@@ -76,7 +76,7 @@ public class GenVigorDBTask extends BasePsychicWorker {
 				JSONObject json = (JSONObject) tbObj;
 				json.put("@package", pkg);
 				long startTime = System.currentTimeMillis();
-				genCode(engine, mVigorDBItemTmpl, info.transfer, info.utils, info.destPath, json);
+				genCode(engine, mVigorDBItemTmpl, info.script, info.destPath, json);
 				StatisticManager.mark("GenCode", "[VigorDB]", (System.currentTimeMillis() - startTime));
 				tables.add(json.getString("@name"));
 			}
@@ -93,7 +93,7 @@ public class GenVigorDBTask extends BasePsychicWorker {
 		delegateJson.put("@dbItems", tables);
 		try {
 			long startTime = System.currentTimeMillis();
-			genCode(engine, mVigorDBInfoDelegateTmpl, info.transfer, "", info.destPath, delegateJson);
+			genCode(engine, mVigorDBInfoDelegateTmpl, info.script, info.destPath, delegateJson);
 			StatisticManager.mark("GenCode", "[VigorDB]", (System.currentTimeMillis() - startTime));
 		} catch (ScriptException e) {
 			Log.e(TAG, "gen delegate code error : %s", e);
@@ -106,9 +106,9 @@ public class GenVigorDBTask extends BasePsychicWorker {
 		return "vigor-define";
 	}
 	
-	private void genCode(ScriptEngine engine, String template, String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
+	private void genCode(ScriptEngine engine, String template, String script, String destPath, JSONObject obj) throws ScriptException {
 		String jsonStr = obj.toString().replace("@", "_");
-		String script = transfer + utils + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
+		String s = script + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
 		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
 		String path = dest + "/" + obj.getString("@name") + ".java";
 
@@ -116,6 +116,6 @@ public class GenVigorDBTask extends BasePsychicWorker {
 		if (!destFolder.exists()) {
 			destFolder.mkdirs();
 		}
-		FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(script))));
+		FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(s))));
 	}
 }

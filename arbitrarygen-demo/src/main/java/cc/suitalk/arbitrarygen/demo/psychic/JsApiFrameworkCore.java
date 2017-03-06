@@ -62,7 +62,8 @@ public class JsApiFrameworkCore {
         <% var jsApiFuncArray = JsApiList.JsApiList;
         if (jsApiFuncArray && jsApiFuncArray.length > 0) {
             for (var i = 0; i < jsApiFuncArray.length; i++) {
-                var fileObj = jsApiFuncArray[i];var _class = null;
+                var fileObj = jsApiFuncArray[i];
+                var _class = null;
                 if (!fileObj || !fileObj._class || fileObj._class.length == 0) {
                     continue;
                 }

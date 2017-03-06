@@ -25,10 +25,10 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.core.ArgsConstants;
+import cc.suitalk.arbitrarygen.constant.ResConstants;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
-import cc.suitalk.arbitrarygen.template.DelayReadFileTask;
+import cc.suitalk.arbitrarygen.template.DelayReadResFileTask;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.HybridsTemplateUtils;
@@ -43,8 +43,7 @@ public class HybridTemplateProcessor implements ArbitraryGenProcessor {
     private static final String TAG ="AG.HybridTemplateProcessor";
 
     private ScriptEngine mScriptEngine;
-    private String mTransferTools;
-    private String mUtils;
+    private String mCoreScript;
 
     public HybridTemplateProcessor() {
         mScriptEngine = new ScriptEngineManager().getEngineByName("javascript");
@@ -57,13 +56,8 @@ public class HybridTemplateProcessor implements ArbitraryGenProcessor {
 
     @Override
     public void initialize(AGCore core, JSONObject args) {
-        String libsDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR);
-        String coreLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_CORE_LIBS, libsDir + "/core-libs");
-        String templateLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS, libsDir + "/template-libs");
-
-        final String path = coreLibs + "/Hybrids-TransferTools.js";
-        mTransferTools = TemplateManager.getImpl().get(path, new DelayReadFileTask(path));
-        mUtils = FileOperation.read(coreLibs + "/TypeUtils.js") + FileOperation.read(coreLibs + "/utils.js");
+        mCoreScript = TemplateManager.getImpl().get(
+                ResConstants.PATH_CORE_SCRIPT, new DelayReadResFileTask(ResConstants.PATH_CORE_SCRIPT));
     }
 
     @Override
@@ -83,18 +77,13 @@ public class HybridTemplateProcessor implements ArbitraryGenProcessor {
             Log.i(TAG, "template is null or nil.");
             return null;
         }
-
-
         final ScriptEngine engine = mScriptEngine;
-
         String jsonStr = args.toString();
-        String script = mTransferTools + mUtils + "\nparseTemplate(\"" + HybridsTemplateUtils.escape(template) + "\"," + jsonStr + ");";
+        String script = mCoreScript + "\nparseHybridsTemplate(\"" + HybridsTemplateUtils.escape(template) + "\"," + jsonStr + ");";
         final String path = templatePath;
-
 //		Log.d(TAG, "jsonStr : %s\n", jsonStr);
 //		Log.d(TAG, "script : %s\n", script);
         Log.d(TAG, "path : %s\n", path);
-
         try {
             FileOperation.write(path, HybridsTemplateUtils.format(HybridsTemplateUtils.unescape((String) engine.eval(script))));
             Log.i(TAG, "genCode into file %s successfully.", path);

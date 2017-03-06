@@ -11,7 +11,7 @@ def siteUrl = rootProject.ext.bintrayConfig["siteUrl"]   // 项目的主页
 def gitUrl = rootProject.ext.bintrayConfig["gitUrl"]   // Git仓库的url
 
 // For maven config
-version = '2.0.0'
+version = '2.0.1'
 group = 'cc.suitalk.tools'            // Maven Group ID for the artifact，
 archivesBaseName = 'arbitrarygen'
 
@@ -74,6 +74,7 @@ uploadArchives {
 //打包
 task packRunnbaleJar(type: Jar, dependsOn: classes) {
     from files(sourceSets.main.output.classesDir)
+    from files(sourceSets.main.resources)
     from configurations.runtime.asFileTree.files.collect { zipTree(it) }
     manifest {
         attributes 'Main-Class': mainClassName

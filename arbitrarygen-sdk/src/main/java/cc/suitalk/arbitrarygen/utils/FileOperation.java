@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -148,14 +149,9 @@ public class FileOperation {
 			return "";
 		}
 		FileInputStream fis = null;
-		StringBuffer sb = new StringBuffer();
-		byte[] buf = new byte[1024];
-		int size = 0;
 		try {
 			fis = new FileInputStream(f);
-			while ((size = fis.read(buf)) != -1) {
-				sb.append(new String(buf, 0, size));
-			}
+			return read(fis);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -168,6 +164,26 @@ public class FileOperation {
 					e.printStackTrace();
 				}
 			}
+		}
+		return "";
+	}
+
+	public static String read(InputStream fis) {
+		if (fis == null) {
+			return "";
+		}
+		StringBuffer sb = new StringBuffer();
+		byte[] buf = new byte[1024];
+		int size = 0;
+		try {
+			while ((size = fis.read(buf)) != -1) {
+				sb.append(new String(buf, 0, size));
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
 		}
 		return sb.toString();
 	}

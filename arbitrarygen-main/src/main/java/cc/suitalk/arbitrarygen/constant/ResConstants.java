@@ -15,15 +15,16 @@
  *
  */
 
-package cc.suitalk.arbitrarygen.template;
+package cc.suitalk.arbitrarygen.constant;
 
 /**
- * Created by AlbieLiang on 16/11/6.
+ * Created by AlbieLiang on 2017/3/7.
  */
-public class TaskInfo {
-    public String script;
-    public String destPath;
-    public String templateLibs;
-    public String templateSuffix;
-}
+public interface ResConstants {
 
+    String ROOT = "res";
+    String CORE_LIBS = "core-libs";
+    String CORE_SCRIPT = "core-script.js";
+    //
+    String PATH_CORE_SCRIPT = "/" + ROOT + "/" + CORE_LIBS + "/" + CORE_SCRIPT;
+}

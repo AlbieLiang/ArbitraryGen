@@ -68,7 +68,6 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
             return;
         }
         String libsDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR);
-        String coreLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_CORE_LIBS, libsDir + "/core-libs");
         String templateLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS, libsDir + "/template-libs");
 
         JSONArray suffixList = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT, true);
@@ -82,8 +81,8 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
                 list.add(suffix);
             }
         }
-        if (!Util.isNullOrNil(coreLibs) && !Util.isNullOrNil(templateLibs)) {
-            mTemplateConfig = new TemplateConfig(coreLibs, templateLibs);
+        if (!Util.isNullOrNil(templateLibs)) {
+            mTemplateConfig = new TemplateConfig(templateLibs);
             mTemplateProcessor = new JsTemplateProcessor();
 
             mTemplateProcessor.addTaskWorker(new GenVigorDBTask(mTemplateConfig));

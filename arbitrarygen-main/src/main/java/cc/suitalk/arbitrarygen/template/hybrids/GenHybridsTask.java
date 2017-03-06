@@ -24,7 +24,6 @@ import java.util.Set;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.template.DelayReadFileTask;
 import cc.suitalk.arbitrarygen.template.TaskInfo;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
@@ -111,7 +110,7 @@ public class GenHybridsTask extends BasePsychicWorker {
 							JSONObject obj = arr.getJSONObject(j);
 							obj.put("@package", pkg);
 							if (!Util.isNullOrNil(template)) {
-								genCode(engine, template, info.transfer, info.utils, info.destPath, obj);
+								genCode(engine, template, info.script, info.destPath, obj);
 							}
 							list.add(obj);
 						}
@@ -119,7 +118,7 @@ public class GenHybridsTask extends BasePsychicWorker {
 						JSONObject json = (JSONObject) tagObj;
 						json.put("@package", pkg);
 						if (!Util.isNullOrNil(template)) {
-							genCode(engine, template, info.transfer, info.utils, info.destPath, json);
+							genCode(engine, template, info.script, info.destPath, json);
 						}
 						list.add(json);
 					}
@@ -131,10 +130,8 @@ public class GenHybridsTask extends BasePsychicWorker {
 		}
 		if (!Util.isNullOrNil(delegate)) {
 			String template = FileOperation.read(delegateDest + "/" + delegate + "." + delegateSuffix);
-			String path = info.coreLibs + "/Hybrids-TransferTools.js";
-			String transferTools = TemplateManager.getImpl().get(path, new DelayReadFileTask(path));
 			try {
-				genCodeAndPrint(engine, template, transferTools, "", delegateDest, delegateJson);
+				genCodeAndPrint(engine, template, info.script, delegateDest, delegateJson);
 			} catch (ScriptException e) {
 				Log.e(TAG, "gen code error : %s", e);
 			}
@@ -154,10 +151,9 @@ public class GenHybridsTask extends BasePsychicWorker {
 		return tag.replaceAll("-", "_");
 	}
 	
-	private void genCodeAndPrint(ScriptEngine engine, String template,
-			String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
+	private void genCodeAndPrint(ScriptEngine engine, String template, String script, String destPath, JSONObject obj) throws ScriptException {
 		String jsonStr = obj.toString().replace("@", "_");
-		String script = transfer + utils + "\nparseTemplate(\"" + HybridsTemplateUtils.escape(template) + "\"," + jsonStr + ");";
+		String s = script + "\nparseHybridsTemplate(\"" + HybridsTemplateUtils.escape(template) + "\"," + jsonStr + ");";
 //		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
 		String path = destPath + "/" + obj.getString("@name") + "." + obj.getString("@suffix");
 
@@ -166,13 +162,13 @@ public class GenHybridsTask extends BasePsychicWorker {
 			destFolder.mkdirs();
 		}
 		Log.v(TAG, "genCode, dest : %s, path : %s", destPath, path);
-		String outStr = HybridsTemplateUtils.unescape((String) engine.eval(script));
+		String outStr = HybridsTemplateUtils.unescape((String) engine.eval(s));
 		FileOperation.write(path, "" + outStr);
 	}
 	
-	private void genCode(ScriptEngine engine, String template, String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
+	private void genCode(ScriptEngine engine, String template, String script, String destPath, JSONObject obj) throws ScriptException {
 		String jsonStr = obj.toString().replace("@", "_");
-		String script = transfer + utils + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
+		String s = script + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
 		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
 		String path = dest + "/" + obj.getString("@name") + ".java";
 
@@ -181,6 +177,6 @@ public class GenHybridsTask extends BasePsychicWorker {
 			destFolder.mkdirs();
 		}
 		Log.d(TAG, "dest : %s, path : %s", dest, path);
-		FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(script))));
+		FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(s))));
 	}
 }
