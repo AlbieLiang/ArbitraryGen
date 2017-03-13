@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Events package="cc.suitalk.test">
+
+    <xml name="XmlFirst" >
+
+        <field name="name" type="String" default="null" genSetter="true" genGetter="true"/>
+    </xml>
+
+    <xml name="XmlSecond"  final="true" parent="Object">
+
+        <field name="name" type="String" default="null"/>
+        <field name="type" type="int" default="0"/>
+        <field name="data" type="Data" default="new Data()"/>
+        <Data static="true" final="true">
+            <field name="errCode" type="int"/>
+        	<field name="errType" type="int" default="0"/>
+        </Data>
+        <method name="TestMethod" />
+        <method name="getName" type="String">
+            <arg name="name" type="String"></arg>
+            <block>this.name = name</block>
+            <result>name</result>
+        </method>
+    </xml>
+    <Wrapper name="External">
+        <field name="wrapper" type="float"/>
+    </Wrapper>
+</Events>

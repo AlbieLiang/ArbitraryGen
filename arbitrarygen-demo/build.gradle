@@ -20,7 +20,7 @@ android {
     sourceSets {
         main {
             java {
-                srcDirs = ['src/main/java/', 'build/generated/source/autogen']
+                srcDirs = ['src/main/java/', 'build/generated/source/ag-gen']
             }
         }
     }
@@ -43,8 +43,8 @@ dependencies {
 
 arbitraryGen {
     libsDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen"
-    inputDir "${project.projectDir.absolutePath}/autogen"
-    outputDir "$buildDir/generated/source/autogen"
+    inputDir "${project.projectDir.absolutePath}/ag-datasrc"
+    outputDir "$buildDir/generated/source/ag-gen"
 
     logger {
         debug true

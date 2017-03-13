@@ -28,6 +28,7 @@ import cc.suitalk.arbitrarygen.template.base.BaseTemplateProcessor;
 import cc.suitalk.arbitrarygen.template.base.AGPyroWorker;
 import cc.suitalk.arbitrarygen.template.base.AGPsychicWorker;
 import cc.suitalk.arbitrarygen.template.base.PsychicGenerator;
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -72,7 +73,7 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 		ss.setTypeHintsEnabled(false);
 		ss.setTypeHintsCompatibility(false);
 		Log.i(TAG, "process src : %s", src);
-		JSONObject json = (JSONObject) ss.read(FileOperation.read(src));
+		JSONObject json = (JSONObject) ss.read(RuntimeContextHelper.replace(FileOperation.read(src)));
 		
 		TaskInfo info = new TaskInfo();
 		info.script = mCoreScript;

@@ -1,10 +1,10 @@
 @Author AlbieLiang
 @Date current
-@Root .
-@Project arbitrarygen-demo
+@Root ${project.rootDir}
+@Project ${project.name}
 @Src src/main/java
 cc/suitalk/arbitrarygen/demo/psychic/*
 
-@Project-begin arbitrarygen-demo
+@Project-begin ${project.name}
 # cc/suitalk/arbitrarygen/demo/MainActivity.java
 @Project-end

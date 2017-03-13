@@ -38,6 +38,6 @@
 cc/suitalk/arbitrarygen/demo/MainActivity.java
 #cc/suitalk/arbitrarygen/demo/*.java
 
-@Project-begin arbitrarygen-demo
+@Project-begin ${project.name}
 # cc/suitalk/arbitrarygen/demo/MainActivity.java
 @Project-end

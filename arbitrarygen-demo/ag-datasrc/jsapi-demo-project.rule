@@ -5,6 +5,6 @@
 @Src src/main/java
 cc/suitalk/arbitrarygen/demo/jsapi/*
 
-@Project-begin arbitrarygen-demo
+@Project-begin ${project.name}
 # cc/suitalk/arbitrarygen/demo/MainActivity.java
 @Project-end

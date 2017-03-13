@@ -4,7 +4,7 @@
 	<PsychicTask name="AGPsychicTask_TemplateProcessor" processor="hybrid-template-processor">
 		<template>${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/psychic/JsApiFrameworkCore.java</template>
 		<dependsOn name="JsApiList" type="input" processor="parse-java">
-            <ruleFile>${project.projectDir}/autogen/jsapi-demo-project.rule</ruleFile>
+            <ruleFile>${project.projectDir}/ag-datasrc/jsapi-demo-project.rule</ruleFile>
 			<rule>${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/recursion/*</rule>
 		</dependsOn>
 		<resultTo processor="statistic">
@@ -13,17 +13,17 @@
 	</PsychicTask>
 
 	<!--<PsychicTask name="AGPsychicTask_ScriptExecutor" processor="script-executor">-->
-		<!--<script>./autogen/psychic-script.psychic-script</script>-->
+		<!--<script>${project.projectDir}/ag-datasrc/psychic-script.psychic-script</script>-->
 
 		<!--<dependsOn name="GenLog" type="output" processor="genCode-executor">-->
 		<!--</dependsOn>-->
 		<!--<dependsOn name="JsApiList" type="input" processor="parse-java">-->
-			<!--<rule>./autogen/parse-project.rule</rule>-->
+			<!--<rule>${project.projectDir}/ag-datasrc/parse-project.rule</rule>-->
 		<!--</dependsOn>-->
 	<!--</PsychicTask>-->
 
 	<!--<PsychicTask name="AGPsychicTask_TemplateProcessor" processor="template-processor">-->
-		<!--<template>../ArbitraryGen/template-libs/VDBInfoDelegate.vigor-template</template>-->
+		<!--<template>${project.rootDir}/ArbitraryGen/template-libs/VDBInfoDelegate.vigor-template</template>-->
 		<!--<templateTag>vigor-delegate</templateTag>-->
 
 		<!--<toFile>cc/suitalk/arbitrarygen/demo/psychic/AGPsychicTaskTest.java</toFile>-->
@@ -31,7 +31,7 @@
 		<!--<dependsOn name="GenLog" type="output" processor="genCode-executor">-->
 		<!--</dependsOn>-->
 		<!--<dependsOn name="JsApiList" type="input" processor="parse-java">-->
-			<!--<rule>./autogen/parse-project.rule</rule>-->
+			<!--<rule>${project.projectDir}/ag-datasrc/parse-project.rule</rule>-->
 		<!--</dependsOn>-->
 	<!--</PsychicTask>-->
 
@@ -44,7 +44,7 @@
 
 	<!--<PsychicTask name="javaCodeTask" processor="javaCode-executor">-->
 		<!--<enable>rule</enable>-->
-		<!--<rule>./autogen/parse-project.rule</rule>-->
+		<!--<rule>${project.projectDir}/ag-datasrc/parse-project.rule</rule>-->
 		<!--<extension>-->
 		    <!--<jar>${project.rootDir}/ArbitraryGen/arbitrarygen-demo-wrapper.jar</jar>-->
 		<!--</extension>-->
