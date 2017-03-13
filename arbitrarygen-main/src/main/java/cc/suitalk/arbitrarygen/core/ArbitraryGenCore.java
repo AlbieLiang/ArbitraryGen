@@ -52,7 +52,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
 /**
  * Created by AlbieLiang on 16/10/27.
  */
-@ParseJavaRule(name = "processorList", rule = "src/main/java/cc/suitalk/arbitrarygen/processor/*")
+@ParseJavaRule(name = "processorList", rule = "${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/processor/*")
 @PsychicTask
 public class ArbitraryGenCore implements AGCore {
 

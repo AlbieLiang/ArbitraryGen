@@ -31,8 +31,8 @@
 # Add more rules here.
 @Author AlbieLiang
 @Date current
-@Root ..
-@Project arbitrarygen-demo
+@Root ${project.rootDir}
+@Project ${project.name}
 @Src src/main/java
 #cc/suitalk/arbitrarygen/demo/QQUserProtos.java
 cc/suitalk/arbitrarygen/demo/MainActivity.java

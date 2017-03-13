@@ -56,6 +56,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
             Log.i(TAG, "task array is null.");
             return null;
         }
+        Log.d(TAG, "exec psychic task(%s)", args);
         for (int t = 0; t < taskArray.size(); t++) {
             JSONObject taskInfo = taskArray.optJSONObject(t);
             if (taskInfo == null) {

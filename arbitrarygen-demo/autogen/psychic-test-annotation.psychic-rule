@@ -1,6 +1,6 @@
 @Author AlbieLiang
 @Date current
-@Root ..
+@Root .
 @Project arbitrarygen-demo
 @Src src/main/java
 cc/suitalk/arbitrarygen/demo/psychic/*

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -54,8 +55,9 @@ public class RuleParser {
 	}
 
 	public static RuleFileObject parse(String path) {
-		File file = new File(path);
+		File file = new File(RuntimeContextHelper.replace(path));
 		if (!file.exists() || !file.isFile()) {
+			Log.i(TAG, "parse failed, path(%s) do not exist or it is not a file.", path);
 			return null;
 		}
 		RuleFileObject ruleFileObject = new RuleFileObject();
@@ -156,6 +158,7 @@ public class RuleParser {
 		if (!Util.isNullOrNil(dir) && !dir.endsWith(File.separator)) {
 			dir += File.separator;
 		}
+		Log.d(TAG, "scan files by rule with base dir(%s).", dir);
 		for (Rule rule : p.getRuleList()) {
 			final String content = rule.getContent();
 			Log.v(TAG, "rule(%s)", content);

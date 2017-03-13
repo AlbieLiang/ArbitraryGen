@@ -2,13 +2,13 @@
 <PsychicDefine tag="PsychicTask">
 
 	<PsychicTask name="AGPsychicTask_TemplateProcessor" processor="hybrid-template-processor">
-		<template>./src/main/java/cc/suitalk/arbitrarygen/demo/psychic/JsApiFrameworkCore.java</template>
+		<template>${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/psychic/JsApiFrameworkCore.java</template>
 		<dependsOn name="JsApiList" type="input" processor="parse-java">
-            <ruleFile>./autogen/jsapi-demo-project.rule</ruleFile>
-			<rule>./src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/recursion/*</rule>
+            <ruleFile>${project.projectDir}/autogen/jsapi-demo-project.rule</ruleFile>
+			<rule>${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/recursion/*</rule>
 		</dependsOn>
 		<resultTo processor="statistic">
-            <toFile>./build/outputs/logs/ag-statistic.log</toFile>
+            <toFile>${project.projectDir}/build/outputs/logs/ag-statistic.log</toFile>
 		</resultTo>
 	</PsychicTask>
 
@@ -46,7 +46,7 @@
 		<!--<enable>rule</enable>-->
 		<!--<rule>./autogen/parse-project.rule</rule>-->
 		<!--<extension>-->
-		    <!--<jar>../ArbitraryGen/arbitrarygen-demo-wrapper.jar</jar>-->
+		    <!--<jar>${project.rootDir}/ArbitraryGen/arbitrarygen-demo-wrapper.jar</jar>-->
 		<!--</extension>-->
 		<!--<tClass/>-->
 		<!--<pClass>cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor</pClass>-->

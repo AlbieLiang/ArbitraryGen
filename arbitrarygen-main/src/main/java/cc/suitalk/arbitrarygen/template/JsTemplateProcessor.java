@@ -75,6 +75,7 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 		JSONObject json = (JSONObject) ss.read(FileOperation.read(src));
 		
 		TaskInfo info = new TaskInfo();
+		info.script = mCoreScript;
 		info.destPath = destPath;
 		info.templateLibs = mTemplateCfg.getTemplateLibs();
 		info.templateSuffix = Util.nullAsNil(Util.getSuffix(src));

@@ -63,7 +63,7 @@ public class JarClassLoaderWrapper {
 		if (mLoader != null) {
 			mLoader = new URLClassLoader(urls, mLoader);
 		} else {
-			mLoader = new URLClassLoader(urls);
+			mLoader = new URLClassLoader(urls, JarClassLoaderWrapper.class.getClassLoader());
 		}
 		return mLoader;
 	}

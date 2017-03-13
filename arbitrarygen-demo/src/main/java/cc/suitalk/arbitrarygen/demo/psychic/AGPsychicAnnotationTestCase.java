@@ -17,6 +17,7 @@
 
 package cc.suitalk.arbitrarygen.demo.psychic;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import cc.suitalk.arbitrarygen.demo.jsapi.base.BaseJsApiFunc;
@@ -27,11 +28,11 @@ import cc.suitalk.arbitrarygen.extension.psychic.PsychicTask;
 /**
  * Created by AlbieLiang on 2016/12/2.
  */
-@ParseJavaRule(name = "JsApiList", rule = "src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_*")
+@ParseJavaRule(name = "JsApiList", rule = "${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/*")
 @PsychicTask
 public class AGPsychicAnnotationTestCase {
 
-    private Map<String, BaseJsApiFunc> mJsApiFunc;
+    private final Map<String, BaseJsApiFunc> mJsApiFunc = new HashMap<>();
 
     public void initialize() {
         BaseJsApiFunc jsApiFunc = null;
@@ -89,6 +90,12 @@ public class AGPsychicAnnotationTestCase {
         jsApiFunc = new cc.suitalk.arbitrarygen.demo.jsapi.JsApiFunc_D();
         jsApiFunc.setId(3);
         jsApiFunc.setName("D");
+        mJsApiFunc.put(jsApiFunc.getName(), jsApiFunc);
+            
+        // AG. gen JsApiFunc : JsApiFunc_E
+        jsApiFunc = new cc.suitalk.arbitrarygen.demo.jsapi.recursion.JsApiFunc_E();
+        jsApiFunc.setId(4);
+        jsApiFunc.setName("E");
         mJsApiFunc.put(jsApiFunc.getName(), jsApiFunc);
             
         

@@ -1,7 +1,7 @@
 @Author AlbieLiang
 @Date current
-@Root ..
-@Project arbitrarygen-main
+@Root ${project.rootDir}
+@Project ${project.name}
 @Src src/main/java
 
 cc/suitalk/arbitrarygen/engine/PsychicAGEngine.java

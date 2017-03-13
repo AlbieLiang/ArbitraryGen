@@ -20,6 +20,7 @@ package cc.suitalk.arbitrarygen.rule;
 import java.util.LinkedList;
 import java.util.List;
 
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
@@ -52,7 +53,7 @@ public class Project {
 	}
 
 	public void setName(String name) {
-		this.mName = name;
+		this.mName = RuntimeContextHelper.replace(name);
 	}
 
 	public String getSrc() {
@@ -60,7 +61,7 @@ public class Project {
 	}
 	
 	public void setSrc(String src) {
-		mSrc = src;
+		mSrc = RuntimeContextHelper.replace(src);
 	}
 
 	public List<Rule> getRuleList() {

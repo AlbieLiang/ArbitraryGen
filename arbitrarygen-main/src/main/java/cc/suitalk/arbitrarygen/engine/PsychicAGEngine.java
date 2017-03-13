@@ -36,6 +36,7 @@ import cc.suitalk.arbitrarygen.extension.psychic.ParseJavaRule;
 import cc.suitalk.arbitrarygen.extension.psychic.PsychicTask;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
 import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -44,7 +45,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
 /**
  * Created by AlbieLiang on 16/11/16.
  */
-@ParseJavaRule(name = "processorList", rule = "src/main/java/cc/suitalk/arbitrarygen/processor/*")
+@ParseJavaRule(name = "processorList", rule = "${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/processor/*")
 @PsychicTask
 public class PsychicAGEngine implements ArbitraryGenEngine {
 
@@ -146,7 +147,8 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
             ss.setTypeHintsEnabled(false);
             ss.setTypeHintsCompatibility(false);
             Log.i(TAG, "process src : %s", path);
-            JSONObject json = (JSONObject) ss.read(FileOperation.read(path));
+            String rawContent = FileOperation.read(path);
+            JSONObject json = (JSONObject) ss.read(RuntimeContextHelper.replace(rawContent));
             if (json == null) {
                 Log.i(TAG, "read JSONObject from XML file(%s) failed.", path);
                 continue;
@@ -214,7 +216,8 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                     ruleInfo.put("_processor", "parse-java");
                     ruleInfo.put("_type", "input");
                     // TODO: 2016/12/3 albieliang, resolve rule array case.
-                    ruleInfo.put("rule", ruleStm.getArg("rule").getValue());
+                    String rule = (String) ruleStm.getArg("rule").getValue();
+                    ruleInfo.put("rule", RuntimeContextHelper.replace(rule));
                     dependsOnArray.add(ruleInfo);
 
                 }
@@ -239,7 +242,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                 taskArray.add(psychicTask);
             }
             psychicArgs.put("PsychicTask", taskArray);
-//            Log.i(TAG, "execute task path(%s)", path);
+            Log.i(TAG, "execute task path(%s)", path);
 //            Log.i(TAG, "execute task array(%s)", psychicArgs);
 //            Log.i(TAG, "execute task fileArray(%s)", fileArray);
             psychicProcessor.exec(core, processors, psychicArgs);

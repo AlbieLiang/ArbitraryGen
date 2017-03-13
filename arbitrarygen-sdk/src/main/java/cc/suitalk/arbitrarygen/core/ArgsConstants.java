@@ -40,6 +40,7 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_CLASS = "tClass";
 	String EXTERNAL_ARGS_KEY_PROCESSOR_CLASS = "pClass";
 	String EXTERNAL_ARGS_KEY_ARG_JSON = "argJson";
+	String EXTERNAL_ARGS_KEY_ENV_ARG_JSON = "envArgJson";
 
 	String EXTERNAL_ARGS_KEY_LOG_DEBUG = "debug";
 	String EXTERNAL_ARGS_KEY_LOG_LEVEL = "logLevel";
@@ -54,4 +55,13 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_CORE_LIBS = "coreLibs";
 	String EXTERNAL_ARGS_KEY_TEMPLATE_LIBS = "templateLibs";
 
+	interface EnvKey {
+		String NAME = "name";
+
+		String ROOT_PROJECT = "rootProject";
+		String ROOT_DIR = "rootDir";
+		String PROJECT = "project";
+		String PROJECT_DIR = "projectDir";
+		String BUILD_DIR = "buildDir";
+	}
 }

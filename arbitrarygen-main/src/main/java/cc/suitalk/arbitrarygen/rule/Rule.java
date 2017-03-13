@@ -17,6 +17,8 @@
 
 package cc.suitalk.arbitrarygen.rule;
 
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
+
 /**
  * Created by AlbieLiang on 2016/11/26.
  */
@@ -57,7 +59,7 @@ public class Rule {
     }
 
     public Rule setContent(String content) {
-        this.content = content;
+        this.content = RuntimeContextHelper.replace(content);
         return this;
     }
 }

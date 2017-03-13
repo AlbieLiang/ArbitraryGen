@@ -74,7 +74,7 @@ public class HybridTemplateProcessor implements ArbitraryGenProcessor {
         }
         String template = FileOperation.read(templatePath);
         if (Util.isNullOrNil(template)) {
-            Log.i(TAG, "template is null or nil.");
+            Log.i(TAG, "template(path: %s) is null or nil.", templatePath);
             return null;
         }
         final ScriptEngine engine = mScriptEngine;

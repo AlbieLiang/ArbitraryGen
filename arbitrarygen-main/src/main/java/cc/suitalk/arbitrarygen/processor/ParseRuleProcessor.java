@@ -63,11 +63,13 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
         if (ruleFileArray != null) {
             List<String> pathList = new LinkedList<>();
             for (int i = 0; i < ruleFileArray.size(); i++) {
-                String ruleArg = ruleFileArray.optString(i);
-                if (Util.isNullOrNil(ruleArg)) {
+                String ruleFileArg = ruleFileArray.optString(i);
+                if (Util.isNullOrNil(ruleFileArg)) {
+                    Log.i(TAG, "rule file arg is null or nil.");
                     continue;
                 }
-                pathList.addAll(RuleParser.parseAndScan(ruleArg));
+                Log.i(TAG, "parse rule file(%s)", ruleFileArg);
+                pathList.addAll(RuleParser.parseAndScan(ruleFileArg));
             }
             for (int j = 0; j < pathList.size(); j++) {
                 String path = pathList.get(j);
@@ -80,8 +82,10 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
             for (int i = 0; i < ruleArray.size(); i++) {
                 String ruleArg = ruleArray.optString(i);
                 if (Util.isNullOrNil(ruleArg)) {
+                    Log.i(TAG, "rule arg is null or nil.");
                     continue;
                 }
+                Log.i(TAG, "parse rule(%s)", ruleArg);
                 Project project = new Project();
                 project.addRule(new Rule(ruleArg));
                 pathList.addAll(RuleParser.scan(project));

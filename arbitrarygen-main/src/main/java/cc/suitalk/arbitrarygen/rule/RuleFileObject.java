@@ -20,6 +20,8 @@ package cc.suitalk.arbitrarygen.rule;
 import java.util.LinkedList;
 import java.util.List;
 
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
+
 /**
  * 
  * @author AlbieLiang
@@ -63,7 +65,7 @@ public class RuleFileObject {
 	}
 
 	public void setRoot(String root) {
-		this.root = root;
+		this.root = RuntimeContextHelper.replace(root);
 	}
 
 	public String getAuthor() {
@@ -71,7 +73,7 @@ public class RuleFileObject {
 	}
 
 	public void setAuthor(String author) {
-		this.author = author;
+		this.author = RuntimeContextHelper.replace(author);
 	}
 
 	public String getDate() {
@@ -79,7 +81,7 @@ public class RuleFileObject {
 	}
 
 	public void setDate(String date) {
-		this.date = date;
+		this.date = RuntimeContextHelper.replace(date);
 	}
 
 }
