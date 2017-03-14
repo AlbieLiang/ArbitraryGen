@@ -15,25 +15,17 @@
  *
  */
 
-package cc.suitalk.gradle.plugin;
+package cc.suitalk.gradle.plugin.util;
 
-class ArbitraryGenPluginExtension {
+import org.gradle.api.Project;
 
-    String templateDir;
-    String srcDir;
-    String destDir;
+/**
+ * Created by AlbieLiang on 2017/3/14.
+ */
 
-    boolean enable;
+class AGUtils {
 
-    Closure logger
-    Closure statistic
-    Closure general
-    Closure scriptEngine
-    Closure javaCodeEngine
-    Closure engine
-    Closure processor
-
-    public ArbitraryGenPluginExtension() {
-        enable = true
+    static boolean isAndroidProject(Project project) {
+        return project.hasProperty('android') && project.android.sourceSets;
     }
 }

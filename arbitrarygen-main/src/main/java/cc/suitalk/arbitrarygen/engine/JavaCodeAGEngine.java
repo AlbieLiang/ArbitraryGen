@@ -114,14 +114,14 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
         }
         ConfigInfo configInfo = new ConfigInfo();
         // Extract the destination path arg
-        String dest = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
-        if (!Util.isNullOrNil(dest)) {
-            configInfo.setDestPath(dest);
+        String destDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR);
+        if (!Util.isNullOrNil(destDir)) {
+            configInfo.setDestPath(destDir);
         }
         // Extract the source template path arg
-        String src = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC);
-        if (!Util.isNullOrNil(src)) {
-            configInfo.setSrcPath(src);
+        String srcDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR);
+        if (!Util.isNullOrNil(srcDir)) {
+            configInfo.setSrcPath(srcDir);
         }
         JSONObject result = core.execProcess(processors, "parse-rule", args);
         if (result == null) {

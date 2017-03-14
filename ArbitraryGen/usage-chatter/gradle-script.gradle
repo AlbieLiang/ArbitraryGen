@@ -5,6 +5,15 @@ dependencies {
     // Add more
 }
 
+android {
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['src/main/java/', 'build/generated/source/ag-gen']
+            }
+        }
+    }
+}
 arbitraryGen {
     libsDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen"
     inputDir "${project.projectDir.absolutePath}/autogen"

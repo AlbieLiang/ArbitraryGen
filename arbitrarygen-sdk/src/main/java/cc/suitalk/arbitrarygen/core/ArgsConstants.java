@@ -28,9 +28,8 @@ public interface ArgsConstants {
 	 * External args key set
 	 */
 	String EXTERNAL_ARGS_KEY_ENABLE = "enable";
-	String EXTERNAL_ARGS_KEY_DEST = "dest";
-	String EXTERNAL_ARGS_KEY_SRC = "src";
-	String EXTERNAL_ARGS_KEY_LIBS_DIR = "libsDir";
+	String EXTERNAL_ARGS_KEY_DEST_DIR = "destDir";
+	String EXTERNAL_ARGS_KEY_SRC_DIR = "srcDir";
 	String EXTERNAL_ARGS_KEY_FORMAT = "format";
 	String EXTERNAL_ARGS_KEY_PARSER = "parser";
 	String EXTERNAL_ARGS_KEY_EXTENSION = "extension";
@@ -52,7 +51,6 @@ public interface ArgsConstants {
 
 	String EXTERNAL_ARGS_KEY_RULE_FILE = "ruleFile";
 	String EXTERNAL_ARGS_KEY_RULE = "rule";
-	String EXTERNAL_ARGS_KEY_CORE_LIBS = "coreLibs";
 	String EXTERNAL_ARGS_KEY_TEMPLATE_LIBS = "templateLibs";
 
 	interface EnvKey {

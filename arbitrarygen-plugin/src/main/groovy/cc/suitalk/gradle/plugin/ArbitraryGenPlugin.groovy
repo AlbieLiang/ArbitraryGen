@@ -17,6 +17,7 @@
 
 package cc.suitalk.gradle.plugin
 
+import cc.suitalk.gradle.plugin.util.AGUtils
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -55,21 +56,45 @@ class ArbitraryGenPlugin implements Plugin<Project> {
             task.dependsOn arbitraryGenTask
         }
         project.afterEvaluate {
-            println "arbitrarygen(${this.project.name}) libsDir : '${this.extension.libsDir}'"
-            println "arbitrarygen(${this.project.name}) inputDir : '${this.extension.inputDir}'"
-            println "arbitrarygen(${this.project.name}) outputDir : '${this.extension.outputDir}'"
+            println "arbitrarygen(${this.project.name}) templateDir : '${this.extension.templateDir}'"
+            println "arbitrarygen(${this.project.name}) srcDir : '${this.extension.srcDir}'"
+            println "arbitrarygen(${this.project.name}) destDir : '${this.extension.destDir}'"
 
-            arbitraryGenTask.inputDir = this.project.file(this.extension.inputDir)
-            arbitraryGenTask.outputDir = this.project.file(this.extension.outputDir)
-            arbitraryGenTask.libsDir = this.project.file(this.extension.libsDir)
+            arbitraryGenTask.inputDir = this.project.file(this.extension.srcDir)
+            arbitraryGenTask.outputDir = this.project.file(this.extension.destDir)
+            arbitraryGenTask.libsDir = this.project.file(this.extension.templateDir)
 
             arbitraryGenTask.extension = this.extension
-
+//            prepare()
             if (arbitraryGenTask.inputDir == null || !arbitraryGenTask.inputDir.exists()) {
                 println("project: ${this.project} do not exists arbitrarygen dir.")
                 return
             }
         }
     }
+
+    void prepare() {
+        String agGenDir = arbitraryGenTask.outputDir.absolutePath;
+        Object sourceSets = getSourceSets();
+        if (AGUtils.isAndroidProject(project)) {
+            sourceSets['main'].getJava().srcDir(agGenDir);
+            println("add source directory : [${agGenDir}] for android project.")
+        } else {
+            sourceSets['main'].getJava().srcDir(agGenDir);
+            println("add source directory : [${agGenDir}] for java project.")
+        }
+    }
+
+    /**
+     * Returns the sourceSets container of a Java or an Android project.
+     */
+    private Object getSourceSets() {
+        if (AGUtils.isAndroidProject(project)) {
+            return project.android.sourceSets
+        } else {
+            return project.sourceSets
+        }
+    }
+
 }
 

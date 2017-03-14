@@ -262,19 +262,19 @@ public class ArbitraryGenCore implements AGCore {
             jsonObject = new JSONObject();
         }
         int count = 0;
-        String src = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC);
-        String dest = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
-        String libsDir = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR);
-        if (Util.isNullOrNil(src)) {
-            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_SRC, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
+        String srcDir = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR);
+        String destDir = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR);
+        String templateLibs = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS);
+        if (Util.isNullOrNil(srcDir)) {
+            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR));
             count++;
         }
-        if (Util.isNullOrNil(dest)) {
-            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_DEST, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST));
+        if (Util.isNullOrNil(destDir)) {
+            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR));
             count++;
         }
-        if (Util.isNullOrNil(libsDir)) {
-            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR));
+        if (Util.isNullOrNil(templateLibs)) {
+            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS));
             count++;
         }
         if (count > 0) {

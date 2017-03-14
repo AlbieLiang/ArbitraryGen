@@ -56,37 +56,11 @@ class ArbitraryGenTask extends DefaultTask {
     def runCommand() {
 //        TaskOutputs.upToDateWhen {}
         println("run command(task : ${name}, input : ${inputDir.absolutePath})")
-//        ant.java(jar: "${libsDir.absolutePath}/ArbitraryGen.jar", fork: true) {
-//            arg(value: "enable:${extension.enable}")
-//            //':' is a separator
-//            arg(value: "dest:${outputDir.absolutePath}")
-//            // Dest Folder , "dest" is a prefix.
-//            arg(value: "src:${inputDir.absolutePath}")
-//            arg(value: "libsDir:${libsDir.absolutePath}")
-//
-//            JsonBuilder builder = new JsonBuilder()
-//            builder {
-//                src "${inputDir.absolutePath}"
-//                dest "${outputDir.absolutePath}"
-//                libsDir "${libsDir.absolutePath}"
-//                enable extension.enable
-//                logger (extension.logger == null ? {} : extension.logger)
-//                statistic (extension.statistic == null ? {} : extension.statistic)
-//                general (extension.general == null ? {} : extension.general)
-//                scriptEngine (extension.scriptEngine == null ? {} : extension.scriptEngine)
-//                javaCodeEngine (extension.javaCodeEngine == null ? {} : extension.javaCodeEngine)
-//                engine (extension.engine == null ? {} : extension.engine)
-//                processor (extension.processor == null ? {} : extension.processor)
-//            }
-//            arg(value: "argJson:${builder.toString()}")
-//            println("${builder.toPrettyString()}")
-//        }
-
         JsonBuilder builder = new JsonBuilder()
         builder {
-            src "${inputDir.absolutePath}"
-            dest "${outputDir.absolutePath}"
-            libsDir "${libsDir.absolutePath}"
+            srcDir "${inputDir.absolutePath}"
+            destDir "${outputDir.absolutePath}"
+            templateLibs "${libsDir.absolutePath}"
             enable extension.enable
             logger (extension.logger == null ? {} : extension.logger)
             statistic (extension.statistic == null ? {} : extension.statistic)
@@ -105,13 +79,10 @@ class ArbitraryGenTask extends DefaultTask {
                 rootDir "${project.rootDir.getAbsolutePath()}"
             }
         }
-        String[] args = new String[6]
+        String[] args = new String[3]
         args[0] = "enable:${extension.enable}";
-        args[1] = "dest:${outputDir.absolutePath}";
-        args[2] = "src:${inputDir.absolutePath}"
-        args[3] = "libsDir:${libsDir.absolutePath}"
-        args[4] ="argJson:${builder.toString()}"
-        args[5] ="envArgJson:${envBuilder.toString()}"
+        args[1] ="argJson:${builder.toString()}"
+        args[2] ="envArgJson:${envBuilder.toString()}"
 
         println("${builder.toPrettyString()}")
 

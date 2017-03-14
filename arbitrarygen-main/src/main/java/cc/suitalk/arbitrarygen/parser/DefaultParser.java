@@ -121,7 +121,7 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
     }
 
     private void doConvert(List<RawTemplate> templates) {
-        final String destPath = mArgs.getString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
+        final String destDir = mArgs.getString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR);
         final List<RawTemplate> roots = templates;
         for (int i = 0; i < roots.size(); i++) {
             RawTemplate template = roots.get(i);
@@ -160,7 +160,7 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
                         pkg = template.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_PACKAGE);
                     }
                     javaFileObject.setPackage(pkg);
-                    info.RootDir = destPath + Util.getPackageDir(javaFileObject);
+                    info.RootDir = destDir + Util.getPackageDir(javaFileObject);
                 }
                 // import
                 String importStr = t.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_IMPORT);

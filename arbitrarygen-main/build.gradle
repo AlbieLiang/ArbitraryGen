@@ -41,10 +41,21 @@ jar {
     version = this.version
 }
 
+//sourceSets {
+//    main {
+//        java {
+//            srcDir 'src/main/java'
+//        }
+//        resources {
+//            srcDir 'src/main/resources'
+//        }
+//    }
+//}
+
 arbitraryGen {
-    libsDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen"
-    inputDir "${project.projectDir.absolutePath}/ag-datasrc"
-    outputDir "$buildDir/generated/source/ag-gen"
+    templateDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen/template-libs"
+    srcDir "${project.projectDir.absolutePath}/ag-datasrc"
+    destDir "$buildDir/generated/source/ag-gen"
 
     logger {
         debug true

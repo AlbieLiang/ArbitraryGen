@@ -67,8 +67,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         if (!enable) {
             return;
         }
-        String libsDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_LIBS_DIR);
-        String templateLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS, libsDir + "/template-libs");
+        String templateLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS, "");
 
         JSONArray suffixList = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT, true);
         List<String> list = new LinkedList<>();
@@ -111,7 +110,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         Log.v(TAG, "execute, args(%s)", args);
         JSONObject argsJSONObject = new JSONObject();
         argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
-        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
+        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR));
         argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, formatArray);
 
         JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);
@@ -122,7 +121,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         if (keySet == null || keySet.isEmpty()) {
             return null;
         }
-        final String destPath = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
+        final String destDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR);
         tp.prepare(mTemplateConfig);
         for (String suffix : keySet) {
             JSONArray pathArray = jsonObject.optJSONArray(suffix);
@@ -137,7 +136,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
                 File file = new File(path);
                 path = file.getAbsolutePath();
                 Log.v(TAG, "do process file(%s).", path);
-                tp.process(path, destPath);
+                tp.process(path, destDir);
             }
         }
         return null;

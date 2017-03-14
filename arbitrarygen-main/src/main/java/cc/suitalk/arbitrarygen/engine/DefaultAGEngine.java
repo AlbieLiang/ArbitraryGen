@@ -122,7 +122,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
         Log.v(TAG, "execute general engine, args(%s)", args);
         JSONObject argsJSONObject = new JSONObject();
         argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
-        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
+        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR));
         argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT, true));
 
         JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);

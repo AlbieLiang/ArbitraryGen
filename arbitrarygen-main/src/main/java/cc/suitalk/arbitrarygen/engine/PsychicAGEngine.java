@@ -113,7 +113,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
         suffixList.add("psychic-rule");
         JSONObject argsJSONObject = new JSONObject();
         argsJSONObject.put(ScannerAGProcessor.KEY_SCAN_MODE, ScannerAGProcessor.SCAN_MODE_CLASSIFY);
-        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC));
+        argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR));
         argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, suffixList);
 
         JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);

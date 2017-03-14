@@ -30,7 +30,6 @@ import cc.suitalk.arbitrarygen.constant.ResConstants;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
-import cc.suitalk.arbitrarygen.template.DelayReadFileTask;
 import cc.suitalk.arbitrarygen.template.DelayReadResFileTask;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
@@ -88,10 +87,10 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
             return null;
         }
         final ScriptEngine engine = mScriptEngine;
-        String dest = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
+        String destDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR);
         String jsonStr = args.toString();
         String script = mCoreScript + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
-        String path = dest + "/" + args.getString("toFile");
+        String path = destDir + "/" + args.getString("toFile");
 
         File destFolder = new File(path).getParentFile();
         if (!destFolder.exists()) {
@@ -99,7 +98,7 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
         }
 //		Log.d(TAG, "jsonStr : %s\n", jsonStr);
 //		Log.d(TAG, "script : %s\n", script);
-        Log.d(TAG, "dest : %s\n", dest);
+        Log.d(TAG, "dest : %s\n", destDir);
         Log.d(TAG, "path : %s\n", path);
         try {
             FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(script))));

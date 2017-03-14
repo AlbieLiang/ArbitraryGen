@@ -42,9 +42,9 @@ dependencies {
 }
 
 arbitraryGen {
-    libsDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen"
-    inputDir "${project.projectDir.absolutePath}/ag-datasrc"
-    outputDir "$buildDir/generated/source/ag-gen"
+    templateDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen/template-libs"
+    srcDir "${project.projectDir.absolutePath}/ag-datasrc"
+    destDir "$buildDir/generated/source/ag-gen"
 
     logger {
         debug true

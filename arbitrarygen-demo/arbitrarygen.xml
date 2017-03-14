@@ -40,7 +40,6 @@
             <arg value="arbitrary-rule:./autogen/parse-project.rule" />
 
             <!-- For script template engine -->
-            <arg value="coreLibs:../ArbitraryGen/core-libs" />
             <arg value="templateLibs:../ArbitraryGen/template-libs" />
             <!--  -->
         </java>
