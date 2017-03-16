@@ -84,7 +84,7 @@ arbitraryGen {
 
     javaCodeEngine {
         enable true
-        ruleFile "${project.projectDir.absolutePath}/autogen/parse-project.rule"
+        ruleFile "${project.projectDir.absolutePath}/ag-datasrc/parse-project.rule"
 
         // external jar and class of customize type-define wrapper or customize annotation processor
         extension {

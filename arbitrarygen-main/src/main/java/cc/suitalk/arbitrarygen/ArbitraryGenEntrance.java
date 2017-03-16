@@ -30,6 +30,7 @@ import cc.suitalk.arbitrarygen.debug.Debuger;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.tools.DefaultUncaughtExceptionHandler;
 import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
+import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.StatisticManager;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -62,6 +63,33 @@ public class ArbitraryGenEntrance {
 		Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler());
 		//
 		Map<String, String> argsKvPair = ExternalArgsParser.extractArgs(args);
+		// Initialize Environment arguments
+		try {
+			String json = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ENV_ARG_JSON);
+			if (Util.isNullOrNil(json)) {
+				String path = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ENV_ARG_JSON_PATH);
+				if (!Util.isNullOrNil(path)) {
+					json = FileOperation.read(path);
+				}
+			}
+			RuntimeContextHelper.initialize(JSONObject.fromObject(json));
+		} catch (Exception e) {
+			Log.e(TAG, "getEnvArgJson error : %s", Log.getStackTraceString(e));
+		}
+		// Initialize arguments
+		JSONObject jsonObject = null;
+		try {
+			String json = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ARG_JSON);
+			if (Util.isNullOrNil(json)) {
+				String path = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ARG_JSON_PATH);
+				if (!Util.isNullOrNil(path)) {
+					json = RuntimeContextHelper.replace(FileOperation.read(path));
+				}
+			}
+			jsonObject = JSONObject.fromObject(json);
+		} catch (Exception e) {
+			Log.e(TAG, "getArgJson error : %s", Log.getStackTraceString(e));
+		}
 
 		String enableArg = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE);
 		boolean enable = Util.isNullOrNil(enableArg) ? true : Boolean.parseBoolean(enableArg);
@@ -70,13 +98,6 @@ public class ArbitraryGenEntrance {
 		}
 		// For new engine framework
 		AGCore core = new ArbitraryGenCore();
-		JSONObject jsonObject = null;
-		try {
-			String json = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ARG_JSON);
-			jsonObject = JSONObject.fromObject(json);
-		} catch (Exception e) {
-			Log.e(TAG, "getArgJson error : %s", Log.getStackTraceString(e));
-		}
 		if (jsonObject != null) {
 			core.initialize(jsonObject);
 			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>begin<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");
@@ -84,12 +105,6 @@ public class ArbitraryGenEntrance {
 				printArgs(args);
 				// TODO: 16/11/6 albieliang, add doAction feature into AGEngine, and then it can get arguments by this interface
 				Log.v(TAG, "argJson : %s", jsonObject);
-			}
-			try {
-				String json = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ENV_ARG_JSON);
-				RuntimeContextHelper.initialize(JSONObject.fromObject(json));
-			} catch (Exception e) {
-				Log.e(TAG, "getEnvArgJson error : %s", Log.getStackTraceString(e));
 			}
 			core.start();
 			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");

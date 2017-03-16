@@ -11,7 +11,7 @@ def siteUrl = rootProject.ext.bintrayConfig["siteUrl"]   // 项目的主页
 def gitUrl = rootProject.ext.bintrayConfig["gitUrl"]   // Git仓库的url
 
 // For maven config
-version = '2.0.1'
+version = rootProject.ext.bintrayConfig["version"]
 group = 'cc.suitalk.tools'            // Maven Group ID for the artifact，
 archivesBaseName = 'arbitrarygen'
 

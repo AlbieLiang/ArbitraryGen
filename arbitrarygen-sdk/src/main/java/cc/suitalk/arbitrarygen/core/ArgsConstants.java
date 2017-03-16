@@ -40,6 +40,8 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_PROCESSOR_CLASS = "pClass";
 	String EXTERNAL_ARGS_KEY_ARG_JSON = "argJson";
 	String EXTERNAL_ARGS_KEY_ENV_ARG_JSON = "envArgJson";
+	String EXTERNAL_ARGS_KEY_ARG_JSON_PATH = "argJsonPath";
+	String EXTERNAL_ARGS_KEY_ENV_ARG_JSON_PATH = "envArgJsonPath";
 
 	String EXTERNAL_ARGS_KEY_LOG_DEBUG = "debug";
 	String EXTERNAL_ARGS_KEY_LOG_LEVEL = "logLevel";
