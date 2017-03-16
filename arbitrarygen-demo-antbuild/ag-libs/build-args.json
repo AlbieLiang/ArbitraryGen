@@ -1,0 +1,70 @@
+{
+    templateDir : "${project.projectDir}/ag-libs/template-libs",
+    srcDir : "${project.projectDir}/ag-datasrc",
+    destDir : "${buildDir}",
+
+    logger : {
+        debug : true,
+        logToFile : true,
+        printTag : true,
+        path : "${project.projectDir}/ag-logs/ag.log"
+    },
+
+    statistic : {
+        toFile : true,
+        path : "${project.projectDir}/ag-logs/ag.statistic"
+    },
+
+    general : {
+        enable : true,
+        format : ["xml","db","greendao"],
+        parser : {
+            jar : "${project.projectDir}/ag-libs/arbitrarygen-demo-wrapper.jar",
+            tClass : "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"
+        },
+        extension : {
+            jar : "${project.projectDir}/ag-libs/arbitrarygen-demo-wrapper.jar",
+            tClass : ["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter",
+                    "cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper",
+                    "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper",
+                    "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]
+        }
+    },
+
+    scriptEngine : {
+        enable : true,
+        format : "e"
+    },
+
+    javaCodeEngine : {
+        enable : true,
+        ruleFile : "${project.projectDir}/ag-datasrc/parse-project.rule",
+        extension : {
+            jar : "${project.projectDir}/ag-libs/arbitrarygen-demo-wrapper.jar",
+            pClass : "cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"
+        }
+    },
+
+    engine : {
+        extension : {
+            jar : "${project.projectDir}/ag-libs/arbitrarygen-demo-engine.jar",
+            tClass : "cc.suitalk.tools.arbitrarygen.demo.TestEngine"
+        },
+        testEngine : {
+            enable : false,
+            map : {
+                test : 1
+            }
+        }
+    },
+
+    processor : {
+        extension : {
+            jar : "${project.projectDir}/ag-libs/arbitrarygen-demo-engine.jar",
+            tClass : "cc.suitalk.tools.arbitrarygen.demo.TestProcessor"
+        },
+        testProcessor : {
+            message : "do smothing"
+        }
+    }
+}

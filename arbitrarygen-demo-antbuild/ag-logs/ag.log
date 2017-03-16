@@ -1,0 +1,484 @@
+[tid:1][time:+0800 2017-03-17 02:04:44.711][AG.ArbitraryGenCore]getAGProcessor(statistic) args : {"toFile":true,"path":"./ag-logs/ag.statistic","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.715][AG.ArbitraryGenCore]getAGProcessor(script-executor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.715][AG.ArbitraryGenCore]getAGProcessor(hybrid-template-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.717][AG.ArbitraryGenCore]getAGProcessor(parse-java) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.717][AG.ArbitraryGenCore]getAGProcessor(parse-rule) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.718][AG.ArbitraryGenCore]getAGProcessor(psychic-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.718][AG.ArbitraryGenCore]getAGProcessor(scanner) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.718][AG.ArbitraryGenCore]getAGProcessor(template-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.719][AG.ArbitraryGenCore]getAGProcessor(general) args : {"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.719][AG.DefaultAGEngine]initialize, args({"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}).
+[tid:1][time:+0800 2017-03-17 02:04:44.719][AG.ExtJarClassLoaderTools]Loaded Jar(./ag-libs/arbitrarygen-demo-wrapper.jar) into ClassLoader.
+[tid:1][time:+0800 2017-03-17 02:04:44.721][AG.DefaultAGEngine]add parser(cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser)
+[tid:1][time:+0800 2017-03-17 02:04:44.725][AG.ArbitraryGenCore]getAGProcessor(scriptEngine) args : {"enable":true,"format":"e","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.726][AG.ArbitraryGenCore]getAGProcessor(javaCodeEngine) args : {"enable":true,"ruleFile":"./ag-datasrc/parse-project.rule","extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","pClass":"cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.727][AG.ArbitraryGenCore]getAGProcessor(PsychicEngine) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.728][AG.ArbitraryGenCore]getAGProcessor(testEngine) args : {"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.728][AG.TestEngine]initialize engine(testEngine), args({"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:04:44.728][AG.ArbitraryGenCore]getAGProcessor(testProcessor) args : {"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:04:44.729][AG.TestProcessor]initialize processor(testProcessor), args({"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:04:44.729][AG.ArbitraryGenEntrance]
+
+
+
+
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>begin<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
+
+
+[tid:1][time:+0800 2017-03-17 02:04:44.729][AG.ArbitraryGenEntrance]arg[0] = enable:true
+[tid:1][time:+0800 2017-03-17 02:04:44.729][AG.ArbitraryGenEntrance]arg[1] = argJsonPath:ag-libs/build-args.json
+[tid:1][time:+0800 2017-03-17 02:04:44.729][AG.ArbitraryGenEntrance]arg[2] = envArgJsonPath:ag-libs/build-env-args.json
+[tid:1][time:+0800 2017-03-17 02:04:44.730][AG.ArbitraryGenEntrance]argJson : {"templateDir":"./ag-libs/template-libs","srcDir":"./ag-datasrc","destDir":"gen","logger":{"debug":true,"logToFile":true,"printTag":true,"path":"./ag-logs/ag.log","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"statistic":{"toFile":true,"path":"./ag-logs/ag.statistic","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"general":{"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"scriptEngine":{"enable":true,"format":"e","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"javaCodeEngine":{"enable":true,"ruleFile":"./ag-datasrc/parse-project.rule","extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","pClass":"cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"engine":{"extension":{"jar":"./ag-libs/arbitrarygen-demo-engine.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.TestEngine"},"testEngine":{"enable":false,"map":{"test":1}}},"processor":{"extension":{"jar":"./ag-libs/arbitrarygen-demo-engine.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.TestProcessor"},"testProcessor":{"message":"do smothing"}},"testEngine":{"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"testProcessor":{"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"script-executor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"hybrid-template-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"parse-java":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"parse-rule":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"psychic-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"scanner":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"template-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"PsychicEngine":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}}
+[tid:1][time:+0800 2017-03-17 02:04:44.731][AG.ParseRuleProcessor]parse rule file(./ag-datasrc/parse-project.rule)
+[tid:1][time:+0800 2017-03-17 02:04:44.732][AG.RuleParser]parse failed, path(./ag-datasrc/parse-project.rule) do not exist or it is not a file.
+[tid:1][time:+0800 2017-03-17 02:04:44.733][AG.DefaultAGEngine]execute general engine, args({"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:04:44.733][AG.ScannerAGProcessor]execute args({"scan_mode":1,"src_dir":"./ag-datasrc","suffix_list":["xml","db","greendao"]})
+[tid:1][time:+0800 2017-03-17 02:04:44.734][AG.ScannerAGProcessor]add support scan file suffix(xml)
+[tid:1][time:+0800 2017-03-17 02:04:44.734][AG.ScannerAGProcessor]add support scan file suffix(db)
+[tid:1][time:+0800 2017-03-17 02:04:44.734][AG.ScannerAGProcessor]add support scan file suffix(greendao)
+[tid:1][time:+0800 2017-03-17 02:04:44.734][AG.ScannerAGProcessor]scan result({"scan_mode":1})
+[tid:1][time:+0800 2017-03-17 02:04:44.734][AG.TestEngine]execute engine(testEngine), args({"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:04:44.735][AG.PsychicAGEngine]execute Psychic engine, args({"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:04:44.735][AG.ScannerAGProcessor]execute args({"scan_mode":1,"src_dir":"./ag-datasrc","suffix_list":["psychic-define","psychic-rule"]})
+[tid:1][time:+0800 2017-03-17 02:04:44.735][AG.ScannerAGProcessor]add support scan file suffix(psychic-define)
+[tid:1][time:+0800 2017-03-17 02:04:44.736][AG.ScannerAGProcessor]add support scan file suffix(psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:04:44.736][AG.ScannerAGProcessor]scan result file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:04:44.736][AG.ScannerAGProcessor]scan result({"scan_mode":1,"psychic-rule":["/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule"]})
+[tid:1][time:+0800 2017-03-17 02:04:44.736][AG.PsychicAGEngine]scan out psychic define file list is nil.
+[tid:1][time:+0800 2017-03-17 02:04:44.737][AG.ParseRuleProcessor]parse rule file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:04:44.738][AG.RuleParser]# cc/suitalk/arbitrarygen/demo/MainActivity.java
+[tid:1][time:+0800 2017-03-17 02:04:44.738][AG.RuleParser]@Project-end
+[tid:1][time:+0800 2017-03-17 02:04:44.738][AG.RuleParser]end tag for Project(${project.name}).
+[tid:1][time:+0800 2017-03-17 02:04:44.739][AG.RuleParser]scan files by rule with base dir(../arbitrarygen-demo-antbuild/src/).
+[tid:1][time:+0800 2017-03-17 02:04:44.739][AG.RuleParser]rule(cc/suitalk/arbitrarygen/demo/psychic/*)
+[tid:1][time:+0800 2017-03-17 02:04:44.739][AG.RuleParser]list rule files(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic)
+[tid:1][time:+0800 2017-03-17 02:04:44.740][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.740][AG.RuleParser]scan files by rule with base dir(../arbitrarygen-demo-antbuild/).
+[tid:1][time:+0800 2017-03-17 02:04:44.743][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.745][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.761][AG.PsychicAGEngine]execute task path(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:04:44.761][AG.PsychicTaskProcessor]exec psychic task({"PsychicTask":[{"_name":"AGPsychicTask_AGPsychicAnnotationTestCase","_processor":"hybrid-template-processor","dependsOn":[{"_name":"JsApiList","_processor":"parse-java","_type":"input","rule":"./src/cc/suitalk/arbitrarygen/demo/jsapi/*"}],"template":"/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java"}]})
+[tid:1][time:+0800 2017-03-17 02:04:44.761][AG.PsychicTaskProcessor]the name(JsApiList), processor(parse-java) and type(input) of dependsOn info.
+[tid:1][time:+0800 2017-03-17 02:04:44.761][AG.ParseRuleProcessor]parse rule(./src/cc/suitalk/arbitrarygen/demo/jsapi/*)
+[tid:1][time:+0800 2017-03-17 02:04:44.761][AG.RuleParser]scan files by rule with base dir().
+[tid:1][time:+0800 2017-03-17 02:04:44.762][AG.RuleParser]rule(./src/cc/suitalk/arbitrarygen/demo/jsapi/*)
+[tid:1][time:+0800 2017-03-17 02:04:44.762][AG.RuleParser]list rule files(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi)
+[tid:1][time:+0800 2017-03-17 02:04:44.762][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/JsApiFunc.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.763][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/Sync.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.763][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/BaseJsApiFunc.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.763][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/JsApiContext.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.763][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_A.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.764][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_B.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.764][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_C.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.764][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_D.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.764][AG.RuleParser]rule(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/recursion/JsApiFunc_E.java) result : true
+[tid:1][time:+0800 2017-03-17 02:04:44.765][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/JsApiFunc.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.765][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.771][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/Sync.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.771][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.772][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/BaseJsApiFunc.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.772][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.782][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/JsApiContext.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.782][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.783][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_A.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.783][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.786][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_B.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.786][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.786][AG.JavaLexer]>>>>>doc end.
+[tid:1][time:+0800 2017-03-17 02:04:44.789][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_C.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.790][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.790][AG.JavaLexer]>>>>>doc end.
+[tid:1][time:+0800 2017-03-17 02:04:44.793][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_D.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.793][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.796][AG.JavaFileLexer]start to analyze file(/Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/recursion/JsApiFunc_E.java)
+[tid:1][time:+0800 2017-03-17 02:04:44.796][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:04:44.804][AG.HybridTemplateProcessor]path : /Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java
+
+[tid:1][time:+0800 2017-03-17 02:04:45.090][AG.FileOperation]Gen file : /Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java Successfully.
+[tid:1][time:+0800 2017-03-17 02:04:45.090][AG.HybridTemplateProcessor]genCode into file /Volumes/Development/workspaces/github/arbitrarygen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java successfully.
+[tid:1][time:+0800 2017-03-17 02:04:45.090][AG.PsychicTaskProcessor]execute task processor result is null, switch to next task.
+[tid:1][time:+0800 2017-03-17 02:04:45.091][AG.ArbitraryGenEntrance]
+
+
+
+
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
+
+
+[tid:1][time:+0800 2017-03-17 02:10:12.389][AG.ArbitraryGenCore]getAGProcessor(statistic) args : {"toFile":true,"path":"./ag-logs/ag.statistic","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.394][AG.ArbitraryGenCore]getAGProcessor(script-executor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.395][AG.ArbitraryGenCore]getAGProcessor(hybrid-template-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.397][AG.ArbitraryGenCore]getAGProcessor(parse-java) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.398][AG.ArbitraryGenCore]getAGProcessor(parse-rule) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.398][AG.ArbitraryGenCore]getAGProcessor(psychic-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.398][AG.ArbitraryGenCore]getAGProcessor(scanner) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.399][AG.ArbitraryGenCore]getAGProcessor(template-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.399][AG.ArbitraryGenCore]getAGProcessor(general) args : {"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.400][AG.DefaultAGEngine]initialize, args({"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}).
+[tid:1][time:+0800 2017-03-17 02:10:12.400][AG.ExtJarClassLoaderTools]Loaded Jar(./ag-libs/arbitrarygen-demo-wrapper.jar) into ClassLoader.
+[tid:1][time:+0800 2017-03-17 02:10:12.403][AG.DefaultAGEngine]add parser(cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser)
+[tid:1][time:+0800 2017-03-17 02:10:12.409][AG.ArbitraryGenCore]getAGProcessor(scriptEngine) args : {"enable":true,"format":"e","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.409][AG.ArbitraryGenCore]getAGProcessor(javaCodeEngine) args : {"enable":true,"ruleFile":"./ag-datasrc/parse-project.rule","extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","pClass":"cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.411][AG.ArbitraryGenCore]getAGProcessor(PsychicEngine) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.412][AG.ArbitraryGenCore]getAGProcessor(testEngine) args : {"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.412][AG.TestEngine]initialize engine(testEngine), args({"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:10:12.412][AG.ArbitraryGenCore]getAGProcessor(testProcessor) args : {"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:10:12.413][AG.TestProcessor]initialize processor(testProcessor), args({"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:10:12.413][AG.ArbitraryGenEntrance]
+
+
+
+
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>begin<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
+
+
+[tid:1][time:+0800 2017-03-17 02:10:12.413][AG.ArbitraryGenEntrance]arg[0] = enable:true
+[tid:1][time:+0800 2017-03-17 02:10:12.413][AG.ArbitraryGenEntrance]arg[1] = argJsonPath:ag-libs/build-args.json
+[tid:1][time:+0800 2017-03-17 02:10:12.413][AG.ArbitraryGenEntrance]arg[2] = envArgJsonPath:ag-libs/build-env-args.json
+[tid:1][time:+0800 2017-03-17 02:10:12.414][AG.ArbitraryGenEntrance]argJson : {"templateDir":"./ag-libs/template-libs","srcDir":"./ag-datasrc","destDir":"gen","logger":{"debug":true,"logToFile":true,"printTag":true,"path":"./ag-logs/ag.log","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"statistic":{"toFile":true,"path":"./ag-logs/ag.statistic","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"general":{"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"scriptEngine":{"enable":true,"format":"e","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"javaCodeEngine":{"enable":true,"ruleFile":"./ag-datasrc/parse-project.rule","extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","pClass":"cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"engine":{"extension":{"jar":"./ag-libs/arbitrarygen-demo-engine.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.TestEngine"},"testEngine":{"enable":false,"map":{"test":1}}},"processor":{"extension":{"jar":"./ag-libs/arbitrarygen-demo-engine.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.TestProcessor"},"testProcessor":{"message":"do smothing"}},"testEngine":{"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"testProcessor":{"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"script-executor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"hybrid-template-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"parse-java":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"parse-rule":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"psychic-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"scanner":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"template-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"PsychicEngine":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}}
+[tid:1][time:+0800 2017-03-17 02:10:12.416][AG.ParseRuleProcessor]parse rule file(./ag-datasrc/parse-project.rule)
+[tid:1][time:+0800 2017-03-17 02:10:12.417][AG.RuleParser]parse failed, path(./ag-datasrc/parse-project.rule) do not exist or it is not a file.
+[tid:1][time:+0800 2017-03-17 02:10:12.417][AG.DefaultAGEngine]execute general engine, args({"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:10:12.417][AG.ScannerAGProcessor]execute args({"scan_mode":1,"src_dir":"./ag-datasrc","suffix_list":["xml","db","greendao"]})
+[tid:1][time:+0800 2017-03-17 02:10:12.418][AG.ScannerAGProcessor]add support scan file suffix(xml)
+[tid:1][time:+0800 2017-03-17 02:10:12.418][AG.ScannerAGProcessor]add support scan file suffix(db)
+[tid:1][time:+0800 2017-03-17 02:10:12.418][AG.ScannerAGProcessor]add support scan file suffix(greendao)
+[tid:1][time:+0800 2017-03-17 02:10:12.418][AG.ScannerAGProcessor]scan result({"scan_mode":1})
+[tid:1][time:+0800 2017-03-17 02:10:12.419][AG.TestEngine]execute engine(testEngine), args({"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:10:12.419][AG.PsychicAGEngine]execute Psychic engine, args({"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:10:12.419][AG.ScannerAGProcessor]execute args({"scan_mode":1,"src_dir":"./ag-datasrc","suffix_list":["psychic-define","psychic-rule"]})
+[tid:1][time:+0800 2017-03-17 02:10:12.419][AG.ScannerAGProcessor]add support scan file suffix(psychic-define)
+[tid:1][time:+0800 2017-03-17 02:10:12.419][AG.ScannerAGProcessor]add support scan file suffix(psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:10:12.420][AG.ScannerAGProcessor]scan result file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:10:12.420][AG.ScannerAGProcessor]scan result({"scan_mode":1,"psychic-rule":["/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule"]})
+[tid:1][time:+0800 2017-03-17 02:10:12.421][AG.PsychicAGEngine]scan out psychic define file list is nil.
+[tid:1][time:+0800 2017-03-17 02:10:12.421][AG.ParseRuleProcessor]parse rule file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:10:12.422][AG.RuleParser]# cc/suitalk/arbitrarygen/demo/MainActivity.java
+[tid:1][time:+0800 2017-03-17 02:10:12.422][AG.RuleParser]@Project-end
+[tid:1][time:+0800 2017-03-17 02:10:12.422][AG.RuleParser]end tag for Project(${project.name}).
+[tid:1][time:+0800 2017-03-17 02:10:12.423][AG.RuleParser]scan files by rule with base dir(../arbitrarygen-demo-antbuild/src/).
+[tid:1][time:+0800 2017-03-17 02:10:12.423][AG.RuleParser]rule(cc/suitalk/arbitrarygen/demo/psychic/*)
+[tid:1][time:+0800 2017-03-17 02:10:12.423][AG.RuleParser]list rule files(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic)
+[tid:1][time:+0800 2017-03-17 02:10:12.424][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.424][AG.RuleParser]scan files by rule with base dir(../arbitrarygen-demo-antbuild/).
+[tid:1][time:+0800 2017-03-17 02:10:12.427][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.430][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.449][AG.PsychicAGEngine]execute task path(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:10:12.449][AG.PsychicTaskProcessor]exec psychic task({"PsychicTask":[{"_name":"AGPsychicTask_AGPsychicAnnotationTestCase","_processor":"hybrid-template-processor","dependsOn":[{"_name":"JsApiList","_processor":"parse-java","_type":"input","rule":"./src/cc/suitalk/arbitrarygen/demo/jsapi/*"}],"template":"/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java"}]})
+[tid:1][time:+0800 2017-03-17 02:10:12.450][AG.PsychicTaskProcessor]the name(JsApiList), processor(parse-java) and type(input) of dependsOn info.
+[tid:1][time:+0800 2017-03-17 02:10:12.450][AG.ParseRuleProcessor]parse rule(./src/cc/suitalk/arbitrarygen/demo/jsapi/*)
+[tid:1][time:+0800 2017-03-17 02:10:12.450][AG.RuleParser]scan files by rule with base dir().
+[tid:1][time:+0800 2017-03-17 02:10:12.450][AG.RuleParser]rule(./src/cc/suitalk/arbitrarygen/demo/jsapi/*)
+[tid:1][time:+0800 2017-03-17 02:10:12.450][AG.RuleParser]list rule files(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi)
+[tid:1][time:+0800 2017-03-17 02:10:12.451][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/JsApiFunc.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.451][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/Sync.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.451][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/BaseJsApiFunc.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.452][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/JsApiContext.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.452][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_A.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.452][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_B.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.453][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_C.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.453][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_D.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.453][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/recursion/JsApiFunc_E.java) result : true
+[tid:1][time:+0800 2017-03-17 02:10:12.453][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/JsApiFunc.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.454][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.459][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/Sync.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.459][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.460][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/BaseJsApiFunc.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.460][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.469][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/JsApiContext.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.469][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.470][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_A.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.470][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.474][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_B.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.475][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.475][AG.JavaLexer]>>>>>doc end.
+[tid:1][time:+0800 2017-03-17 02:10:12.478][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_C.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.478][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.479][AG.JavaLexer]>>>>>doc end.
+[tid:1][time:+0800 2017-03-17 02:10:12.481][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_D.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.481][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.484][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/recursion/JsApiFunc_E.java)
+[tid:1][time:+0800 2017-03-17 02:10:12.484][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:10:12.493][AG.HybridTemplateProcessor]path : /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java
+
+[tid:1][time:+0800 2017-03-17 02:10:12.807][AG.FileOperation]Gen file : /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java Successfully.
+[tid:1][time:+0800 2017-03-17 02:10:12.807][AG.HybridTemplateProcessor]genCode into file /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java successfully.
+[tid:1][time:+0800 2017-03-17 02:10:12.807][AG.PsychicTaskProcessor]execute task processor result is null, switch to next task.
+[tid:1][time:+0800 2017-03-17 02:10:12.807][AG.ArbitraryGenEntrance]
+
+
+
+
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
+
+
+[tid:1][time:+0800 2017-03-17 02:11:17.603][AG.ArbitraryGenCore]getAGProcessor(statistic) args : {"toFile":true,"path":"./ag-logs/ag.statistic","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.607][AG.ArbitraryGenCore]getAGProcessor(script-executor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.607][AG.ArbitraryGenCore]getAGProcessor(hybrid-template-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.609][AG.ArbitraryGenCore]getAGProcessor(parse-java) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.610][AG.ArbitraryGenCore]getAGProcessor(parse-rule) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.610][AG.ArbitraryGenCore]getAGProcessor(psychic-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.610][AG.ArbitraryGenCore]getAGProcessor(scanner) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.610][AG.ArbitraryGenCore]getAGProcessor(template-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.611][AG.ArbitraryGenCore]getAGProcessor(general) args : {"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.611][AG.DefaultAGEngine]initialize, args({"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}).
+[tid:1][time:+0800 2017-03-17 02:11:17.611][AG.ExtJarClassLoaderTools]Loaded Jar(./ag-libs/arbitrarygen-demo-wrapper.jar) into ClassLoader.
+[tid:1][time:+0800 2017-03-17 02:11:17.613][AG.DefaultAGEngine]add parser(cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser)
+[tid:1][time:+0800 2017-03-17 02:11:17.617][AG.ArbitraryGenCore]getAGProcessor(scriptEngine) args : {"enable":true,"format":"e","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.617][AG.ArbitraryGenCore]getAGProcessor(javaCodeEngine) args : {"enable":true,"ruleFile":"./ag-datasrc/parse-project.rule","extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","pClass":"cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.619][AG.ArbitraryGenCore]getAGProcessor(PsychicEngine) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.619][AG.ArbitraryGenCore]getAGProcessor(testEngine) args : {"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.620][AG.TestEngine]initialize engine(testEngine), args({"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:11:17.620][AG.ArbitraryGenCore]getAGProcessor(testProcessor) args : {"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:11:17.620][AG.TestProcessor]initialize processor(testProcessor), args({"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:11:17.620][AG.ArbitraryGenEntrance]
+
+
+
+
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>begin<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
+
+
+[tid:1][time:+0800 2017-03-17 02:11:17.620][AG.ArbitraryGenEntrance]arg[0] = enable:true
+[tid:1][time:+0800 2017-03-17 02:11:17.621][AG.ArbitraryGenEntrance]arg[1] = argJsonPath:ag-libs/build-args.json
+[tid:1][time:+0800 2017-03-17 02:11:17.621][AG.ArbitraryGenEntrance]arg[2] = envArgJsonPath:ag-libs/build-env-args.json
+[tid:1][time:+0800 2017-03-17 02:11:17.621][AG.ArbitraryGenEntrance]argJson : {"templateDir":"./ag-libs/template-libs","srcDir":"./ag-datasrc","destDir":"gen","logger":{"debug":true,"logToFile":true,"printTag":true,"path":"./ag-logs/ag.log","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"statistic":{"toFile":true,"path":"./ag-logs/ag.statistic","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"general":{"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"scriptEngine":{"enable":true,"format":"e","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"javaCodeEngine":{"enable":true,"ruleFile":"./ag-datasrc/parse-project.rule","extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","pClass":"cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"engine":{"extension":{"jar":"./ag-libs/arbitrarygen-demo-engine.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.TestEngine"},"testEngine":{"enable":false,"map":{"test":1}}},"processor":{"extension":{"jar":"./ag-libs/arbitrarygen-demo-engine.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.TestProcessor"},"testProcessor":{"message":"do smothing"}},"testEngine":{"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"testProcessor":{"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"script-executor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"hybrid-template-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"parse-java":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"parse-rule":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"psychic-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"scanner":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"template-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"PsychicEngine":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}}
+[tid:1][time:+0800 2017-03-17 02:11:17.623][AG.ParseRuleProcessor]parse rule file(./ag-datasrc/parse-project.rule)
+[tid:1][time:+0800 2017-03-17 02:11:17.624][AG.RuleParser]parse failed, path(./ag-datasrc/parse-project.rule) do not exist or it is not a file.
+[tid:1][time:+0800 2017-03-17 02:11:17.624][AG.DefaultAGEngine]execute general engine, args({"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:11:17.625][AG.ScannerAGProcessor]execute args({"scan_mode":1,"src_dir":"./ag-datasrc","suffix_list":["xml","db","greendao"]})
+[tid:1][time:+0800 2017-03-17 02:11:17.625][AG.ScannerAGProcessor]add support scan file suffix(xml)
+[tid:1][time:+0800 2017-03-17 02:11:17.625][AG.ScannerAGProcessor]add support scan file suffix(db)
+[tid:1][time:+0800 2017-03-17 02:11:17.625][AG.ScannerAGProcessor]add support scan file suffix(greendao)
+[tid:1][time:+0800 2017-03-17 02:11:17.626][AG.ScannerAGProcessor]scan result({"scan_mode":1})
+[tid:1][time:+0800 2017-03-17 02:11:17.626][AG.TestEngine]execute engine(testEngine), args({"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:11:17.626][AG.PsychicAGEngine]execute Psychic engine, args({"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:11:17.626][AG.ScannerAGProcessor]execute args({"scan_mode":1,"src_dir":"./ag-datasrc","suffix_list":["psychic-define","psychic-rule"]})
+[tid:1][time:+0800 2017-03-17 02:11:17.627][AG.ScannerAGProcessor]add support scan file suffix(psychic-define)
+[tid:1][time:+0800 2017-03-17 02:11:17.627][AG.ScannerAGProcessor]add support scan file suffix(psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:11:17.627][AG.ScannerAGProcessor]scan result file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:11:17.628][AG.ScannerAGProcessor]scan result({"scan_mode":1,"psychic-rule":["/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule"]})
+[tid:1][time:+0800 2017-03-17 02:11:17.628][AG.PsychicAGEngine]scan out psychic define file list is nil.
+[tid:1][time:+0800 2017-03-17 02:11:17.628][AG.ParseRuleProcessor]parse rule file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:11:17.629][AG.RuleParser]# cc/suitalk/arbitrarygen/demo/MainActivity.java
+[tid:1][time:+0800 2017-03-17 02:11:17.629][AG.RuleParser]@Project-end
+[tid:1][time:+0800 2017-03-17 02:11:17.629][AG.RuleParser]end tag for Project(${project.name}).
+[tid:1][time:+0800 2017-03-17 02:11:17.630][AG.RuleParser]scan files by rule with base dir(../arbitrarygen-demo-antbuild/src/).
+[tid:1][time:+0800 2017-03-17 02:11:17.630][AG.RuleParser]rule(cc/suitalk/arbitrarygen/demo/psychic/*)
+[tid:1][time:+0800 2017-03-17 02:11:17.630][AG.RuleParser]list rule files(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic)
+[tid:1][time:+0800 2017-03-17 02:11:17.630][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.631][AG.RuleParser]scan files by rule with base dir(../arbitrarygen-demo-antbuild/).
+[tid:1][time:+0800 2017-03-17 02:11:17.634][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.636][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.651][AG.PsychicAGEngine]execute task path(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:11:17.652][AG.PsychicTaskProcessor]exec psychic task({"PsychicTask":[{"_name":"AGPsychicTask_AGPsychicAnnotationTestCase","_processor":"hybrid-template-processor","dependsOn":[{"_name":"JsApiList","_processor":"parse-java","_type":"input","rule":"./src/cc/suitalk/arbitrarygen/demo/jsapi/*"}],"template":"/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java"}]})
+[tid:1][time:+0800 2017-03-17 02:11:17.652][AG.PsychicTaskProcessor]the name(JsApiList), processor(parse-java) and type(input) of dependsOn info.
+[tid:1][time:+0800 2017-03-17 02:11:17.652][AG.ParseRuleProcessor]parse rule(./src/cc/suitalk/arbitrarygen/demo/jsapi/*)
+[tid:1][time:+0800 2017-03-17 02:11:17.652][AG.RuleParser]scan files by rule with base dir().
+[tid:1][time:+0800 2017-03-17 02:11:17.652][AG.RuleParser]rule(./src/cc/suitalk/arbitrarygen/demo/jsapi/*)
+[tid:1][time:+0800 2017-03-17 02:11:17.652][AG.RuleParser]list rule files(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi)
+[tid:1][time:+0800 2017-03-17 02:11:17.653][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/JsApiFunc.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.653][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/Sync.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.653][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/BaseJsApiFunc.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.653][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/JsApiContext.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.654][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_A.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.654][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_B.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.654][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_C.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.654][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_D.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.654][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/recursion/JsApiFunc_E.java) result : true
+[tid:1][time:+0800 2017-03-17 02:11:17.655][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/JsApiFunc.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.655][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.660][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/Sync.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.660][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.661][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/BaseJsApiFunc.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.661][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.670][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/JsApiContext.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.670][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.670][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_A.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.671][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.673][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_B.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.673][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.674][AG.JavaLexer]>>>>>doc end.
+[tid:1][time:+0800 2017-03-17 02:11:17.677][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_C.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.677][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.677][AG.JavaLexer]>>>>>doc end.
+[tid:1][time:+0800 2017-03-17 02:11:17.680][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_D.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.680][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.682][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/recursion/JsApiFunc_E.java)
+[tid:1][time:+0800 2017-03-17 02:11:17.683][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:11:17.691][AG.HybridTemplateProcessor]path : /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java
+
+[tid:1][time:+0800 2017-03-17 02:11:17.995][AG.FileOperation]Gen file : /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java Successfully.
+[tid:1][time:+0800 2017-03-17 02:11:17.995][AG.HybridTemplateProcessor]genCode into file /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java successfully.
+[tid:1][time:+0800 2017-03-17 02:11:17.995][AG.PsychicTaskProcessor]execute task processor result is null, switch to next task.
+[tid:1][time:+0800 2017-03-17 02:11:17.995][AG.ArbitraryGenEntrance]
+
+
+
+
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
+
+
+[tid:1][time:+0800 2017-03-17 02:12:12.079][AG.ArbitraryGenCore]getAGProcessor(statistic) args : {"toFile":true,"path":"./ag-logs/ag.statistic","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.084][AG.ArbitraryGenCore]getAGProcessor(script-executor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.084][AG.ArbitraryGenCore]getAGProcessor(hybrid-template-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.086][AG.ArbitraryGenCore]getAGProcessor(parse-java) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.087][AG.ArbitraryGenCore]getAGProcessor(parse-rule) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.087][AG.ArbitraryGenCore]getAGProcessor(psychic-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.087][AG.ArbitraryGenCore]getAGProcessor(scanner) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.088][AG.ArbitraryGenCore]getAGProcessor(template-processor) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.088][AG.ArbitraryGenCore]getAGProcessor(general) args : {"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.088][AG.DefaultAGEngine]initialize, args({"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}).
+[tid:1][time:+0800 2017-03-17 02:12:12.089][AG.ExtJarClassLoaderTools]Loaded Jar(./ag-libs/arbitrarygen-demo-wrapper.jar) into ClassLoader.
+[tid:1][time:+0800 2017-03-17 02:12:12.090][AG.DefaultAGEngine]add parser(cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser)
+[tid:1][time:+0800 2017-03-17 02:12:12.095][AG.ArbitraryGenCore]getAGProcessor(scriptEngine) args : {"enable":true,"format":"e","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.095][AG.ArbitraryGenCore]getAGProcessor(javaCodeEngine) args : {"enable":true,"ruleFile":"./ag-datasrc/parse-project.rule","extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","pClass":"cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.097][AG.ArbitraryGenCore]getAGProcessor(PsychicEngine) args : {"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.097][AG.ArbitraryGenCore]getAGProcessor(testEngine) args : {"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.098][AG.TestEngine]initialize engine(testEngine), args({"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:12:12.098][AG.ArbitraryGenCore]getAGProcessor(testProcessor) args : {"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}
+[tid:1][time:+0800 2017-03-17 02:12:12.098][AG.TestProcessor]initialize processor(testProcessor), args({"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:12:12.098][AG.ArbitraryGenEntrance]
+
+
+
+
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>begin<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
+
+
+[tid:1][time:+0800 2017-03-17 02:12:12.098][AG.ArbitraryGenEntrance]arg[0] = enable:true
+[tid:1][time:+0800 2017-03-17 02:12:12.099][AG.ArbitraryGenEntrance]arg[1] = argJsonPath:ag-libs/build-args.json
+[tid:1][time:+0800 2017-03-17 02:12:12.099][AG.ArbitraryGenEntrance]arg[2] = envArgJsonPath:ag-libs/build-env-args.json
+[tid:1][time:+0800 2017-03-17 02:12:12.099][AG.ArbitraryGenEntrance]argJson : {"templateDir":"./ag-libs/template-libs","srcDir":"./ag-datasrc","destDir":"gen","logger":{"debug":true,"logToFile":true,"printTag":true,"path":"./ag-logs/ag.log","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"statistic":{"toFile":true,"path":"./ag-logs/ag.statistic","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"general":{"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"scriptEngine":{"enable":true,"format":"e","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"javaCodeEngine":{"enable":true,"ruleFile":"./ag-datasrc/parse-project.rule","extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","pClass":"cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"engine":{"extension":{"jar":"./ag-libs/arbitrarygen-demo-engine.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.TestEngine"},"testEngine":{"enable":false,"map":{"test":1}}},"processor":{"extension":{"jar":"./ag-libs/arbitrarygen-demo-engine.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.TestProcessor"},"testProcessor":{"message":"do smothing"}},"testEngine":{"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"testProcessor":{"message":"do smothing","srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"script-executor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"hybrid-template-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"parse-java":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"parse-rule":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"psychic-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"scanner":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"template-processor":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""},"PsychicEngine":{"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""}}
+[tid:1][time:+0800 2017-03-17 02:12:12.101][AG.ParseRuleProcessor]parse rule file(./ag-datasrc/parse-project.rule)
+[tid:1][time:+0800 2017-03-17 02:12:12.102][AG.RuleParser]parse failed, path(./ag-datasrc/parse-project.rule) do not exist or it is not a file.
+[tid:1][time:+0800 2017-03-17 02:12:12.102][AG.DefaultAGEngine]execute general engine, args({"enable":true,"format":["xml","db","greendao"],"parser":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":"cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"},"extension":{"jar":"./ag-libs/arbitrarygen-demo-wrapper.jar","tClass":["cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter","cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper","cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"]},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:12:12.102][AG.ScannerAGProcessor]execute args({"scan_mode":1,"src_dir":"./ag-datasrc","suffix_list":["xml","db","greendao"]})
+[tid:1][time:+0800 2017-03-17 02:12:12.103][AG.ScannerAGProcessor]add support scan file suffix(xml)
+[tid:1][time:+0800 2017-03-17 02:12:12.103][AG.ScannerAGProcessor]add support scan file suffix(db)
+[tid:1][time:+0800 2017-03-17 02:12:12.103][AG.ScannerAGProcessor]add support scan file suffix(greendao)
+[tid:1][time:+0800 2017-03-17 02:12:12.103][AG.ScannerAGProcessor]scan result({"scan_mode":1})
+[tid:1][time:+0800 2017-03-17 02:12:12.103][AG.TestEngine]execute engine(testEngine), args({"enable":false,"map":{"test":1},"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:12:12.104][AG.PsychicAGEngine]execute Psychic engine, args({"srcDir":"./ag-datasrc","destDir":"gen","templateLibs":""})
+[tid:1][time:+0800 2017-03-17 02:12:12.104][AG.ScannerAGProcessor]execute args({"scan_mode":1,"src_dir":"./ag-datasrc","suffix_list":["psychic-define","psychic-rule"]})
+[tid:1][time:+0800 2017-03-17 02:12:12.104][AG.ScannerAGProcessor]add support scan file suffix(psychic-define)
+[tid:1][time:+0800 2017-03-17 02:12:12.104][AG.ScannerAGProcessor]add support scan file suffix(psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:12:12.105][AG.ScannerAGProcessor]scan result file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:12:12.105][AG.ScannerAGProcessor]scan result({"scan_mode":1,"psychic-rule":["/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule"]})
+[tid:1][time:+0800 2017-03-17 02:12:12.105][AG.PsychicAGEngine]scan out psychic define file list is nil.
+[tid:1][time:+0800 2017-03-17 02:12:12.105][AG.ParseRuleProcessor]parse rule file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:12:12.107][AG.RuleParser]# cc/suitalk/arbitrarygen/demo/MainActivity.java
+[tid:1][time:+0800 2017-03-17 02:12:12.107][AG.RuleParser]@Project-end
+[tid:1][time:+0800 2017-03-17 02:12:12.107][AG.RuleParser]end tag for Project(${project.name}).
+[tid:1][time:+0800 2017-03-17 02:12:12.107][AG.RuleParser]scan files by rule with base dir(../arbitrarygen-demo-antbuild/src/).
+[tid:1][time:+0800 2017-03-17 02:12:12.107][AG.RuleParser]rule(cc/suitalk/arbitrarygen/demo/psychic/*)
+[tid:1][time:+0800 2017-03-17 02:12:12.108][AG.RuleParser]list rule files(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic)
+[tid:1][time:+0800 2017-03-17 02:12:12.108][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.108][AG.RuleParser]scan files by rule with base dir(../arbitrarygen-demo-antbuild/).
+[tid:1][time:+0800 2017-03-17 02:12:12.111][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.113][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.128][AG.PsychicAGEngine]execute task path(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./ag-datasrc/psychic-test-annotation.psychic-rule)
+[tid:1][time:+0800 2017-03-17 02:12:12.128][AG.PsychicTaskProcessor]exec psychic task({"PsychicTask":[{"_name":"AGPsychicTask_AGPsychicAnnotationTestCase","_processor":"hybrid-template-processor","dependsOn":[{"_name":"JsApiList","_processor":"parse-java","_type":"input","rule":"./src/cc/suitalk/arbitrarygen/demo/jsapi/*"}],"template":"/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java"}]})
+[tid:1][time:+0800 2017-03-17 02:12:12.129][AG.PsychicTaskProcessor]the name(JsApiList), processor(parse-java) and type(input) of dependsOn info.
+[tid:1][time:+0800 2017-03-17 02:12:12.129][AG.ParseRuleProcessor]parse rule(./src/cc/suitalk/arbitrarygen/demo/jsapi/*)
+[tid:1][time:+0800 2017-03-17 02:12:12.129][AG.RuleParser]scan files by rule with base dir().
+[tid:1][time:+0800 2017-03-17 02:12:12.129][AG.RuleParser]rule(./src/cc/suitalk/arbitrarygen/demo/jsapi/*)
+[tid:1][time:+0800 2017-03-17 02:12:12.129][AG.RuleParser]list rule files(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi)
+[tid:1][time:+0800 2017-03-17 02:12:12.130][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/JsApiFunc.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.130][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/Sync.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.130][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/BaseJsApiFunc.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.130][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/JsApiContext.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.131][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_A.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.131][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_B.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.131][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_C.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.131][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_D.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.132][AG.RuleParser]rule(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/(.)+) match(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/recursion/JsApiFunc_E.java) result : true
+[tid:1][time:+0800 2017-03-17 02:12:12.132][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/JsApiFunc.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.132][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.135][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/annotation/Sync.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.135][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.136][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/BaseJsApiFunc.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.136][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.146][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/base/JsApiContext.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.147][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.151][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_A.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.151][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.155][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_B.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.155][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.157][AG.JavaLexer]>>>>>doc end.
+[tid:1][time:+0800 2017-03-17 02:12:12.160][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_C.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.160][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.161][AG.JavaLexer]>>>>>doc end.
+[tid:1][time:+0800 2017-03-17 02:12:12.163][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/JsApiFunc_D.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.163][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.166][AG.JavaFileLexer]start to analyze file(/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/./src/cc/suitalk/arbitrarygen/demo/jsapi/recursion/JsApiFunc_E.java)
+[tid:1][time:+0800 2017-03-17 02:12:12.166][AG.JavaLexer]>>>>>start parse java file.
+[tid:1][time:+0800 2017-03-17 02:12:12.176][AG.HybridTemplateProcessor]path : /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java
+
+[tid:1][time:+0800 2017-03-17 02:12:12.496][AG.FileOperation]Gen file : /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java Successfully.
+[tid:1][time:+0800 2017-03-17 02:12:12.496][AG.HybridTemplateProcessor]genCode into file /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo-antbuild/../arbitrarygen-demo-antbuild/src/cc/suitalk/arbitrarygen/demo/psychic/AGPsychicAnnotationTestCase.java successfully.
+[tid:1][time:+0800 2017-03-17 02:12:12.496][AG.PsychicTaskProcessor]execute task processor result is null, switch to next task.
+[tid:1][time:+0800 2017-03-17 02:12:12.496][AG.ArbitraryGenEntrance]
+
+
+
+
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
+
+

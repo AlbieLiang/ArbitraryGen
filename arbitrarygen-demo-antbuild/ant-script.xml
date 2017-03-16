@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ArbitraryGenTask" default="ag" >
+    
+    <target name="ag" >
+
+        <java jar="./ag-libs/ArbitraryGen.jar" fork="true">
+            <arg value="enable:true" />
+            <arg value="argJsonPath:ag-libs/build-args.json" />
+            <arg value="envArgJsonPath:ag-libs/build-env-args.json" />
+        </java>
+    </target>
+</project>

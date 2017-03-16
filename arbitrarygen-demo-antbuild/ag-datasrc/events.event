@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Events package="cc.suitalk.test.event">
+
+    <event name="Default" >
+        <field name="name" type="String" default="null"/>
+    </event>
+
+    <event name="Test"  final="true" parent="DefaultTestEvent">
+        <field name="name" type="String" default="null"/>
+        <field name="type" type="int" default="0"/>
+        <Data static="true" final="true">
+            <field name="errCode" type="int"/>
+        	<field name="errType" type="int" default="0"/>
+        </Data>
+    </event>
+
+    <event name="XmlThird">
+        <Data static="true" final="true">
+            <field name="errCode" type="int"/>
+        	<field name="errType" type="int" default="0"/>
+        </Data>
+    </event>
+    <event name="XmlFourth">
+        <Data>
+            <field name="errCode" type="int"/>
+        	<field name="errType" type="int" default="0"/>
+        </Data>
+        <CallBack>
+            <field name="trigger" type="String"/>
+        </CallBack>
+        <Result>
+            <field name="result" type="String"/>
+        </Result>
+    </event>
+</Events>

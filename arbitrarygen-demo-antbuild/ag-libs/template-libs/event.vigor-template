@@ -1,0 +1,79 @@
+package <%=_package%>;
+
+import cc.suitalk.event.rx.RxEvent;
+
+public final class <%=_name%> extends RxEvent {
+	public final static String ID = "AGEvent.<%=_name%>";
+	
+	<% for (var i = 0; this.data && i< data.length; i++) { var field = data[i];%>
+		<% if (field.constant) { %>
+			<% if (field.constant.length) { %>
+			<% for (var k = 0; k < field.constant.length; k++) {var constant = field.constant[k];%>
+				public final static <%=field._type%> <%=constant._name%> = <%=constant._value%>;
+			<%}%>
+			<%} else {%>
+				public final static <%=field._type%> <%=field.constant._name%> = <%=field.constant._value%>;
+			<%}%>
+		<%}%>
+	<%}%>
+	<% for (var i = 0; this.result && i < result.length; i++) { var field = result[i];%>
+		<% if (field.constant) {%>
+			<% if (field.constant.length) {%>
+			<% for (var k = 0; k < field.constant.length; k++) {var constant = field.constant[k];%>
+				public final static <%=field._type%> <%=constant._name%> = <%=constant._value%>;
+			<%}%>
+			<%} else {%>
+				public final static <%=field._type%> <%=field.constant._name%> = <%=field.constant._value%>;
+			<%}%>
+		<%}%>
+	<%}%>
+
+	<% if (this.data) {%>
+		<% for (var i = 0; this.data && i < data.length; i++) { var field = data[i];%>
+            <% if (field.constant) { %>
+                /**
+                 * The value can be :
+                 *
+                <% if (field.constant.length) { %>
+                    <% for (var k = 0; k < field.constant.length; k++) {var constant = field.constant[k];%>
+                        * {@link #<%=constant._name%>};
+                    <%}%>
+                <%} else {%>
+                    * {@link #<%=field.constant._name%>};
+                <%}%>
+                */
+            <%}%>
+			public <%=field._type%> <%=field._name%><% if (field._default) {%> = <%=field._default%><%}%>;
+		<%}%>
+	<%}%>
+
+	public <%=_name%>() {
+	    this.action = ID;
+	}
+	public <%=_name%>(Callback callback) {
+		this.action = ID;
+		this.callback = callback;
+	}
+
+	<% if (this.result) {%>
+	public Result result = new Result();
+	public final static class Result {
+		<% for (var i = 0; i < result.length; i++) { var field = result[i];%>
+            <% if (field.constant) { %>
+                /**
+                 * The value can be :
+                 *
+                <% if (field.constant.length) { %>
+                    <% for (var k = 0; k < field.constant.length; k++) {var constant = field.constant[k];%>
+                        * {@link #<%=constant._name%>};
+                    <%}%>
+                <%} else {%>
+                    * {@link #<%=field.constant._name%>};
+                <%}%>
+                */
+            <%}%>
+			public <%=field._type%> <%=field._name%><% if (field._default) {%> = <%=field._default%><%}%>;
+		<%}%>
+	}
+	<%}%>
+} 
