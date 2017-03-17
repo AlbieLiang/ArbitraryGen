@@ -264,7 +264,7 @@ public class ArbitraryGenCore implements AGCore {
         int count = 0;
         String srcDir = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR);
         String destDir = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR);
-        String templateLibs = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS);
+        String templateDir = jsonObject.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_DIR);
         if (Util.isNullOrNil(srcDir)) {
             jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR));
             count++;
@@ -273,8 +273,8 @@ public class ArbitraryGenCore implements AGCore {
             jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR));
             count++;
         }
-        if (Util.isNullOrNil(templateLibs)) {
-            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS));
+        if (Util.isNullOrNil(templateDir)) {
+            jsonObject.put(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_DIR));
             count++;
         }
         if (count > 0) {

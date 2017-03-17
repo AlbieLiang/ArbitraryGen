@@ -60,7 +60,7 @@ class ArbitraryGenTask extends DefaultTask {
         builder {
             srcDir "${inputDir.absolutePath}"
             destDir "${outputDir.absolutePath}"
-            templateLibs "${libsDir.absolutePath}"
+            templateDir "${libsDir.absolutePath}"
             enable extension.enable
             logger (extension.logger == null ? {} : extension.logger)
             statistic (extension.statistic == null ? {} : extension.statistic)

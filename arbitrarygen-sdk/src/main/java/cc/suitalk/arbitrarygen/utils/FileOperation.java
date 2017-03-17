@@ -154,8 +154,6 @@ public class FileOperation {
 			return read(fis);
 		} catch (FileNotFoundException e) {
 			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
-		} catch (IOException e) {
-			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} finally {
 			if (fis != null) {
 				try {

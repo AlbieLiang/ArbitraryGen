@@ -60,14 +60,16 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
     @Override
     public void initialize(AGCore core, JSONObject args) {
         if (args == null) {
+            Log.i(TAG, "initialize failed, args is null.");
             return;
         }
         // For script template engine
         boolean enable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE, true);
         if (!enable) {
+            Log.i(TAG, "script template engine is disable.");
             return;
         }
-        String templateLibs = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS, "");
+        String templateDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_DIR, "");
 
         JSONArray suffixList = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT, true);
         List<String> list = new LinkedList<>();
@@ -80,8 +82,8 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
                 list.add(suffix);
             }
         }
-        if (!Util.isNullOrNil(templateLibs)) {
-            mTemplateConfig = new TemplateConfig(templateLibs);
+        if (!Util.isNullOrNil(templateDir)) {
+            mTemplateConfig = new TemplateConfig(templateDir);
             mTemplateProcessor = new JsTemplateProcessor();
 
             mTemplateProcessor.addTaskWorker(new GenVigorDBTask(mTemplateConfig));
@@ -89,6 +91,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
             mTemplateProcessor.addTaskWorker(new PsychicGenTask(mTemplateConfig));
             mTemplateProcessor.addTaskWorker(new PyroGenTask(mTemplateConfig, list));
         }
+        Log.i(TAG, "initialize script template engine.(libs : %s)", templateDir);
     }
 
     @Override
