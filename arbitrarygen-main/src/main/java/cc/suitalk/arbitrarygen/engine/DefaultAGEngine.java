@@ -142,16 +142,18 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
             }
             SourceFileParser<JSONObject, JSONObject> parser = mParserMgr.getParser(JSONObject.class, JSONObject.class, key);
             if (parser == null) {
+                Log.i(TAG, "get parser(%s) failed.", key);
                 continue;
             }
             for (int i = 0; i < array.size(); i++) {
                 String path = array.optString(i);
                 if (Util.isNullOrNil(path)) {
+                    Log.i(TAG, "path[%d] is null.(parser : %s)", i, key);
                     continue;
                 }
-                File file = new File(path);
-                JSONObject sourceJSON = parser.parse(args, file);
+                JSONObject sourceJSON = parser.parse(args, new File(path));
                 if (sourceJSON == null) {
+                    Log.i(TAG, "parse(%s) out JSON is null.(file : %s)", key, path);
                     continue;
                 }
                 // for extend

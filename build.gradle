@@ -15,10 +15,10 @@ buildscript {
                 // 没有的话，就本地引入
                 url "file:${project.rootDir.getAbsolutePath()}/repositories/release"
             }
-        } else {
-            maven {
-                url 'https://dl.bintray.com/albieliang/maven/'
-            }
+//        } else {
+//            maven {
+//                url 'https://dl.bintray.com/albieliang/maven/'
+//            }
         }
     }
 
@@ -30,7 +30,7 @@ buildscript {
 
 
         // 自定义的插件以 groupId:name:版本号 的方式引用，这个name来自插件工程下的arbitrarygen.properties文件名
-        classpath 'cc.suitalk.tools:arbitrarygen-plugin:2.0.1'
+        classpath 'cc.suitalk.tools:arbitrarygen-plugin:2.0.2'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -46,10 +46,10 @@ allprojects {
                 // 没有的话，就本地引入
                 url "file:${project.rootDir.getAbsolutePath()}/repositories/release"
             }
-        } else {
-            maven {
-                url 'https://dl.bintray.com/albieliang/maven/'
-            }
+//        } else {
+//            maven {
+//                url 'https://dl.bintray.com/albieliang/maven/'
+//            }
         }
     }
     tasks.withType(JavaCompile) {

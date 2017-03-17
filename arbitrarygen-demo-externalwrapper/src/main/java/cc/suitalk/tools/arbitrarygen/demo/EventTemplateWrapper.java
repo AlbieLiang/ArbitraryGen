@@ -58,7 +58,7 @@ public class EventTemplateWrapper implements TemplateWrapper {
 			String name = template.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_NAME);
 			TemplateAttributeHelper.appendAttribute(template, TemplateConstants.TEMPLATE_KEYWORDS_NAME, TAG_NAME);
 			TemplateAttributeHelper.appendAttribute(template, TemplateConstants.TEMPLATE_KEYWORDS_IMPORT,
-					"cc.suitalk.test.event.IEvent", KeyWords.V_JAVA_KEYWORDS_SIGN_COMMA);
+					"cc.suitalk.arbitrarygen.demo.event.IEvent", KeyWords.V_JAVA_KEYWORDS_SIGN_COMMA);
 			// Add a field
 			FastAssignRawTemplate fart = new FastAssignRawTemplate(KeyWords.V_JAVA_KEYWORDS_PUBLIC, true, true,
 					KeyWords.V_JAVA_KEYWORDS_DATA_BASE_TYPE_STRING, "ID");

@@ -32,6 +32,7 @@ import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.template.DelayReadResFileTask;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.TemplateUtils;
@@ -77,10 +78,10 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
         }
         String template = null;
         if (!Util.isNullOrNil(templateTag)) {
-            template = TemplateManager.getImpl().get(templateTag);
+            template = RuntimeContextHelper.replace(TemplateManager.getImpl().get(templateTag));
         }
         if (Util.isNullOrNil(template)) {
-            template = FileOperation.read(templatePath);
+            template = RuntimeContextHelper.replace(FileOperation.read(templatePath));
         }
         if (Util.isNullOrNil(template)) {
             Log.i(TAG, "template is null or nil.");

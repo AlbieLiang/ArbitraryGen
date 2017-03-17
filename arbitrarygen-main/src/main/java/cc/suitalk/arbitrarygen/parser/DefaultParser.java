@@ -40,6 +40,7 @@ import cc.suitalk.arbitrarygen.extension.CustomizeGenerator;
 import cc.suitalk.arbitrarygen.extension.CustomizeParser;
 import cc.suitalk.arbitrarygen.extension.TemplateWrapper;
 import cc.suitalk.arbitrarygen.impl.DefaultRawTemplateParser;
+import cc.suitalk.arbitrarygen.impl.DefaultTemplateConverter;
 import cc.suitalk.arbitrarygen.template.RawTemplate;
 import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
@@ -62,6 +63,7 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
     protected TemplateWrapperMgr mWrapperMgr;
 
     public DefaultParser(AGCore core, JSONObject args) {
+        Log.d(TAG, "initialize args(%s)", args);
         mArgs = args;
         mParserMgr = new TemplateParserMgr();
         mConverterMgr = new TemplateConverterMgr();
@@ -90,6 +92,8 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
         }
         mDefaultRawTemplateParser = new DefaultRawTemplateParser();
         mParserMgr.addParser(mDefaultRawTemplateParser);
+        // Add Default converter
+        mConverterMgr.addConverter(new DefaultTemplateConverter());
     }
 
     @Override
@@ -116,6 +120,8 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
         List<RawTemplate> templates = parser.parse(file);
         if (templates != null && templates.size() > 0) {
             doConvert(templates);
+        } else {
+            Log.i(TAG, "parse(file : %s) out raw template size is 0.", file.getAbsolutePath());
         }
         return null;
     }
@@ -130,6 +136,7 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
                 RawTemplate t = subTemplates.get(j);
                 CustomizeConverter converter = mConverterMgr.getFirstMatchConverter(t);
                 if (converter == null || !converter.canConvert(t)) {
+                    Log.i(TAG, "not match converter, raw template(%s).", t.getName());
                     continue;
                 }
                 long startMSec = System.currentTimeMillis();
@@ -140,6 +147,7 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
                 Log.v(TAG, ">>>>>>doWrap(RawTemplate template : %s) cost %d msec.", t.getName(), (endMsec - startMSec));
                 TypeDefineCodeBlock ct = converter.convert(contextInfo, t);
                 if (ct == null) {
+                    Log.i(TAG, "convert out TypeDefineCodeBlock is null.(t : %s)", t.getName());
                     continue;
                 }
                 ct.Token = t.Token;

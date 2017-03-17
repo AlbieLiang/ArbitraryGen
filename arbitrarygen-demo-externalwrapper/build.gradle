@@ -11,7 +11,7 @@ jar {
 }
 
 dependencies {
-    compile 'cc.suitalk.tools:arbitrarygen-sdk:2.0.0'
+    compile 'cc.suitalk.tools:arbitrarygen-sdk:2.0.2'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/json-lib-2.4-jdk15.jar')
     compile files('libs/greendao-generator-2.1.0.jar')

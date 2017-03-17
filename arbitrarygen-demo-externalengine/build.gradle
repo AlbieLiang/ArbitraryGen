@@ -11,7 +11,7 @@ jar {
 }
 
 dependencies {
-    compile 'cc.suitalk.tools:arbitrarygen-sdk:2.0.0'
+    compile 'cc.suitalk.tools:arbitrarygen-sdk:2.0.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
 }
 

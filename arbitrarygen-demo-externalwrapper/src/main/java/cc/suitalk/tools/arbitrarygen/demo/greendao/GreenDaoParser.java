@@ -40,7 +40,7 @@ public class GreenDaoParser implements SourceFileParser<JSONObject, JSONObject> 
     @Override
     public JSONObject parse(JSONObject args, File file) {
         Log.i(TAG, "parse greendao file(%s)", file);
-        String destDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
+        String destDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR);
         GreenDaoGenerator.doGen(file.getAbsolutePath(), destDir);
         return null;
     }

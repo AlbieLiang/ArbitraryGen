@@ -109,13 +109,13 @@ public class FileOperation {
 			fw.flush();
 			Log.i(TAG, "Gen file : " + fileName + " Successfully.");
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} finally {
 			if (fw != null) {
 				try {
 					fw.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 				}
 			}
 		}
@@ -131,13 +131,13 @@ public class FileOperation {
 			fw.flush();
 			Log.i(TAG, "Gen file : " + fileName + " Successfully.");
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} finally {
 			if (fw != null) {
 				try {
 					fw.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 				}
 			}
 		}
@@ -153,15 +153,15 @@ public class FileOperation {
 			fis = new FileInputStream(f);
 			return read(fis);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} finally {
 			if (fis != null) {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 				}
 			}
 		}
@@ -180,9 +180,9 @@ public class FileOperation {
 				sb.append(new String(buf, 0, size));
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} finally {
 		}
 		return sb.toString();

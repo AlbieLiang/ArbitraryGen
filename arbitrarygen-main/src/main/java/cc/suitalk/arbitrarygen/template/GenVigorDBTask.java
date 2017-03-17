@@ -23,6 +23,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.StatisticManager;
@@ -46,7 +47,7 @@ public class GenVigorDBTask extends BasePsychicWorker {
 	
 	public GenVigorDBTask(TemplateConfig cfg) {
 		super(cfg);
-		mVigorDBItemTmpl = FileOperation.read(mConfigArgs.getTemplateLibs() + "/VigorDBItem.vigor-template");
+		mVigorDBItemTmpl = RuntimeContextHelper.replace(FileOperation.read(mConfigArgs.getTemplateLibs() + "/VigorDBItem.vigor-template"));
 	}
 	
 	@Override
@@ -84,7 +85,7 @@ public class GenVigorDBTask extends BasePsychicWorker {
 			Log.e(TAG, "gen item code error : %s", e);
 		}
 		if (mVigorDBInfoDelegateTmpl == null || !info.templateLibs.equals(mTemplateLibs)) {
-			mVigorDBInfoDelegateTmpl = FileOperation.read(info.templateLibs + "/VDBInfoDelegate.vigor-template");
+			mVigorDBInfoDelegateTmpl = RuntimeContextHelper.replace(FileOperation.read(info.templateLibs + "/VDBInfoDelegate.vigor-template"));
 			mTemplateLibs = info.templateLibs;
 		}
 		JSONObject delegateJson = new JSONObject();

@@ -48,19 +48,19 @@ public class TemplateConfig {
 			properties.load(fis);
 			TemplateManager mgr = TemplateManager.getImpl();
 			for (Object key : properties.keySet()) {
-				String templatePath = this.templateLibs + "/" +properties.getProperty((String) key, null);
+				String templatePath = this.templateLibs + "/" + properties.getProperty((String) key, null);
 				mgr.put((String) key, new DelayReadFileTask(templatePath));
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} finally {
 			if (fis != null) {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 				}
 			}
 		}

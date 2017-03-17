@@ -28,6 +28,7 @@ import cc.suitalk.arbitrarygen.template.TaskInfo;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
 import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.HybridsTemplateUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -98,7 +99,7 @@ public class GenHybridsTask extends BasePsychicWorker {
 				}
 				JSONArray list = new JSONArray();
 				try {
-					String template = TemplateManager.getImpl().get(tagName);
+					String template = RuntimeContextHelper.replace(TemplateManager.getImpl().get(tagName));
 					if (Util.isNullOrNil(template)) {
 						Log.w(TAG, "the template do not exist with tag : %s", tagName);
 						continue;

@@ -28,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cc.suitalk.arbitrarygen.utils.Log;
+import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
  * Created by albieliang on 2017/3/9.
@@ -73,6 +74,9 @@ public class RuntimeContextHelper {
 
 
     public static String replace(String rawContent) {
+        if (Util.isNullOrNil(rawContent)) {
+            return rawContent;
+        }
         Matcher matcher = getImpl().mPattern.matcher(rawContent);
         StringBuffer sb = new StringBuffer();
         Map<String, Object> map = getImpl().mEnvArgs;

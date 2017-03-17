@@ -47,6 +47,7 @@ public class DefaultRawTemplateParser implements CustomizeParser {
 			Log.e(TAG, "The file is null or do not exists or isn't a file.");
 			return null;
 		}
+		Log.i(TAG, "parse file(%s)", file.getAbsolutePath());
 		return XmlUtils.getXmlNotes(file);
 	}
 

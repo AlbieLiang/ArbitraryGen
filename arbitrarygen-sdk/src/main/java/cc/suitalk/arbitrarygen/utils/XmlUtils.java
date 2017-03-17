@@ -38,6 +38,8 @@ import cc.suitalk.arbitrarygen.template.RawTemplate;
  */
 public class XmlUtils {
 
+    private static final String TAG = "AG.XmlUtils";
+
     /**
      * The method will parse the XML InputStream and return a notes list.
      * At the end, it will close the InputStream.
@@ -68,20 +70,20 @@ public class XmlUtils {
         try {
             parser = factory.newSAXParser();
             parser.parse(ins, handler);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } catch (SAXException e) {
-            e.printStackTrace();
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } finally {
             if (ins != null && close) {
                 try {
                     ins.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
                 }
             }
         }
@@ -103,13 +105,13 @@ public class XmlUtils {
             ins = new FileInputStream(file);
             return getXmlNotes(ins, handler);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } finally {
             if (ins != null) {
                 try {
                     ins.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
                 }
             }
         }
