@@ -15,7 +15,7 @@
  *
  */
 
-package cc.suitalk.test.event;
+package cc.suitalk.arbitrarygen.demo.event;
 
 /**
  * 

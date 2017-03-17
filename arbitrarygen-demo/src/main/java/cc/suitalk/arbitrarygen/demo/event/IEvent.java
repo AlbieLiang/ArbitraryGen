@@ -15,17 +15,23 @@
  *
  */
 
-package cc.suitalk.test.event;
+package cc.suitalk.arbitrarygen.demo.event;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+public class IEvent {
 
-/**
- * 
- * @author AlbieLiang
- *
- */
-@Retention(RetentionPolicy.RUNTIME)
-public @interface MagicTest {
+	protected String id;
+	protected int order;
+	protected ICallback callback;
 
+	public IEvent() {
+		;
+	}
+
+	public IEvent(ICallback callback) {
+		this.callback = callback;
+	}
+
+	public interface ICallback {
+		void onCallback(Object... args);
+	}
 }

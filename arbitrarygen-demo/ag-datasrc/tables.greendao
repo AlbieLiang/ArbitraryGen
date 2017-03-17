@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tables
-    package="cc.suitalk.test.greendao"
-    targetDir="./build/generated/source/autogen"
+    package="cc.suitalk.arbitrarygen.demo.greendao"
+    targetDir="./build/generated/source/ag-gen"
     version="1"
     super="" >
 

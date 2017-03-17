@@ -15,7 +15,7 @@
  *
  */
 
-package cc.suitalk.test.greendao;
+package cc.suitalk.arbitrarygen.demo.greendao;
 
 /**
  * Created by albieliang on 16/10/24.

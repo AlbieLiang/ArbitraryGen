@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Events package="cc.suitalk.test.event">
+<Events package="cc.suitalk.arbitrarygen.demo.event">
 
     <event name="Default" >
         <field name="name" type="String" default="null"/>

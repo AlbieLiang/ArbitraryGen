@@ -61,7 +61,7 @@ arbitraryGen {
     general {
         enable true
         // suffix list
-        format "xml","db","greendao" // Use XML format parser.
+        format "xml","db","greendao", "event" // Use XML format parser.
         parser {
             jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-wrapper.jar"
             tClass "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"

@@ -15,23 +15,13 @@
  *
  */
 
-package cc.suitalk.test.event;
+package cc.suitalk.arbitrarygen.demo.event;
 
-public class IEvent {
+/**
+ * 
+ * @author AlbieLiang
+ *
+ */
+public class MagicTestCore {
 
-	protected String id;
-	protected int order;
-	protected ICallback callback;
-
-	public IEvent() {
-		;
-	}
-
-	public IEvent(ICallback callback) {
-		this.callback = callback;
-	}
-
-	public interface ICallback {
-		void onCallback(Object... args);
-	}
 }
