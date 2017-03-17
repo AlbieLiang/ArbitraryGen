@@ -1,5 +1,7 @@
 <resources>
 
     <string name="app_name">arbitrarygen</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Welcome to ArbitraryGen Demo APP!</string>
 
 </resources>

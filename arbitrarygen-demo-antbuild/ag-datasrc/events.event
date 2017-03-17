@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Events package="cc.suitalk.test.event">
+<Events package="cc.suitalk.arbitrarygen.demo.event">
 
     <event name="Default" >
         <field name="name" type="String" default="null"/>
     </event>
 
-    <event name="Test"  final="true" parent="DefaultTestEvent">
+    <event name="Test" final="true" parent="DefaultTestEvent">
         <field name="name" type="String" default="null"/>
         <field name="type" type="int" default="0"/>
         <Data static="true" final="true">

@@ -17,7 +17,7 @@
 
     general : {
         enable : true,
-        format : ["xml","db","greendao"],
+        format : ["xml","db","greendao","event"],
         parser : {
             jar : "${project.projectDir}/ag-libs/arbitrarygen-demo-wrapper.jar",
             tClass : "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"
