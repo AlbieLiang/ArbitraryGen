@@ -6,5 +6,5 @@
 cc/suitalk/arbitrarygen/demo/psychic/*
 
 @Project-begin ${project.name}
-# cc/suitalk/arbitrarygen/demo/MainActivity.java
+cc/suitalk/arbitrarygen/demo/vigordb/*
 @Project-end

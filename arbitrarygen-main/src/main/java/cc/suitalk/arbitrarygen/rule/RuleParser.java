@@ -141,7 +141,7 @@ public class RuleParser {
 					bufReader.close();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e(TAG, "close reader error : %s", Log.getStackTraceString(e));
 			}
 		}
 		return ruleFileObject;
@@ -264,7 +264,7 @@ public class RuleParser {
 				// TODO: 2016/11/26 albieliang, handle illegal format
 				Rule rule = new Rule();
 				rule.setType(Rule.TYPE_RULE);
-				rule.setContent(args[0]);
+				rule.setContent(line);
 				project.addRule(rule);
 			}
 		}

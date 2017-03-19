@@ -70,7 +70,8 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
                 continue;
             }
             JSONArray dependsOnArray = JSONArgsUtils.getJSONArray(taskInfo, "dependsOn", true);
-            if (dependsOnArray != null) {
+            if (dependsOnArray != null && !dependsOnArray.isEmpty()) {
+                JSONObject contextJson = new JSONObject();
                 for (int d = 0; d < dependsOnArray.size(); d++) {
                     JSONObject dependsOnInfo = dependsOnArray.optJSONObject(d);
                     if (dependsOnInfo == null) {
@@ -87,9 +88,12 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
                     Log.i(TAG, "the name(%s), processor(%s) and type(%s) of dependsOn info.", n, p, type);
                     if ("input".equals(type)) {
                         JSONObject r = core.execProcess(processors, p, dependsOnInfo);
-                        taskInfo.put(n, r);
+                        if (r != null) {
+                            contextJson.putAll(r);
+                        }
                     }
                 }
+                taskInfo.put("context", contextJson);
             } else {
                 Log.i(TAG, "dependsOn array is null.");
             }
@@ -98,8 +102,9 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
                 Log.d(TAG, "execute task processor result is null, switch to next task.");
                 continue;
             }
+            result.putAll(taskInfo);
             JSONArray resultToArray = JSONArgsUtils.getJSONArray(taskInfo, "resultTo", true);
-            if (resultToArray != null) {
+            if (resultToArray != null && !resultToArray.isEmpty()) {
                 for (int d = 0; d < resultToArray.size(); d++) {
                     JSONObject resultToInfo = resultToArray.optJSONObject(d);
                     if (resultToInfo == null) {
@@ -111,6 +116,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
                         Log.i(TAG, "the processor(%s) of resultTo info is null or nil.", p);
                         continue;
                     }
+                    resultToInfo.putAll(result);
                     JSONObject r = core.execProcess(processors, p, resultToInfo);
                     Log.i(TAG, "the processor(%s) of resultTo info, execute result is : %s.", p, r);
                 }

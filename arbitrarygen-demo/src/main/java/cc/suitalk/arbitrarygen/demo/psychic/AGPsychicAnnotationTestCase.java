@@ -41,7 +41,7 @@ public class AGPsychicAnnotationTestCase {
         //
         // name : <%=_name%>
         // processor : <%=_processor%>
-        <% var jsApiFuncArray = JsApiList.JsApiList;
+        <% var jsApiFuncArray = context.JsApiList;
         if (jsApiFuncArray && jsApiFuncArray.length > 0) {
             for (var i = 0; i < jsApiFuncArray.length; i++) {
                 var fileObj = jsApiFuncArray[i];

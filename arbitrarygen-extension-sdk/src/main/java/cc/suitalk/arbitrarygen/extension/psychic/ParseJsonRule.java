@@ -15,26 +15,21 @@
  *
  */
 
-package cc.suitalk.arbitrarygen.demo.psychic;
+package cc.suitalk.arbitrarygen.extension.psychic;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Created by AlbieLiang on 16/11/16.
+ * Created by AlbieLiang on 2017/03/19.
  */
-public class AGPsychicTestCase {
+@Retention(RetentionPolicy.SOURCE)
+@Target(ElementType.TYPE)
+public @interface ParseJsonRule {
 
-        /*@@@#SCRIPT-BEGIN#
-        <% JsApiList = context.JsApiList;
-        if (JsApiList && JsApiList.length > 0) {
-           for (var i = 0; i < JsApiList.length; i++) {%>
-        //<%=JsApiList[i].toString()%><%
-            }
-        }%>
-        // TaskInfo
-        //
-        // name : <%=_name%>
-        // processor : <%=_processor%>
-        // template : <%=template%>
-        // dependsOn : <%=JSON.stringify(dependsOn)%>
-        // JsApiList : <%=JSON.stringify(JsApiList)%>
-        #SCRIPT-END#@@@*/
+    String name();
+
+    String[] rule();
 }

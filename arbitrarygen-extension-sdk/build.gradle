@@ -10,7 +10,7 @@ def gitUrl = rootProject.ext.bintrayConfig["gitUrl"]   // Git仓库的url
 group = "cc.suitalk.tools"            // Maven Group ID for the artifact，
 
 // 这个version是library的版本，更新后也需要更改这个值
-rootProject.ext.bintrayConfig["version"]
+version = rootProject.ext.bintrayConfig["version"]
 archivesBaseName = 'arbitrarygen-extension-sdk'
 
 // For jar config

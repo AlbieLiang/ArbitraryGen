@@ -33,6 +33,8 @@ import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.extension.psychic.DependsOn;
 import cc.suitalk.arbitrarygen.extension.psychic.ParseJavaRule;
+import cc.suitalk.arbitrarygen.extension.psychic.ParseJsonRule;
+import cc.suitalk.arbitrarygen.extension.psychic.ParseXmlRule;
 import cc.suitalk.arbitrarygen.extension.psychic.PsychicTask;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
 import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
@@ -64,7 +66,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
     public String[] getDependencies() {
         return new String[] {
                 /*@@@#SCRIPT-BEGIN#
-                <%processorList = processorList.processorList;
+                <%processorList = context.processorList;
                 if (processorList && processorList.length > 0) {
                     var list = [];
                     for (var i = 0; i < processorList.length; i++) {
@@ -94,7 +96,9 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                  "hybrid-template-processor",
                  "logger",
                  "parse-java",
+                 "parse-json",
                  "parse-rule",
+                 "parse-xml",
                  "psychic-processor",
                  "scanner",
                  "statistic",
@@ -202,24 +206,44 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                     Log.v(TAG, "type define do not contains PsychicTask annotation.");
                     continue;
                 }
-                AnnotationStatement ruleStm = typeDefine.getAnnotation(ParseJavaRule.class.getSimpleName());
+                AnnotationStatement parseJavaRuleStm = typeDefine.getAnnotation(ParseJavaRule.class.getSimpleName());
+                AnnotationStatement parseXmlRuleStm = typeDefine.getAnnotation(ParseXmlRule.class.getSimpleName());
+                AnnotationStatement parseJsonRuleStm = typeDefine.getAnnotation(ParseJsonRule.class.getSimpleName());
                 AnnotationStatement dependsStm = typeDefine.getAnnotation(DependsOn.class.getSimpleName());
-                if (ruleStm == null && dependsStm == null) {
+                if (parseJavaRuleStm == null && dependsStm == null && parseXmlRuleStm == null && parseJsonRuleStm == null) {
                     Log.i(TAG, "Annotation ParseJavaRule and DependsOn is null.");
                     continue;
                 }
                 JSONObject psychicTask = new JSONObject();
                 JSONArray dependsOnArray = new JSONArray();
-                if (ruleStm != null) {
+                if (parseJavaRuleStm != null) {
                     JSONObject ruleInfo = new JSONObject();
-                    ruleInfo.put("_name", ruleStm.getArg("name").getValue());
+                    ruleInfo.put("_name", parseJavaRuleStm.getArg("name").getValue());
                     ruleInfo.put("_processor", "parse-java");
                     ruleInfo.put("_type", "input");
                     // TODO: 2016/12/3 albieliang, resolve rule array case.
-                    String rule = (String) ruleStm.getArg("rule").getValue();
+                    String rule = (String) parseJavaRuleStm.getArg("rule").getValue();
                     ruleInfo.put("rule", RuntimeContextHelper.replace(rule));
                     dependsOnArray.add(ruleInfo);
 
+                }
+                if (parseXmlRuleStm != null) {
+                    JSONObject ruleInfo = new JSONObject();
+                    ruleInfo.put("_name", parseXmlRuleStm.getArg("name").getValue());
+                    ruleInfo.put("_processor", "parse-xml");
+                    ruleInfo.put("_type", "input");
+                    String rule = (String) parseXmlRuleStm.getArg("rule").getValue();
+                    ruleInfo.put("rule", RuntimeContextHelper.replace(rule));
+                    dependsOnArray.add(ruleInfo);
+                }
+                if (parseJsonRuleStm != null) {
+                    JSONObject ruleInfo = new JSONObject();
+                    ruleInfo.put("_name", parseJsonRuleStm.getArg("name").getValue());
+                    ruleInfo.put("_processor", "parse-json");
+                    ruleInfo.put("_type", "input");
+                    String rule = (String) parseJsonRuleStm.getArg("rule").getValue();
+                    ruleInfo.put("rule", RuntimeContextHelper.replace(rule));
+                    dependsOnArray.add(ruleInfo);
                 }
                 if (dependsStm != null) {
                     JSONObject dependsOnInfo = new JSONObject();

@@ -35,15 +35,31 @@ import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
 import cc.suitalk.arbitrarygen.extension.psychic.ParseJavaRule;
 import cc.suitalk.arbitrarygen.extension.psychic.PsychicTask;
+/*@@@#SCRIPT-BEGIN#
+<%processorList = context.processorList;
+if (processorList && processorList.length > 0) {
+    for (var i = 0; i < processorList.length; i++) {
+        if ("LoggerAGProcessor" == processorList[i]._class[0]._name || "StatisticProcessor" == processorList[i]._class[0]._name) {
+            continue;
+        }%>
+import <%=processorList[i]._package%>.<%=processorList[i]._class[0]._name%>;<%
+    }
+}%>
+#SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
+
 import cc.suitalk.arbitrarygen.processor.ExecuteScriptProcessor;
 import cc.suitalk.arbitrarygen.processor.HybridTemplateProcessor;
-import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseJavaFileProcessor;
+import cc.suitalk.arbitrarygen.processor.ParseJsonProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseRuleProcessor;
+import cc.suitalk.arbitrarygen.processor.ParseXmlProcessor;
 import cc.suitalk.arbitrarygen.processor.PsychicTaskProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
-import cc.suitalk.arbitrarygen.processor.StatisticProcessor;
 import cc.suitalk.arbitrarygen.processor.TemplateProcessor;
+
+//@@@#AUTO-GEN-END#
+import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
+import cc.suitalk.arbitrarygen.processor.StatisticProcessor;
 import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -183,8 +199,7 @@ public class ArbitraryGenCore implements AGCore {
         addProcessor(new StatisticProcessor());
 
         /*@@@#SCRIPT-BEGIN#
-        <%processorList = processorList.processorList;
-        if (processorList && processorList.length > 0) {
+        <% if (processorList && processorList.length > 0) {
             for (var i = 0; i < processorList.length; i++) {
                 if ("LoggerAGProcessor" == processorList[i]._class[0]._name || "StatisticProcessor" == processorList[i]._class[0]._name) {
                     continue;
@@ -197,7 +212,9 @@ public class ArbitraryGenCore implements AGCore {
         addProcessor(new ExecuteScriptProcessor());
         addProcessor(new HybridTemplateProcessor());
         addProcessor(new ParseJavaFileProcessor());
+        addProcessor(new ParseJsonProcessor());
         addProcessor(new ParseRuleProcessor());
+        addProcessor(new ParseXmlProcessor());
         addProcessor(new PsychicTaskProcessor());
         addProcessor(new ScannerAGProcessor());
         addProcessor(new TemplateProcessor());

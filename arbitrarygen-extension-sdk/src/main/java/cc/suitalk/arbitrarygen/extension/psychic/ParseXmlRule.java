@@ -15,18 +15,21 @@
  *
  */
 
-package cc.suitalk.arbitrarygen.demo;
+package cc.suitalk.arbitrarygen.extension.psychic;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * 
- * @author AlbieLiang
- *
+ * Created by AlbieLiang on 2017/03/19.
  */
-public class AGAntBuildDemoEntrance {
+@Retention(RetentionPolicy.SOURCE)
+@Target(ElementType.TYPE)
+public @interface ParseXmlRule {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+    String name();
 
-	}
-
+    String[] rule();
 }

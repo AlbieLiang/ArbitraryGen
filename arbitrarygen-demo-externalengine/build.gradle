@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-version = '2.0.0'
+version = '2.0.2'
 mainClassName = ''
 archivesBaseName = 'arbitrarygen-demo-engine'
 
@@ -11,7 +11,7 @@ jar {
 }
 
 dependencies {
-    compile 'cc.suitalk.tools:arbitrarygen-sdk:2.0.2'
+    compile rootProject.ext.arbitrarygen["sdk"]
     compile fileTree(include: ['*.jar'], dir: 'libs')
 }
 
