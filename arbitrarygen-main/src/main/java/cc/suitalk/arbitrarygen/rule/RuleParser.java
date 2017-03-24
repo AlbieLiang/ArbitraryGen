@@ -115,6 +115,7 @@ public class RuleParser {
 				} else if ((args = splitArgs(RuleConstants.PROJECT_BEGIN, line)) != null && args.length > 0) {
 					Project project = parseProject(args[0], bufReader);
 					project.setRuleFileObject(ruleFileObject);
+					attachRootProjectArgsIfNeed(defaultProject, project);
 					ruleFileObject.addProject(project);
 				} else if ((args = splitArgs(RuleConstants.PROJECT, line)) != null && args.length > 0) {
 					defaultProject.setName(args[0]);
@@ -286,4 +287,14 @@ public class RuleParser {
 		String[] command = msg.split("#");
 		return command;
 	}
+
+	private static void attachRootProjectArgsIfNeed(Project rootProject, Project project) {
+		if (rootProject == null || project == null) {
+			return;
+		}
+		if (project.getSrc() == null) {
+			project.setSrc(rootProject.getSrc());
+		}
+	}
+
 }
