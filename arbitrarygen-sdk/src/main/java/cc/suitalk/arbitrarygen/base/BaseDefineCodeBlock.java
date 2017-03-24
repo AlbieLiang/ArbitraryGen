@@ -1,4 +1,23 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.base;
+
+import net.sf.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +53,7 @@ public abstract class BaseDefineCodeBlock extends BaseStatement implements ICode
 	private List<Word> mModifierWords;
 
 	public BaseDefineCodeBlock() {
-		mModifierWords = new LinkedList<Word>();
+		mModifierWords = new LinkedList<>();
 	}
 	
 	protected String genDefCode(BaseDefineCodeBlock defCodeBlock, String linefeed) {
@@ -101,7 +120,24 @@ public abstract class BaseDefineCodeBlock extends BaseStatement implements ICode
 		}
 		return builder.toString();
 	}
-	
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = super.toJSONObject();
+		if (!Util.isNullOrNil(mModifier)) {
+			jsonObject.put("_modifier", mModifier);
+		}
+		jsonObject.put("_static", mIsStatic);
+		jsonObject.put("_final", mIsFinal);
+		jsonObject.put("_abstract", mIsAbstract);
+		jsonObject.put("_synchronized", mIsSynchronized);
+		if (mType != null) {
+			jsonObject.put("_type", mType.getName());
+		}
+		jsonObject.put("_name", mName.getName());
+		return jsonObject;
+	}
+
 	private boolean addModifier(Word word) {
 		return mModifierWords.add(word);
 	}

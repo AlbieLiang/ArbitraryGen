@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.template;
 
 import java.io.File;
@@ -5,9 +22,12 @@ import java.io.File;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
-import cc.suitalk.arbitrarygen.template.base.BaseGenCodeWorker;
+import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
+import cc.suitalk.arbitrarygen.utils.Log;
+import cc.suitalk.arbitrarygen.utils.StatisticManager;
+import cc.suitalk.arbitrarygen.utils.TemplateUtils;
 import cc.suitalk.arbitrarygen.utils.Util;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -17,9 +37,9 @@ import net.sf.json.JSONObject;
  * @author AlbieLiang
  *
  */
-public class GenVigorDBTask extends BaseGenCodeWorker {
+public class GenVigorDBTask extends BasePsychicWorker {
 
-	private static final String TAG = "CodeGen.GenVigorDBTask";
+	private static final String TAG = "AG.GenVigorDBTask";
 	
 	private String mVigorDBItemTmpl;
 	private String mVigorDBInfoDelegateTmpl;
@@ -27,7 +47,7 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 	
 	public GenVigorDBTask(TemplateConfig cfg) {
 		super(cfg);
-		mVigorDBItemTmpl = FileOperation.read(mConfigArgs.getTemplateLibs() + "/VigorDBItem.vigor-template");
+		mVigorDBItemTmpl = RuntimeContextHelper.replace(FileOperation.read(mConfigArgs.getTemplateLibs() + "/VigorDBItem.vigor-template"));
 	}
 	
 	@Override
@@ -40,7 +60,7 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 		
 		// Use default class name
 		if (Util.isNullOrNil(delegate)) {
-			delegate = "AutoGen_VDBInfoDelegate";
+			delegate = "AG_VDBInfoDelegate";
 		}
 		try {
 			if (tbObj instanceof JSONArray) {
@@ -48,20 +68,24 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 				for (int i = 0, len = arr.size(); i < len; i++) {
 					JSONObject obj = arr.getJSONObject(i);
 					obj.put("@package", pkg);
-					genCode(engine, mVigorDBItemTmpl, info.transfer, info.utils, info.destPath, obj);
+					long startTime = System.currentTimeMillis();
+					genCode(engine, mVigorDBItemTmpl, info.script, info.destPath, obj);
+					StatisticManager.mark("GenCode", "[VigorDB]", (System.currentTimeMillis() - startTime));
 					tables.add(obj.getString("@name"));
 				}
 			} else {
 				JSONObject json = (JSONObject) tbObj;
 				json.put("@package", pkg);
-				genCode(engine, mVigorDBItemTmpl, info.transfer, info.utils, info.destPath, json);
+				long startTime = System.currentTimeMillis();
+				genCode(engine, mVigorDBItemTmpl, info.script, info.destPath, json);
+				StatisticManager.mark("GenCode", "[VigorDB]", (System.currentTimeMillis() - startTime));
 				tables.add(json.getString("@name"));
 			}
 		} catch (ScriptException e) {
-			e.printStackTrace();
+			Log.e(TAG, "gen item code error : %s", e);
 		}
 		if (mVigorDBInfoDelegateTmpl == null || !info.templateLibs.equals(mTemplateLibs)) {
-			mVigorDBInfoDelegateTmpl = FileOperation.read(info.templateLibs + "/VDBInfoDelegate.vigor-template");
+			mVigorDBInfoDelegateTmpl = RuntimeContextHelper.replace(FileOperation.read(info.templateLibs + "/VDBInfoDelegate.vigor-template"));
 			mTemplateLibs = info.templateLibs;
 		}
 		JSONObject delegateJson = new JSONObject();
@@ -69,9 +93,11 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 		delegateJson.put("@name", delegate);
 		delegateJson.put("@dbItems", tables);
 		try {
-			genCode(engine, mVigorDBInfoDelegateTmpl, info.transfer, "", info.destPath, delegateJson);
+			long startTime = System.currentTimeMillis();
+			genCode(engine, mVigorDBInfoDelegateTmpl, info.script, info.destPath, delegateJson);
+			StatisticManager.mark("GenCode", "[VigorDB]", (System.currentTimeMillis() - startTime));
 		} catch (ScriptException e) {
-			e.printStackTrace();
+			Log.e(TAG, "gen delegate code error : %s", e);
 		}
 		return null;
 	}
@@ -81,9 +107,9 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 		return "vigor-define";
 	}
 	
-	private void genCode(ScriptEngine engine, String template, String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
+	private void genCode(ScriptEngine engine, String template, String script, String destPath, JSONObject obj) throws ScriptException {
 		String jsonStr = obj.toString().replace("@", "_");
-		String script = transfer + utils + "\nparseTemplate(\"" + escape(template) + "\"," + jsonStr + ");";
+		String s = script + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
 		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
 		String path = dest + "/" + obj.getString("@name") + ".java";
 
@@ -91,42 +117,6 @@ public class GenVigorDBTask extends BaseGenCodeWorker {
 		if (!destFolder.exists()) {
 			destFolder.mkdirs();
 		}
-//		Log.d(TAG, "jsonStr : %s\n", jsonStr);
-//		Log.d(TAG, "script : %s\n", script);
-//		Log.d(TAG, "dest : %s\n", dest);
-//		Log.d(TAG, "path : %s\n", path);
-		FileOperation.write(path, format(unescape((String) engine.eval(script))));
-	}
-
-	public static String escape(String str) {
-		return str.replaceAll("[\r\n]+", "\\x0a").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\x29");
-	}
-	
-	public static String unescape(String str) {
-		return str.replaceAll("(x0a[ ]*)+", "\r\n").replace("x29", "'");
-	}
-
-	public static String format(String str) {
-		String indent = "";
-		String vary = "    ";
-		StringBuilder sb = new StringBuilder();
-		String[] sps = str.split("\r\n");
-		
-		for (int i = 0, len = sps.length; i < len; i++) {
-			String sp = sps[i].trim();
-			if (sp.startsWith("}}")) {
-				indent = indent.replaceFirst(vary, "");
-				indent = indent.replaceFirst(vary, "");
-			} else if (sp.startsWith("}")) {
-				indent = indent.replaceFirst(vary, "");
-			}
-			sb.append(indent);
-			sb.append(sp);
-			if (sp.endsWith("{")) {
-				indent += vary;
-			}
-			sb.append("\r\n");
-		}
-		return sb.toString();
+		FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(s))));
 	}
 }

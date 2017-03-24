@@ -1,33 +1,99 @@
 apply plugin: 'arbitrarygen'
 
 dependencies {
-    compile 'cc.suitalk.tools:arbitrarygen-extension-sdk:1.0.0'
+    compile 'cc.suitalk.tools:arbitrarygen-extension-sdk:2.0.0'
     // Add more
 }
 
+android {
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['src/main/java/', 'build/generated/source/ag-gen']
+            }
+        }
+    }
+}
 arbitraryGen {
     libsDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen"
     inputDir "${project.projectDir.absolutePath}/autogen"
     outputDir "$buildDir/generated/source/autogen"
 
-    general {
-        format "db" // Use XML format parser.
-        rule "${project.projectDir.absolutePath}/autogen/parse-project.rule"
-        extParsers = ["../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConvertor", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper", "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConvertor"]
-//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateConvertor"
-//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.EventTemplateWrapper"
-//        extParsers "../ArbitraryGen/arbitrarygen-demo-wrapper.jar,osc.innovator.tools.arbitrarygen.ExternalTemplateWrapper"
-    }
-
     logger {
         debug true
         logToFile true
-        printArgs true
         printTag true
         path "$buildDir/outputs/logs/ag.log"
     }
 
-    scriptEngine {
-//        format "e"
+    statistic {
+        toFile true
+        path "$buildDir/outputs/logs/ag.statistic"
     }
+
+    general {
+        enable true
+        // suffix list
+        format "xml","db","greendao" // Use XML format parser.
+        parser {
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+            tClass "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoParser"
+        }
+        extension {
+            // jar list
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+            // class list
+            tClass "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateConverter",
+                    "cc.suitalk.tools.arbitrarygen.demo.EventTemplateWrapper",
+                    "cc.suitalk.tools.arbitrarygen.demo.ExternalTemplateWrapper",
+                    "cc.suitalk.tools.arbitrarygen.demo.greendao.GreenDaoConverter"
+        }
+    }
+
+    scriptEngine {
+        enable true
+        format "e"
+    }
+
+    javaCodeEngine {
+        enable true
+        ruleFile "${project.projectDir.absolutePath}/autogen/parse-project.rule"
+
+        // external jar and class of customize type-define wrapper or customize annotation processor
+        extension {
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-wrapper.jar"
+            // customize annotation processor
+            pClass "cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"
+        }
+    }
+
+    // external engine argument
+    engine {
+        // external jar and class of customize engine
+        extension {
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-engine.jar"
+            tClass "cc.suitalk.tools.arbitrarygen.demo.TestEngine"
+        }
+        // example engine
+        testEngine {
+            enable false
+            map {
+                test 1
+            }
+        }
+    }
+
+    // external processor argument
+    processor {
+        // external jar and class of customize engine
+        extension {
+            jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-engine.jar"
+            tClass "cc.suitalk.tools.arbitrarygen.demo.TestProcessor"
+        }
+        // example processor
+        testProcessor {
+            message "do smothing"
+        }
+    }
+
 }

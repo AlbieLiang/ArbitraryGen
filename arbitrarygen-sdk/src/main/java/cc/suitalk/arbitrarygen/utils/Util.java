@@ -1,11 +1,32 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseCodeParser;
@@ -13,6 +34,9 @@ import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
+import cc.suitalk.arbitrarygen.block.FieldCodeBlock;
+import cc.suitalk.arbitrarygen.block.MethodCodeBlock;
+import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Value;
 import cc.suitalk.arbitrarygen.core.Word;
@@ -24,7 +48,7 @@ import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.expression.VariableExpression;
 import cc.suitalk.arbitrarygen.expression.parser.ReferenceExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.model.TypeName;
 import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
 import cc.suitalk.arbitrarygen.statement.DefinitionStatement;
@@ -39,10 +63,10 @@ import cc.suitalk.arbitrarygen.statement.parser.NormalStatementParser;
  */
 public class Util {
 
-	private final static String TAG = "CodeGen.Util";
+	private final static String TAG = "AG.Util";
 	
 	public static final boolean isNullOrNil(String str) {
-		return str == null || str.equals("");
+		return str == null || str.length() == 0;
 	}
 
 	public static final String nullAsNil(String str) {
@@ -73,6 +97,22 @@ public class Util {
 		StringBuilder builder = new StringBuilder();
 		builder.append(str[0]);
 		for (int i = 1; i < str.length; i++) {
+			builder.append(separator);
+			builder.append(str[i]);
+		}
+		return builder.toString();
+	}
+
+	public static String jointWhenNoNil(String separator, String... str) {
+		if (str == null || str.length == 0) {
+			return "";
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append(str[0]);
+		for (int i = 1; i < str.length; i++) {
+			if (Util.isNullOrNil(str[i])) {
+				continue;
+			}
 			builder.append(separator);
 			builder.append(str[i]);
 		}
@@ -254,7 +294,7 @@ public class Util {
 		return value;
 	}
 	
-	public static Value getValue(IReader reader, ILexer lexer, BaseCodeParser parser) throws IOException {
+	public static Value getValue(IReader reader, Lexer lexer, BaseCodeParser parser) throws IOException {
 		StringBuilder builder = new StringBuilder();
 		Value value = null;
 		Word word = parser.nextWord(reader, lexer);
@@ -271,7 +311,7 @@ public class Util {
 		return value;
 	}
 
-	public static List<AnnotationStatement> parseAndAddAnnotation(IReader reader, ILexer lexer, Word curWord, BaseCodeParser parser) {
+	public static List<AnnotationStatement> parseAndAddAnnotation(IReader reader, Lexer lexer, Word curWord, BaseCodeParser parser) {
 		AnnotationStatementParser asParser = ParserFactory.getAnnotationStatementParser();
 		AnnotationStatement as = null;
 		Word word = curWord;
@@ -291,7 +331,7 @@ public class Util {
 		return ans.size() > 0 ? ans : null;
 	}
 	
-	public static Expression extractExpressionFromBlacket(IReader reader, ILexer lexer, Word curWord, BaseCodeParser parser) throws IOException {
+	public static Expression extractExpressionFromBracket(IReader reader, Lexer lexer, Word curWord, BaseCodeParser parser) throws IOException {
 		Word word = curWord;
 		if (!"(".equals(word.value)) {
 			throw new RuntimeException("missed '(' when parse statement.");
@@ -309,7 +349,7 @@ public class Util {
 		return e;
 	}
 
-	public static void getAndAttachCodeBlock(IReader reader, ILexer lexer, Word curWord, BaseStatement statement, BaseCodeParser parser) throws IOException {
+	public static void getAndAttachCodeBlock(IReader reader, Lexer lexer, Word curWord, BaseStatement statement, BaseCodeParser parser) throws IOException {
 		NormalStatementParser nsp = ParserFactory.getNormalStatementParser();
 		BaseStatement s = nsp.parse(reader, lexer, curWord);
 		parser.setLastWord(nsp.getLastWord());
@@ -320,21 +360,59 @@ public class Util {
 			statement.setCodeBlock(s.getCodeBlock());
 		} else {
 			PlainCodeBlock codeblock = statement.getCodeBlock();
-			codeblock.setDisplayBrack(false);
+			codeblock.setDisplayBrace(false);
 			statement.addStatement(s);
 		}
 	}
 
-	public static String extractExpressionWithEndSign(IReader reader, ILexer lexer, BaseCodeParser parser, String closeSign) throws IOException {
-//		if (curWord != null && curWord.value.equals(closeSign)) {
-//			return "";
-//		}
+	public static Map<String, Set<BaseStatement>> extractContainsAnnotationStatementOfTypeDefine(TypeDefineCodeBlock codeBlock) {
+		Map<String, Set<BaseStatement>> map = new HashMap<>();
+		extractStatement(map, codeBlock);
+		for (int m = 0; m < codeBlock.countOfMethods(); m++) {
+			MethodCodeBlock mcb = codeBlock.getMethod(m);
+			extractStatement(map, mcb);
+		}
+		for (int f = 0; f < codeBlock.countOfFields(); f++) {
+			FieldCodeBlock fcb = codeBlock.getField(f);
+			extractStatement(map, fcb);
+		}
+		return map;
+	}
+
+	private static void extractStatement(Map<String, Set<BaseStatement>> map, BaseStatement statement) {
+		if (map == null || statement == null) {
+			return;
+		}
+		for (int i = 0; i < statement.countOfAnnotations(); i++) {
+			AnnotationStatement as = statement.getAnnotation(i);
+			String name = as.getName().getName();
+			Set<BaseStatement> set = map.get(name);
+			if (set == null) {
+				set = new HashSet<>();
+				map.put(name, set);
+			}
+			set.add(statement);
+		}
+	}
+
+	/**
+	 * The result do not contains the End Sign.
+	 *
+	 * @param reader word reader
+	 * @param lexer Java lexer
+	 * @param parser customize parser
+	 * @param closeSign end sign
+	 * @return extract expression
+     * @throws IOException io exception
+     */
+	public static String extractExpressionWithEndSign(IReader reader, Lexer lexer, BaseCodeParser parser, String closeSign) throws IOException {
 		StringBuilder builder = new StringBuilder();
-		Word word = null;
+		Word word = parser.nextWord(reader, lexer);
 		String cs = closeSign;
-//		builder.append(word.value);
-		while ((word = parser.nextWord(reader, lexer)) != null && word.type != WordType.DOC_END) {
+		while (word != null && word.type != WordType.DOC_END) {
 			if (word.value.equals(closeSign)) {
+//				builder.append(word);
+//				parser.nextWord(reader, lexer);
 				break;
 			}
 			builder.append(word);
@@ -343,20 +421,27 @@ public class Util {
 			} else if ("{".equals(word.value)) {
 				cs = "}";
 			} else {
+				word = parser.nextWord(reader, lexer);
 				continue;
 			}
 			builder.append(extractExpressionWithEndSign(reader, lexer, parser, cs));
 			word = parser.getLastWord();
 			builder.append(word);
+			word = parser.nextWord(reader, lexer);
 		}
 		return builder.toString();
 	}
 	
-	public static final Expression extractExpression(IReader reader, ILexer lexer, Word curWord, BaseCodeParser parser, String closeSign) throws IOException {
+	public static final Expression extractExpression(IReader reader, Lexer lexer, Word curWord, BaseCodeParser parser, String closeSign) throws IOException {
 		StringBuilder builder = new StringBuilder();
 		Word word = curWord;
 		String cs = null;
-		while (!closeSign.equals(word.value)) {
+		while (word != null && word.type != WordType.DOC_END) {
+			if (word.value.equals(closeSign)) {
+//				builder.append(word);
+//				parser.nextWord(reader, lexer);
+				break;
+			}
 			builder.append(word);
 			if ("(".equals(word.value)) {
 				cs = ")";
@@ -368,10 +453,8 @@ public class Util {
 			}
 			builder.append(Util.nullAsNil(Util.extractExpressionWithEndSign(reader, lexer, parser, cs)));
 			word = parser.getLastWord();
-			if (closeSign.equals(cs)) {
-				builder.append(word);
-				word = parser.nextWord(reader, lexer);
-			}
+			builder.append(word);
+			word = parser.nextWord(reader, lexer);
 		}
 		Expression e = new Expression();
 		e.setVariable(builder.toString());
@@ -412,7 +495,7 @@ public class Util {
 		return word;
 	}
 	
-	public static final String getLeftBlacket(BaseStatement stm) {
+	public static final String getLeftBracket(BaseStatement stm) {
 		if (stm != null) {
 			Word word = stm.getWordLeftBracket();
 			if (word != null) {
@@ -422,7 +505,7 @@ public class Util {
 		return "(";
 	}
 	
-	public static final String getRightBlacket(BaseStatement stm) {
+	public static final String getRightBracket(BaseStatement stm) {
 		if (stm != null) {
 			Word word = stm.getWordRightBracket();
 			if (word != null) {
@@ -482,16 +565,15 @@ public class Util {
 		}
 		return builder.toString();
 	}
-	
 
-	public static final void addAll(List<String> list, List<String> str) {
+	public static final<T> void addAll(List<T> list, List<T> str) {
 		if (list != null && str != null) {
 			list.addAll(str);
 		}
 	}
 	
-	public static final boolean add(List<String> list, String str) {
-		if (list != null && !Util.isNullOrNil(str) && !list.contains(str)) {
+	public static final<T> boolean add(List<T> list, T str) {
+		if (list != null && str != null && !list.contains(str)) {
 			list.add(str);
 		}
 		return false;

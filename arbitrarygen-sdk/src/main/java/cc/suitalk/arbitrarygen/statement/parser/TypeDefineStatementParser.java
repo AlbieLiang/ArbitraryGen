@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.statement.parser;
 
 import java.io.IOException;
@@ -19,7 +36,7 @@ import cc.suitalk.arbitrarygen.core.Value;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.parser.PlainExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.model.KeyValuePair;
 import cc.suitalk.arbitrarygen.model.TypeName;
 import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
@@ -35,7 +52,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class TypeDefineStatementParser extends BaseStatementParser {
 
-	private static final String TAG = "CodeGen.TypeDefineStatementParser";
+	private static final String TAG = "AG.TypeDefineStatementParser";
 	
 	private Map<String, String> mModifierKeywords = new HashMap<String, String>();
 	
@@ -48,10 +65,11 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 		mModifierKeywords.put("final", "final");
 		mModifierKeywords.put("abstract", "abstract");
 		mModifierKeywords.put("synchronized", "synchronized");
+		mModifierKeywords.put("volatile", "volatile");
 	}
 
 	@Override
-	public TypeDefineCodeBlock parse(IReader reader, ILexer lexer, Word curWord) {
+	public TypeDefineCodeBlock parse(IReader reader, Lexer lexer, Word curWord) {
 		setLastWord(curWord);
 		if (curWord == null) {
 			return null;
@@ -70,6 +88,17 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 			// Parse modifier
 			while (!"{".equals(word.value) && word.type != WordType.DOC_END) {
 				if (word.type != WordType.STRING) {
+					if (word.value.equals("@")) {
+						Word nextWord = nextWord(reader, lexer);
+						if ("interface".equals(nextWord.value)) {
+							nextWord.value = word.value + nextWord.value;
+							nextWord.blankStr = word.blankStr;
+							word = nextWord;
+							keywords.put(word.value, word);
+							error = false;
+							break;
+						}
+					}
 					throw new RuntimeException("Error has occurred when parse type define code block before '{' appear.");
 				}
 				keywords.put(word.value, word);
@@ -156,7 +185,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 		typeDefine.setType(typeWord != null ? Util.createSimpleTypeName(typeWord) : null);
 	}
 
-	private void parseTypeDefineCodeBlock(IReader reader, ILexer lexer, Word curWord, TypeDefineCodeBlock typeDefine, Map<String, Word> keywords) throws IOException {
+	private void parseTypeDefineCodeBlock(IReader reader, Lexer lexer, Word curWord, TypeDefineCodeBlock typeDefine, Map<String, Word> keywords) throws IOException {
 		Word word = curWord;
 		attachModifiers(typeDefine, keywords);
 		if (keywords.size() > 0) {
@@ -196,12 +225,12 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 		parseTypeCodeBlock(reader, lexer, word, typeDefine);
 	}
 	
-	private void parseTypeCodeBlock(IReader reader, ILexer lexer, Word curWord, TypeDefineCodeBlock typeDefine) throws IOException {
+	private void parseTypeCodeBlock(IReader reader, Lexer lexer, Word curWord, TypeDefineCodeBlock typeDefine) throws IOException {
 		if (curWord == null || !"{".equals(curWord.value)) {
 			throw new RuntimeException("parseTypeCodeBlock failed, curWord is (" + curWord + ")");
 		}
 		PlainCodeBlock codeblock = typeDefine.getCodeBlock();
-		codeblock.setLeftBrack(curWord);
+		codeblock.setLeftBrace(curWord);
 		Word word = nextWord(reader, lexer);
 		while (word != null && word.type != WordType.DOC_END && !"}".equals(word.value)) {
 			if ("{".equals(word.value)) {
@@ -217,11 +246,11 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 			}
 			word = getLastWord();
 		}
-		codeblock.setRightBrack(word);
+		codeblock.setRightBrace(word);
 		nextWord(reader, lexer);
 	}
 
-	private void parseAndAddStatement(IReader reader, ILexer lexer, Word curWord, TypeDefineCodeBlock typeDefine) throws IOException {
+	private void parseAndAddStatement(IReader reader, Lexer lexer, Word curWord, TypeDefineCodeBlock typeDefine) throws IOException {
 		LinkedList<String> keywords = new LinkedList<String>();
 		Map<String, Word> keywordMap = new HashMap<String, Word>();
 		// Parse Annotation
@@ -322,7 +351,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 					} else if (")".equals(word.value)) {
 						break;
 					} else {
-						throw new RuntimeException("parse method params error.");
+						throw new RuntimeException(String.format("parse method params error.(cw:'%s')", word));
 					}
 				}	
 			} else if (!")".equals(word.value)) {
@@ -384,7 +413,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 				word = peParser.getLastWord();
 			}
 		} else {
-			throw new RuntimeException("An error occurred when Parse field.");
+			throw new RuntimeException(String.format("An error occurred when Parse field.(cw:'%s')", word));
 		}
 		fcb.setSuffixWord(word);
 		nextWord(reader, lexer);

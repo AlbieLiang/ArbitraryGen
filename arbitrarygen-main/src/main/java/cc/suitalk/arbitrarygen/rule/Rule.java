@@ -1,48 +1,65 @@
-package cc.suitalk.arbitrarygen.rule;
-
-import java.util.LinkedList;
-import java.util.List;
-
-/**
- * 
- * @author AlbieLiang
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  */
+
+package cc.suitalk.arbitrarygen.rule;
+
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
+
+/**
+ * Created by AlbieLiang on 2016/11/26.
+ */
 public class Rule {
-	
-	private Project mDefaultProject;
-	private List<Project> mProjects;
 
-	public Rule() {
-		mProjects = new LinkedList<Project>();
-	}
-	
-	public List<Project> getProjects() {
-		return mProjects;
-	}
+    public static final int TYPE_RULE = 0;
+    public static final int TYPE_FILE = 1;
+    public static final int TYPE_DIRECTORY = 2;
+    public static final int TYPE_RECURSION_DIRECTORY = 3;
 
-	public void addProjects(List<Project> projects) {
-		if (projects != null) {
-			mProjects.addAll(projects);
-		}
-	}
+    private int type;
 
-	public boolean addProject(Project p) {
-		if (p != null && !mProjects.contains(p)) {
-			return mProjects.add(p);
-		}
-		return false;
-	}
-	
-	public boolean removeProject(Project p) {
-		return mProjects.remove(p);
-	}
-	
-	public Project getDefaultProject() {
-		return mDefaultProject;
-	}
+    private String content;
 
-	public void setDefaultProject(Project p) {
-		this.mDefaultProject = p;
-	}
+    public Rule() {
+    }
+
+    public Rule(String content) {
+        setContent(content);
+    }
+
+    public Rule(int type, String content) {
+        setType(type);
+        setContent(content);
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public Rule setType(int type) {
+        this.type = type;
+        return this;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Rule setContent(String content) {
+        this.content = RuntimeContextHelper.replace(content);
+        return this;
+    }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RootNode package="cc.suitalk.arbitrarygen.demo.xmlparser">
+
+    <xml name="XmlTest"  final="false" parent="Object" interfaces="Serializable" 
+        import="java.lang.String,java.io.Serializable">
+
+        <field name="name" type="String" default="null"/>
+        <field name="type" type="int" default="0"/>
+        <field name="data" type="Data" default="new Data()"/>
+        <method name="TestMethod" />
+        <method name="getName" type="String">
+            <arg name="name" type="String"></arg>
+            <block>this.name = name;</block>
+            <result>name</result>
+        </method>
+        <Data static="true" final="true">
+            <field name="errCode" type="int"/>
+        	<field name="errType" type="int" default="0"/>
+        </Data>
+    </xml>
+</RootNode>

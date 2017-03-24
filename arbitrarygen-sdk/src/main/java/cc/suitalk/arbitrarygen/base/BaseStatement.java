@@ -1,4 +1,24 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.base;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +33,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public abstract class BaseStatement extends Session implements ICodeGenerator {
+public abstract class BaseStatement extends Session implements ICodeGenerator, JSONConverter {
 
 	private String mCommendBlock;
 	private List<AnnotationStatement> mAnnotationStatements;
@@ -27,7 +47,7 @@ public abstract class BaseStatement extends Session implements ICodeGenerator {
 	private BaseStatement mBelongStatement;
 	
 	public BaseStatement() {
-		mAnnotationStatements = new LinkedList<AnnotationStatement>();
+		mAnnotationStatements = new LinkedList<>();
 	}
 
 	public void attachEnvironmentArgs(EnvironmentArgs args) {
@@ -53,6 +73,23 @@ public abstract class BaseStatement extends Session implements ICodeGenerator {
 	 * @param args the {@link EnvironmentArgs} of this statement.
 	 */
 	public void onAttachEnvironmentArgs(EnvironmentArgs args) {
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		JSONArray annArray = new JSONArray();
+		for (int i = 0; i < mAnnotationStatements.size(); i++) {
+			AnnotationStatement astm = mAnnotationStatements.get(i);
+			annArray.add(astm.toJSONObject());
+		}
+		if (!annArray.isEmpty()) {
+			jsonObject.put("_annotation", annArray);
+		}
+		if (mCodeBlock != null) {
+			jsonObject.put("codeBlock", mCodeBlock.toJSONObject());
+		}
+		return jsonObject;
 	}
 
 	public BaseStatement getOuterStatement() {
@@ -196,7 +233,11 @@ public abstract class BaseStatement extends Session implements ICodeGenerator {
 		}
 		return null;
 	}
-	
+
+	public boolean containsAnnotation(String name) {
+		return getAnnotation(name) != null;
+	}
+
 	public int countOfAnnotations() {
 		return mAnnotationStatements.size();
 	}

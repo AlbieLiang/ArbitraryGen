@@ -1,4 +1,24 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.model;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -8,14 +28,15 @@ import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseCodeParser;
 import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.base.ICodeGenerator;
+import cc.suitalk.arbitrarygen.base.JSONConverter;
+import cc.suitalk.arbitrarygen.core.KeyWords.Sign.Type;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.expression.VariableExpression;
 import cc.suitalk.arbitrarygen.expression.parser.ReferenceExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
-//import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -24,23 +45,30 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class TypeName implements ICodeGenerator {
+public class TypeName implements ICodeGenerator, JSONConverter {
 
-//	private List<AnnotationStatement> mAnnotationStatements;
+	private Word mWordFinal;
 	private ReferenceExpression mName;
 	private List<TypeName> mGenericityTypes;
 	private List<Expression> mArrayArgs;
-	
+
+	private List<Word> mLeftSquareBrackets;
+	private List<Word> mRightSquareBrackets;
+
 	public TypeName() {
-		mGenericityTypes = new LinkedList<TypeName>();
-		mArrayArgs = new LinkedList<Expression>();
-//		mAnnotationStatements = new LinkedList<AnnotationStatement>();
+		mGenericityTypes = new LinkedList<>();
+		mArrayArgs = new LinkedList<>();
+		mLeftSquareBrackets = new LinkedList<>();
+		mRightSquareBrackets = new LinkedList<>();
 	}
 
 	@Override
 	public String genCode(String linefeed) {
 		StringBuilder builder = new StringBuilder();
 //		builder.append(genAnnotationBlock(linefeed));
+		if (mWordFinal != null) {
+			builder.append(mWordFinal);
+		}
 		builder.append(mName.genCode(linefeed));
 		if (mGenericityTypes.size() > 0) {
 			builder.append("<");
@@ -52,94 +80,57 @@ public class TypeName implements ICodeGenerator {
 			builder.append(">");
 		}
 		for (int i = 0; i < mArrayArgs.size(); i++) {
-			builder.append("[");
+			builder.append(mLeftSquareBrackets.get(i));
 			Expression expression = mArrayArgs.get(i);
 			if (expression != null) {
 				builder.append(expression.genCode(""));
 			}
-			builder.append("]");
+			builder.append(mRightSquareBrackets.get(i));
 		}
 		return builder.toString();
 	}
-	
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("isFinal", mWordFinal != null);
+		jsonObject.put("name", mName.getVariable());
+		JSONArray genericityTypeArray = new JSONArray();
+		for (int i = 0; i < mGenericityTypes.size(); i++) {
+			TypeName name = mGenericityTypes.get(i);
+			genericityTypeArray.add(name.getName());
+		}
+		if (!genericityTypeArray.isEmpty()) {
+			jsonObject.put("genericityType", genericityTypeArray);
+		}
+		JSONArray arrayArgsArray = new JSONArray();
+		for (int i = 0; i < mGenericityTypes.size(); i++) {
+			TypeName name = mGenericityTypes.get(i);
+			genericityTypeArray.add(name.getName());
+		}
+		if (!arrayArgsArray.isEmpty()) {
+			jsonObject.put("arrayArgs", arrayArgsArray);
+		}
+		return jsonObject;
+	}
+
 	@Override
 	public String toString() {
 		return genCode("");
 	}
 
-//	protected String genAnnotationBlock(String linefeed) {
-//		StringBuilder builder = new StringBuilder();
-//		int i = 0;
-//		for (; i < mAnnotationStatements.size(); i++) {
-//			AnnotationStatement s = mAnnotationStatements.get(i);
-////			builder.append(getLinefeed(linefeed));
-//			builder.append(s.genCode(linefeed));
-//		}
-//		if (i > 0) {
-////			builder.append(getLinefeed(linefeed));
-//		}
-//		return builder.toString();
-//	}
-//
-//	public boolean addAnnotation(AnnotationStatement s) {
-//		if (s == null || mAnnotationStatements.contains(s)) {
-//			return false;
-//		}
-//		return mAnnotationStatements.add(s);
-//	}
-//
-//	public void addAnnotations(List<AnnotationStatement> annoStms) {
-//		if (annoStms == null || annoStms.size() == 0) {
-//			return;
-//		}
-//		for (AnnotationStatement as : annoStms) {
-//			addAnnotation(as);
-//		}
-//	}
-//
-//	public AnnotationStatement removeAnnotation(int index) {
-//		if (index >= 0 && index < mAnnotationStatements.size()) {
-//			return mAnnotationStatements.remove(index);
-//		}
-//		return null;
-//	}
-//	
-//	public boolean removeAnnotation(AnnotationStatement stm) {
-//		if (stm != null) {
-//			return mAnnotationStatements.remove(stm);
-//		}
-//		return false;
-//	}
-//	
-//	public AnnotationStatement getAnnotation(int index) {
-//		if (index >= 0 && index < mAnnotationStatements.size()) {
-//			return mAnnotationStatements.get(index);
-//		}
-//		return null;
-//	}
-//	
-//	public AnnotationStatement getAnnotation(String name) {
-//		if (!Util.isNullOrNil(name)) {
-//			for (int i = 0; i < mAnnotationStatements.size(); i++) {
-//				AnnotationStatement as = mAnnotationStatements.get(i);
-//				String aname = as.getName().getName();
-//				if (aname.equals(name) || (aname.length() > name.length() && aname.endsWith(name)
-//						&& aname.charAt(aname.length() - name.length() - 1) == '.')) {
-//					return as;
-//				}
-//			}
-//		}
-//		return null;
-//	}
-//	
-//	public int countOfAnnotations() {
-//		return mAnnotationStatements.size();
-//	}
-	
 	public ReferenceExpression getNameRefExpression() {
 		return mName;
 	}
-	
+
+	public Word getFinal() {
+		return mWordFinal;
+	}
+
+	public void setFinal(Word word) {
+		mWordFinal = word;
+	}
+
 	public String getName() {
 		return mName.getVariable();
 	}
@@ -160,9 +151,12 @@ public class TypeName implements ICodeGenerator {
 		return mArrayArgs;
 	}
 	
-	public void addArrayArg(Expression e) {
+	public void addArrayArg(Word leftSquareBracket, Expression e, Word rightSquareBracket) {
+		mLeftSquareBrackets.add(leftSquareBracket == null ? Util.createSignWord("[", Type.BEGIN) : leftSquareBracket);
 		mArrayArgs.add(e);
+		mRightSquareBrackets.add(rightSquareBracket == null ? Util.createSignWord("]", Type.END) : rightSquareBracket);
 	}
+
 	/**
 	 * 
 	 * @author AlbieLiang
@@ -173,7 +167,12 @@ public class TypeName implements ICodeGenerator {
 		private static final String TAG = "TypeName.Parser";
 
 		@Override
-		public TypeName parse(IReader reader, ILexer lexer, Word curWord) throws IOException {
+		public TypeName parse(IReader reader, Lexer lexer, Word curWord) throws IOException {
+			Word finalWord = null;
+			if (curWord != null && "final".equals(curWord.value)) {
+				finalWord = curWord;
+				curWord = nextWord(reader, lexer);
+			}
 			ReferenceExpressionParser parser = ParserFactory.getRefExpressionParser(true);
 			ReferenceExpression refExpr = parser.parse(reader, lexer, curWord);
 			if (refExpr == null) {
@@ -184,6 +183,7 @@ public class TypeName implements ICodeGenerator {
 			Word word = getLastWord();
 			TypeName typeName = new TypeName();
 			typeName.setName(refExpr);
+			typeName.setFinal(finalWord);
 			if (word.value.equals("<")) {
 				word = nextWord(reader, lexer);
 				if ("?".equals(word.value)) {
@@ -216,7 +216,7 @@ public class TypeName implements ICodeGenerator {
 			}
 			while ("[".equals(word.value)) {
 				Expression e = Util.extractExpression(reader, lexer, nextWord(reader, lexer), this, "]");
-				typeName.addArrayArg(e);
+				typeName.addArrayArg(word, e, getLastWord());
 				word = nextWord(reader, lexer);
 			}
 			return typeName;

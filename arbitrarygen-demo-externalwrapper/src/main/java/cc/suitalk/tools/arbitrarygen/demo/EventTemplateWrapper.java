@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.tools.arbitrarygen.demo;
 
 import java.util.List;
@@ -10,7 +27,7 @@ import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ContextInfo;
 import cc.suitalk.arbitrarygen.core.KeyWords;
 import cc.suitalk.arbitrarygen.core.TemplateConstants;
-import cc.suitalk.arbitrarygen.extension.ITemplateWrapper;
+import cc.suitalk.arbitrarygen.extension.TemplateWrapper;
 import cc.suitalk.arbitrarygen.model.DefaultKeyValuePair;
 import cc.suitalk.arbitrarygen.statement.NormalStatement;
 import cc.suitalk.arbitrarygen.template.FastAssignRawTemplate;
@@ -23,9 +40,9 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class EventTemplateWrapper implements ITemplateWrapper {
+public class EventTemplateWrapper implements TemplateWrapper {
 
-	private static final String TAG = "CodeGen.EventTemplateWrapper";
+	private static final String TAG = "AG.EventTemplateWrapper";
 	private static final String TAG_NAME = "Event";
 	private Session session;
 
@@ -41,7 +58,7 @@ public class EventTemplateWrapper implements ITemplateWrapper {
 			String name = template.getAttributes().get(TemplateConstants.TEMPLATE_KEYWORDS_NAME);
 			TemplateAttributeHelper.appendAttribute(template, TemplateConstants.TEMPLATE_KEYWORDS_NAME, TAG_NAME);
 			TemplateAttributeHelper.appendAttribute(template, TemplateConstants.TEMPLATE_KEYWORDS_IMPORT,
-					"cc.suitalk.test.event.IEvent", KeyWords.V_JAVA_KEYWORDS_SIGN_COMMA);
+					"cc.suitalk.arbitrarygen.demo.event.IEvent", KeyWords.V_JAVA_KEYWORDS_SIGN_COMMA);
 			// Add a field
 			FastAssignRawTemplate fart = new FastAssignRawTemplate(KeyWords.V_JAVA_KEYWORDS_PUBLIC, true, true,
 					KeyWords.V_JAVA_KEYWORDS_DATA_BASE_TYPE_STRING, "ID");

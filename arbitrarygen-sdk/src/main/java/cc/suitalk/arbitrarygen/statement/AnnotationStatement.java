@@ -1,4 +1,24 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.statement;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,12 +42,12 @@ public class AnnotationStatement extends BaseStatement {
 
 	public AnnotationStatement(String name) {
 		mName = Util.createSimpleTypeName(name);
-		mArgs = new HashMap<String, Value>();
+		mArgs = new HashMap<>();
 	}
 	
 	public AnnotationStatement(TypeName name) {
 		mName = name;
-		mArgs = new HashMap<String, Value>();
+		mArgs = new HashMap<>();
 	}
 
 	@Override
@@ -37,7 +57,7 @@ public class AnnotationStatement extends BaseStatement {
 		builder.append(Util.getPrefix(this, "@"));
 		builder.append(mName);
 		if (mArgs.size() > 0) {
-			builder.append(Util.getLeftBlacket(this));
+			builder.append(Util.getLeftBracket(this));
 			Iterator<String> keys = mArgs.keySet().iterator();
 			String key = null;
 			if (keys.hasNext()) {
@@ -49,13 +69,26 @@ public class AnnotationStatement extends BaseStatement {
 				builder.append(",");
 				appendArg(builder, key, mArgs.get(key));
 			}
-			builder.append(Util.getRightBlacket(this));
+			builder.append(Util.getRightBracket(this));
 		} else if (mValue != null) {
-			builder.append(Util.getLeftBlacket(this));
+			builder.append(Util.getLeftBracket(this));
 			builder.append(mValue.getValueStr());
-			builder.append(Util.getRightBlacket(this));
+			builder.append(Util.getRightBracket(this));
 		}
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		if (!mArgs.isEmpty()) {
+			for (String key : mArgs.keySet()) {
+				jsonObject.put(key, mArgs.get(key).getValue());
+			}
+		} else if (mValue != null) {
+			jsonObject.put("_value", mValue.getValue());
+		}
+		return jsonObject;
 	}
 
 	private void appendArg(StringBuilder builder, String key, Value value) {

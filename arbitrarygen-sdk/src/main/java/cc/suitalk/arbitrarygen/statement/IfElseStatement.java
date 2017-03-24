@@ -1,4 +1,24 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.statement;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -49,9 +69,9 @@ public class IfElseStatement extends BaseStatement {
 		builder.append(genCommendBlock(linefeed));
 		builder.append(Util.getPrefix(this, "if"));
 		builder.append(blank);
-		builder.append(Util.getLeftBlacket(this));
+		builder.append(Util.getLeftBracket(this));
 		builder.append(mExpression.genCode(linefeed));
-		builder.append(Util.getRightBlacket(this));
+		builder.append(Util.getRightBracket(this));
 		builder.append(blank);
 		builder.append(genPlainCodeBlock(linefeed));
 		for (int i = 0; i < mElseIfStatements.size(); i++) {
@@ -68,7 +88,29 @@ public class IfElseStatement extends BaseStatement {
 		return builder.toString();
 	}
 
-	public boolean addElseIfStatment(ElseIfStatement statement) {
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "if");
+		o.put("_condition", mExpression.toString());
+		JSONArray elseIf = new JSONArray();
+		for (int i = 0; i < mElseIfStatements.size(); i++) {
+			ElseIfStatement s = mElseIfStatements.get(i);
+			if (s == null) {
+				continue;
+			}
+			elseIf.add(s.toJSONObject());
+		}
+		if (!elseIf.isEmpty()) {
+			o.put("_elseIf", elseIf);
+		}
+		if (mElseStatement != null) {
+			o.put("_else", mElseStatement.toJSONObject());
+		}
+		return o;
+	}
+
+	public boolean addElseIfStatement(ElseIfStatement statement) {
 		if (statement == null) {
 			return false;
 		}

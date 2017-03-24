@@ -1,4 +1,24 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.statement;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +39,7 @@ public class SwitchStatement extends BaseStatement {
 	private Expression mExpression;
 	private List<CaseStatement> mCaseStatements;
 	private DefaultStatement mDefaultStatement;
-	private Word mLeftBrack;
+	private Word mLeftBrace;
 	private Word mRightBrack;
 
 	public SwitchStatement() {
@@ -50,11 +70,11 @@ public class SwitchStatement extends BaseStatement {
 		builder.append(genCommendBlock(linefeed));
 		builder.append(Util.getPrefix(this, "switch"));
 		builder.append(blank);
-		builder.append(Util.getLeftBlacket(this));
+		builder.append(Util.getLeftBracket(this));
 		builder.append(mExpression.genCode(linefeed));
-		builder.append(Util.getRightBlacket(this));
+		builder.append(Util.getRightBracket(this));
 		builder.append(blank);
-		builder.append(mLeftBrack != null ? mLeftBrack : "{");
+		builder.append(mLeftBrace != null ? mLeftBrace : "{");
 		for (int i = 0; i < mCaseStatements.size(); i++) {
 			CaseStatement s = mCaseStatements.get(i);
 			if (s != null) {
@@ -71,7 +91,29 @@ public class SwitchStatement extends BaseStatement {
 		return builder.toString();
 	}
 
-	public boolean addCaseStatment(CaseStatement statement) {
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject o = super.toJSONObject();
+		o.put("_type", "switch");
+		o.put("_condition", mExpression.toString());
+		JSONArray caseArray = new JSONArray();
+		for (int i = 0; i < mCaseStatements.size(); i++) {
+			CaseStatement s = mCaseStatements.get(i);
+			if (s == null) {
+				continue;
+			}
+			caseArray.add(s.toJSONObject());
+		}
+		if (!caseArray.isEmpty()) {
+			o.put("_case", caseArray);
+		}
+		if (mDefaultStatement != null) {
+			o.put("_default", mDefaultStatement.toJSONObject());
+		}
+		return o;
+	}
+
+	public boolean addCaseStatement(CaseStatement statement) {
 		if (statement == null) {
 			return false;
 		}
@@ -89,20 +131,20 @@ public class SwitchStatement extends BaseStatement {
 		}
 	}
 
-	public Word getLeftBrack() {
-		return mLeftBrack;
+	public Word getLeftBrace() {
+		return mLeftBrace;
 	}
 
-	public void setLeftBrack(Word leftBrack) {
-		this.mLeftBrack = leftBrack;
+	public void setLeftBrace(Word leftBrace) {
+		this.mLeftBrace = leftBrace;
 	}
 
-	public Word getRightBrack() {
+	public Word getRightBrace() {
 		return mRightBrack;
 	}
 
-	public void setRightBrack(Word rightBrack) {
-		this.mRightBrack = rightBrack;
+	public void setRightBrace(Word rightBrace) {
+		this.mRightBrack = rightBrace;
 	}
 	
 	public void setConditionExpression(Expression condition) {

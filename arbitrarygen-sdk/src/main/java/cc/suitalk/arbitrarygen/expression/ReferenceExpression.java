@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.expression;
 
 import java.util.LinkedList;
@@ -15,11 +32,12 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class ReferenceExpression extends Expression {
 
-	private static final String TAG = "CodeGen.ReferenceExpression";
+	private static final String TAG = "AG.ReferenceExpression";
+
 	private List<Word> mWords;
 
 	public ReferenceExpression() {
-		mWords = new LinkedList<Word>();
+		mWords = new LinkedList<>();
 	}
 
 	public ReferenceExpression(String variable) {
@@ -43,18 +61,34 @@ public class ReferenceExpression extends Expression {
 		return builder.toString();
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		if (needSurround()) {
+			builder.append("(");
+		}
+		builder.append(Util.getCodeStr(mWords));
+		if (needSurround()) {
+			builder.append(")");
+		}
+		return builder.toString();
+	}
+
 	public void appendNode(String name) {
 		if (mWords.size() == 0) {
 			mWords.add(Util.createKeyWord(name));
+			super.setVariable("");
 		} else {
 			mWords.add(Util.createSignWord(".", Type.NORMAL));
 			mWords.add(Util.createKeyWord(name));
+			super.setVariable("");
 		}
 	}
 
 	public void appendNode(Word word) {
 		if (word != null) {
 			mWords.add(word);
+			super.setVariable("");
 		}
 	}
 	

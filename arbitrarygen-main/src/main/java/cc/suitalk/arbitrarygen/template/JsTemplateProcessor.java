@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.template;
 
 import java.io.File;
@@ -6,11 +23,12 @@ import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import cc.suitalk.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
+import cc.suitalk.arbitrarygen.constant.ResConstants;
 import cc.suitalk.arbitrarygen.template.base.BaseTemplateProcessor;
-import cc.suitalk.arbitrarygen.template.base.IAGPsychicWorker;
-import cc.suitalk.arbitrarygen.template.base.IGenCodeWorker;
-import cc.suitalk.arbitrarygen.template.base.IPsychicGenerator;
+import cc.suitalk.arbitrarygen.template.base.AGPyroWorker;
+import cc.suitalk.arbitrarygen.template.base.AGPsychicWorker;
+import cc.suitalk.arbitrarygen.template.base.PsychicGenerator;
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
@@ -24,11 +42,10 @@ import net.sf.json.xml.XMLSerializer;
  */
 public class JsTemplateProcessor extends BaseTemplateProcessor {
 
-	private static final String TAG = "CodeGen.JsTemplateProcessor";
+	private static final String TAG = "AG.JsTemplateProcessor";
 	
 	private ScriptEngine mScriptEngine;
-	private String mTransferTools;
-	private String mUtils;
+	private String mCoreScript;
 	private TemplateConfig mTemplateCfg;
 
 	public JsTemplateProcessor() {
@@ -38,8 +55,8 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 	@Override
 	public void prepare(TemplateConfig cfg) {
 		mTemplateCfg = cfg;
-		mTransferTools = FileOperation.read(cfg.getCoreLibs() + "/TransferTools.js");
-		mUtils = FileOperation.read(cfg.getCoreLibs() + "/TypeUtils.js") + FileOperation.read(cfg.getCoreLibs() + "/utils.js");
+		mCoreScript = TemplateManager.getImpl().get(
+				ResConstants.PATH_CORE_SCRIPT, new DelayReadResFileTask(ResConstants.PATH_CORE_SCRIPT));
 	}
 
 	@Override
@@ -55,26 +72,24 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 		XMLSerializer ss = new XMLSerializer();
 		ss.setTypeHintsEnabled(false);
 		ss.setTypeHintsCompatibility(false);
-		Log.i(TAG, "process src : " + src);
-		JSONObject json = (JSONObject) ss.read(FileOperation.read(src));
+		Log.i(TAG, "process src : %s", src);
+		JSONObject json = (JSONObject) ss.read(RuntimeContextHelper.replace(FileOperation.read(src)));
 		
 		TaskInfo info = new TaskInfo();
-		info.transfer = mTransferTools;
-		info.utils = mUtils;
+		info.script = mCoreScript;
 		info.destPath = destPath;
-		info.coreLibs = mTemplateCfg.getCoreLibs();
 		info.templateLibs = mTemplateCfg.getTemplateLibs();
 		info.templateSuffix = Util.nullAsNil(Util.getSuffix(src));
 		
-		for (IPsychicGenerator worker : mWorkers) {
-			if (worker instanceof IGenCodeWorker) {
-				if (info.templateSuffix.equalsIgnoreCase(((IGenCodeWorker) worker).getSupportSuffix())) {
+		for (PsychicGenerator worker : mWorkers) {
+			if (worker instanceof AGPsychicWorker) {
+				if (info.templateSuffix.equalsIgnoreCase(((AGPsychicWorker) worker).getSupportSuffix())) {
 					worker.genCode(mScriptEngine, json, info);
 					continue;
 				}
 			}
-			if (worker instanceof IAGPsychicWorker) {
-				if (isSupportSuffix((IAGPsychicWorker) worker, info.templateSuffix)) {
+			if (worker instanceof AGPyroWorker) {
+				if (isSupportSuffix((AGPyroWorker) worker, info.templateSuffix)) {
 					worker.genCode(mScriptEngine, json, info);
 					continue;
 				}
@@ -83,7 +98,7 @@ public class JsTemplateProcessor extends BaseTemplateProcessor {
 		}
 	}
 
-	private static boolean isSupportSuffix(IAGPsychicWorker worker, String suffix) {
+	private static boolean isSupportSuffix(AGPyroWorker worker, String suffix) {
 		List<String> list = worker.getSupportSuffixList();
 		return list != null && list.contains(suffix);
 	}

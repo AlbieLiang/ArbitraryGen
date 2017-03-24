@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.utils;
 
 import java.io.File;
@@ -20,6 +37,8 @@ import cc.suitalk.arbitrarygen.template.RawTemplate;
  * @author AlbieLiang
  */
 public class XmlUtils {
+
+    private static final String TAG = "AG.XmlUtils";
 
     /**
      * The method will parse the XML InputStream and return a notes list.
@@ -51,20 +70,20 @@ public class XmlUtils {
         try {
             parser = factory.newSAXParser();
             parser.parse(ins, handler);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } catch (SAXException e) {
-            e.printStackTrace();
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } finally {
             if (ins != null && close) {
                 try {
                     ins.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
                 }
             }
         }
@@ -86,13 +105,13 @@ public class XmlUtils {
             ins = new FileInputStream(file);
             return getXmlNotes(ins, handler);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
         } finally {
             if (ins != null) {
                 try {
                     ins.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
                 }
             }
         }

@@ -1,4 +1,24 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.block;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +37,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  *
  */
 public class MethodCodeBlock extends BaseDefineCodeBlock {
+
 	protected List<KeyValuePair<Word, TypeName>> mArgs;
 	private List<TypeName> mThrows;
 	private Word mWordThrows;
@@ -39,7 +60,7 @@ public class MethodCodeBlock extends BaseDefineCodeBlock {
 //		builder.append(genAnnotationBlock(linefeed));
 		builder.append(genDefCode(this, linefeed));
 		// Insert args of the method
-		builder.append(Util.getLeftBlacket(this));
+		builder.append(Util.getLeftBracket(this));
 		//
 		if (mt.mArgs != null && mt.mArgs.size() > 0) {
 			KeyValuePair<Word, TypeName> kv = mt.mArgs.get(0);
@@ -59,7 +80,7 @@ public class MethodCodeBlock extends BaseDefineCodeBlock {
 				}
 			}
 		}
-		builder.append(Util.getRightBlacket(this));
+		builder.append(Util.getRightBracket(this));
 		if (mThrows.size() > 0) {
 			builder.append(blank);
 			builder.append(mWordThrows != null ? mWordThrows : "throws");
@@ -78,6 +99,31 @@ public class MethodCodeBlock extends BaseDefineCodeBlock {
 			builder.append(";");
 		}
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = super.toJSONObject();
+		JSONArray argArray = new JSONArray();
+		for (int i = 0; i < mArgs.size(); i++) {
+			KeyValuePair<Word, TypeName> keyValuePair = mArgs.get(i);
+			JSONObject arg = new JSONObject();
+			arg.put("_type", keyValuePair.getValue().toJSONObject());
+			arg.put("_name", keyValuePair.getKey().value);
+			argArray.add(arg);
+		}
+		if (!argArray.isEmpty()) {
+			jsonObject.put("_args", argArray);
+		}
+		JSONArray throwsArray = new JSONArray();
+		for (int i = 0; i < mThrows.size(); i++) {
+			TypeName t = mThrows.get(i);
+			throwsArray.add(t.getName());
+		}
+		if (!throwsArray.isEmpty()) {
+			jsonObject.put("_throws", throwsArray);
+		}
+		return jsonObject;
 	}
 
 	public List<TypeName> getThrows() {

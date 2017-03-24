@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PsychicDefine tag="PsychicTask">
+
+	<PsychicTask name="AGPsychicTask_TemplateProcessor" processor="hybrid-template-processor">
+		<template>${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/psychic/JsApiFrameworkCore.java</template>
+		<dependsOn name="JsApiList" type="input" processor="parse-java">
+            <ruleFile>${project.projectDir}/ag-datasrc/jsapi-demo-project.rule</ruleFile>
+			<rule>${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/recursion/*</rule>
+		</dependsOn>
+		<resultTo processor="statistic">
+            <toFile>${project.projectDir}/build/outputs/logs/ag-statistic.log</toFile>
+		</resultTo>
+	</PsychicTask>
+
+	<!--<PsychicTask name="AGPsychicTask_ScriptExecutor" processor="script-executor">-->
+		<!--<script>${project.projectDir}/ag-datasrc/psychic-script.psychic-script</script>-->
+
+		<!--<dependsOn name="GenLog" type="output" processor="genCode-executor">-->
+		<!--</dependsOn>-->
+		<!--<dependsOn name="JsApiList" type="input" processor="parse-java">-->
+			<!--<rule>${project.projectDir}/ag-datasrc/parse-project.rule</rule>-->
+		<!--</dependsOn>-->
+	<!--</PsychicTask>-->
+
+	<!--<PsychicTask name="AGPsychicTask_TemplateProcessor" processor="template-processor">-->
+		<!--<template>${project.rootDir}/ArbitraryGen/template-libs/VDBInfoDelegate.vigor-template</template>-->
+		<!--<templateTag>vigor-delegate</templateTag>-->
+
+		<!--<toFile>cc/suitalk/arbitrarygen/demo/psychic/AGPsychicTaskTest.java</toFile>-->
+
+		<!--<dependsOn name="GenLog" type="output" processor="genCode-executor">-->
+		<!--</dependsOn>-->
+		<!--<dependsOn name="JsApiList" type="input" processor="parse-java">-->
+			<!--<rule>${project.projectDir}/ag-datasrc/parse-project.rule</rule>-->
+		<!--</dependsOn>-->
+	<!--</PsychicTask>-->
+
+	<!--<PsychicTask name="scanTask" processor="scanner">-->
+		<!--<format>e</format>-->
+	<!--</PsychicTask>-->
+
+	<!--<PsychicTask name="genCodeTask" processor="genCode-executor">-->
+	<!--</PsychicTask>-->
+
+	<!--<PsychicTask name="javaCodeTask" processor="javaCode-executor">-->
+		<!--<enable>rule</enable>-->
+		<!--<rule>${project.projectDir}/ag-datasrc/parse-project.rule</rule>-->
+		<!--<extension>-->
+		    <!--<jar>${project.rootDir}/ArbitraryGen/arbitrarygen-demo-wrapper.jar</jar>-->
+		<!--</extension>-->
+		<!--<tClass/>-->
+		<!--<pClass>cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor</pClass>-->
+	<!--</PsychicTask>-->
+
+</PsychicDefine>

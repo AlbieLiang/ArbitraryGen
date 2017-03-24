@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vigor-define package="cc.suitalk.arbitrarygen.demo.vigordb.table">
+	
+	<!-- 
+		* acceptable type for fields:
+		* 
+		* boolean <==> INT(0/1) <br />
+		* int/Integer <==> INT <br/>
+		* long/Long <==> LONG <br/>
+		* short/Short <==> SHORT <br/>
+		* float/Float <==> FLOAT <br/>
+		* double/Double <==> DOUBLE <br/>
+		* String <==> TEXT <br/>
+		* byte[] <==> BLOB <br/>
+		* protobuf / referto <==> BLOB<br/>
+	-->
+	
+	
+	<!-- The rowId of this table will be use as primaryKey. -->
+	<table name="Table_1">
+		<field name="field_1" type="String" comment="for duplicate removal"/>
+		<field name="field_2" type="String"/>
+		<field name="field_3" type="byte[]">
+			<part name="field_part_1" type="long"/>
+ 		</field>
+		<field name="field_4" type="boolean" default="false" index="Table_1_index"/>
+		
+		<index name="field_4_and_1_index" fields="field_4,field_1"/>
+	</table>
+	
+	<!-- The vigor entry will not be created for this table because noEntry is true. -->
+	<table name="Table_2" noEntry="true">
+		<field name="field_1" type="String" primaryKey="1"/>
+		<field name="field_2_2" type="String"/>
+		<field name="field_2_3" type="String" notNull="true"/>
+		<field name="field_2_4" type="byte[]">
+			<part name="field_part_1" type="long"/>
+ 		</field>
+	</table>
+	
+	<table name="Table_3">
+		<field name="field_3_1" type="String" primaryKey="1"/>
+		<field name="field_3_2" type="String"/>
+		<field name="field_3_3" type="byte[]">
+			<part name="field_part_1" type="long"/>
+ 		</field>
+	</table>
+	
+	<table name="Table_4">
+		<field name="field_4_1" type="String" primaryKey="1"/>
+		<field name="field_4_2" type="String"/>
+	</table>
+	
+	<!-- Multiply primary key sample -->
+	<table name="Table_5">
+		<field name="field_5_1" type="String" primaryKey="1"/>
+		<field name="field_5_2" type="int" primaryKey="2"/>
+		<field name="field_5_3" type="long"/>
+	</table>
+	
+	<!-- Join table sample 1 -->
+	<vigor-item name="Join_1_2" join="Table_1,Table_2"/>
+	
+	<!-- Join table sample 2 -->
+	<vigor-item name="" join="Table_1">
+		<table name="Table_9">
+			<field name="field_1" type="int" primaryKey="1"/>
+		</table>
+		<table name="@Table_2">
+			<join-field name="field_1" to="Join_2_field_1"/>
+			<join-field name="field_2"/>
+		</table>
+		<table name="Table_4"/>
+		<table name="Table_5" joinField="field_5_1,field_5_2"/>
+	</vigor-item>
+</vigor-define>

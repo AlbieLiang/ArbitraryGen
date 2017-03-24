@@ -1,4 +1,24 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.base;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,10 +35,9 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * @author AlbieLiang
  *
  */
-public class JavaFileObject implements ICodeGenerator {
+public class JavaFileObject implements ICodeGenerator, JSONConverter {
 
 	private String mPackage;
-//	private String mfileName;
 	private List<String> mImport;
 	private PackageStatement mPackageStm;
 	private List<ImportStatement> mImportStms;
@@ -26,9 +45,9 @@ public class JavaFileObject implements ICodeGenerator {
 	private EnvironmentArgs mEnvironmentArgs;
 
 	public JavaFileObject() {
-		mImport = new LinkedList<String>();
-		mImportStms = new LinkedList<ImportStatement>();
-		mTypeDefineCodeBlocks = new LinkedList<TypeDefineCodeBlock>();
+		mImport = new LinkedList<>();
+		mImportStms = new LinkedList<>();
+		mTypeDefineCodeBlocks = new LinkedList<>();
 	}
 
 	@Override
@@ -43,6 +62,28 @@ public class JavaFileObject implements ICodeGenerator {
 			builder.append(typeDefine.genCode(linefeed));
 		}
 		return builder.toString();
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("_package", getPackage());
+		JSONArray importArray = new JSONArray();
+		for (int i = 0; i < mImportStms.size(); i++) {
+			importArray.add(mImportStms.get(i).getImportRefExpression().getVariable());
+		}
+		if (!importArray.isEmpty()) {
+			jsonObject.put("_import", importArray);
+		}
+		JSONArray typeDefineArray = new JSONArray();
+		for (int i = 0; i < mTypeDefineCodeBlocks.size(); i++) {
+			TypeDefineCodeBlock typeDefineCodeBlock = mTypeDefineCodeBlocks.get(i);
+			typeDefineArray.add(typeDefineCodeBlock.toJSONObject());
+		}
+		if (!typeDefineArray.isEmpty()) {
+			jsonObject.put("_class", typeDefineArray);
+		}
+		return jsonObject;
 	}
 
 	public void attachEnvironmentArgs(EnvironmentArgs args) {
@@ -112,6 +153,17 @@ public class JavaFileObject implements ICodeGenerator {
 //		// TODO
 //	}
 
+	public void copyImports(JavaFileObject fromFileObject) {
+		if (fromFileObject == null) {
+			return;
+		}
+		if (fromFileObject.mImportStms != null) {
+			for (ImportStatement statement : fromFileObject.mImportStms) {
+				addImport(statement);
+			}
+		}
+	}
+
 	public void setPackage(String pkg) {
 		ReferenceExpression expr = new ReferenceExpression(pkg);
 		mPackageStm = new PackageStatement(expr);
@@ -130,6 +182,10 @@ public class JavaFileObject implements ICodeGenerator {
 		}
 	}
 
+	public PackageStatement getPackageStatement() {
+		return mPackageStm;
+	}
+
 	/**
 	 * Check the name field of the typeDefine, it can not be null or nil.
 	 * 
@@ -140,7 +196,6 @@ public class JavaFileObject implements ICodeGenerator {
 			typeDefine.attachEnvironmentArgs(getEnvironmentArgs());
 			boolean succ = mTypeDefineCodeBlocks.add(typeDefine);
 			if (succ && "public".equals(typeDefine.getModifier())) {
-//				setFileName(typeDefine.getName().getName());
 				mMainTypeDefCodeBlock = typeDefine;
 			}
 		}
@@ -149,7 +204,6 @@ public class JavaFileObject implements ICodeGenerator {
 	public void removeTypeDefineCodeBlock(TypeDefineCodeBlock typeDefine) {
 		boolean succ = mTypeDefineCodeBlocks.remove(typeDefine);
 		if (succ && mMainTypeDefCodeBlock == typeDefine) {
-//			setFileName(null);
 			mMainTypeDefCodeBlock = null;
 		}
 	}
@@ -187,18 +241,6 @@ public class JavaFileObject implements ICodeGenerator {
 	}
 
 	public String getFileName() {
-//		if (Util.isNullOrNil(mfileName)) {
-//			if (mTypeDefineCodeBlocks.size() == 1) {
-//				setFileName(mTypeDefineCodeBlocks.get(0).getName().getName());
-//			} else {
-//				for (TypeDefineCodeBlock typeDef : mTypeDefineCodeBlocks) {
-//					if ("public".equals(typeDef.getModifier())) {
-//						setFileName(typeDef.getName().getName());
-//						break;
-//					}
-//				}
-//			}
-//		}
 		TypeDefineCodeBlock typeDef = getTheFileCodeBlock(false);
 		if (typeDef != null) {
 			return typeDef.getName().getName();
@@ -222,9 +264,4 @@ public class JavaFileObject implements ICodeGenerator {
 		}
 		return mMainTypeDefCodeBlock;
 	}
-	
-//	public void setFileName(String fileName) {
-//		this.mfileName = fileName;
-//	}
-
 }

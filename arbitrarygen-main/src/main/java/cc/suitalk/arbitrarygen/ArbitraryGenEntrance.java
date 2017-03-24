@@ -1,37 +1,38 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import net.sf.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import cc.suitalk.arbitrarygen.core.ArbitraryGenCore;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
-import cc.suitalk.arbitrarygen.core.ConfigInfo;
-import cc.suitalk.arbitrarygen.core.IGenCodeEngine;
-import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
 import cc.suitalk.arbitrarygen.debug.Debuger;
-import cc.suitalk.arbitrarygen.engine.ArbitraryGenEngine;
-import cc.suitalk.arbitrarygen.engine.DefaultGenCodeEngine;
-import cc.suitalk.arbitrarygen.engine.ScriptTemplateGenCodeEngine;
-import cc.suitalk.arbitrarygen.extension.ICustomizeConvertor;
-import cc.suitalk.arbitrarygen.extension.ICustomizeParser;
-import cc.suitalk.arbitrarygen.extension.ITemplateWrapper;
-import cc.suitalk.arbitrarygen.extension.ITypeDefineWrapper;
-import cc.suitalk.arbitrarygen.impl.DefaultRawTemplateParser;
-import cc.suitalk.arbitrarygen.impl.DefaultTemplateConvertor;
-import cc.suitalk.arbitrarygen.impl.DefaultTypeDefineWrapper;
-import cc.suitalk.arbitrarygen.rule.RuleParser;
-import cc.suitalk.arbitrarygen.template.GenVigorDBTask;
-import cc.suitalk.arbitrarygen.template.PsychicGenTask;
-import cc.suitalk.arbitrarygen.template.JsTemplateProcessor;
-import cc.suitalk.arbitrarygen.template.TemplateConfig;
-import cc.suitalk.arbitrarygen.template.base.ITemplateProcessor;
-import cc.suitalk.arbitrarygen.template.hybrids.GenHybridsTask;
+import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.tools.DefaultUncaughtExceptionHandler;
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
+import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
+import cc.suitalk.arbitrarygen.utils.StatisticManager;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
@@ -42,7 +43,7 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class ArbitraryGenEntrance {
 
-	private static final String TAG = "CodeGen.ArbitraryGenEntrance";
+	private static final String TAG = "AG.ArbitraryGenEntrance";
 
 	private static final void printArgs(String[] args) {
 		if (args != null) {
@@ -53,180 +54,74 @@ public class ArbitraryGenEntrance {
 	}
 	
 	/**
-	 * @param args
+	 * Entrance method
+	 *
+	 * @param args arguments for the code generator
 	 */
 	public static void main(String[] args) {
 		// Crash handler
 		Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler());
-
 		//
 		Map<String, String> argsKvPair = ExternalArgsParser.extractArgs(args);
+		// Initialize Environment arguments
+		try {
+			String json = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ENV_ARG_JSON);
+			if (Util.isNullOrNil(json)) {
+				String path = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ENV_ARG_JSON_PATH);
+				if (!Util.isNullOrNil(path)) {
+					json = FileOperation.read(path);
+				}
+			}
+			RuntimeContextHelper.initialize(JSONObject.fromObject(json));
+		} catch (Exception e) {
+			Log.e(TAG, "getEnvArgJson error : %s", Log.getStackTraceString(e));
+		}
+		// Initialize arguments
+		JSONObject jsonObject = null;
+		try {
+			String json = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ARG_JSON);
+			if (Util.isNullOrNil(json)) {
+				String path = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ARG_JSON_PATH);
+				if (!Util.isNullOrNil(path)) {
+					json = RuntimeContextHelper.replace(FileOperation.read(path));
+				}
+			}
+			jsonObject = JSONObject.fromObject(json);
+		} catch (Exception e) {
+			Log.e(TAG, "getArgJson error : %s", Log.getStackTraceString(e));
+		}
+
 		String enableArg = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE);
 		boolean enable = Util.isNullOrNil(enableArg) ? true : Boolean.parseBoolean(enableArg);
 		if (!enable) {
 			return;
 		}
-		String printSeparator = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_PRINT_SEPARATOR);
-		boolean enablePrintSeparator = Util.isNullOrNil(printSeparator) ? true : Boolean.parseBoolean(printSeparator);
-		if (enablePrintSeparator) {
+		// For new engine framework
+		AGCore core = new ArbitraryGenCore();
+		if (jsonObject != null) {
+			core.initialize(jsonObject);
 			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>begin<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");
-		}
-		String logToFileArg = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_TO_FILE);
-		boolean logToFile = !Util.isNullOrNil(logToFileArg);
-		if (logToFile) {
-			String logFile = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_FILE);
-			if (Util.isNullOrNil(logFile)) {
-				logFile = "./output/ag.log";
-			}
-			Log.setPath(logFile);
-			Log.prepare();
-		}
-		IGenCodeEngine engine = new DefaultGenCodeEngine();
-		// Add default template director, it contains raw template parser and
-		// code template analyzer
-		// TODO: 16/7/20 albieliang
-//		engine.addDirector(new DefaultTemplateDirector());
-		engine.addConvertor(new DefaultTemplateConvertor());
-		// Add a detail type template director
-		// engine.addDirector(new EventTemplateDirector());
-		ConfigInfo configInfo = null;
-		boolean arbitraryEnable = false;
-		if (argsKvPair != null) {
-			// Common Arguments
-			Debuger.debug = Boolean.parseBoolean(argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_DEBUG));
-			Log.setPrintLogLevel(Util.parseInt(argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_LEVEL), Log.LOG_LEVEL_N));
-			Log.setPrintTag(Boolean.parseBoolean(argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_PRINT_TAG)));
-			Log.setPrintLevel(Boolean.parseBoolean(argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_PRINT_LEVEL)));
-			boolean printArgs = Boolean.parseBoolean(argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_PRINT_ARGS));
-			
-			if (printArgs) {
-				// Print args
+			if (Debuger.debug) {
 				printArgs(args);
+				// TODO: 16/11/6 albieliang, add doAction feature into AGEngine, and then it can get arguments by this interface
+				Log.v(TAG, "argJson : %s", jsonObject);
 			}
-			configInfo = new ConfigInfo();
-			// Extract the destination path arg
-			String dest = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_DEST);
-			if (!Util.isNullOrNil(dest)) {
-				configInfo.setDestPath(dest);
-			}
-			// Extract the source template path arg
-			String src = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_SRC);
-			if (!Util.isNullOrNil(src)) {
-				configInfo.setSrcPath(src);
-			}
-			// Extract the format suffix of source template file arg
-			String formatChain = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT);
-			if (!Util.isNullOrNil(formatChain)) {
-				List<String> suffixList = Util.extractStrList(formatChain, ExternalArgsParser.ARGS_LIST_SEPARATOR);
-				engine.addAllSuffixList(suffixList);
-				DefaultRawTemplateParser parser = new DefaultRawTemplateParser();
-				parser.addSuffixList(suffixList);
-				engine.addParser(parser);
-			}
-
-			// Extract ArbitraryEnable flag
-			String arbitraryEnableArg = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ARBITRARY_ENABLE);
-			if (!Util.isNullOrNil(arbitraryEnableArg)) {
-				arbitraryEnable = Boolean.parseBoolean(arbitraryEnableArg);
-			}
-			//
-			engine.setConfigInfo(configInfo);
-			JarClassLoaderWrapper loader = new JarClassLoaderWrapper();
-			List<String> parserArgs = ExternalArgsParser.extractList(args, ArgsConstants.EXTERNAL_ARGS_KEY_PARSER);
-			List<String> needToLoadClass = new LinkedList<String>();
-			if (parserArgs != null && parserArgs.size() > 0) {
-				for (int i = 0; i < parserArgs.size(); i++) {
-					String argPair = parserArgs.get(i);
-					String[] a = argPair.split(ExternalArgsParser.ARGS_LIST_SEPARATOR);
-					if (a != null && a.length >= 2 && !Util.isNullOrNil(a[0]) && !Util.isNullOrNil(a[1])) {
-						File file = new File(a[0]);
-						if (loader.contains(file) || loader.addJar(file)) {
-							needToLoadClass.add(a[1]);
-						}
-					}
-				}
-			}
-			if (needToLoadClass.size() > 0) {
-				for (int i = 0; i < needToLoadClass.size(); i++) {
-					try {
-						Class<?> clazz = loader.loadClass(needToLoadClass.get(i));
-						Object o = clazz.newInstance();
-						if (o instanceof ICustomizeParser) {
-							engine.addParser((ICustomizeParser) o);
-						} else if (o instanceof ICustomizeConvertor) {
-							engine.addConvertor((ICustomizeConvertor) o);
-						} else if (o instanceof ITemplateWrapper) {
-							engine.addWrapper((ITemplateWrapper) o);
-						}
-					} catch (MalformedURLException e) {
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					} catch (InstantiationException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+			core.start();
+			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");
 		}
-		engine.start();
-		if (argsKvPair != null) {
-			// TODO
-			if (arbitraryEnable) {
-				String ruleArg = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_ARBITRARY_RULE);
-				if (!Util.isNullOrNil(ruleArg)) {
-					// Java file
-					ArbitraryGenEngine agEngine = new ArbitraryGenEngine();
-					agEngine.setConfigInfo(configInfo);
-					RuleParser parser = new RuleParser();
-					agEngine.addRule(parser.parse(ruleArg));
-					ITypeDefineWrapper wrapper = new DefaultTypeDefineWrapper();
-					// TODO Add more type worker here
-//					wrapper.addIAGTaskWorker(worker);
-					agEngine.addTypeDefWrapper(wrapper);
-					agEngine.start();
-				}
-			}
-			// For script template engine
-			String coreLibs = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_CORE_LIBS);
-			String templateLibs = argsKvPair.get(ArgsConstants.EXTERNAL_ARGS_KEY_TEMPLATE_LIBS);
-			List<String> suffixList = Util.extractStrList(argsKvPair.get(
-					ArgsConstants.EXTERNAL_ARGS_KEY_SCRIPT_ENGINE_FORMAT), ExternalArgsParser.ARGS_LIST_SEPARATOR);
-
-			if (!Util.isNullOrNil(coreLibs) && !Util.isNullOrNil(templateLibs)) {
-				ScriptTemplateGenCodeEngine scriptTemplateEngine = new ScriptTemplateGenCodeEngine();
-				TemplateConfig cfg = new TemplateConfig(coreLibs, templateLibs);
-				scriptTemplateEngine.setConfigInfo(configInfo);
-				scriptTemplateEngine.setTemplateConfig(cfg);
-
-				ITemplateProcessor processor = new JsTemplateProcessor();
-
-				processor.addTaskWorker(new GenVigorDBTask(cfg));
-				processor.addTaskWorker(new GenHybridsTask(cfg));
-				processor.addTaskWorker(new PsychicGenTask(cfg, suffixList));
-
-				scriptTemplateEngine.setTemplateProcessor(processor);
-				scriptTemplateEngine.start();
-			}
-		}
-		if (configInfo != null) {
-			Runtime runtime = Runtime.getRuntime();
-	//		String command = String.format("protoc --java_out=%s %s", "./" + argsKvPair.get("dest"), argsKvPair.get("src") + "/entity.proto");
-			String command = String.format("protoc --java_out=%s %s", configInfo.getDestPath(), configInfo.getSrcPath() + "/entity.proto");
-			Log.i(TAG, command);
-			try {
-				runtime.exec(command);
-			} catch (IOException e) {
-				Log.e(TAG, "exec protoc error : %s", e);
-			}
-		}
-		if (enablePrintSeparator) {
-			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");
-		}
-		if (logToFile) {
-			Log.close();
-		}
+		StatisticManager.close();
+		Log.close();
+//		if (configInfo != null) {
+//			Runtime runtime = Runtime.getRuntime();
+//	//		String command = String.format("protoc --java_out=%s %s", "./" + argsKvPair.get("dest"), argsKvPair.get("src") + "/entity.proto");
+//			String command = String.format("protoc --java_out=%s %s", configInfo.getDestPath(), configInfo.getSrcPath() + "/entity.proto");
+//			Log.i(TAG, command);
+//			try {
+//				runtime.exec(command);
+//			} catch (IOException e) {
+//				Log.e(TAG, "exec protoc error : %s", e);
+//			}
+//		}
 	}
 
 	/**
@@ -240,15 +135,17 @@ public class ArbitraryGenEntrance {
 		public static final String ARGS_LIST_SEPARATOR = ",";
 
 		public static Map<String, String> extractArgs(String[] args) {
-			Map<String, String> kvPair = new HashMap<String, String>();
+			Map<String, String> kvPair = new HashMap<>();
 			if (args != null && args.length > 0) {
 				for (int i = 0; i < args.length; i++) {
 					if (!Util.isNullOrNil(args[i])) {
-						String[] argKv = args[i].split(ARGS_SEPARATOR);
-						if (argKv.length != 2) {
+						int index = args[i].indexOf(ARGS_SEPARATOR);
+						if (index <= 0) {
 							continue;
 						}
-						kvPair.put(argKv[0], argKv[1]);
+						String key = args[i].substring(0, index);
+						String value = index + 1 == args[i].length() ? "" : args[i].substring(index + 1, args[i].length());
+						kvPair.put(key, value);
 					}
 				}
 			}
@@ -259,15 +156,17 @@ public class ArbitraryGenEntrance {
 			if (args == null || args.length == 0 || Util.isNullOrNil(prefix)) {
 				return null;
 			}
-			List<String> results = new LinkedList<String>();
+			List<String> results = new LinkedList<>();
 			for (int i = 0; i < args.length; i++) {
 				if (!Util.isNullOrNil(args[i])) {
-					String[] argKv = args[i].split(ARGS_SEPARATOR);
-					if (argKv.length != 2) {
+					int index = args[i].indexOf(ARGS_SEPARATOR);
+					if (index <= 0) {
 						continue;
 					}
-					if (prefix.equalsIgnoreCase(argKv[0])) {
-						results.add(argKv[1]);
+					String key = args[i].substring(0, index);
+					String value = index + 1 == args[i].length() ? "" : args[i].substring(index + 1, args[i].length());
+					if (prefix.equalsIgnoreCase(key)) {
+						results.add(value);
 					}
 				}
 			}

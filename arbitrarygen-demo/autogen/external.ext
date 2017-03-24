@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Externals package="cc.suitalk.external.director">
-
-    <Ext name="ExternalDirector" >
-        <field name="name" type="String" default="null"/>
-    </Ext>
-</Externals>

@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.template;
 
 import java.io.FileInputStream;
@@ -14,14 +31,12 @@ import cc.suitalk.arbitrarygen.utils.Log;
  */
 public class TemplateConfig {
 	
-	private static final String TAG = "CodeGen.TemplateConfig";
+	private static final String TAG = "AG.TemplateConfig";
 	
-	private String coreLibs;
 	private String templateLibs;
 	private Properties properties;
 	
-	public TemplateConfig(String coreLibs, String templateLibs) {
-		this.coreLibs = coreLibs;
+	public TemplateConfig(String templateLibs) {
 		this.templateLibs = templateLibs;
 
 		properties = new Properties();
@@ -33,28 +48,24 @@ public class TemplateConfig {
 			properties.load(fis);
 			TemplateManager mgr = TemplateManager.getImpl();
 			for (Object key : properties.keySet()) {
-				String templatePath = this.templateLibs + "/" +properties.getProperty((String) key, null);
+				String templatePath = this.templateLibs + "/" + properties.getProperty((String) key, null);
 				mgr.put((String) key, new DelayReadFileTask(templatePath));
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 		} finally {
 			if (fis != null) {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Log.e(TAG, "exception occurred : %s", Log.getStackTraceString(e));
 				}
 			}
 		}
 	}
-	
-	public String getCoreLibs() {
-		return coreLibs;
-	}
-	
+
 	public String getTemplateLibs() {
 		return templateLibs;
 	}

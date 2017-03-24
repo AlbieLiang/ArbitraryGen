@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.statement.parser;
 
 import java.io.IOException;
@@ -9,7 +26,7 @@ import cc.suitalk.arbitrarygen.base.Expression;
 import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.CaseStatement;
 import cc.suitalk.arbitrarygen.statement.DefaultStatement;
 import cc.suitalk.arbitrarygen.statement.SwitchStatement;
@@ -22,14 +39,14 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class SwitchStatementParser extends BaseStatementParser {
 
-	private static final String TAG = "CodeGen.SwitchStatementParser";
+	private static final String TAG = "AG.SwitchStatementParser";
 
 	public SwitchStatementParser() {
 		super("switch");
 	}
 
 	@Override
-	public SwitchStatement parse(IReader reader, ILexer lexer, Word curWord) {
+	public SwitchStatement parse(IReader reader, Lexer lexer, Word curWord) {
 		try {
 			super.parse(reader, lexer, curWord);
 			curWord = getLastWord();
@@ -38,9 +55,9 @@ public class SwitchStatementParser extends BaseStatementParser {
 				switchStm.setPrefixWord(curWord);
 				Word word = nextWord(reader, lexer);
 				switchStm.setWordLeftBracket(word);
-				Expression condition = Util.extractExpressionFromBlacket(reader, lexer, word, this);
+				Expression condition = Util.extractExpressionFromBracket(reader, lexer, word, this);
 				if (condition == null) {
-					throw new RuntimeException("extract expression from blacket failed.");
+					throw new RuntimeException("extract expression from bracket failed.");
 				}
 				switchStm.setConditionExpression(condition);
 //				switchStm.setCommendBlock(getCommendStr());
@@ -48,7 +65,7 @@ public class SwitchStatementParser extends BaseStatementParser {
 				if (!"{".equals(word.value)) {
 					throw new RuntimeException("missing '{' when parse switch statement.");
 				}
-				switchStm.setLeftBrack(word);
+				switchStm.setLeftBrace(word);
 				word = nextWord(reader, lexer);
 				while ("case".equals(word.value)) {
 					Word tempWord = word;
@@ -57,7 +74,7 @@ public class SwitchStatementParser extends BaseStatementParser {
 					CaseStatement caseStm = new CaseStatement(expression);
 					caseStm.setPrefixWord(tempWord);
 					caseStm.setWordColon(getLastWord());
-					switchStm.addCaseStatment(caseStm);
+					switchStm.addCaseStatement(caseStm);
 					word = nextWord(reader, lexer);
 					while (!"}".equals(word.value) && word.type != WordType.DOC_END) {
 						if ("default".equals(word.value) || "case".equals(word.value)) {
@@ -89,7 +106,7 @@ public class SwitchStatementParser extends BaseStatementParser {
 				if (!"}".equals(word.value)) {
 					throw new RuntimeException("missing '}' sign when parse switch statement.");
 				}
-				switchStm.setRightBrack(word);
+				switchStm.setRightBrace(word);
 				nextWord(reader, lexer);
 				return switchStm;
 			}

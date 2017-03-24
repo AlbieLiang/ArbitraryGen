@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.template.hybrids;
 
 import java.io.File;
@@ -7,13 +24,15 @@ import java.util.Set;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.engine.ScriptTemplateGenCodeEngine.TaskInfo;
-import cc.suitalk.arbitrarygen.template.DelayReadFileTask;
+import cc.suitalk.arbitrarygen.template.TaskInfo;
 import cc.suitalk.arbitrarygen.template.TemplateConfig;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
-import cc.suitalk.arbitrarygen.template.base.BaseGenCodeWorker;
+import cc.suitalk.arbitrarygen.template.base.BasePsychicWorker;
+import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
+import cc.suitalk.arbitrarygen.utils.HybridsTemplateUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
+import cc.suitalk.arbitrarygen.utils.TemplateUtils;
 import cc.suitalk.arbitrarygen.utils.Util;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -23,12 +42,9 @@ import net.sf.json.JSONObject;
  * @author AlbieLiang
  *
  */
-public class GenHybridsTask extends BaseGenCodeWorker {
+public class GenHybridsTask extends BasePsychicWorker {
 
-	private static final String TAG = "CodeGen.GenHybridsTask";
-	
-	public static final String LINEFEED_CODE = "\\x0a";
-	public static final String CARRIAGE_RETURN_CODE = "\\x0d";
+	private static final String TAG = "AG.GenHybridsTask";
 	
 	public GenHybridsTask(TemplateConfig cfg) {
 		super(cfg);
@@ -83,7 +99,7 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 				}
 				JSONArray list = new JSONArray();
 				try {
-					String template = TemplateManager.getImpl().get(tagName);
+					String template = RuntimeContextHelper.replace(TemplateManager.getImpl().get(tagName));
 					if (Util.isNullOrNil(template)) {
 						Log.w(TAG, "the template do not exist with tag : %s", tagName);
 						continue;
@@ -95,7 +111,7 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 							JSONObject obj = arr.getJSONObject(j);
 							obj.put("@package", pkg);
 							if (!Util.isNullOrNil(template)) {
-								genCode(engine, template, info.transfer, info.utils, info.destPath, obj);
+								genCode(engine, template, info.script, info.destPath, obj);
 							}
 							list.add(obj);
 						}
@@ -103,7 +119,7 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 						JSONObject json = (JSONObject) tagObj;
 						json.put("@package", pkg);
 						if (!Util.isNullOrNil(template)) {
-							genCode(engine, template, info.transfer, info.utils, info.destPath, json);
+							genCode(engine, template, info.script, info.destPath, json);
 						}
 						list.add(json);
 					}
@@ -115,10 +131,8 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 		}
 		if (!Util.isNullOrNil(delegate)) {
 			String template = FileOperation.read(delegateDest + "/" + delegate + "." + delegateSuffix);
-			String path = info.coreLibs + "/Hybrids-TransferTools.js";
-			String transferTools = TemplateManager.getImpl().get(path, new DelayReadFileTask(path));
 			try {
-				genCodeAndPrint(engine, template, transferTools, "", delegateDest, delegateJson);
+				genCodeAndPrint(engine, template, info.script, delegateDest, delegateJson);
 			} catch (ScriptException e) {
 				Log.e(TAG, "gen code error : %s", e);
 			}
@@ -138,10 +152,9 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 		return tag.replaceAll("-", "_");
 	}
 	
-	private void genCodeAndPrint(ScriptEngine engine, String template,
-			String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
+	private void genCodeAndPrint(ScriptEngine engine, String template, String script, String destPath, JSONObject obj) throws ScriptException {
 		String jsonStr = obj.toString().replace("@", "_");
-		String script = transfer + utils + "\nparseTemplate(\"" + escape(template) + "\"," + jsonStr + ");";
+		String s = script + "\nparseHybridsTemplate(\"" + HybridsTemplateUtils.escape(template) + "\"," + jsonStr + ");";
 //		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
 		String path = destPath + "/" + obj.getString("@name") + "." + obj.getString("@suffix");
 
@@ -149,21 +162,14 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 		if (!destFolder.exists()) {
 			destFolder.mkdirs();
 		}
-//		Log.v(TAG, "genCode, jsonStr : %s", jsonStr);
-//		Log.v(TAG, "genCode, script : %s", script);
-		Log.v(TAG, "genCode, dest : %s", destPath);
-		Log.v(TAG, "genCode, path : %s", path);
-		String outStr = unescape((String) engine.eval(script));
-//		String outStr = format(unescape((String) engine.eval(script)));
-//		Log.v(TAG, "genCode, outStr : %s", outStr);
-		
-//		Log.v(TAG, "\n\n\n\n\nTransfer result : \n\n\n\n\n\n" + unescape((String) engine.eval(transfer + utils + "\ntransfer(\"" + escape(template) + "\"," + jsonStr + ");")));
+		Log.v(TAG, "genCode, dest : %s, path : %s", destPath, path);
+		String outStr = HybridsTemplateUtils.unescape((String) engine.eval(s));
 		FileOperation.write(path, "" + outStr);
 	}
 	
-	private void genCode(ScriptEngine engine, String template, String transfer, String utils, String destPath, JSONObject obj) throws ScriptException {
+	private void genCode(ScriptEngine engine, String template, String script, String destPath, JSONObject obj) throws ScriptException {
 		String jsonStr = obj.toString().replace("@", "_");
-		String script = transfer + utils + "\nparseTemplate(\"" + escape(template) + "\"," + jsonStr + ");";
+		String s = script + "\nparseTemplate(\"" + TemplateUtils.escape(template) + "\"," + jsonStr + ");";
 		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
 		String path = dest + "/" + obj.getString("@name") + ".java";
 
@@ -171,53 +177,7 @@ public class GenHybridsTask extends BaseGenCodeWorker {
 		if (!destFolder.exists()) {
 			destFolder.mkdirs();
 		}
-//		Log.d(TAG, "jsonStr : %s\n", jsonStr);
-//		Log.d(TAG, "script : %s\n", script);
-		Log.d(TAG, "dest : %s\n", dest);
-		Log.d(TAG, "path : %s\n", path);
-		FileOperation.write(path, format(unescape((String) engine.eval(script))));
-	}
-
-	public static String escape(String str) {
-//		return str.replaceAll("(\r\n)+", "\\x0a").replaceAll("\"", "\\\\\"").replaceAll("\'", "\\x29");
-		return str.replaceAll("\r", CARRIAGE_RETURN_CODE)
-				.replaceAll("\n", LINEFEED_CODE)
-				.replaceAll("\"", "\\\\\"")
-				.replaceAll("\'", "\\x29");
-	}
-	
-	public static String unescape(String str) {
-		if (str == null || str.length() == 0) {
-			return str;
-		}
-//		return str.replaceAll("(x0a[ ]*)+", "\r\n").replace("x29", "'");
-		return str.replaceAll("x0d", "\r").replaceAll("x0a", "\n").replace("x29", "'");
-	}
-
-	public static String format(String str) {
-		if (str == null || str.length() == 0) {
-			return str;
-		}
-		String indent = "";
-		String vary = "    ";
-		StringBuilder sb = new StringBuilder();
-		String[] sps = str.split("\r\n");
-		
-		for (int i = 0, len = sps.length; i < len; i++) {
-			String sp = sps[i].trim();
-			if (sp.startsWith("}}")) {
-				indent = indent.replaceFirst(vary, "");
-				indent = indent.replaceFirst(vary, "");
-			} else if (sp.startsWith("}")) {
-				indent = indent.replaceFirst(vary, "");
-			}
-			sb.append(indent);
-			sb.append(sp);
-			if (sp.endsWith("{")) {
-				indent += vary;
-			}
-			sb.append("\r\n");
-		}
-		return sb.toString();
+		Log.d(TAG, "dest : %s, path : %s", dest, path);
+		FileOperation.write(path, TemplateUtils.format(TemplateUtils.unescape((String) engine.eval(s))));
 	}
 }

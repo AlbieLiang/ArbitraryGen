@@ -1,3 +1,20 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.analyzer;
 
 import java.io.IOException;
@@ -16,7 +33,7 @@ import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Environment.EnvironmentArgs;
 import cc.suitalk.arbitrarygen.core.KeyWords.Sign.Type;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.ImportStatement;
 import cc.suitalk.arbitrarygen.statement.PackageStatement;
 import cc.suitalk.arbitrarygen.statement.parser.ImportStatementParser;
@@ -29,9 +46,11 @@ import cc.suitalk.arbitrarygen.utils.Log;
  * @author AlbieLiang
  *
  */
-public class JavaLexer implements ILexer {
+public class JavaLexer implements Lexer {
 
-	private static final String TAG = "CodeGen.JavaLexer";
+	private static final String TAG = "AG.JavaLexer";
+
+	private int mDocEnd;
 	private char mCurChar;
 	private BaseWordReader mNumberReader;
 	private BaseWordReader mStringReader;
@@ -54,10 +73,13 @@ public class JavaLexer implements ILexer {
 		builder.append("");
 		if (mCurChar == '\0') {
 			mCurChar = (char) reader.read();
-			Log.v(TAG, "\n>>>>>start parse java file.");
+			Log.v(TAG, ">>>>>start parse java file.");
 		}
 		if (mCurChar == BaseWordReader.DOC_END_MARK) {
-			Log.v(TAG, "\n>>>>>doc end.");
+			Log.v(TAG, ">>>>>doc end.");
+			if (mDocEnd++ == 10) {
+				throw new DocEndException();
+			}
 			return new Word();
 		}
 		if (BaseWordReader.isBlankChar(mCurChar)) {
@@ -105,7 +127,7 @@ public class JavaLexer implements ILexer {
 			word.blankStr = builder.toString();
 //			Log.d(TAG, word.toString());
 		} else {
-			Log.v(TAG, word.toString());// + "(" + word.type + ")"
+//			Log.v(TAG, word.toString());// + "(" + word.type + ")"
 		}
 		return word;
 	}
@@ -113,8 +135,7 @@ public class JavaLexer implements ILexer {
 	public JavaFileObject analyzeJavaFileObject(IReader reader) throws IOException {
 		PackageStatementParser pkgParser = new PackageStatementParser();
 		ImportStatementParser importParser = new ImportStatementParser();
-//		CommendStatementParser commendParser = new CommendStatementParser();
-		
+
 		JavaFileObject javaFileObject = new JavaFileObject();
 		EnvironmentArgs args = new EnvironmentArgs();
 		args.setSourceFileType(EnvironmentArgs.SOURCE_TYPE_JAVA);
@@ -124,18 +145,9 @@ public class JavaLexer implements ILexer {
 		
 		PackageStatement packageStatement;
 		List<ImportStatement> importStatements = new LinkedList<ImportStatement>();
-		// parse commend
-//		NormalStatement commend = commendParser.parse(reader, this, word);
-
-//		if (((word = commendParser.getLastWord()) != null && word.type == WordType.DOC_END)) {
-//			return null;
-//		}
 		// parse package
 		packageStatement = pkgParser.parse(reader, this, word);
 		if (packageStatement != null) {
-//			if (commend != null) {
-//				packageStatement.setCommendBlock(commend.genCode(""));
-//			}
 			word = pkgParser.getLastWord();
 		} else {
 			throw new RuntimeException("analyzeTypeDefineCodeBlock error when parser 'package'.(Current word is : " + word + ")");
@@ -143,7 +155,6 @@ public class JavaLexer implements ILexer {
 		javaFileObject.setPackageStatement(packageStatement);
 		// parse import
 		do {
-//			commend = commendParser.parse(reader, this, word);
 			ImportStatement importStm = importParser.parse(reader, this, word);
 			word = importParser.getLastWord();
 			if (importStm != null) {
@@ -155,11 +166,15 @@ public class JavaLexer implements ILexer {
 		} while (true);
 		// parse type define code block
 		TypeDefineStatementParser parser = ParserFactory.getTypeDefineStatementParser();
-		while (word != null && word.type != WordType.DOC_END) {
-			TypeDefineCodeBlock typeDefineStm = parser.parse(reader, this, word);
-			javaFileObject.addTypeDefineCodeBlock(typeDefineStm);
-			word = parser.getLastWord();
-//			Log.i(TAG, "current word (" + word.value + ", " + (word.type == WordType.DOC_END) +", " + word.type + ").");
+		try {
+			while (word != null && word.type != WordType.DOC_END) {
+				TypeDefineCodeBlock typeDefineStm = parser.parse(reader, this, word);
+				javaFileObject.addTypeDefineCodeBlock(typeDefineStm);
+				word = parser.getLastWord();
+//				Log.i(TAG, "current word (" + word.value + ", " + (word.type == WordType.DOC_END) +", " + word.type + ").");
+			}
+		} catch (DocEndException e) {
+			Log.i(TAG, "on doc end. %s", Log.getStackTraceString(e));
 		}
 		return javaFileObject;
 	}

@@ -6,22 +6,18 @@ apply plugin: 'groovy'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def siteUrl = 'https://github.com/AlbieLiang/ArbitraryGen'   // 项目的主页
-def gitUrl = 'https://github.com/AlbieLiang/ArbitraryGen.git'   // Git仓库的url
+def siteUrl = rootProject.ext.bintrayConfig["siteUrl"]   // 项目的主页
+def gitUrl = rootProject.ext.bintrayConfig["gitUrl"]   // Git仓库的url
 group = "cc.suitalk.tools"            // Maven Group ID for the artifact，
 
 // 这个version是library的版本，更新后也需要更改这个值
-version = '1.0.0'
+version = rootProject.ext.bintrayConfig["version"]
 archivesBaseName = 'arbitrarygen-plugin'
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile files('libs/proguard.jar')
+    compile rootProject.ext.arbitrarygen["main"]
 }
 
 // 一定要记得使用交叉编译选项，因为我们可能用很高的JDK版本编译，为了让安装了低版本的同学能用上我们写的插件，必须设定source和target
@@ -31,6 +27,19 @@ compileGroovy {
     options.encoding = "UTF-8"
 }
 
+jar {
+    from files(sourceSets.main.output.classesDir)
+//    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+    from configurations.compile.collect {
+        if (it != null && it.toString().contains("arbitrarygen")) {
+            println(it)
+            it.isDirectory() ? it : zipTree(it)
+        } else {
+            "ignore-this"
+        }
+    }
+    exclude("ignore-this")
+}
 uploadArchives {
     repositories.mavenDeployer {
         // 如果你公司或者自己搭了nexus私服，那么可以将插件deploy到上面去
@@ -38,7 +47,7 @@ uploadArchives {
         //            authentication(userName: "admin", password: "admin")
         //        }
         // 如果没有私服的话，发布到本地也是ok的
-        repository(url: "file:../repositories/release")
+        repository(url: "file:${project.rootDir.getAbsolutePath()}/repositories/release")
     }
 }
 
@@ -54,15 +63,15 @@ install {
                 // Set your license
                 licenses {
                     license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name rootProject.ext.bintrayConfig["license-name"]
+                        url rootProject.ext.bintrayConfig["license-url"]
                     }
                 }
                 developers {
                     developer {
-                        id 'albieliang'        //填写的一些基本信息
-                        name 'Albie Liang'
-                        email 'albieliang@gmail.com'
+                        id rootProject.ext.bintrayConfig["developer-id"]
+                        name rootProject.ext.bintrayConfig["developer-name"]
+                        email rootProject.ext.bintrayConfig["developer-email"]
                     }
                 }
                 scm {

@@ -1,19 +1,33 @@
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'maven'
+//apply plugin: 'maven'
+
+apply plugin: 'arbitrarygen'
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = rootProject.ext.bintrayConfig["siteUrl"]   // 项目的主页
+def gitUrl = rootProject.ext.bintrayConfig["gitUrl"]   // Git仓库的url
 
 // For maven config
-version = '1.0.0'
-group = 'osc.innovator.tools'
+version = rootProject.ext.bintrayConfig["version"]
+group = 'cc.suitalk.tools'            // Maven Group ID for the artifact，
 archivesBaseName = 'arbitrarygen'
 
 // For jar config
 mainClassName = 'cc.suitalk.arbitrarygen.ArbitraryGenEntrance'
 
+compileJava {
+    sourceCompatibility = '1.7'
+    targetCompatibility = '1.7'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(":arbitrarygen-sdk")
 }
+
 jar {
     from files(sourceSets.main.output.classesDir)
     from configurations.runtime.asFileTree.files.collect { zipTree(it) }
@@ -23,19 +37,38 @@ jar {
 //        attributes('Main-Class': mainClassName, 'Class-Path': "com.springsource.nu.xom-1.2.5.jar commons-beanutils-1.8.3.jar commons-collections-3.2.1.jar commons-lang-2.6.jar commons-logging.jar ezmorph-1.0.6.jar json-lib-2.4-jdk15.jar")
 //        println "${configurations.compile.collect { it.name }.join(' ')}"
     }
-    baseName = 'ArbitraryGen'
+    baseName = archivesBaseName
     version = this.version
 }
 
-//打包
-task packRunnbaleJar(type: Jar, dependsOn: classes) {
-    from files(sourceSets.main.output.classesDir)
-    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
-    manifest {
-        attributes 'Main-Class': mainClassName
+//sourceSets {
+//    main {
+//        java {
+//            srcDir 'src/main/java'
+//        }
+//        resources {
+//            srcDir 'src/main/resources'
+//        }
+//    }
+//}
+
+arbitraryGen {
+    templateDir "${project.rootDir.getAbsolutePath()}/ArbitraryGen/template-libs"
+    srcDir "${project.projectDir.absolutePath}/ag-datasrc"
+    destDir "$buildDir/generated/source/ag-gen"
+
+    logger {
+        debug true
+        logToFile true
+        printTag true
+        path "$buildDir/logs/ag.log"
     }
-    baseName = 'ArbitraryGen'
-    version = this.version
+
+    statistic {
+        toFile true
+        path "$buildDir/logs/ag.statistic"
+    }
+
 }
 
 uploadArchives {
@@ -45,13 +78,93 @@ uploadArchives {
         //            authentication(userName: "admin", password: "admin")
         //        }
         // 如果没有私服的话，发布到本地也是ok的
-        repository(url: "file:../repositories/release")
+        repository(url: "file:${project.rootDir.getAbsolutePath()}/repositories/release")
     }
+}
+
+//打包
+task packRunnbaleJar(type: Jar, dependsOn: classes) {
+    from files(sourceSets.main.output.classesDir)
+    from files(sourceSets.main.resources)
+    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    baseName = archivesBaseName
+    version = this.version
 }
 
 task uploadJar(type: Copy, dependsOn: packRunnbaleJar) {
     from("build/libs")
     into("../ArbitraryGen/")
-    include("ArbitraryGen-${version}.jar")
-    rename("ArbitraryGen-${version}.jar", "ArbitraryGen.jar")
+    include("${archivesBaseName}-${version}.jar")
+    rename("${archivesBaseName}-${version}.jar", "ArbitraryGen.jar")
+}
+
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'jar'
+                // Add your description here
+                name 'A extension open SDK for ArbitraryGen developer, ArbitraryGen is a multifunction code generator.'     //项目的描述 你可以多写一点
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name rootProject.ext.bintrayConfig["license-name"]
+                        url rootProject.ext.bintrayConfig["license-url"]
+                    }
+                }
+                developers {
+                    developer {
+                        id rootProject.ext.bintrayConfig["developer-id"]
+                        name rootProject.ext.bintrayConfig["developer-name"]
+                        email rootProject.ext.bintrayConfig["developer-email"]
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+
+task packSourcesJar(type: Jar) {
+    from sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task packJavadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives packJavadocJar
+    archives packSourcesJar
+}
+
+Properties properties = new Properties()
+//读取properties的配置信息，当然直接把信息写到代码里也是可以的
+properties.load(project.rootProject.file('bintray-config.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"          //这个应该是传到maven的仓库的
+        name = archivesBaseName    //发布的项目名字
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
 }

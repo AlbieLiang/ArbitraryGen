@@ -1,8 +1,25 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.statement.parser;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import cc.suitalk.arbitrarygen.analyzer.IReader;
 import cc.suitalk.arbitrarygen.base.BaseStatement;
@@ -12,7 +29,7 @@ import cc.suitalk.arbitrarygen.core.ParserFactory;
 import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.core.Word.WordType;
 import cc.suitalk.arbitrarygen.expression.parser.PlainExpressionParser;
-import cc.suitalk.arbitrarygen.extension.ILexer;
+import cc.suitalk.arbitrarygen.extension.Lexer;
 import cc.suitalk.arbitrarygen.statement.NormalStatement;
 import cc.suitalk.arbitrarygen.statement.PlainStatement;
 
@@ -23,25 +40,26 @@ import cc.suitalk.arbitrarygen.statement.PlainStatement;
  */
 public class NormalStatementParser extends BaseStatementParser {
 
-	private static final String TAG = "NormalStatementParser";
+	private static final String TAG = "AG.NormalStatementParser";
 	
-	private List<BaseStatementParser> mParsers; 
+	private Map<String, BaseStatementParser> mParserMap;
+
 	public NormalStatementParser() {
 		super("");
-		mParsers = new LinkedList<BaseStatementParser>();
-		mParsers.add(new IfElseStatementParser());
-		mParsers.add(new SwitchStatementParser());
-		mParsers.add(new SyncStatementParser());
-		mParsers.add(new ForStatementParser());
-		mParsers.add(new TryStatementParser());
-		mParsers.add(new ThrowStatementParser());
-		mParsers.add(new WhileStatementParser());
-		mParsers.add(new DoWhileStatementParser());
-		mParsers.add(new ReturnStatementParser());
+		mParserMap = new HashMap<>();
+		addParser(new IfElseStatementParser());
+		addParser(new SwitchStatementParser());
+		addParser(new SyncStatementParser());
+		addParser(new ForStatementParser());
+		addParser(new TryStatementParser());
+		addParser(new ThrowStatementParser());
+		addParser(new WhileStatementParser());
+		addParser(new DoWhileStatementParser());
+		addParser(new ReturnStatementParser());
 	}
 
 	@Override
-	public BaseStatement parse(IReader reader, ILexer lexer, Word curWord) throws IOException {
+	public BaseStatement parse(IReader reader, Lexer lexer, Word curWord) throws IOException {
 		super.parse(reader, lexer, curWord);
 		Word word = getLastWord();
 		if ("{".equals(word.value)) {
@@ -49,15 +67,14 @@ public class NormalStatementParser extends BaseStatementParser {
 			PlainStatement statement = parser.parse(reader, lexer, word);
 			word = parser.getLastWord();
 			if (statement != null) {
-//				statement.setCommendBlock(getCommendStr());
 				setLastWord(parser.getLastWord());
 				return statement;
 			} else {
-				// TODO empty statement
 				throw new RuntimeException("Parse statement failed.(current word : " + word.value + ")");
 			}
 		} else if(word.type == WordType.STRING) {
-			for (BaseStatementParser parser : mParsers) {
+			BaseStatementParser parser = mParserMap.get(word.value);
+			if (parser != null) {
 				BaseStatement s = parser.parse(reader, lexer, word);
 				if (s != null) {
 					setLastWord(parser.getLastWord());
@@ -73,9 +90,13 @@ public class NormalStatementParser extends BaseStatementParser {
 			throw new RuntimeException("Parse Plain expression failed.");
 		}
 		NormalStatement nstm = new NormalStatement();
-//		nstm.setCommendBlock(getCommendStr());
 		nstm.setStatementStr(e.genCode(""));
+		nstm.setSuffixWord(peParser.getLastWord());
 		nextWord(reader, lexer);
 		return nstm;
+	}
+
+	private void addParser(BaseStatementParser parser) {
+		mParserMap.put(parser.getPrefix(), parser);
 	}
 }

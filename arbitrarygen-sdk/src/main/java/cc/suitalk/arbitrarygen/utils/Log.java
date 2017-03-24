@@ -1,10 +1,30 @@
+/*
+ *  Copyright (C) 2016-present Albie Liang. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
 package cc.suitalk.arbitrarygen.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.UnknownHostException;
 
 import cc.suitalk.arbitrarygen.debug.Debuger;
 
@@ -48,54 +68,74 @@ public class Log {
 	}
 	
 	public static final void v(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_V, "v", tag, format(format, args));
+		printLog(LOG_LEVEL_V, "v", tag, format(format, args));
 	}
 	
 	public static final void v(String tag, String msg) {
-		printlog(LOG_LEVEL_V, "v", tag, msg);
+		printLog(LOG_LEVEL_V, "v", tag, msg);
 	}
 
 	public static final void d(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_D, "d", tag, format(format, args));
+		printLog(LOG_LEVEL_D, "d", tag, format(format, args));
 	}
 	
 	public static final void d(String tag, String msg) {
-		printlog(LOG_LEVEL_D, "d", tag, msg);
+		printLog(LOG_LEVEL_D, "d", tag, msg);
 	}
 	
 	public static final void i(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_I, "i", tag, format(format, args));
+		printLog(LOG_LEVEL_I, "i", tag, format(format, args));
 	}
 
 	public static final void i(String tag, String msg) {
-		printlog(LOG_LEVEL_I, "i", tag, msg);
+		printLog(LOG_LEVEL_I, "i", tag, msg);
 	}
 
 	public static final void w(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_W, "w", tag, format(format, args));
+		printLog(LOG_LEVEL_W, "w", tag, format(format, args));
 	}
 	
 	public static final void w(String tag, String msg) {
-		printlog(LOG_LEVEL_W, "w", tag, msg);
+		printLog(LOG_LEVEL_W, "w", tag, msg);
 	}
 
 	public static final void e(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_E, "e", tag, format(format, args));
+		printLog(LOG_LEVEL_E, "e", tag, format(format, args));
 	}
 	
 	public static final void e(String tag, String msg) {
-		printlog(LOG_LEVEL_E, "e", tag, msg);
+		printLog(LOG_LEVEL_E, "e", tag, msg);
 	}
 	
 	public static final void a(String tag, String msg) {
-		printlog(LOG_LEVEL_A, "a", tag, msg);
+		printLog(LOG_LEVEL_A, "a", tag, msg);
 	}
 	
 	public static final void a(String tag, String format, Object... args) {
-		printlog(LOG_LEVEL_A, "a", tag, format(format, args));
+		printLog(LOG_LEVEL_A, "a", tag, format(format, args));
 	}
 
-	private static final void printlog(int level, String levelStr, String tag, String msg) {
+	public static String getStackTraceString(Throwable tr) {
+		if (tr == null) {
+			return "";
+		}
+		// This is to reduce the amount of log spew that apps do in the non-error
+		// condition of the network being unavailable.
+		Throwable t = tr;
+		while (t != null) {
+			if (t instanceof UnknownHostException) {
+				return "";
+			}
+			t = t.getCause();
+		}
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		tr.printStackTrace(pw);
+		pw.flush();
+		return sw.toString();
+	}
+
+	private static final void printLog(int level, String levelStr, String tag, String msg) {
 		if (Debuger.debug || level >= Log.level) {
 			System.out.println(getMsg(levelStr, tag, msg));
 		}
@@ -165,7 +205,6 @@ public class Log {
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append("[tid:").append(Thread.currentThread().getId()).append("]");
-		sb.append("[msec:").append(msec).append("]");
 		sb.append("[time:").append(Util.getDateFormat("Z yyyy-MM-dd HH:mm:ss.SSS", msec)).append("]");
 		sb.append(log);
 		sb.append("\n");

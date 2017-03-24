@@ -1,0 +1,8 @@
+{
+    buildDir : "gen",
+    project : {
+        name : "arbitrarygen-demo-antbuild",
+        projectDir : ".",
+        rootDir : ".."
+    }
+}
