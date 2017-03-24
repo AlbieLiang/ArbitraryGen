@@ -1,4 +1,4 @@
-package cc.suitalk.player.autogen.table;
+package cc.suitalk.arbitrarygen.demo.vigordb;
 
 import android.util.Log;
 

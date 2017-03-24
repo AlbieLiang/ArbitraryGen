@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Events
-    package="cc.suitalk.test.e"
+    package="cc.suitalk.arbitrarygen.demo.e"
     delegateTag="events"
     tag="event">
 
@@ -8,7 +8,7 @@
         <field name="name" type="String" default="null"/>
     </event>
 
-    <event name="TestEvent"  final="true" parent="DefaultTestEvent">
+    <event name="TestEvent" final="true" parent="DefaultTestEvent">
         <field name="name" type="String" default="null"/>
         <field name="type" type="int" default="0"/>
         <data static="true" final="true">

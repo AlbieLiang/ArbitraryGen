@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RootNode package="cc.suitalk.test">
+<RootNode package="cc.suitalk.arbitrarygen.demo.xmlparser">
 
     <xml name="XmlTest"  final="false" parent="Object" interfaces="Serializable" 
         import="java.lang.String,java.io.Serializable">

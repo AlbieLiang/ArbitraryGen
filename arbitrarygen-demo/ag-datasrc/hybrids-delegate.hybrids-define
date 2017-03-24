@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <hybrids-define
-	package="cc.suitalk.player.autogen.table"
-	delegateDest="${project.projectDir}/src/main/java/cc/suitalk/player/autogen/table"
+	package="cc.suitalk.arbitrarygen.demo.vigordb.table"
+	delegateDest="${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/vigordb"
 	delegate="VDBInfoDelegate"
 	delegateSuffix="java"
 	tag="">

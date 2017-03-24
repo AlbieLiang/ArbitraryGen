@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Events package="cc.suitalk.test">
+<Events package="cc.suitalk.arbitrarygen.demo.xmlparser">
 
     <xml name="XmlFirst" >
 
@@ -7,7 +7,6 @@
     </xml>
 
     <xml name="XmlSecond"  final="true" parent="Object">
-
         <field name="name" type="String" default="null"/>
         <field name="type" type="int" default="0"/>
         <field name="data" type="Data" default="new Data()"/>
@@ -15,7 +14,7 @@
             <field name="errCode" type="int"/>
         	<field name="errType" type="int" default="0"/>
         </Data>
-        <method name="TestMethod" />
+        <method name="TestMethod"/>
         <method name="getName" type="String">
             <arg name="name" type="String"></arg>
             <block>this.name = name</block>

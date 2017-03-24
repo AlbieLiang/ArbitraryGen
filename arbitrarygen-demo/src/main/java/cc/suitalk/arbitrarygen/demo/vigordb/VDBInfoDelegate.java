@@ -15,7 +15,7 @@
  *
  */
 
-package cc.suitalk.player.autogen.table;
+package cc.suitalk.arbitrarygen.demo.vigordb;
 
 import cc.suitalk.sdk.db.base.IDatabaseEngine;
 import cc.suitalk.sdk.db.base.IDatabaseInfoDelegate;
@@ -29,11 +29,11 @@ import <%=_package%>.<%=_tables[i]._name%>;<%
 }%>
 #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
 
-import cc.suitalk.player.autogen.table.DBItem_1;
-import cc.suitalk.player.autogen.table.DBItem_2;
-import cc.suitalk.player.autogen.table.DBItem_3;
-import cc.suitalk.player.autogen.table.DBItem_4;
-import cc.suitalk.player.autogen.table.DBItem_5;
+import cc.suitalk.arbitrarygen.demo.vigordb.table.DBItem_1;
+import cc.suitalk.arbitrarygen.demo.vigordb.table.DBItem_2;
+import cc.suitalk.arbitrarygen.demo.vigordb.table.DBItem_3;
+import cc.suitalk.arbitrarygen.demo.vigordb.table.DBItem_4;
+import cc.suitalk.arbitrarygen.demo.vigordb.table.DBItem_5;
 
 //@@@#AUTO-GEN-END#
 
