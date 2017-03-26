@@ -185,4 +185,14 @@ public class FileOperation {
 		}
 		return sb.toString();
 	}
+
+	public static String getSuffix(String fileName) {
+		int index = -1;
+		return Util.isNullOrNil(fileName) || (index = fileName.indexOf(".")) < 0 ? "" : fileName.substring(index + 1);
+	}
+
+	public static String getNameWithoutSuffix(String fileName) {
+		int index = -1;
+		return Util.isNullOrNil(fileName) || (index = fileName.indexOf(".")) < 0 ? fileName : fileName.substring(0, index);
+	}
 }

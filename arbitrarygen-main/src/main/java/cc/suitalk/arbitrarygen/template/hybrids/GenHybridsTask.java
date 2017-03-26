@@ -54,19 +54,12 @@ public class GenHybridsTask extends BasePsychicWorker {
 	@Override
 	public String genCode(ScriptEngine engine, JSONObject jsonObj, TaskInfo info) {
 		String pkg = jsonObj.optString("@package", "");
-		String delegate = jsonObj.optString("@delegate", "");
-		String delegateDest = jsonObj.optString("@delegateDest", "");
-		String delegateSuffix = jsonObj.optString("@delegateSuffix", "");
 		String rawTags = jsonObj.optString("@tag", "");
 
-		if (Util.isNullOrNil(delegateSuffix)) {
-			delegateSuffix = "java";
-		}
+		String delegatePath = jsonObj.optString("@delegate", "");
 
 		JSONObject delegateJson = new JSONObject();
 		delegateJson.put("@package", pkg);
-		delegateJson.put("@name", delegate);
-		delegateJson.put("@suffix", delegateSuffix);
 
 		String[] tags = null;
 
@@ -126,13 +119,14 @@ public class GenHybridsTask extends BasePsychicWorker {
 				} catch (ScriptException e) {
 					Log.e(TAG, "gen code error : %s", e);
 				}
-				delegateJson.put("@" + getValidateTag(tagName) + "s", list);
+				delegateJson.put(getValidateTag(tagName), list);
 			}
 		}
-		if (!Util.isNullOrNil(delegate)) {
-			String template = FileOperation.read(delegateDest + "/" + delegate + "." + delegateSuffix);
+		File delegateFile = null;
+		if (!Util.isNullOrNil(delegatePath) && (delegateFile = new File(delegatePath)).isFile()) {
+			String template = FileOperation.read(delegatePath);
 			try {
-				genCodeAndPrint(engine, template, info.script, delegateDest, delegateJson);
+				genDelegateCode(engine, template, info.script, delegateFile.getAbsolutePath(), delegateJson);
 			} catch (ScriptException e) {
 				Log.e(TAG, "gen code error : %s", e);
 			}
@@ -152,17 +146,11 @@ public class GenHybridsTask extends BasePsychicWorker {
 		return tag.replaceAll("-", "_");
 	}
 	
-	private void genCodeAndPrint(ScriptEngine engine, String template, String script, String destPath, JSONObject obj) throws ScriptException {
+	private void genDelegateCode(ScriptEngine engine, String template, String script, String path, JSONObject obj) throws ScriptException {
 		String jsonStr = obj.toString().replace("@", "_");
 		String s = script + "\nparseHybridsTemplate(\"" + HybridsTemplateUtils.escape(template) + "\"," + jsonStr + ");";
-//		String dest = destPath + "/" + obj.getString("@package").replace('.', '/');
-		String path = destPath + "/" + obj.getString("@name") + "." + obj.getString("@suffix");
 
-		File destFolder = new File(destPath);
-		if (!destFolder.exists()) {
-			destFolder.mkdirs();
-		}
-		Log.v(TAG, "genCode, dest : %s, path : %s", destPath, path);
+		Log.v(TAG, "genDelegateCode, path : %s", path);
 		String outStr = HybridsTemplateUtils.unescape((String) engine.eval(s));
 		FileOperation.write(path, "" + outStr);
 	}

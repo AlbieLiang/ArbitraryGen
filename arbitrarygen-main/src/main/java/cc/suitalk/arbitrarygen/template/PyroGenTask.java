@@ -124,7 +124,7 @@ public class PyroGenTask extends BasePyroWorker {
 				} catch (ScriptException e) {
 					Log.e(TAG, "gen code error : %s", e);
 				}
-				delegateJson.put("@" + getValidateTag(tagName) + "s", list);
+				delegateJson.put(getValidateTag(tagName), list);
 			}
 		}
 		while (!Util.isNullOrNil(delegate)) {

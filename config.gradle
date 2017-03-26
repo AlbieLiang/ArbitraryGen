@@ -18,11 +18,11 @@
 
 ext {
     buildConfig = [
-            "debug" : false,
+            "debug" : true,
     ]
 
     bintrayConfig = [
-            version : '2.0.3',
+            version : '2.0.5',
             siteUrl : 'https://github.com/AlbieLiang/ArbitraryGen',   // 项目的主页
             gitUrl : 'https://github.com/AlbieLiang/ArbitraryGen.git',   // Git仓库的url
             "license-name" : 'The Apache Software License, Version 2.0',
@@ -32,9 +32,9 @@ ext {
             "developer-email" : 'albieliang@gmail.com',
     ]
     arbitrarygen = [
-            "extension-sdk" : 'cc.suitalk.tools:arbitrarygen-extension-sdk:2.0.3',
-            "sdk" : 'cc.suitalk.tools:arbitrarygen-sdk:2.0.3',
-            "main" : 'cc.suitalk.tools:arbitrarygen:2.0.3',
-            "plugin" : 'cc.suitalk.tools:arbitrarygen-plugin:2.0.3',
+            "extension-sdk" : 'cc.suitalk.tools:arbitrarygen-extension-sdk:2.0.5',
+            "sdk" : 'cc.suitalk.tools:arbitrarygen-sdk:2.0.5',
+            "main" : 'cc.suitalk.tools:arbitrarygen:2.0.5',
+            "plugin" : 'cc.suitalk.tools:arbitrarygen-plugin:2.0.5',
     ]
 }

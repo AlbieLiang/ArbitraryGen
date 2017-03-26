@@ -80,7 +80,7 @@ public class JSONArgsUtils {
         return result;
     }
 
-    private static String toValidKey(String key) {
+    public static String toValidKey(String key) {
         String result = key;
         if (key != null) {
             result = key.replaceAll("@", "_").replaceAll("-", "_");
