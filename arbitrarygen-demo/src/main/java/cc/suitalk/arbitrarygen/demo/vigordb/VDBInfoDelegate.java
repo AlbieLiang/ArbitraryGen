@@ -21,7 +21,7 @@ import cc.suitalk.sdk.db.base.IDatabaseEngine;
 import cc.suitalk.sdk.db.base.IDatabaseInfoDelegate;
 
 /*@@@#SCRIPT-BEGIN#
-<%var _tables = _hybrid_tables;
+<%var _tables = hybrid_table;
 if (_tables && _tables.length > 0) {
 	for (var i = 0; i < _tables.length; i++) {%>
 import <%=_package%>.<%=_tables[i]._name%>;<%

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Events
     package="cc.suitalk.arbitrarygen.demo.e"
-    delegateTag="events"
+    delegateTag="event-delegate"
+    delegate="RxEventCollection"
     tag="event">
 
     <event name="DefaultEvent" >
