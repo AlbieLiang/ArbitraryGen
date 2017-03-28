@@ -5,7 +5,7 @@
 
     logger : {
         debug : true,
-        logToFile : true,
+        toFile : true,
         printTag : true,
         path : "${project.projectDir}/ag-logs/ag.log"
     },

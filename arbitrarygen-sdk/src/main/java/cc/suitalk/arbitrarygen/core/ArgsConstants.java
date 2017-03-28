@@ -48,7 +48,6 @@ public interface ArgsConstants {
 	String EXTERNAL_ARGS_KEY_LOG_LEVEL = "logLevel";
 	String EXTERNAL_ARGS_KEY_LOG_PRINT_TAG = "printTag";
 	String EXTERNAL_ARGS_KEY_LOG_PRINT_LEVEL = "printLevel";
-	String EXTERNAL_ARGS_KEY_LOG_TO_FILE = "logToFile";
 	String EXTERNAL_ARGS_KEY_TO_FILE = "toFile";
 	String EXTERNAL_ARGS_KEY_PATH = "path";
 

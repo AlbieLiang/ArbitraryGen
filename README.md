@@ -142,7 +142,7 @@ arbitraryGen {
 
     logger {
         debug true
-        logToFile true
+        toFile true
         printTag true
         path "$buildDir/outputs/logs/ag.log"
     }

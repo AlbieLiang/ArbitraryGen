@@ -31,7 +31,5 @@ public @interface ParseJavaRule {
 
     String name();
 
-    String project() default "";
-
     String[] rule();
 }

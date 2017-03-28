@@ -63,7 +63,7 @@ public class VDBInfoDelegate_TestParseXmlAnnotation implements IDatabaseInfoDele
            }
         }%>
         #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
-
+        
         engine.addDatabaseInfo(Table_1.getVDBInfo());
         engine.addDatabaseInfo(Table_2.getVDBInfo());
         engine.addDatabaseInfo(Table_3.getVDBInfo());

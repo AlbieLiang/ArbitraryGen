@@ -18,9 +18,9 @@
 #                                                                  # source directory may work as a source directory.
 # @Src-file cc/suitalk/arbitrarygen/core/ArbitraryGenEntrance.java # Define a source file for parse
 #
-# cc/suitalk/generator/core/*                          # A simple rule just like @Src-dir
-# cc/suitalk/generator/core/*/*                        # A simple rule parts match @Src-dir-recursion
-# cc/suitalk/generator/core/CodeGeneratorEntrance.java # A simple rule just like @Src-file
+# cc/suitalk/arbitrarygen/demo/*                          # A simple rule just like @Src-dir-recursion
+# cc/suitalk/arbitrarygen/demo/*Func.java                 # A simple rule parts match
+# cc/suitalk/arbitrarygen/demo/ArbitraryGenEntrance.java  # A simple rule just like @Src-file
 # 
 # 
 # 
