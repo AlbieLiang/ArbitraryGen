@@ -59,7 +59,7 @@ public class TemplateParserMgr {
 
 	public void addParser(CustomizeParser parser) {
 		if (parser != null) {
-			this.mParsers.add(0, parser);
+			this.mParsers.add(parser);
 		}
 	}
 

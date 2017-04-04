@@ -60,7 +60,7 @@ public class TemplateConverterMgr {
 
 	public void addConverter(CustomizeConverter converter) {
 		if (converter != null) {
-			this.mConverterList.add(0, converter);
+			this.mConverterList.add(converter);
 		}
 	}
 

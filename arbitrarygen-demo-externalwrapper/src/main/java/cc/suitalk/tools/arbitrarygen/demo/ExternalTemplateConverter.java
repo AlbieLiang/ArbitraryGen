@@ -28,7 +28,7 @@ import cc.suitalk.arbitrarygen.utils.AnalyzerHelper;
 
 /**
  * 
- * @author albieliang
+ * @author AlbieLiang
  * 
  */
 public class ExternalTemplateConverter implements CustomizeConverter {

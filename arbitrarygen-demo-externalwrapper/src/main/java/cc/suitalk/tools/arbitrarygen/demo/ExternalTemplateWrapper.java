@@ -56,7 +56,7 @@ public class ExternalTemplateWrapper implements TemplateWrapper {
 	}
 
 	@Override
-	public boolean doWrap(ContextInfo contextInfo, TypeDefineCodeBlock template) {
+	public boolean doWrap(ContextInfo contextInfo, TypeDefineCodeBlock codeBlock) {
 		return false;
 	}
 

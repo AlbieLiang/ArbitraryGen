@@ -42,9 +42,9 @@ public interface TemplateWrapper {
 	 * To wrap the {@link TypeDefineCodeBlock}
 	 *
 	 * @param contextInfo the source file context info
-	 * @param template the {@link RawTemplate} to do wrap
+	 * @param codeBlock the {@link RawTemplate} to do wrap
 	 * @return true to interrupt the wrap action that means do not need to wrap
 	 *         any more, otherwise false
 	 */
-	boolean doWrap(ContextInfo contextInfo, TypeDefineCodeBlock template);
+	boolean doWrap(ContextInfo contextInfo, TypeDefineCodeBlock codeBlock);
 }

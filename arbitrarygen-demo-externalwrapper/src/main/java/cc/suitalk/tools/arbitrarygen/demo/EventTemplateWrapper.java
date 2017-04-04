@@ -73,10 +73,10 @@ public class EventTemplateWrapper implements TemplateWrapper {
 	}
 
 	@Override
-	public boolean doWrap(ContextInfo contextInfo, TypeDefineCodeBlock template) {
-		if (template != null && template.Token == session.Token) {//
-			for (int i = 0; i < template.countOfTypeDefCodeBlocks(); i++) {
-				TypeDefineCodeBlock ct = template.getTypeDefCodeBlock(i);
+	public boolean doWrap(ContextInfo contextInfo, TypeDefineCodeBlock codeBlock) {
+		if (codeBlock != null && codeBlock.Token == session.Token) {//
+			for (int i = 0; i < codeBlock.countOfTypeDefCodeBlocks(); i++) {
+				TypeDefineCodeBlock ct = codeBlock.getTypeDefCodeBlock(i);
 				if (KeyWords.V_JAVA_KEYWORDS_CLASS.equals(ct.getType().genCode(""))) {
 					FieldCodeBlock field = new FieldCodeBlock();
 					field.setName(Util.changeFirstChatToLower(ct.getName()));
@@ -84,17 +84,17 @@ public class EventTemplateWrapper implements TemplateWrapper {
 					field.setDefault(KeyWords.V_JAVA_KEYWORDS_NEW + " " + ct.getName().getName() + "()");
 					ct.setIsStatic(true);
 					ct.setIsFinal(true);
-					template.addField(field);
+					codeBlock.addField(field);
 				}
 			}
-			MethodCodeBlock t = new ConstructorMethodCodeBlock(template, new DefaultKeyValuePair("callback", "ICallback"));
+			MethodCodeBlock t = new ConstructorMethodCodeBlock(codeBlock, new DefaultKeyValuePair("callback", "ICallback"));
 			t.addStatement(new NormalStatement("this.callback = callback"));
-			template.addMethod(t);
+			codeBlock.addMethod(t);
 
-			t = new ConstructorMethodCodeBlock(template);
+			t = new ConstructorMethodCodeBlock(codeBlock);
 			t.addStatement(new NormalStatement("id = ID"));
-			template.addMethod(t);
-			template.setIsFinal(true);
+			codeBlock.addMethod(t);
+			codeBlock.setIsFinal(true);
 			return true;
 		}
 		return false;
