@@ -29,7 +29,7 @@ import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
 import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
 import cc.suitalk.arbitrarygen.core.TypeDefineWrapperMgr;
-import cc.suitalk.arbitrarygen.extension.AGAnnotationProcessor;
+import cc.suitalk.arbitrarygen.extension.processoing.AGAnnotationProcessor;
 import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;

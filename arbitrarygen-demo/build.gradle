@@ -90,7 +90,8 @@ arbitraryGen {
         extension {
             jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-wrapper.jar"
             // customize annotation processor
-            pClass "cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor"
+            pClass "cc.suitalk.tools.arbitrarygen.demo.processor.TestAGAnnotationProcessor",
+                    "cc.suitalk.tools.arbitrarygen.demo.processor.TestAbstractAGAnnotationProcessor"
         }
     }
 
@@ -112,7 +113,7 @@ arbitraryGen {
 
     // external processor argument
     processor {
-        // external jar and class of customize engine
+        // external jar and class of customize processor
         extension {
             jar "${project.rootDir.getAbsolutePath()}/ArbitraryGen/arbitrarygen-demo-engine.jar"
             tClass "cc.suitalk.tools.arbitrarygen.demo.TestProcessor"

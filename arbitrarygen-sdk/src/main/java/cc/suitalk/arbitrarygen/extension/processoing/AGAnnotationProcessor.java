@@ -15,7 +15,7 @@
  *
  */
 
-package cc.suitalk.arbitrarygen.extension;
+package cc.suitalk.arbitrarygen.extension.processoing;
 
 import net.sf.json.JSONObject;
 

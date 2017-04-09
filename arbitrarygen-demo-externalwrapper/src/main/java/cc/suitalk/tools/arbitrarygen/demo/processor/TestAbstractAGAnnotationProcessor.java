@@ -20,7 +20,6 @@ package cc.suitalk.tools.arbitrarygen.demo.processor;
 import net.sf.json.JSONObject;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Set;
 
 import cc.suitalk.arbitrarygen.base.BaseStatement;
@@ -29,10 +28,8 @@ import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.extension.CustomizeGenerator;
 import cc.suitalk.arbitrarygen.extension.annotation.ArbitraryGenTask;
-import cc.suitalk.arbitrarygen.extension.annotation.Keep;
-import cc.suitalk.arbitrarygen.extension.annotation.RunInMainThread;
-import cc.suitalk.arbitrarygen.extension.annotation.RunInWorkerThread;
-import cc.suitalk.arbitrarygen.extension.processoing.AGAnnotationProcessor;
+import cc.suitalk.arbitrarygen.extension.processoing.AGSupportedAnnotationTypes;
+import cc.suitalk.arbitrarygen.extension.processoing.AbstractAGAnnotationProcessor;
 import cc.suitalk.arbitrarygen.gencode.CodeGenerator;
 import cc.suitalk.arbitrarygen.gencode.GenCodeTaskInfo;
 import cc.suitalk.arbitrarygen.model.TypeName;
@@ -44,25 +41,10 @@ import cc.suitalk.arbitrarygen.utils.Util;
 /**
  * Created by AlbieLiang on 16/11/12.
  */
-public class TestAGAnnotationProcessor implements AGAnnotationProcessor {
+@AGSupportedAnnotationTypes(value = {"RunInMainThread", "RunInWorkerThread", "Keep"})
+public class TestAbstractAGAnnotationProcessor extends AbstractAGAnnotationProcessor {
 
-    private static final String TAG = "AG.TestAGAnnotationProcessor";
-
-    private Set<String> mSupportedAnnotationTypes;
-
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-        if (mSupportedAnnotationTypes == null) {
-            mSupportedAnnotationTypes = new HashSet<>();
-            mSupportedAnnotationTypes.add(RunInMainThread.class.getSimpleName());
-            mSupportedAnnotationTypes.add(RunInWorkerThread.class.getSimpleName());
-            mSupportedAnnotationTypes.add(Keep.class.getSimpleName());
-        }
-        for (String type : mSupportedAnnotationTypes) {
-            Log.v(TAG, "support annotation type : %s", type);
-        }
-        return mSupportedAnnotationTypes;
-    }
+    private static final String TAG = "AG.TestAbstractAGAnnotationProcessor";
 
     @Override
     public boolean process(JSONObject env, JavaFileObject fileObject, TypeDefineCodeBlock typeDefineCodeBlock,
@@ -123,7 +105,7 @@ public class TestAGAnnotationProcessor implements AGAnnotationProcessor {
         if (expression == null) {
             return false;
         }
-        expression.appendNode(Util.createKeyWord("$$Pyro"));
+        expression.appendNode(Util.createKeyWord("$$Albie"));
         return true;
     }
 }

@@ -30,7 +30,7 @@ import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
-import cc.suitalk.arbitrarygen.extension.AGAnnotationProcessor;
+import cc.suitalk.arbitrarygen.extension.processoing.AGAnnotationProcessor;
 import cc.suitalk.arbitrarygen.extension.AGTaskWorker;
 import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
 import cc.suitalk.arbitrarygen.protocol.EnvArgsConstants;
@@ -78,9 +78,7 @@ public class AGAnnotationWrapper implements TypeDefineWrapper {
 							set.addAll(baseStatementSet);
 						}
 					}
-					if (!set.isEmpty()) {
-						processor.process(env, fileObject, codeBlock, set);
-					}
+					processor.process(env, fileObject, codeBlock, set);
 				}
 			}
 		}
