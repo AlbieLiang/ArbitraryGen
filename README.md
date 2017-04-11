@@ -6,7 +6,7 @@ AG目前对Java代码生成支持比较完善，AG目前可以在Android Studio�
 目前AG已经更新到v2.0.5版本，项目仍在开发中，欢迎一起完善这个项目。
 
 ## 示例
-```
+```java
 package cc.suitalk.arbitrarygen.demo.psychic;
 
 import java.util.HashMap;
@@ -104,7 +104,7 @@ public class AGPsychicAnnotationTestCase {
 ##### Android Studio（或Gradle）中引入ArbitraryGen
 
 在项目build.gradle文件中配置，引入ArbitraryGen Gradle插件
-```
+```gradle
 buildscript {
     repositories {
         jcenter()
@@ -124,7 +124,7 @@ allprojects {
 在项目中Gradle编译中引入了ArbitraryGen之后，下面我们就可以直接使用AG来生成代码了
 
 首先，我们需要在module工程的build.gradle文件中配置AG相关参数（可参考`ArbitraryGen/usage-chatter/gradle-script.gradle`文件或demo工程）
-```
+```gralde
 apply plugin: 'arbitrarygen'
 android {
     sourceSets {
@@ -171,7 +171,7 @@ cc/suitalk/arbitrarygen/demo/psychic/*
 这里最终扫面出来的文件列表中只有`AGPsychicAnnotationTestCase.java`一个文件，因为*.psychic-rule只会扫出被@PsychicTask注解标识的的java文件。
 
 接下来我们看下在`AGPsychicAnnotationTestCase.java`文件里面我们做些什么事情
-```
+```java
 package cc.suitalk.arbitrarygen.demo.psychic;
 
 import java.util.HashMap;
@@ -236,7 +236,7 @@ ArbitraryGen终究是一个可运行的jar文件，在Eclipse环境下，需要�
 首先，需要到[https://bintray.com/albieliang/maven/arbitrarygen](https://bintray.com/albieliang/maven/arbitrarygen)上下载最新版本的arbitrarygen jar包，并将jar包放到Eclipse工程的某个目录（自主选择目录）下；
 接下来我们需要给Eclipse工程配置一下ant builder，（配置路径：`Eclipse Properties->Builders`）
 在配置ant builder前，我们需要编写ant编译脚本，我们可以到ArbitraryGen项目中拷贝`ArbitraryGen/usage-chatter/ant-script.xml`到Eclipse项目当中，根据具体情况配置ant脚本
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ArbitraryGenTask" default="ag" >
     
