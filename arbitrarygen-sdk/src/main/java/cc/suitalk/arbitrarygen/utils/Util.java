@@ -161,7 +161,7 @@ public class Util {
 					return true;
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e(TAG, "create new file error, %s", Log.getStackTraceString(e));
 			}
 		}
 		return false;

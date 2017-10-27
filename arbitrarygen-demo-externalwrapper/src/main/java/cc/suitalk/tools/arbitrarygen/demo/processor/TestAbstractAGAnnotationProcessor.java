@@ -79,7 +79,7 @@ public class TestAbstractAGAnnotationProcessor extends AbstractAGAnnotationProce
         fObject.attachEnvironmentArgs(fileObject.getEnvironmentArgs());
 
         GenCodeTaskInfo taskInfo = new GenCodeTaskInfo();
-        taskInfo.FileName = typeDefineCodeBlock.getName().getName();
+        taskInfo.FileName = fObject.getFileName();
         taskInfo.RootDir = parentDir;
         taskInfo.javaFileObject = fObject;
         // GenCode

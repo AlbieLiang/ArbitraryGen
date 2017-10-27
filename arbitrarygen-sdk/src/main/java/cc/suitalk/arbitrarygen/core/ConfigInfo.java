@@ -39,8 +39,8 @@ public class ConfigInfo {
 
 	public ConfigInfo() {
 		mRootPath = System.getProperty("user.dir");
-		setDestPath(mRootPath + "/gen");
-		setSrcPath(mRootPath + "/autogen");
+		setDestPath(mRootPath + "/ag-gen");
+		setSrcPath(mRootPath + "/ag-datasrc");
 	}
 
 //	public void setDestFolder(String destFolder) {
