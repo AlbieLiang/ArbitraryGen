@@ -37,6 +37,7 @@ import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.expression.VariableExpression;
 import cc.suitalk.arbitrarygen.expression.parser.ReferenceExpressionParser;
 import cc.suitalk.arbitrarygen.extension.Lexer;
+import cc.suitalk.arbitrarygen.statement.AnnotationStatement;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -47,6 +48,8 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class TypeName implements ICodeGenerator, JSONConverter {
 
+	private static final String TAG = "AG.TypeName";
+
 	private Word mWordFinal;
 	private ReferenceExpression mName;
 	private List<TypeName> mGenericityTypes;
@@ -55,17 +58,20 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 	private List<Word> mLeftSquareBrackets;
 	private List<Word> mRightSquareBrackets;
 
+	private List<AnnotationStatement> mAnnotationStatements;
+
 	public TypeName() {
 		mGenericityTypes = new LinkedList<>();
 		mArrayArgs = new LinkedList<>();
 		mLeftSquareBrackets = new LinkedList<>();
 		mRightSquareBrackets = new LinkedList<>();
+		mAnnotationStatements = new LinkedList<>();
 	}
 
 	@Override
 	public String genCode(String linefeed) {
 		StringBuilder builder = new StringBuilder();
-//		builder.append(genAnnotationBlock(linefeed));
+		builder.append(genAnnotationBlock(linefeed));
 		if (mWordFinal != null) {
 			builder.append(mWordFinal);
 		}
@@ -93,6 +99,14 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 	@Override
 	public JSONObject toJSONObject() {
 		JSONObject jsonObject = new JSONObject();
+		JSONObject annJSONObj = new JSONObject();
+		for (int i = 0; i < mAnnotationStatements.size(); i++) {
+			AnnotationStatement astm = mAnnotationStatements.get(i);
+			annJSONObj.put(astm.getName().getName(), astm.toJSONObject());
+		}
+		if (!annJSONObj.isEmpty()) {
+			jsonObject.put("_annotation", annJSONObj);
+		}
 		jsonObject.put("isFinal", mWordFinal != null);
 		jsonObject.put("name", mName.getVariable());
 		JSONArray genericityTypeArray = new JSONArray();
@@ -157,6 +171,74 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 		mRightSquareBrackets.add(rightSquareBracket == null ? Util.createSignWord("]", Type.END) : rightSquareBracket);
 	}
 
+	public boolean addAnnotation(AnnotationStatement s) {
+		if (s == null || mAnnotationStatements.contains(s)) {
+			return false;
+		}
+//		s.attachEnvironmentArgs(mEnvironmentArgs);
+//		s.setBelongStatement(this);
+		Log.i(TAG, "addAnnotation(%s)", s);
+		return mAnnotationStatements.add(s);
+	}
+
+	public void addAnnotations(List<AnnotationStatement> annoStms) {
+		if (annoStms == null || annoStms.size() == 0) {
+			return;
+		}
+		for (AnnotationStatement as : annoStms) {
+			addAnnotation(as);
+		}
+	}
+
+	public AnnotationStatement removeAnnotation(int index) {
+		if (index >= 0 && index < mAnnotationStatements.size()) {
+			return mAnnotationStatements.remove(index);
+		}
+		return null;
+	}
+
+	public boolean removeAnnotation(AnnotationStatement stm) {
+		if (stm != null) {
+			return mAnnotationStatements.remove(stm);
+		}
+		return false;
+	}
+
+	public AnnotationStatement getAnnotation(int index) {
+		if (index >= 0 && index < mAnnotationStatements.size()) {
+			return mAnnotationStatements.get(index);
+		}
+		return null;
+	}
+
+	public AnnotationStatement getAnnotation(String name) {
+		if (!Util.isNullOrNil(name)) {
+			for (int i = 0; i < mAnnotationStatements.size(); i++) {
+				AnnotationStatement as = mAnnotationStatements.get(i);
+				String aname = as.getName().getName();
+				if (aname.equals(name) || (aname.length() > name.length() && aname.endsWith(name)
+						&& aname.charAt(aname.length() - name.length() - 1) == '.')) {
+					return as;
+				}
+			}
+		}
+		return null;
+	}
+
+	protected String genAnnotationBlock(String linefeed) {
+		StringBuilder builder = new StringBuilder();
+		int i = 0;
+		for (; i < mAnnotationStatements.size(); i++) {
+			AnnotationStatement s = mAnnotationStatements.get(i);
+			builder.append(" ");
+			builder.append(s.genCode(linefeed));
+		}
+		if (i > 0) {
+			builder.append(" ");
+		}
+		return builder.toString();
+	}
+
 	/**
 	 * 
 	 * @author AlbieLiang
@@ -168,7 +250,13 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 
 		@Override
 		public TypeName parse(IReader reader, Lexer lexer, Word curWord) throws IOException {
+			TypeName typeName = new TypeName();
 			Word finalWord = null;
+			List<AnnotationStatement> annoStms = Util.parseAndAddAnnotation(reader, lexer, curWord, this);
+			curWord = getLastWord();
+			if (annoStms != null && annoStms.size() > 0) {
+				typeName.addAnnotations(annoStms);
+			}
 			if (curWord != null && "final".equals(curWord.value)) {
 				finalWord = curWord;
 				curWord = nextWord(reader, lexer);
@@ -181,7 +269,6 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 			}
 			setLastWord(parser.getLastWord());
 			Word word = getLastWord();
-			TypeName typeName = new TypeName();
 			typeName.setName(refExpr);
 			typeName.setFinal(finalWord);
 			if (word.value.equals("<")) {

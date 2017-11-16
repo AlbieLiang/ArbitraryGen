@@ -78,13 +78,13 @@ public abstract class BaseStatement extends Session implements ICodeGenerator, J
 	@Override
 	public JSONObject toJSONObject() {
 		JSONObject jsonObject = new JSONObject();
-		JSONArray annArray = new JSONArray();
+		JSONObject annJSONObj = new JSONObject();
 		for (int i = 0; i < mAnnotationStatements.size(); i++) {
 			AnnotationStatement astm = mAnnotationStatements.get(i);
-			annArray.add(astm.toJSONObject());
+			annJSONObj.put(astm.getName().getName(), astm.toJSONObject());
 		}
-		if (!annArray.isEmpty()) {
-			jsonObject.put("_annotation", annArray);
+		if (!annJSONObj.isEmpty()) {
+			jsonObject.put("_annotation", annJSONObj);
 		}
 		if (mCodeBlock != null) {
 			jsonObject.put("codeBlock", mCodeBlock.toJSONObject());

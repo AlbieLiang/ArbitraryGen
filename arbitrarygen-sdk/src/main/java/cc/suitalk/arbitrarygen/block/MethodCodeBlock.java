@@ -47,10 +47,6 @@ public class MethodCodeBlock extends BaseDefineCodeBlock {
 		mThrows = new LinkedList<TypeName>();
 	}
 
-	public boolean addArg(KeyValuePair<Word, TypeName> kvPair) {
-		return mArgs.add(kvPair);
-	}
-
 	@Override
 	public String genCode(String linefeed) {
 		MethodCodeBlock mt = (MethodCodeBlock) this;
@@ -124,6 +120,14 @@ public class MethodCodeBlock extends BaseDefineCodeBlock {
 			jsonObject.put("_throws", throwsArray);
 		}
 		return jsonObject;
+	}
+
+	public boolean addArg(KeyValuePair<Word, TypeName> kvPair) {
+		return mArgs.add(kvPair);
+	}
+
+	public List<KeyValuePair<Word, TypeName>> getArgs() {
+		return mArgs;
 	}
 
 	public List<TypeName> getThrows() {

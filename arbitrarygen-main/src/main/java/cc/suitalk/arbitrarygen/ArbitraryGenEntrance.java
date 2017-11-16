@@ -26,6 +26,7 @@ import java.util.Map;
 
 import cc.suitalk.arbitrarygen.core.ArbitraryGenCore;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
+import cc.suitalk.arbitrarygen.core.Core;
 import cc.suitalk.arbitrarygen.debug.Debuger;
 import cc.suitalk.arbitrarygen.extension.AGCore;
 import cc.suitalk.arbitrarygen.tools.DefaultUncaughtExceptionHandler;
@@ -100,6 +101,7 @@ public class ArbitraryGenEntrance {
 		AGCore core = new ArbitraryGenCore();
 		if (jsonObject != null) {
 			core.initialize(jsonObject);
+			Core.setAGCore(core);
 			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>begin<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");
 			if (Debuger.debug) {
 				printArgs(args);

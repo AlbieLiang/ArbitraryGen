@@ -332,8 +332,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 			mcb.setType(Util.isNullOrNil(typeStr) ? null : typeExpression);
 			mcb.setName(Util.isNullOrNil(typeStr) ? typeExpression : Util.createSimpleTypeName(nameWord));
 			word = nextWord(reader, lexer);
-			// TODO albieliang, resolve annotation case
-			if (word.type == WordType.STRING/* || word.type == WordType.ANNOTATION*/) {
+			if (word.type == WordType.STRING || word.type == WordType.ANNOTATION) {
 				while (true) {
 					TypeName re = parser.parse(reader, lexer, word);
 					if (re == null) {

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import cc.suitalk.arbitrarygen.base.BaseDefineCodeBlock;
+import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.PlainCodeBlock;
 import cc.suitalk.arbitrarygen.core.KeyWords;
 import cc.suitalk.arbitrarygen.core.Word;
@@ -318,5 +319,14 @@ public class TypeDefineCodeBlock extends BaseDefineCodeBlock {
 	
 	public TypeDefineCodeBlock getTypeDefCodeBlock(int index) {
 		return mSubTypeDefineCodeBlocks.get(index);
+	}
+
+	@Override
+	public boolean addStatement(BaseStatement s) {
+		boolean r = super.addStatement(s);
+		if (s instanceof TypeDefineCodeBlock) {
+			addTypeDefineCodeBlock((TypeDefineCodeBlock) s);
+		}
+		return r;
 	}
 }

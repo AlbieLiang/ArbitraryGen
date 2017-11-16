@@ -81,6 +81,7 @@ public class AnnotationStatement extends BaseStatement {
 	@Override
 	public JSONObject toJSONObject() {
 		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("_name", mName.getName());
 		if (!mArgs.isEmpty()) {
 			for (String key : mArgs.keySet()) {
 				jsonObject.put(key, mArgs.get(key).getValue());
