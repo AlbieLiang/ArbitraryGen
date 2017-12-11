@@ -21,7 +21,7 @@ import net.sf.json.JSONObject;
 
 import java.util.Map;
 
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -49,13 +49,13 @@ public class TestEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         Log.i(TAG, "execute engine(%s), args(%s)", getName(), args);
         return null;
     }
 
     @Override
-    public void initialize(AGCore core, JSONObject args) {
+    public void initialize(AGContext core, JSONObject args) {
         Log.i(TAG, "initialize engine(%s), args(%s)", getName(), args);
     }
 }
