@@ -23,7 +23,7 @@ import net.sf.json.xml.XMLSerializer;
 
 import java.util.Map;
 
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
@@ -44,7 +44,7 @@ public class ParseXmlProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGCore core, JSONObject args) {
+    public void initialize(AGContext core, JSONObject args) {
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ParseXmlProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String name = args.optString("_name");
         if (Util.isNullOrNil(name)) {
             Log.i(TAG, "exec failed, name is null.");

@@ -22,7 +22,7 @@ import net.sf.json.JSONObject;
 
 import java.util.Map;
 
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -41,7 +41,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGCore core, JSONObject args) {
+    public void initialize(AGContext core, JSONObject args) {
     }
 
     @Override
@@ -50,7 +50,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         JSONArray taskArray = JSONArgsUtils.getJSONArray(args, "PsychicTask", true);
         if (taskArray == null) {
             Log.i(TAG, "task array is null.");

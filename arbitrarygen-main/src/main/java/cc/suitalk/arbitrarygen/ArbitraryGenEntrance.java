@@ -24,12 +24,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import cc.suitalk.arbitrarygen.core.ArbitraryGenCore;
+import cc.suitalk.arbitrarygen.core.ArbitraryGenContext;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.core.Core;
+import cc.suitalk.arbitrarygen.core.DefaultArbitraryGenInitializer;
 import cc.suitalk.arbitrarygen.debug.Debuger;
-import cc.suitalk.arbitrarygen.extension.AGCore;
-import cc.suitalk.arbitrarygen.tools.DefaultUncaughtExceptionHandler;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.tools.RuntimeContextHelper;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -60,8 +60,7 @@ public class ArbitraryGenEntrance {
 	 * @param args arguments for the code generator
 	 */
 	public static void main(String[] args) {
-		// Crash handler
-		Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler());
+		Core.initialize(DefaultArbitraryGenInitializer.INSTANCE);
 		//
 		Map<String, String> argsKvPair = ExternalArgsParser.extractArgs(args);
 		// Initialize Environment arguments
@@ -98,7 +97,7 @@ public class ArbitraryGenEntrance {
 			return;
 		}
 		// For new engine framework
-		AGCore core = new ArbitraryGenCore();
+		AGContext core = new ArbitraryGenContext();
 		if (jsonObject != null) {
 			core.initialize(jsonObject);
 			Core.setAGCore(core);

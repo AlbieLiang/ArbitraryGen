@@ -25,7 +25,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.utils.FileOperation;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -50,7 +50,7 @@ public class ExecuteScriptProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGCore core, JSONObject args) {
+    public void initialize(AGContext core, JSONObject args) {
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ExecuteScriptProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String path = args.optString("script");
         if (Util.isNullOrNil(path)) {
             Log.w(TAG, "exec failed, script path is null or nil.");

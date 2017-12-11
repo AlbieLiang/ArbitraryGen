@@ -28,7 +28,7 @@ import javax.script.ScriptException;
 
 import cc.suitalk.arbitrarygen.constant.ResConstants;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.template.DelayReadResFileTask;
 import cc.suitalk.arbitrarygen.template.TemplateManager;
@@ -58,7 +58,7 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGCore core, JSONObject args) {
+    public void initialize(AGContext core, JSONObject args) {
         mCoreScript = TemplateManager.getImpl().get(
                 ResConstants.PATH_CORE_SCRIPT, new DelayReadResFileTask(ResConstants.PATH_CORE_SCRIPT));
     }
@@ -69,7 +69,7 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String templatePath = args.optString("template");
         String templateTag = args.optString("templateTag");
         if (Util.isNullOrNil(templatePath) && Util.isNullOrNil(templateTag)) {

@@ -31,7 +31,7 @@ import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
 import cc.suitalk.arbitrarygen.core.TypeDefineWrapperMgr;
 import cc.suitalk.arbitrarygen.extension.processoing.AGAnnotationProcessor;
 import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.impl.AGAnnotationWrapper;
@@ -57,7 +57,7 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void initialize(AGCore core, JSONObject args) {
+    public void initialize(AGContext core, JSONObject args) {
         if (args == null) {
             Log.i(TAG, "initialize failed, args is null.");
             return;
@@ -108,7 +108,7 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         if (!mEnable) {
             return null;
         }

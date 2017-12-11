@@ -28,7 +28,7 @@ import cc.suitalk.arbitrarygen.analyzer.JavaFileLexer;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.extension.psychic.DependsOn;
@@ -59,7 +59,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void initialize(AGCore core, JSONObject args) {
+    public void initialize(AGContext core, JSONObject args) {
     }
 
     @Override
@@ -110,7 +110,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         Log.v(TAG, "execute Psychic engine, args(%s)", args);
         JSONArray suffixList = new JSONArray();
         suffixList.add("psychic-define");
@@ -135,7 +135,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 
-    private void dealPsychicDefine(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONArray fileArray) {
+    private void dealPsychicDefine(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONArray fileArray) {
         if (fileArray == null || fileArray.isEmpty()) {
             Log.i(TAG, "scan out psychic define file list is nil.");
             return;
@@ -162,7 +162,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
         }
     }
 
-    private void dealPsychicRule(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONArray ruleFileArray) {
+    private void dealPsychicRule(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONArray ruleFileArray) {
         if (ruleFileArray == null || ruleFileArray.isEmpty()) {
             Log.i(TAG, "scan out psychic rule file list is nil.");
             return;

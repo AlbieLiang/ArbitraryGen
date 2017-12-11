@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import cc.suitalk.arbitrarygen.engine.PsychicAGEngine;
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor.ErrorCode;
@@ -70,9 +70,9 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 @ParseJavaRule(name = "processorList", rule = "${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/processor/*")
 @PsychicTask
-public class ArbitraryGenCore implements AGCore {
+public class ArbitraryGenContext implements AGContext {
 
-    private static final String TAG = "AG.ArbitraryGenCore";
+    private static final String TAG = "AG.ArbitraryGenContext";
 
     private List<ArbitraryGenProcessor> mProcessorList;
     private Map<String, ArbitraryGenProcessor> mProcessors;
@@ -83,7 +83,7 @@ public class ArbitraryGenCore implements AGCore {
 
     private JarClassLoaderWrapper mJarClassLoader;
 
-    public ArbitraryGenCore() {
+    public ArbitraryGenContext() {
         mProcessors = new ConcurrentHashMap<>();
         mProcessorList = new LinkedList<>();
         mEngines = new ConcurrentHashMap<>();

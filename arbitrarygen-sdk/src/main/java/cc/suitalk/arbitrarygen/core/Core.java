@@ -19,7 +19,7 @@ package cc.suitalk.arbitrarygen.core;
 
 import net.sf.json.JSONObject;
 
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 
 /**
@@ -28,17 +28,33 @@ import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 
 public class Core {
 
-    private static AGCore sAGCore;
+    private static AGContext sAGContext;
+    private static boolean sInitialized;
 
-    public static final void setAGCore(AGCore agCore) {
-        sAGCore = agCore;
+    public static final void initialize(ArbitraryGenInitializer initializer) {
+        if (sInitialized) {
+            return;
+        }
+        sInitialized = true;
+        if (initializer == null) {
+            return;
+        }
+        initializer.initialize();
+    }
+
+    public static final void setAGCore(AGContext agContext) {
+        sAGContext = agContext;
     }
 
     public static JSONObject exec(ArbitraryGenProcessor processor, JSONObject args) {
-        return sAGCore.execProcess(processor, args);
+        return sAGContext.execProcess(processor, args);
     }
 
     public static JSONObject exec(String processorName, JSONObject args) {
-        return sAGCore.execProcess(sAGCore.getProcessor(processorName), args);
+        return sAGContext.execProcess(sAGContext.getProcessor(processorName), args);
+    }
+
+    public static ArbitraryGenProcessor getProcessor(String processorName) {
+        return sAGContext.getProcessor(processorName);
     }
 }

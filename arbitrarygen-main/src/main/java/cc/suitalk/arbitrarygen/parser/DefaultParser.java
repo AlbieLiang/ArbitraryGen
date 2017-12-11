@@ -33,7 +33,7 @@ import cc.suitalk.arbitrarygen.core.TemplateConstants;
 import cc.suitalk.arbitrarygen.core.TemplateConverterMgr;
 import cc.suitalk.arbitrarygen.core.TemplateParserMgr;
 import cc.suitalk.arbitrarygen.core.TemplateWrapperMgr;
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.SourceFileParser;
 import cc.suitalk.arbitrarygen.extension.CustomizeConverter;
 import cc.suitalk.arbitrarygen.extension.CustomizeGenerator;
@@ -62,7 +62,7 @@ public class DefaultParser implements SourceFileParser<JSONObject, JSONObject> {
     private TemplateConverterMgr mConverterMgr;
     protected TemplateWrapperMgr mWrapperMgr;
 
-    public DefaultParser(AGCore core, JSONObject args) {
+    public DefaultParser(AGContext core, JSONObject args) {
         Log.d(TAG, "initialize args(%s)", args);
         mArgs = args;
         mParserMgr = new TemplateParserMgr();

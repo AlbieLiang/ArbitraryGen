@@ -61,7 +61,9 @@ public class JarClassLoaderWrapper {
 			}
 		}
 		if (mLoader != null) {
-			mLoader = new URLClassLoader(urls, mLoader);
+			if (urls.length > 0) {
+				mLoader = new URLClassLoader(urls, mLoader);
+			}
 		} else {
 			mLoader = new URLClassLoader(urls, JarClassLoaderWrapper.class.getClassLoader());
 		}

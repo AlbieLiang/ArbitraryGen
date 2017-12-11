@@ -26,7 +26,7 @@ import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
 /**
  * Created by AlbieLiang on 16/11/6.
  */
-public interface AGCore {
+public interface AGContext {
 
     void initialize(JSONObject jsonObject);
 

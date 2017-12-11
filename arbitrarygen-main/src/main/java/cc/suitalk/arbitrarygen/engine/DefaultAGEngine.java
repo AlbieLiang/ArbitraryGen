@@ -28,7 +28,7 @@ import java.util.Set;
 
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
 import cc.suitalk.arbitrarygen.core.JarClassLoaderWrapper;
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.extension.SourceFileParser;
@@ -60,7 +60,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void initialize(AGCore core, JSONObject args) {
+    public void initialize(AGContext core, JSONObject args) {
         if (args == null) {
             Log.w(TAG, "initialize failed, args is null.");
             return;
@@ -114,7 +114,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         if (!mInitialized) {
             Log.w(TAG, "exec failed, haven't initialized.");
             return null;

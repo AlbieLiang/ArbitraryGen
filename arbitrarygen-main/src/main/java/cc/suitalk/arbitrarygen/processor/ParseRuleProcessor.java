@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import cc.suitalk.arbitrarygen.core.ArgsConstants;
-import cc.suitalk.arbitrarygen.extension.AGCore;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.rule.Project;
 import cc.suitalk.arbitrarygen.rule.Rule;
@@ -47,7 +47,7 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGCore core, JSONObject args) {
+    public void initialize(AGContext core, JSONObject args) {
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         JSONObject result = new JSONObject();
         JSONArray fileArray = new JSONArray();
         JSONArray ruleFileArray = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_RULE_FILE, true);

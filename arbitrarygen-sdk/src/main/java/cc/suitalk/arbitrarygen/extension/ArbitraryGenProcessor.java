@@ -39,7 +39,7 @@ public interface ArbitraryGenProcessor {
      * @param core the ArbitraryGen Engine Core
      * @param args input arguments
      */
-    void initialize(AGCore core, JSONObject args);
+    void initialize(AGContext core, JSONObject args);
 
     /**
      * Get dependencies {@link ArbitraryGenProcessor}'s name array.
@@ -56,7 +56,7 @@ public interface ArbitraryGenProcessor {
      * @param args input arguments
      * @return if has result then return a {@link JSONObject}, otherwise return null.
      */
-    JSONObject exec(AGCore core, Map<String, ArbitraryGenProcessor> processors, JSONObject args);
+    JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args);
 
     /**
      * When error occur during the process.
