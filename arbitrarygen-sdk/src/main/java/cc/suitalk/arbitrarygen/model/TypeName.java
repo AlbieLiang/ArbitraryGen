@@ -282,6 +282,11 @@ public class TypeName implements ICodeGenerator, JSONConverter {
 					gt.setName(new VariableExpression("?"));
 					typeName.addGenericityType(gt);
 					nextWord(reader, lexer);
+				} else if (">".equals(word.value)) {
+					TypeName gt = new TypeName();
+					gt.setName(new VariableExpression(""));
+					typeName.addGenericityType(gt);
+					nextWord(reader, lexer);
 				} else {
 					TypeName.Parser p = new TypeName.Parser();
 					do {
