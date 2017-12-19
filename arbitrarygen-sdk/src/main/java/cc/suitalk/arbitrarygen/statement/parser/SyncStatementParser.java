@@ -53,6 +53,7 @@ public class SyncStatementParser extends BaseStatementParser {
 					throw new RuntimeException("extract expression from bracket failed.");
 				}
 				syncStm.setConditionExpression(condition);
+				word = getLastWord();
 				Util.getAndAttachCodeBlock(reader, lexer, word, syncStm, this);
 				word = getLastWord();
 				return syncStm;
