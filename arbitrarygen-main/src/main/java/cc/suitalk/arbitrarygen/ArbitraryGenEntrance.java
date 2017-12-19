@@ -99,14 +99,14 @@ public class ArbitraryGenEntrance {
 		if (jsonObject != null) {
 			// For new engine framework
 			AGContext context = new ArbitraryGenContext();
-			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>begin<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");
+			Log.i(TAG, "\n\n=============================--ArbitraryGen Task Begin--=============================\nContext:%s\n=============================\n\n", context.hashCode());
 			if (Debuger.debug) {
 				printArgs(args);
 				// TODO: 16/11/6 albieliang, add doAction feature into AGEngine, and then it can get arguments by this interface
 				Log.v(TAG, "argJson : %s", jsonObject);
 			}
 			Core.startTask(context, jsonObject);
-			Log.i(TAG, "\n\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>end<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n\n\n\n\n");
+			Log.i(TAG, "\n\n=============================--ArbitraryGen Task End--=============================\n\n");
 		}
 		StatisticManager.close();
 		Log.close();
