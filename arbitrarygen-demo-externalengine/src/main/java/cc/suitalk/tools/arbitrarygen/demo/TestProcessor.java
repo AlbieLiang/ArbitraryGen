@@ -43,18 +43,18 @@ public class TestProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "execute processor error, code is '%d', message is '%s'", errorCode, message);
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         Log.i(TAG, "execute processor(%s), args(%s)", getName(), args);
         return null;
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
         Log.i(TAG, "initialize processor(%s), args(%s)", getName(), args);
     }
 }

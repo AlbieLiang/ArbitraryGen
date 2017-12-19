@@ -26,6 +26,7 @@ import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.CustomizeGenerator;
 import cc.suitalk.arbitrarygen.extension.annotation.ArbitraryGenTask;
 import cc.suitalk.arbitrarygen.extension.processoing.AGSupportedAnnotationTypes;
@@ -47,7 +48,7 @@ public class TestAbstractAGAnnotationProcessor extends AbstractAGAnnotationProce
     private static final String TAG = "AG.TestAbstractAGAnnotationProcessor";
 
     @Override
-    public boolean process(JSONObject env, JavaFileObject fileObject, TypeDefineCodeBlock typeDefineCodeBlock,
+    public boolean process(AGContext context, JSONObject env, JavaFileObject fileObject, TypeDefineCodeBlock typeDefineCodeBlock,
                            Set<? extends BaseStatement> containsSpecialAnnotationStatements) {
         if (typeDefineCodeBlock.getAnnotation(ArbitraryGenTask.class.getSimpleName()) == null) {
             return false;

@@ -59,7 +59,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
     }
 
     @Override
@@ -110,7 +110,7 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         Log.v(TAG, "execute Psychic engine, args(%s)", args);
         JSONArray suffixList = new JSONArray();
         suffixList.add("psychic-define");
@@ -120,18 +120,18 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
         argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR));
         argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, suffixList);
 
-        JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);
+        JSONObject jsonObject = context.execProcess(processors, "scanner", argsJSONObject);
         if (jsonObject == null) {
             Log.i(TAG, "exec failed, scan out file list is null.");
             return null;
         }
-        dealPsychicDefine(core, processors, jsonObject.optJSONArray("psychic-define"));
-        dealPsychicRule(core, processors, jsonObject.optJSONArray("psychic-rule"));
+        dealPsychicDefine(context, processors, jsonObject.optJSONArray("psychic-define"));
+        dealPsychicRule(context, processors, jsonObject.optJSONArray("psychic-rule"));
         return null;
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 

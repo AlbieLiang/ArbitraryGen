@@ -49,7 +49,7 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
 
     private volatile boolean mEnable;
 
-    private TypeDefineWrapperMgr mTypeDefWrapper;
+    private TypeDefineWrapperMgr mTypeDefWrapper = new TypeDefineWrapperMgr();
 
     @Override
     public String getName() {
@@ -57,12 +57,11 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
         if (args == null) {
             Log.i(TAG, "initialize failed, args is null.");
             return;
         }
-        mTypeDefWrapper = new TypeDefineWrapperMgr();
         // Extract ArbitraryEnable flag
         mEnable = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_ENABLE, true);
         if (mEnable) {
@@ -71,7 +70,7 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
             // load extension jar
             JSONObject extensionJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_EXTENSION);
             if (extensionJson != null) {
-                JarClassLoaderWrapper loader = core.getJarClassLoader();
+                JarClassLoaderWrapper loader = context.getJarClassLoader();
                 ExtJarClassLoaderTools.loadJar(loader,
                         JSONArgsUtils.getJSONArray(extensionJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true));
                 ExtJarClassLoaderTools.loadClass(loader,
@@ -108,7 +107,7 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         if (!mEnable) {
             return null;
         }
@@ -123,7 +122,7 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
         if (!Util.isNullOrNil(srcDir)) {
             configInfo.setSrcPath(srcDir);
         }
-        JSONObject result = core.execProcess(processors, "parse-rule", args);
+        JSONObject result = context.execProcess(processors, "parse-rule", args);
         if (result == null) {
             Log.i(TAG, "parse rule result is null.");
             return null;
@@ -138,13 +137,13 @@ public class JavaCodeAGEngine implements ArbitraryGenEngine {
             JavaFileLexer lexer = new JavaFileLexer(file);
             JavaFileObject javaFileObject = lexer.start();
             configInfo.setFile(file);
-            mTypeDefWrapper.doWrap(configInfo, javaFileObject);
+            mTypeDefWrapper.doWrap(context, configInfo, javaFileObject);
         }
         return null;
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 

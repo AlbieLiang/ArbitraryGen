@@ -28,7 +28,9 @@ import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 
 public class Core {
 
-    private static AGContext sAGContext;
+    private static AGApplication sAGApplication;
+    private static AGCore sAGCore;
+
     private static boolean sInitialized;
 
     public static final void initialize(ArbitraryGenInitializer initializer) {
@@ -40,21 +42,23 @@ public class Core {
             return;
         }
         initializer.initialize();
+        sAGApplication = initializer.getAGApplication();
+        sAGCore = initializer.getAGCore();
     }
 
-    public static final void setAGCore(AGContext agContext) {
-        sAGContext = agContext;
+    public static void startTask(AGContext agContext, JSONObject args) {
+        sAGCore.startTask(agContext, args);
     }
 
     public static JSONObject exec(ArbitraryGenProcessor processor, JSONObject args) {
-        return sAGContext.execProcess(processor, args);
+        return sAGApplication.execProcess(processor, args);
     }
 
     public static JSONObject exec(String processorName, JSONObject args) {
-        return sAGContext.execProcess(sAGContext.getProcessor(processorName), args);
+        return sAGApplication.execProcess(sAGApplication.getProcessor(processorName), args);
     }
 
     public static ArbitraryGenProcessor getProcessor(String processorName) {
-        return sAGContext.getProcessor(processorName);
+        return sAGApplication.getProcessor(processorName);
     }
 }

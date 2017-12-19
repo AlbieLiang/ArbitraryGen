@@ -41,7 +41,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
     }
 
     @Override
@@ -50,7 +50,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         JSONArray taskArray = JSONArgsUtils.getJSONArray(args, "PsychicTask", true);
         if (taskArray == null) {
             Log.i(TAG, "task array is null.");
@@ -87,7 +87,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
                     }
                     Log.i(TAG, "the name(%s), processor(%s) and type(%s) of dependsOn info.", n, p, type);
                     if ("input".equals(type)) {
-                        JSONObject r = core.execProcess(processors, p, dependsOnInfo);
+                        JSONObject r = context.execProcess(processors, p, dependsOnInfo);
                         if (r != null) {
                             contextJson.putAll(r);
                         }
@@ -97,7 +97,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
             } else {
                 Log.i(TAG, "dependsOn array is null.");
             }
-            JSONObject result = core.execProcess(processors, processor, taskInfo);
+            JSONObject result = context.execProcess(processors, processor, taskInfo);
             if (result == null) {
                 Log.d(TAG, "execute task processor result is null, switch to next task.");
                 continue;
@@ -117,7 +117,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
                         continue;
                     }
                     resultToInfo.putAll(result);
-                    JSONObject r = core.execProcess(processors, p, resultToInfo);
+                    JSONObject r = context.execProcess(processors, p, resultToInfo);
                     Log.i(TAG, "the processor(%s) of resultTo info, execute result is : %s.", p, r);
                 }
             } else {
@@ -128,7 +128,7 @@ public class PsychicTaskProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "do psychic processor error, code is '%d', message is '%s'", errorCode, message);
     }
 }

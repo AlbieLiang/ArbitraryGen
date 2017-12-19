@@ -36,10 +36,10 @@ public interface ArbitraryGenProcessor {
     /**
      * Initialize the Engine with arguments.
      *
-     * @param core the ArbitraryGen Engine Core
+     * @param context the context of current running ArbitraryGen Engine
      * @param args input arguments
      */
-    void initialize(AGContext core, JSONObject args);
+    void initialize(AGContext context, JSONObject args);
 
     /**
      * Get dependencies {@link ArbitraryGenProcessor}'s name array.
@@ -51,20 +51,21 @@ public interface ArbitraryGenProcessor {
     /**
      * The real time to execute the Engine logic.
      *
-     * @param core the ArbitraryGen Engine Core
+     * @param context the context of current running ArbitraryGen Engine
      * @param processors dependencies processors
      * @param args input arguments
      * @return if has result then return a {@link JSONObject}, otherwise return null.
      */
-    JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args);
+    JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args);
 
     /**
      * When error occur during the process.
      *
+     * @param context the context of current running ArbitraryGen Engine
      * @param errorCode code for different error case
      * @param message error message
      */
-    void onError(int errorCode, String message);
+    void onError(AGContext context, int errorCode, String message);
 
     interface ErrorCode {
         int MISSING_DEPENDENCIES = 1;

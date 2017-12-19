@@ -22,6 +22,7 @@ import java.util.List;
 
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
 
 /**
@@ -46,20 +47,20 @@ public class TypeDefineWrapperMgr {
 		mWrapperList = new LinkedList<>();
 	}
 
-	public void doWrap(ConfigInfo configInfo, JavaFileObject fileObject) {
+	public void doWrap(AGContext context, ConfigInfo configInfo, JavaFileObject fileObject) {
 		for (int i = 0; i < mWrapperList.size(); i++) {
 			TypeDefineWrapper p = mWrapperList.get(i);
 			// TODO
-			if (p.doWrap(configInfo, fileObject)) {
+			if (p.doWrap(context, configInfo, fileObject)) {
 //				return;
 			}
 		}
 	}
 
-	public void doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeblock) {
+	public void doWrap(AGContext context, ConfigInfo configInfo, TypeDefineCodeBlock codeblock) {
 		for (int i = 0; i < mWrapperList.size(); i++) {
 			TypeDefineWrapper p = mWrapperList.get(i);
-			if (p.doWrap(configInfo, codeblock)) {
+			if (p.doWrap(context, configInfo, codeblock)) {
 				return;
 			}
 		}

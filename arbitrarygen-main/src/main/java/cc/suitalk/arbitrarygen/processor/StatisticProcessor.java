@@ -41,8 +41,8 @@ public class StatisticProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
-        boolean toFile = args == null || args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_TO_FILE, true);
+    public void initialize(AGContext context, JSONObject args) {
+        boolean toFile = args == null || args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_TO_FILE, false);
         if (toFile) {
             String logFile = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_PATH);
             if (Util.isNullOrNil(logFile)) {
@@ -59,12 +59,12 @@ public class StatisticProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         return null;
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "do Statistic process error, code is '%d', message is '%s'", errorCode, message);
     }
 }

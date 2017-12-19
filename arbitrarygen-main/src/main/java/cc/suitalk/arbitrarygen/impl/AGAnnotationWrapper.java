@@ -30,6 +30,7 @@ import cc.suitalk.arbitrarygen.base.BaseStatement;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.processoing.AGAnnotationProcessor;
 import cc.suitalk.arbitrarygen.extension.AGTaskWorker;
 import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
@@ -52,7 +53,7 @@ public class AGAnnotationWrapper implements TypeDefineWrapper {
 	}
 	
 	@Override
-	public boolean doWrap(ConfigInfo configInfo, JavaFileObject fileObject) {
+	public boolean doWrap(AGContext context, ConfigInfo configInfo, JavaFileObject fileObject) {
 		if (fileObject != null) {
 			File file = configInfo.getFile();
 			JSONObject env = new JSONObject();
@@ -78,7 +79,7 @@ public class AGAnnotationWrapper implements TypeDefineWrapper {
 							set.addAll(baseStatementSet);
 						}
 					}
-					processor.process(env, fileObject, codeBlock, set);
+					processor.process(context, env, fileObject, codeBlock, set);
 				}
 			}
 		}
@@ -86,7 +87,7 @@ public class AGAnnotationWrapper implements TypeDefineWrapper {
 	}
 
 	@Override
-	public boolean doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeBlock) {
+	public boolean doWrap(AGContext context, ConfigInfo configInfo, TypeDefineCodeBlock codeBlock) {
 		return false;
 	}
 	

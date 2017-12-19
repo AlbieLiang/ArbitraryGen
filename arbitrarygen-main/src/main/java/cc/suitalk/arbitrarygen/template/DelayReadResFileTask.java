@@ -17,6 +17,7 @@
 
 package cc.suitalk.arbitrarygen.template;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import cc.suitalk.arbitrarygen.template.TemplateManager.DelayGetTask;
@@ -27,6 +28,8 @@ import cc.suitalk.arbitrarygen.utils.FileOperation;
  */
 public class DelayReadResFileTask implements DelayGetTask {
 
+	private static final String TAG = "AG.DelayReadResFileTask";
+
 	String path;
 
 	public DelayReadResFileTask(String path) {
@@ -35,10 +38,16 @@ public class DelayReadResFileTask implements DelayGetTask {
 	
 	@Override
 	public String doGet() {
-		InputStream is = DelayReadResFileTask.class.getResourceAsStream(path);
+		InputStream is = getClass().getResourceAsStream(path);
 		if (is != null) {
-			return FileOperation.read(is);
+			String result = FileOperation.read(is);
+			try {
+				is.close();
+			} catch (IOException e) {
+			}
+			return result;
 		}
+//		Log.i(TAG, "doGet(jarPath : %s)", getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 		return "";
 	}
 	

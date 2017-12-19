@@ -25,54 +25,35 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cc.suitalk.arbitrarygen.engine.PsychicAGEngine;
-import cc.suitalk.arbitrarygen.extension.AGContext;
-import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
-import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
-import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor.ErrorCode;
 import cc.suitalk.arbitrarygen.engine.DefaultAGEngine;
 import cc.suitalk.arbitrarygen.engine.JavaCodeAGEngine;
+import cc.suitalk.arbitrarygen.engine.PsychicAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
-import cc.suitalk.arbitrarygen.extension.psychic.ParseJavaRule;
-import cc.suitalk.arbitrarygen.extension.psychic.PsychicTask;
-/*@@@#SCRIPT-BEGIN#
-<%processorList = context.processorList;
-if (processorList && processorList.length > 0) {
-    for (var i = 0; i < processorList.length; i++) {
-        if ("LoggerAGProcessor" == processorList[i]._class[0]._name || "StatisticProcessor" == processorList[i]._class[0]._name) {
-            continue;
-        }%>
-import <%=processorList[i]._package%>.<%=processorList[i]._class[0]._name%>;<%
-    }
-}%>
-#SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
-
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
+import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
 import cc.suitalk.arbitrarygen.processor.ExecuteScriptProcessor;
 import cc.suitalk.arbitrarygen.processor.HybridTemplateProcessor;
+import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseJavaFileProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseJsonProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseRuleProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseXmlProcessor;
 import cc.suitalk.arbitrarygen.processor.PsychicTaskProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
-import cc.suitalk.arbitrarygen.processor.TemplateProcessor;
-
-//@@@#AUTO-GEN-END#
-import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
 import cc.suitalk.arbitrarygen.processor.StatisticProcessor;
+import cc.suitalk.arbitrarygen.processor.TemplateProcessor;
 import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
 import cc.suitalk.arbitrarygen.utils.Util;
 
 /**
- * Created by AlbieLiang on 16/10/27.
+ * Created by albieliang on 2017/12/9.
  */
-@ParseJavaRule(name = "processorList", rule = "${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/processor/*")
-@PsychicTask
-public class ArbitraryGenContext implements AGContext {
 
-    private static final String TAG = "AG.ArbitraryGenContext";
+final class ArbitraryGenApplication implements AGApplication {
+
+    private static final String TAG = "AG.ArbitraryGenApplication";
 
     private List<ArbitraryGenProcessor> mProcessorList;
     private Map<String, ArbitraryGenProcessor> mProcessors;
@@ -83,7 +64,7 @@ public class ArbitraryGenContext implements AGContext {
 
     private JarClassLoaderWrapper mJarClassLoader;
 
-    public ArbitraryGenContext() {
+    public ArbitraryGenApplication() {
         mProcessors = new ConcurrentHashMap<>();
         mProcessorList = new LinkedList<>();
         mEngines = new ConcurrentHashMap<>();
@@ -183,7 +164,7 @@ public class ArbitraryGenContext implements AGContext {
         for (int i = 0; i < dependencies.length; i++) {
             ArbitraryGenProcessor p = mProcessors.get(dependencies[i]);
             if (p == null) {
-                processor.onError(this, ErrorCode.MISSING_DEPENDENCIES, String.format("Missing dependencies engine '%s", dependencies[i]));
+                processor.onError(this, ArbitraryGenProcessor.ErrorCode.MISSING_DEPENDENCIES, String.format("Missing dependencies engine '%s", dependencies[i]));
                 return null;
             }
             dependsPros.put(dependencies[i], p);
@@ -214,7 +195,7 @@ public class ArbitraryGenContext implements AGContext {
             }
         }%>
         #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
-        
+
         addProcessor(new ExecuteScriptProcessor());
         addProcessor(new HybridTemplateProcessor());
         addProcessor(new ParseJavaFileProcessor());
@@ -224,14 +205,13 @@ public class ArbitraryGenContext implements AGContext {
         addProcessor(new PsychicTaskProcessor());
         addProcessor(new ScannerAGProcessor());
         addProcessor(new TemplateProcessor());
-        
+
         //@@@#AUTO-GEN-END#
         // Add more extension Engine by arguments
         addProcessor(new DefaultAGEngine());
         addProcessor(new ScriptTemplateAGEngine());
         addProcessor(new JavaCodeAGEngine());
         addProcessor(new PsychicAGEngine());
-
     }
 
     private void prepare(JSONObject jsonObject) {

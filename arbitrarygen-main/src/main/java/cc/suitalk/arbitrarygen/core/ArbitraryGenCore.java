@@ -17,33 +17,36 @@
 
 package cc.suitalk.arbitrarygen.core;
 
-import cc.suitalk.arbitrarygen.tools.DefaultUncaughtExceptionHandler;
+import net.sf.json.JSONObject;
+
+import cc.suitalk.arbitrarygen.extension.AGContext;
 
 /**
- * Created by albieliang on 2017/12/9.
+ * Created by albieliang on 2017/12/11.
  */
 
-public class DefaultArbitraryGenInitializer implements ArbitraryGenInitializer {
+public class ArbitraryGenCore implements AGCore {
 
-    public static final ArbitraryGenInitializer INSTANCE = new DefaultArbitraryGenInitializer();
+    AGApplication mAGApplication;
 
-    private static final AGApplication sAGApplication = new ArbitraryGenApplication();
-
-    private static final AGCore sAGCore = new ArbitraryGenCore(sAGApplication);
-
-    @Override
-    public void initialize() {
-        // Crash handler
-        Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler());
+    public ArbitraryGenCore(AGApplication application) {
+        mAGApplication = application;
     }
 
     @Override
-    public AGApplication getAGApplication() {
-        return sAGApplication;
+    public AGContext getApplicationContext() {
+        return mAGApplication;
     }
 
     @Override
-    public AGCore getAGCore() {
-        return sAGCore;
+    public void initialize(JSONObject jsonObject) {
+        mAGApplication.initialize(jsonObject);
+    }
+
+    @Override
+    public void startTask(AGContext agContext, JSONObject args) {
+        AGContextExtensionManager.getImpl().onPreInitialize(agContext, args);
+        agContext.initialize(args);
+        agContext.execute();
     }
 }

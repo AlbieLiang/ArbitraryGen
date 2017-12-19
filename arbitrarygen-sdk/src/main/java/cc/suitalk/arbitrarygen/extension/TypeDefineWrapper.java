@@ -31,22 +31,24 @@ public interface TypeDefineWrapper {
 	/**
 	 * To wrap the {@link JavaFileObject}
 	 *
-	 * @param configInfo current context {@link ConfigInfo}
+	 * @param context current context {@link AGContext}
+	 * @param configInfo current config {@link ConfigInfo}
 	 * @param fileObject current {@link JavaFileObject} object
 	 * @return true to interrupt the wrap action that means do not need to wrap
 	 *         any more, otherwise false
 	 */
-	boolean doWrap(ConfigInfo configInfo, JavaFileObject fileObject);
+	boolean doWrap(AGContext context, ConfigInfo configInfo, JavaFileObject fileObject);
 
 	/**
 	 * To wrap the {@link TypeDefineCodeBlock}
 	 *
-	 * @param configInfo current context {@link ConfigInfo}
+	 * @param context current context {@link AGContext}
+	 * @param configInfo current config {@link ConfigInfo}
 	 * @param codeblock current {@link TypeDefineCodeBlock} object
 	 * @return true to interrupt the wrap action that means do not need to wrap
 	 *         any more, otherwise false
 	 */
-	boolean doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeblock);
+	boolean doWrap(AGContext context, ConfigInfo configInfo, TypeDefineCodeBlock codeblock);
 	
 	/**
 	 * Add a {@link AGTaskWorker} to the worker set.

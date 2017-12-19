@@ -55,7 +55,7 @@ public class HybridTemplateProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
         mCoreScript = TemplateManager.getImpl().get(
                 ResConstants.PATH_CORE_SCRIPT, new DelayReadResFileTask(ResConstants.PATH_CORE_SCRIPT));
     }
@@ -66,7 +66,7 @@ public class HybridTemplateProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String templatePath = args.optString("template");
         if (Util.isNullOrNil(templatePath)) {
             Log.w(TAG, "exec failed, template path is null or nil.");
@@ -94,7 +94,7 @@ public class HybridTemplateProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 }

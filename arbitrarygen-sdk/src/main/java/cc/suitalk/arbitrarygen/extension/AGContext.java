@@ -30,7 +30,7 @@ public interface AGContext {
 
     void initialize(JSONObject jsonObject);
 
-    void start();
+    void execute();
 
     void addProcessor(ArbitraryGenProcessor processor);
 
@@ -43,6 +43,8 @@ public interface AGContext {
     JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args, Map<String, ArbitraryGenProcessor> deliverDepends);
 
     JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args);
+
+    JSONObject execProcess(String processorName, JSONObject args);
 
     JarClassLoaderWrapper getJarClassLoader();
 }

@@ -58,7 +58,7 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
         mCoreScript = TemplateManager.getImpl().get(
                 ResConstants.PATH_CORE_SCRIPT, new DelayReadResFileTask(ResConstants.PATH_CORE_SCRIPT));
     }
@@ -69,7 +69,7 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String templatePath = args.optString("template");
         String templateTag = args.optString("templateTag");
         if (Util.isNullOrNil(templatePath) && Util.isNullOrNil(templateTag)) {
@@ -87,6 +87,7 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
             Log.i(TAG, "template is null or nil.");
             return null;
         }
+//        Log.i(TAG, "templatePath(%s), templateTag(%s), template(%s)", templatePath, templateTag, template);
         final ScriptEngine engine = mScriptEngine;
         String destDir = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_DEST_DIR);
         String jsonStr = args.toString();
@@ -111,7 +112,7 @@ public class TemplateProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 }

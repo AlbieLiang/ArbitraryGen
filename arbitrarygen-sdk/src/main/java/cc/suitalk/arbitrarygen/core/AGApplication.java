@@ -17,15 +17,11 @@
 
 package cc.suitalk.arbitrarygen.core;
 
+import cc.suitalk.arbitrarygen.extension.AGContext;
+
 /**
- * Created by albieliang on 2017/12/7.
+ * Created by albieliang on 2017/12/11.
  */
 
-public interface ArbitraryGenInitializer {
-
-    void initialize();
-
-    AGApplication getAGApplication();
-
-    AGCore getAGCore();
+public interface AGApplication extends AGContext {
 }

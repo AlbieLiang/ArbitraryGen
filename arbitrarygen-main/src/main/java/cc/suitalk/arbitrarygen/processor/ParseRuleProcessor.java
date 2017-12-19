@@ -47,7 +47,7 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         JSONObject result = new JSONObject();
         JSONArray fileArray = new JSONArray();
         JSONArray ruleFileArray = JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_RULE_FILE, true);
@@ -100,7 +100,7 @@ public class ParseRuleProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 }

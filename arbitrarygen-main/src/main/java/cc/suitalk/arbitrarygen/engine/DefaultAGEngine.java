@@ -60,7 +60,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
         if (args == null) {
             Log.w(TAG, "initialize failed, args is null.");
             return;
@@ -74,7 +74,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
         // load parser jar
         JSONObject parserJson = args.optJSONObject(ArgsConstants.EXTERNAL_ARGS_KEY_PARSER);
         if (parserJson != null) {
-            JarClassLoaderWrapper loader = core.getJarClassLoader();
+            JarClassLoaderWrapper loader = context.getJarClassLoader();
             ExtJarClassLoaderTools.loadJar(loader,
                     JSONArgsUtils.getJSONArray(parserJson, ArgsConstants.EXTERNAL_ARGS_KEY_JAR, true));
             ExtJarClassLoaderTools.loadClass(loader,
@@ -101,7 +101,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
             }
         }
         // Add more hardcode Parser here.
-        DefaultParser parser = new DefaultParser(core, args);
+        DefaultParser parser = new DefaultParser(context, args);
         parser.addSuffixList(list);
         mParserMgr.addParser(parser);
         mParserMgr.addParser(new ScriptTemplateParser());
@@ -114,7 +114,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         if (!mInitialized) {
             Log.w(TAG, "exec failed, haven't initialized.");
             return null;
@@ -125,7 +125,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
         argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.getString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR));
         argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, JSONArgsUtils.getJSONArray(args, ArgsConstants.EXTERNAL_ARGS_KEY_FORMAT, true));
 
-        JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);
+        JSONObject jsonObject = context.execProcess(processors, "scanner", argsJSONObject);
         if (jsonObject == null) {
             Log.i(TAG, "exec failed, scan out  file list is null.");
             return null;
@@ -164,7 +164,7 @@ public class DefaultAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 

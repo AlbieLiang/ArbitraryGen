@@ -58,7 +58,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
         if (args == null) {
             Log.i(TAG, "initialize failed, args is null.");
             return;
@@ -100,7 +100,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         if (mTemplateProcessor == null) {
             return null;
         }
@@ -116,7 +116,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
         argsJSONObject.put(ScannerAGProcessor.KEY_SRC_DIR, args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_SRC_DIR));
         argsJSONObject.put(ScannerAGProcessor.KEY_SUFFIX_LIST, formatArray);
 
-        JSONObject jsonObject = core.execProcess(processors, "scanner", argsJSONObject);
+        JSONObject jsonObject = context.execProcess(processors, "scanner", argsJSONObject);
         if (jsonObject == null) {
             return null;
         }
@@ -146,7 +146,7 @@ public class ScriptTemplateAGEngine implements ArbitraryGenEngine {
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 }

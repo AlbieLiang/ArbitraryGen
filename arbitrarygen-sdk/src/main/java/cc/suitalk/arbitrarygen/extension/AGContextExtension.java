@@ -15,17 +15,15 @@
  *
  */
 
-package cc.suitalk.arbitrarygen.core;
+package cc.suitalk.arbitrarygen.extension;
+
+import net.sf.json.JSONObject;
 
 /**
- * Created by albieliang on 2017/12/7.
+ * Created by albieliang on 2017/12/17.
  */
 
-public interface ArbitraryGenInitializer {
+public interface AGContextExtension {
 
-    void initialize();
-
-    AGApplication getAGApplication();
-
-    AGCore getAGCore();
+    void onPreInitialize(AGContext context, JSONObject initArgs);
 }

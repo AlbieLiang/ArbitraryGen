@@ -43,7 +43,7 @@ public class ParseJavaFileProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
     }
 
     @Override
@@ -52,13 +52,13 @@ public class ParseJavaFileProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String name = args.optString("_name");
         if (Util.isNullOrNil(name)) {
             Log.i(TAG, "exec failed, name is null.");
             return null;
         }
-        JSONObject result = core.execProcess(processors, "parse-rule", args);
+        JSONObject result = context.execProcess(processors, "parse-rule", args);
         if (result == null) {
             Log.i(TAG, "parse rule result is null.");
             return null;
@@ -83,7 +83,7 @@ public class ParseJavaFileProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "execute engine error, code is '%d', message is '%s'", errorCode, message);
     }
 }

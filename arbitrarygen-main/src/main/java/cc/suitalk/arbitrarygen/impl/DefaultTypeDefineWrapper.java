@@ -27,6 +27,7 @@ import java.util.Set;
 import cc.suitalk.arbitrarygen.base.JavaFileObject;
 import cc.suitalk.arbitrarygen.block.MethodCodeBlock;
 import cc.suitalk.arbitrarygen.block.TypeDefineCodeBlock;
+import cc.suitalk.arbitrarygen.extension.AGContext;
 import cc.suitalk.arbitrarygen.extension.TypeDefineWrapper;
 import cc.suitalk.arbitrarygen.gencode.CodeGenerator;
 import cc.suitalk.arbitrarygen.core.ConfigInfo;
@@ -70,7 +71,7 @@ public class DefaultTypeDefineWrapper implements TypeDefineWrapper {
 	}
 	
 	@Override
-	public boolean doWrap(final ConfigInfo configInfo, final JavaFileObject fileObject) {
+	public boolean doWrap(AGContext context, final ConfigInfo configInfo, final JavaFileObject fileObject) {
 		if (fileObject != null) {
 			Log.d(TAG, "doWrap, fileName : " + fileObject.getFileName());
 			List<TypeDefineCodeBlock> typeDefineCodeBlocks = new LinkedList<>();
@@ -166,7 +167,7 @@ public class DefaultTypeDefineWrapper implements TypeDefineWrapper {
 	}
 
 	@Override
-	public boolean doWrap(ConfigInfo configInfo, TypeDefineCodeBlock codeblock) {
+	public boolean doWrap(AGContext context, ConfigInfo configInfo, TypeDefineCodeBlock codeblock) {
 		if (codeblock != null) {
 			return true;
 		}

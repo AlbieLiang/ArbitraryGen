@@ -55,7 +55,7 @@ public class ScannerAGProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void initialize(AGContext core, JSONObject args) {
+    public void initialize(AGContext context, JSONObject args) {
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ScannerAGProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public JSONObject exec(AGContext core, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
+    public JSONObject exec(AGContext context, Map<String, ArbitraryGenProcessor> processors, JSONObject args) {
         String srcDir = args.getString(KEY_SRC_DIR);
         JSONArray suffixJsonArray = JSONArgsUtils.getJSONArray(args, KEY_SUFFIX_LIST, true);
         int scanMode = args.optInt(KEY_SCAN_MODE);
@@ -112,7 +112,7 @@ public class ScannerAGProcessor implements ArbitraryGenProcessor {
     }
 
     @Override
-    public void onError(int errorCode, String message) {
+    public void onError(AGContext context, int errorCode, String message) {
         Log.e(TAG, "do scan error, code is '%d', message is '%s'", errorCode, message);
     }
 }
