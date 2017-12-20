@@ -1,9 +1,15 @@
 # ArbitraryGen
 
+[![license](http://img.shields.io/badge/license-Apache2.0-brightgreen.svg?style=flat)](https://github.com/AlbieLiang/ArbitraryGen/blob/master/LICENSE)
+[![Release Version](https://img.shields.io/badge/release-2.1.0-red.svg)](https://github.com/AlbieLiang/ArbitraryGen/releases)
+[![wiki](https://img.shields.io/badge/wiki-2.1.0-red.svg)](https://github.com/AlbieLiang/ArbitraryGen/wiki) 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/AlbieLiang/ArbitraryGen/pulls)
+
+
 ArbitraryGen（简称AG）是一个用于快速生成代码的工具。AG提供了丰富的扩展接口，可以满足各种场景的代码生成需求。
 AG目前对Java代码生成支持比较完善，AG目前可以在Android Studio开发（使用Gradle编译）的项目中使用，同时也支持在Eclipse项目（使用ant编译）中使用。
 
-目前AG已经更新到v2.0.5版本，项目仍在开发中，欢迎一起完善这个项目。
+目前AG已经更新到v2.1.0版本，项目仍在开发中，欢迎一起完善这个项目。
 
 ## 示例
 ```java
@@ -111,7 +117,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
-        classpath 'cc.suitalk.tools:arbitrarygen-plugin:2.0.2'
+        classpath 'cc.suitalk.tools:arbitrarygen-plugin:2.1.0'
     }
 }
 allprojects {
