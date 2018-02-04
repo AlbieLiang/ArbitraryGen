@@ -63,6 +63,7 @@ final class ArbitraryGenApplication implements AGApplication {
     private JSONObject mArgs;
 
     private JarClassLoaderWrapper mJarClassLoader;
+    private final JSONObject mKeyValueSet = new JSONObject();
 
     public ArbitraryGenApplication() {
         mProcessors = new ConcurrentHashMap<>();
@@ -178,6 +179,11 @@ final class ArbitraryGenApplication implements AGApplication {
     @Override
     public JarClassLoaderWrapper getJarClassLoader() {
         return mJarClassLoader;
+    }
+
+    @Override
+    public JSONObject getKeyValueSet() {
+        return mKeyValueSet;
     }
 
     private void addInnerProcessor() {

@@ -82,6 +82,7 @@ public class ArbitraryGenContext implements AGContext {
     private JSONObject mArgs;
 
     private JarClassLoaderWrapper mJarClassLoader;
+    private final JSONObject mKeyValueSet = new JSONObject();
 
     public ArbitraryGenContext() {
         mProcessors = new ConcurrentHashMap<>();
@@ -197,6 +198,11 @@ public class ArbitraryGenContext implements AGContext {
     @Override
     public JarClassLoaderWrapper getJarClassLoader() {
         return mJarClassLoader;
+    }
+
+    @Override
+    public JSONObject getKeyValueSet() {
+        return mKeyValueSet;
     }
 
     private void addInnerProcessor() {

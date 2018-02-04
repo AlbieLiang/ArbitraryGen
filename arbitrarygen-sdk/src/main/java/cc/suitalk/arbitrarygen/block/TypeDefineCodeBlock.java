@@ -210,6 +210,10 @@ public class TypeDefineCodeBlock extends BaseDefineCodeBlock {
 	public int countOfInterfaces() {
 		return mInterfaces.size();
 	}
+
+	public List<TypeName> getInterfaceList() {
+		return mInterfaces;
+	}
 	
 	public void addField(FieldCodeBlock field) {
 		if (field == null) {
