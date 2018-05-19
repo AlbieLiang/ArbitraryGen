@@ -65,7 +65,11 @@ public class RuntimeContextHelper {
         }
         RuntimeContextHelper helper = getImpl();
         helper.putAll("", envArgs);
-        helper.mPattern = Pattern.compile("\\$\\{(" + StringUtils.join(helper.mEnvArgs.keySet(), "|") + ")\\}");
+        try {
+            helper.mPattern = Pattern.compile("\\$\\{(" + StringUtils.join(helper.mEnvArgs.keySet(), "|") + ")\\}");
+        } catch (Exception e) {
+            Log.i(TAG, "\\$\\{(" + StringUtils.join(helper.mEnvArgs.keySet(), "|") + ")\\}");
+        }
         Log.d(TAG, "pattern string : %s", helper.mPattern.toString());
         for (Map.Entry<String, Object> entry : helper.mEnvArgs.entrySet()) {
             Log.d(TAG, "env info, key : %s --> value : %s", entry.getKey(), entry.getValue());
@@ -77,18 +81,23 @@ public class RuntimeContextHelper {
         if (Util.isNullOrNil(rawContent)) {
             return rawContent;
         }
-        Matcher matcher = getImpl().mPattern.matcher(rawContent);
-        StringBuffer sb = new StringBuffer();
-        Map<String, Object> map = getImpl().mEnvArgs;
-        while(matcher.find()) {
-            Object o = map.get(matcher.group(1));
-            if (o == null) {
-                continue;
+        try {
+            Matcher matcher = getImpl().mPattern.matcher(rawContent);
+            StringBuffer sb = new StringBuffer();
+            Map<String, Object> map = getImpl().mEnvArgs;
+            while (matcher.find()) {
+                Object o = map.get(matcher.group(1));
+                if (o == null) {
+                    continue;
+                }
+                matcher.appendReplacement(sb, o.toString());
             }
-            matcher.appendReplacement(sb, o.toString());
+            matcher.appendTail(sb);
+            return sb.toString();
+        } catch (Exception e) {
+            Log.e(TAG, "error : %s", e);
+            return "";
         }
-        matcher.appendTail(sb);
-        return sb.toString();
     }
 
     public static Object get(String key) {

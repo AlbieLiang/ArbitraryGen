@@ -69,6 +69,7 @@ class ArbitraryGenTask extends DefaultTask {
             javaCodeEngine (extension.javaCodeEngine == null ? {} : extension.javaCodeEngine)
             engine (extension.engine == null ? {} : extension.engine)
             processor (extension.processor == null ? {} : extension.processor)
+            ext (extension.ext == null ? {} : extension.ext)
         }
         JsonBuilder envBuilder = new JsonBuilder()
         envBuilder {

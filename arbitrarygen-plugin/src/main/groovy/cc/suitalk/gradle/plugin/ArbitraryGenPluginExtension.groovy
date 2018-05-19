@@ -32,8 +32,10 @@ class ArbitraryGenPluginExtension {
     Closure javaCodeEngine
     Closure engine
     Closure processor
+    // For extension closure
+    Closure ext
 
-    public ArbitraryGenPluginExtension() {
+    ArbitraryGenPluginExtension() {
         enable = true
     }
 }
