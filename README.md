@@ -9,7 +9,7 @@
 ArbitraryGen（简称AG）是一个用于快速生成代码的工具。AG提供了丰富的扩展接口，可以满足各种场景的代码生成需求。
 AG目前对Java代码生成支持比较完善，AG目前可以在Android Studio开发（使用Gradle编译）的项目中使用，同时也支持在Eclipse项目（使用ant编译）中使用。
 
-目前AG已经更新到v2.1.0版本，项目仍在开发中，欢迎一起完善这个项目。
+目前AG已经更新到v2.1.1版本，项目仍在开发中，欢迎一起完善这个项目。
 
 ## 示例
 ```java
@@ -260,3 +260,21 @@ ArbitraryGen终究是一个可运行的jar文件，在Eclipse环境下，需要�
 
 详细配置请参考[arbitrarygen-demo-antbuild](https://github.com/AlbieLiang/ArbitraryGen/tree/master/arbitrarygen-demo-antbuild)
 
+
+## License
+
+```
+   Copyright 2016 Albie Liang
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+```
