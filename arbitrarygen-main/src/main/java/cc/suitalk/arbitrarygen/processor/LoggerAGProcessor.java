@@ -42,7 +42,10 @@ public class LoggerAGProcessor implements ArbitraryGenProcessor {
 
     @Override
     public void initialize(AGContext context, JSONObject args) {
-        boolean toFile = args == null || args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_TO_FILE, true);
+        if (args == null) {
+            return;
+        }
+        boolean toFile = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_TO_FILE, false);
         if (toFile) {
             String logFile = args.optString(ArgsConstants.EXTERNAL_ARGS_KEY_PATH);
             if (Util.isNullOrNil(logFile)) {
@@ -51,13 +54,11 @@ public class LoggerAGProcessor implements ArbitraryGenProcessor {
             Log.setPath(logFile);
             Log.prepare();
         }
-        if (args != null) {
-            // Common Arguments
-            Debuger.debug = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_DEBUG);
-            Log.setPrintLogLevel(args.optInt(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_LEVEL, Log.LOG_LEVEL_N));
-            Log.setPrintTag(args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_PRINT_TAG));
-            Log.setPrintLevel(args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_PRINT_LEVEL));
-        }
+        // Common Arguments
+        Debuger.debug = args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_DEBUG);
+        Log.setPrintLogLevel(args.optInt(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_LEVEL, Log.LOG_LEVEL_N));
+        Log.setPrintTag(args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_PRINT_TAG));
+        Log.setPrintLevel(args.optBoolean(ArgsConstants.EXTERNAL_ARGS_KEY_LOG_PRINT_LEVEL));
     }
 
     @Override

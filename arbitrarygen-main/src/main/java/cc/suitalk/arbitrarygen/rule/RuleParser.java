@@ -171,18 +171,23 @@ public class RuleParser {
 						if (file.isDirectory()) {
 							Log.v(TAG, "list rule files(%s)", file.getAbsolutePath());
 							ruleFileList.addAll(FileOperation.listFilePaths(file, true));
-							ruleList.add(file.getAbsolutePath() + File.separator
+							String ruleStr = escapeCharacter(file.getAbsolutePath() + File.separator
 									+ content.substring(index).replaceAll("\\*", "(.)+"));
+							ruleList.add(ruleStr);
 						} else {
 							File parentFile = file.getParentFile();
 							if (parentFile != null && parentFile.isDirectory()) {
 								Log.v(TAG, "list rule files(%s)", parentFile.getAbsolutePath());
 								ruleFileList.addAll(FileOperation.listFilePaths(parentFile, true));
-								if ("/".equals(content.substring(index - 1, index))) {
-									ruleList.add(file.getAbsolutePath() + File.separator
+								String preChar = content.substring(index - 1, index);
+								if ("/".equals(preChar) || "\\".equals(preChar)) {
+									String ruleStr = escapeCharacter(file.getAbsolutePath() + File.separator
 											+ content.substring(index).replaceAll("\\*", "(.)+"));
+									ruleList.add(ruleStr);
 								} else  {
-									ruleList.add(file.getAbsolutePath() + content.substring(index).replaceAll("\\*", "(.)+"));
+									String ruleStr = escapeCharacter(file.getAbsolutePath()
+											+ content.substring(index).replaceAll("\\*", "(.)+"));
+									ruleList.add(ruleStr);
 								}
 							}
 						}
@@ -297,4 +302,7 @@ public class RuleParser {
 		}
 	}
 
+	private static String escapeCharacter(String str) {
+		return str.replaceAll("\\\\", "\\\\\\\\");
+	}
 }

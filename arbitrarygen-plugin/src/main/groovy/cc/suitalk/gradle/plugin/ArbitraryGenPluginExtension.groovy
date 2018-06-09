@@ -38,4 +38,22 @@ class ArbitraryGenPluginExtension {
     ArbitraryGenPluginExtension() {
         enable = true
     }
+
+    @Override
+    String toString() {
+        StringBuilder builder = new StringBuilder()
+        builder.append("templateDir=").append(templateDir)
+        builder.append("\nsrcDir=").append(srcDir)
+        builder.append("\ndestDir=").append(destDir)
+        builder.append("\nenable=").append(enable)
+        builder.append("\nlogger=").append(logger)
+        builder.append("\nstatistic=").append(statistic)
+        builder.append("\ngeneral=").append(general)
+        builder.append("\nscriptEngine=").append(scriptEngine)
+        builder.append("\njavaCodeEngine=").append(javaCodeEngine)
+        builder.append("\nengine=").append(engine)
+        builder.append("\nprocessor=").append(processor)
+        builder.append("\next=").append(ext)
+        return builder.toString()
+    }
 }
