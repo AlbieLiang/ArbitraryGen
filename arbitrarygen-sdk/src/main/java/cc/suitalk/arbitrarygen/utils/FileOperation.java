@@ -87,7 +87,10 @@ public class FileOperation {
 				return null;
 			}
 			for (int i = 0; i < files.length; i++) {
-				results.addAll(scan(files[i], suffixList));
+				List<SourceFileInfo> list = scan(files[i], suffixList);
+				if (list != null && !list.isEmpty()) {
+					results.addAll(list);
+				}
 			}
 		} else {
 			String suffix = Util.getSuffix(file.getName());
