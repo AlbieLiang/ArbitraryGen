@@ -6,3 +6,4 @@
 
 cc/suitalk/arbitrarygen/engine/PsychicAGEngine.java
 cc/suitalk/arbitrarygen/core/ArbitraryGenContext.java
+cc/suitalk/arbitrarygen/core/ArbitraryGenApplication.java

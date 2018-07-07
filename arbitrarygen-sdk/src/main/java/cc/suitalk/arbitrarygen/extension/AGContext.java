@@ -46,6 +46,8 @@ public interface AGContext {
 
     JSONObject execProcess(String processorName, JSONObject args);
 
+    Map<String, ArbitraryGenProcessor> getAllProcessor();
+
     JarClassLoaderWrapper getJarClassLoader();
 
     JSONObject getKeyValueSet();

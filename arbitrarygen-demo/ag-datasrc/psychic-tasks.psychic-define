@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PsychicDefine tag="PsychicTask">
 
-	<PsychicTask name="AGPsychicTask_TemplateProcessor" processor="hybrid-template-processor">
+	<PsychicTask name="AGPsychicTask_HybridTemplateProcessor" processor="hybrid-template-processor">
 		<template>${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/psychic/JsApiFrameworkCore.java</template>
 		<dependsOn name="JsApiList" type="input" processor="parse-java">
             <ruleFile>${project.projectDir}/ag-datasrc/jsapi-demo-project.rule</ruleFile>
@@ -9,6 +9,37 @@
 		</dependsOn>
 		<resultTo processor="statistic">
             <toFile>${project.projectDir}/build/outputs/logs/ag-statistic.log</toFile>
+		</resultTo>
+	</PsychicTask>
+
+	<PsychicTask name="AGPsychicTask_PsychicTaskProcessor" processor="psychic-task-processor">
+		<template>${project.rootDir}/ArbitraryGen/template-libs/TestJSON.vigor-template</template>
+		<dependsOn name="srcFileObject" type="input" processor="parse-json">
+			<rule>${project.projectDir}/ag-datasrc/psychic-task.json</rule>
+		</dependsOn>
+        <splitter srcKey="srcFileObject" resultKey="taskList" processor="json-splitter"/>
+		<resultTo dataKey="taskList" processor="psychic-result-processor">
+            <args>
+                <_package>cc.suitalk.arbitrarygen.demo.psychic.testjson</_package>
+                <_name>${fileName}Alias</_name>
+            </args>
+            <toFile>${project.projectDir}/build/generated/source/ag-gen/cc/suitalk/arbitrarygen/demo/psychic/testjson/${fileName}Alias.java</toFile>
+		</resultTo>
+	</PsychicTask>
+
+	<PsychicTask name="AGPsychicTask_PsychicTaskProcessor" processor="psychic-task-processor">
+		<templateTag>plugin-alias</templateTag>
+		<dependsOn name="srcFileObject" type="input" processor="parse-java">
+			<ruleFile>${project.projectDir}/ag-datasrc/jsapi-demo-project.rule</ruleFile>
+			<rule>${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/recursion/*</rule>
+		</dependsOn>
+        <!--<splitter srcKey="srcFileObject" resultKey="taskList" processor="json-splitter"/>-->
+		<resultTo dataKey="srcFileObject" processor="psychic-result-processor">
+            <args>
+                <_toPackage>cc.suitalk.arbitrarygen.demo.psychic.plugin</_toPackage>
+                <_className>${_class[0]._name}Alias</_className>
+            </args>
+            <toFile>${project.projectDir}/build/generated/source/ag-gen/cc/suitalk/arbitrarygen/demo/psychic/plugin/${_class[0]._name}Alias.java</toFile>
 		</resultTo>
 	</PsychicTask>
 

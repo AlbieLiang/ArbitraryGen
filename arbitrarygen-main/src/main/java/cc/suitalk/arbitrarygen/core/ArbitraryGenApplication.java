@@ -31,17 +31,36 @@ import cc.suitalk.arbitrarygen.engine.PsychicAGEngine;
 import cc.suitalk.arbitrarygen.engine.ScriptTemplateAGEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenEngine;
 import cc.suitalk.arbitrarygen.extension.ArbitraryGenProcessor;
+import cc.suitalk.arbitrarygen.extension.psychic.ParseJavaRule;
+import cc.suitalk.arbitrarygen.extension.psychic.PsychicTask;
+/*@@@#SCRIPT-BEGIN#
+<%processorList = context.processorList;
+if (processorList && processorList.length > 0) {
+    for (var i = 0; i < processorList.length; i++) {
+        if ("LoggerAGProcessor" == processorList[i]._class[0]._name || "StatisticProcessor" == processorList[i]._class[0]._name) {
+            continue;
+        }%>
+import <%=processorList[i]._package%>.<%=processorList[i]._class[0]._name%>;<%
+    }
+}%>
+#SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
+
 import cc.suitalk.arbitrarygen.processor.ExecuteScriptProcessor;
 import cc.suitalk.arbitrarygen.processor.HybridTemplateProcessor;
-import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
+import cc.suitalk.arbitrarygen.processor.JSONSplitter;
 import cc.suitalk.arbitrarygen.processor.ParseJavaFileProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseJsonProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseRuleProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseXmlProcessor;
+import cc.suitalk.arbitrarygen.processor.PsychicProcessor;
+import cc.suitalk.arbitrarygen.processor.PsychicResultProcessor;
 import cc.suitalk.arbitrarygen.processor.PsychicTaskProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
-import cc.suitalk.arbitrarygen.processor.StatisticProcessor;
 import cc.suitalk.arbitrarygen.processor.TemplateProcessor;
+
+//@@@#AUTO-GEN-END#
+import cc.suitalk.arbitrarygen.processor.LoggerAGProcessor;
+import cc.suitalk.arbitrarygen.processor.StatisticProcessor;
 import cc.suitalk.arbitrarygen.utils.ExtJarClassLoaderTools;
 import cc.suitalk.arbitrarygen.utils.JSONArgsUtils;
 import cc.suitalk.arbitrarygen.utils.Log;
@@ -51,6 +70,8 @@ import cc.suitalk.arbitrarygen.utils.Util;
  * Created by albieliang on 2017/12/9.
  */
 
+@ParseJavaRule(name = "processorList", rule = "${project.projectDir}/src/main/java/cc/suitalk/arbitrarygen/processor/*")
+@PsychicTask
 final class ArbitraryGenApplication implements AGApplication {
 
     private static final String TAG = "AG.ArbitraryGenApplication";
@@ -156,6 +177,11 @@ final class ArbitraryGenApplication implements AGApplication {
     }
 
     @Override
+    public Map<String, ArbitraryGenProcessor> getAllProcessor() {
+        return mProcessors;
+    }
+
+    @Override
     public JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args, Map<String, ArbitraryGenProcessor> deliverDepends) {
         if (processor == null) {
             return null;
@@ -201,17 +227,20 @@ final class ArbitraryGenApplication implements AGApplication {
             }
         }%>
         #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
-
+        
         addProcessor(new ExecuteScriptProcessor());
         addProcessor(new HybridTemplateProcessor());
+        addProcessor(new JSONSplitter());
         addProcessor(new ParseJavaFileProcessor());
         addProcessor(new ParseJsonProcessor());
         addProcessor(new ParseRuleProcessor());
         addProcessor(new ParseXmlProcessor());
+        addProcessor(new PsychicProcessor());
+        addProcessor(new PsychicResultProcessor());
         addProcessor(new PsychicTaskProcessor());
         addProcessor(new ScannerAGProcessor());
         addProcessor(new TemplateProcessor());
-
+        
         //@@@#AUTO-GEN-END#
         // Add more extension Engine by arguments
         addProcessor(new DefaultAGEngine());

@@ -1,0 +1,10 @@
+[
+  {
+    "fileName": "Abc",
+    "pluginName": "plugin-abc"
+  },
+  {
+    "fileName": "Efg",
+    "pluginName": "plugin-efg"
+  }
+]

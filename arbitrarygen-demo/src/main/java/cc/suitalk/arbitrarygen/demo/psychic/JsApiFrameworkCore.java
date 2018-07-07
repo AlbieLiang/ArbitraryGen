@@ -34,7 +34,7 @@ import cc.suitalk.arbitrarygen.demo.jsapi.base.BaseJsApiFunc;
 #SCRIPT-END#@@@*///@@@#AUTO-GEN-BEGIN#
 // TaskInfo
 //
-// name : AGPsychicTask_TemplateProcessor
+// name : AGPsychicTask_HybridTemplateProcessor
 // processor : hybrid-template-processor
 // template : /Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo/src/main/java/cc/suitalk/arbitrarygen/demo/psychic/JsApiFrameworkCore.java
 // dependsOn : {"_name":"JsApiList","_type":"input","_processor":"parse-java","ruleFile":"/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo/ag-datasrc/jsapi-demo-project.rule","rule":"/Volumes/Development/git-repository/tools-repository/ArbitraryGen/arbitrarygen-demo/src/main/java/cc/suitalk/arbitrarygen/demo/jsapi/recursion/*"}

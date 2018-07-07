@@ -49,10 +49,13 @@ import <%=processorList[i]._package%>.<%=processorList[i]._class[0]._name%>;<%
 
 import cc.suitalk.arbitrarygen.processor.ExecuteScriptProcessor;
 import cc.suitalk.arbitrarygen.processor.HybridTemplateProcessor;
+import cc.suitalk.arbitrarygen.processor.JSONSplitter;
 import cc.suitalk.arbitrarygen.processor.ParseJavaFileProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseJsonProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseRuleProcessor;
 import cc.suitalk.arbitrarygen.processor.ParseXmlProcessor;
+import cc.suitalk.arbitrarygen.processor.PsychicProcessor;
+import cc.suitalk.arbitrarygen.processor.PsychicResultProcessor;
 import cc.suitalk.arbitrarygen.processor.PsychicTaskProcessor;
 import cc.suitalk.arbitrarygen.processor.ScannerAGProcessor;
 import cc.suitalk.arbitrarygen.processor.TemplateProcessor;
@@ -175,8 +178,14 @@ public class ArbitraryGenContext implements AGContext {
     }
 
     @Override
+    public Map<String, ArbitraryGenProcessor> getAllProcessor() {
+        return mProcessors;
+    }
+
+    @Override
     public JSONObject execProcess(ArbitraryGenProcessor processor, JSONObject args, Map<String, ArbitraryGenProcessor> deliverDepends) {
         if (processor == null) {
+            Log.w(TAG, "execProcess failed, processor is null.%s", Log.getStackTraceString(new Throwable()));
             return null;
         }
         String[] dependencies = processor.getDependencies();
@@ -223,10 +232,13 @@ public class ArbitraryGenContext implements AGContext {
         
         addProcessor(new ExecuteScriptProcessor());
         addProcessor(new HybridTemplateProcessor());
+        addProcessor(new JSONSplitter());
         addProcessor(new ParseJavaFileProcessor());
         addProcessor(new ParseJsonProcessor());
         addProcessor(new ParseRuleProcessor());
         addProcessor(new ParseXmlProcessor());
+        addProcessor(new PsychicProcessor());
+        addProcessor(new PsychicResultProcessor());
         addProcessor(new PsychicTaskProcessor());
         addProcessor(new ScannerAGProcessor());
         addProcessor(new TemplateProcessor());

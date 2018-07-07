@@ -71,9 +71,17 @@ public class ParseJsonProcessor implements ArbitraryGenProcessor {
         for (int i = 0; i < fileArray.size(); i++) {
             String path = fileArray.optString(i);
             Log.i(TAG, "process parse json file : %s", path);
-            JSONObject jsonObject = JSONObject.fromObject(RuntimeContextHelper.replace(FileOperation.read(path)));
-            if (jsonObject != null) {
-                jsonArray.add(jsonObject);
+            String jsonStr = RuntimeContextHelper.replace(FileOperation.read(path));
+            Object o = null;
+            if (jsonStr != null) {
+                if (jsonStr.trim().startsWith("[")) {
+                    o = JSONArray.fromObject(jsonStr);
+                } else {
+                    o = JSONObject.fromObject(jsonStr);
+                }
+            }
+            if (o != null) {
+                jsonArray.add(o);
             }
         }
         JSONObject r = new JSONObject();

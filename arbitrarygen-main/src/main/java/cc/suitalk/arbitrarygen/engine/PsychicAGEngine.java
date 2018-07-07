@@ -94,12 +94,15 @@ public class PsychicAGEngine implements ArbitraryGenEngine {
                 
                  "script-executor",
                  "hybrid-template-processor",
+                 "json-splitter",
                  "logger",
                  "parse-java",
                  "parse-json",
                  "parse-rule",
                  "parse-xml",
                  "psychic-processor",
+                 "psychic-result-processor",
+                 "psychic-task-processor",
                  "scanner",
                  "statistic",
                  "template-processor"
