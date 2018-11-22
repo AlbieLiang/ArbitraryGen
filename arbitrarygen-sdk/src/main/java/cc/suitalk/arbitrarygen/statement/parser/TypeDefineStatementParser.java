@@ -395,14 +395,14 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 		} else if ("=".equals(word.value)) {
 			fcb.setWordAssignment(word);
 			word = nextWord(reader, lexer);
-			Value value = Util.convertTo(word);
-			if (value != null) {
-				fcb.setDefault(value.toString());
-				word = nextWord(reader, lexer);
-				if (!";".equals(word.value)) {
-					throw new RuntimeException("missing ';' sign.");
-				}
-			} else {
+//			Value value = Util.convertTo(word);
+//			if (value != null) {
+//				fcb.setDefault(value.toString());
+//				word = nextWord(reader, lexer);
+//				if (!";".equals(word.value)) {
+//					throw new RuntimeException("missing ';' sign.");
+//				}
+//			} else {
 				PlainExpressionParser peParser = ParserFactory.getPlainExpressionParser();
 				Expression e = peParser.parse(reader, lexer, word);
 				if (e == null) {
@@ -410,7 +410,7 @@ public class TypeDefineStatementParser extends BaseStatementParser {
 				}
 				fcb.setDefault(e.genCode(""));
 				word = peParser.getLastWord();
-			}
+//			}
 		} else {
 			throw new RuntimeException(String.format("An error occurred when Parse field.(cw:'%s')", word));
 		}
