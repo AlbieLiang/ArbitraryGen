@@ -45,16 +45,24 @@ public class ImportStatementParser extends BaseStatementParser {
 			super.parse(reader, lexer, curWord);
 			curWord = getLastWord();
 			if (curWord != null && "import".equals(curWord.value)) {
-				ReferenceExpressionParser parser = ParserFactory.getRefExpressionParser(false);
-				ReferenceExpression expression = parser.parse(reader, lexer, null);
-				if (expression != null) {
-					ImportStatement stm = new ImportStatement(expression);
-					stm.setPrefixWord(curWord);
-					stm.setSuffixWord(parser.getLastWord());
-//					stm.setCommendBlock(getCommendStr());
-					nextWord(reader, lexer);
-					return stm;
+				Word word = nextWord(reader, lexer);
+				Word staticWord = null;
+				if ("static".equals(word.value)) {
+					staticWord = word;
+					word = nextWord(reader, lexer);
 				}
+				ReferenceExpressionParser parser = ParserFactory.getRefExpressionParser(false);
+				ReferenceExpression expression = parser.parse(reader, lexer, word);
+				if (expression == null) {
+					throw new RuntimeException("illegal import statement, missing expression, curWord : " + parser.getLastWord());
+				}
+				ImportStatement stm = new ImportStatement(expression);
+				stm.setPrefixWord(curWord);
+				stm.setStaticWord(staticWord);
+				stm.setSuffixWord(parser.getLastWord());
+//					stm.setCommendBlock(getCommendStr());
+				nextWord(reader, lexer);
+				return stm;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

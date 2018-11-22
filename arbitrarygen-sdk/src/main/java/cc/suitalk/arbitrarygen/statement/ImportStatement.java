@@ -18,6 +18,7 @@
 package cc.suitalk.arbitrarygen.statement;
 
 import cc.suitalk.arbitrarygen.base.BaseStatement;
+import cc.suitalk.arbitrarygen.core.Word;
 import cc.suitalk.arbitrarygen.expression.ReferenceExpression;
 import cc.suitalk.arbitrarygen.utils.Util;
 
@@ -28,7 +29,9 @@ import cc.suitalk.arbitrarygen.utils.Util;
  */
 public class ImportStatement extends BaseStatement {
 
+
 	private ReferenceExpression mImport;
+	private Word mStaticWord;
 
 	public ImportStatement(ReferenceExpression importName) {
 		mImport = importName;
@@ -41,7 +44,10 @@ public class ImportStatement extends BaseStatement {
 
 		builder.append(genCommendBlock(linefeed));
 		builder.append(Util.getPrefix(this, "import"));
-		builder.append(blank);
+		if (mStaticWord != null) {
+			builder.append(mStaticWord);
+		}
+//		builder.append(blank);
 		builder.append(mImport.genCode(linefeed));
 		builder.append(Util.getSuffix(this, ";"));
 		return builder.toString();
@@ -53,5 +59,9 @@ public class ImportStatement extends BaseStatement {
 
 	public String getImport() {
 		return mImport != null ? mImport.genCode("") : "";
+	}
+
+	public void setStaticWord(Word staticWord) {
+		this.mStaticWord = staticWord;
 	}
 }
