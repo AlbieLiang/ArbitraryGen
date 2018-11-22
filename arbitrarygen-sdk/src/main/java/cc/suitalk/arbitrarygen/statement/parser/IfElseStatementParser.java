@@ -52,7 +52,7 @@ public class IfElseStatementParser extends BaseStatementParser {
 				ifElseStatement.setWordLeftBracket(word);
 				Expression condition = Util.extractExpressionFromBracket(reader, lexer, word, this);
 				if (condition == null) {
-					throw new RuntimeException("extract expression from bracket failed.");
+					throw new RuntimeException("illegal if statement, extract expression from bracket failed.");
 				}
 //				ifElseStatement.setWordRightBracket(word);
 				ifElseStatement.setConditionExpression(condition);
@@ -74,6 +74,10 @@ public class IfElseStatementParser extends BaseStatementParser {
 						}
 //						elseIfStatement.setWordRightBracket(word);
 						elseIfStatement.setConditionExpression(e);
+
+						word = getLastWord();
+						Util.getAndAttachCodeBlock(reader, lexer, word, elseIfStatement, this);
+						word = getLastWord();
 						ifElseStatement.addElseIfStatement(elseIfStatement);
 					} else {
 						ElseStatement elseStatement = new ElseStatement();
